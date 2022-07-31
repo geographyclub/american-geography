@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>leaflet-website</title>
+<title>American Geography</title>
 
 <!-- load styles -->
 <link rel="icon" type="image/png" href="favicon.png">
@@ -34,7 +34,7 @@ function map(){
   map = L.map('map', {maxZoom:16});
   map.setMaxBounds([[-90, -180], [90, 180]]);
   map.setMinZoom(map.getBoundsZoom([[-85.0511, -180], [85.0511, 180]], true));
-  map.setView([30, 0], 1);
+  map.setView([37, -96], 1);
 
   // base layers
   var streets = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {noWrap:false}).addTo(map);
