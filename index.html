@@ -34,7 +34,7 @@ function map(){
   map = L.map('map', {maxZoom:16});
   map.setMaxBounds([[-90, -180], [90, 180]]);
   map.setMinZoom(map.getBoundsZoom([[-85.0511, -180], [85.0511, 180]], true));
-  map.setView([37, -96], 1);
+  map.setView([39, -98], 1);
 
   // base layers
   var streets = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {noWrap:false}).addTo(map);
