@@ -21,6 +21,7 @@
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
   crossorigin=""></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script>
 </head>
 <body>
 
@@ -30,26 +31,40 @@
 <script>
 // create map
 var map;
+
 function map(){
   map = L.map('map', {maxZoom:16});
   map.setMaxBounds([[-90, -180], [90, 180]]);
   map.setMinZoom(map.getBoundsZoom([[-85.0511, -180], [85.0511, 180]], true));
-  map.setView([39, -98], 1);
+  map.setView([39, -98], 5);
 
   // base layers
-  var streets = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {noWrap:false}).addTo(map);
-  var german = new L.TileLayer('https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png', {noWrap:false});
-  var french = new L.TileLayer('http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {noWrap:false});
+  //var german = L.TileLayer('https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png', {noWrap:false});
+  //var french = L.TileLayer('http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {noWrap:false});
+  var streets = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {noWrap:false, attribution:'<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
+  var satellite = new L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {id: 'mapbox/satellite-v9', tileSize: 512, zoomOffset: -1, attribution:'<a href="https://www.mapbox.com/">Mapbox</a>'});
+var tiger = new L.tileLayer.wms('https://tigerweb.geo.census.gov/arcgis/services/Census2020/tigerWMS_PhysicalFeatures/MapServer/WMSServer?', {id:'0'});
+
+  // overlays
+//  var layerGroup = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/js/test.geojson', {onEachFeature: function(feature, layer){layer.bindPopup('<h1>'+feature.properties.name+'</h1><p>name: '+feature.properties.stname+'</p>');}})
 
   // switch layers
-  var baseMaps = {"STREETS":streets, "GERMAN":german, "FRENCH":french};
-  L.control.layers(baseMaps, "").addTo(map);
+  var baseMaps = {"Streets":streets, "Tiger":tiger, "Satellite":satellite};
+//  var overlayMaps = {"Layer":layerGroup};
+  L.control.layers(baseMaps).addTo(map);
 
   // click handler
-  map.on('click', clickAnywhere);
+//  map.on('click', clickAnywhere);
+
+  // layer popup
+//  layerGroup.on("click", function(e){
+//    e.target.openPopup();
+//  });
 
 };
 window.onload = map();
+
+
 
 // get data on click
 var popup = L.popup();
@@ -69,11 +84,10 @@ function clickAnywhere(e){
 };
 
 // title
-//var title = popup.setLatLng([0,0]).setContent('').openOn(map);
-//setTimeout(function(){title.closeOn();}, 2000);
+//var title = popup.setLatLng([39, -98]).setContent('American Geography').openOn(map);
 // captions
-jQuery('.leaflet-bottom.leaflet-left').html('');
-jQuery('.leaflet-bottom.leaflet-right').html('');
+//jQuery('.leaflet-bottom.leaflet-left').html('');
+//jQuery('.leaflet-bottom.leaflet-right').html('');
 
 </script>
 </body>
