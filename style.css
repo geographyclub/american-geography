@@ -16,7 +16,7 @@ h2{font-family:monospace; font-size:18px; font-weight:bold; margin:0px; padding:
 .leaflet-bottom{background:white; font-family:monospace; line-height:1; margin:5px; opacity:0.7; padding:0px; pointer-events:auto;}
 .leaflet-bottom.leaflet-left{}
 .leaflet-bottom.leaflet-right{}
-.leaflet-control-attribution.leaflet-control{display:inline; visibility:hidden; z-index:-1;}
+/*.leaflet-control-attribution.leaflet-control{display:inline; visibility:hidden; z-index:-1;}*/
 .leaflet-popup-close-button{margin:0;}
 .leaflet-popup-content{background-color:#FFF; color:#000; font-family:monospace; line-height:2; margin:2px; padding:2px; text-align:left;}
 .leaflet-popup-content p{margin:0; padding:0;}
