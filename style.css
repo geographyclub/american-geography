@@ -2,22 +2,25 @@ a:link {color:#003366; text-decoration:none;}
 a:visited {color:#003366; text-decoration:none;}
 a:hover {color:#808080; text-decoration:none;}
 a:active {color:#003366; text-decoration:none;}
-body{margin:0px; padding:0px;}
-html{font-family:monospace; font-size:12px; height:100%; margin:0; padding:0;}
+body{margin:0; padding:0; height:100%; width:100%;}
+html{color:#333; font-size:100%; margin:0; padding:0; height:100%; width:100%;}
 hr{border:0; background:#a0a0a0; height:1px; width:60%;}
-h1{font-family:monospace; font-size:24px; font-weight:bold; margin:0px; padding:0px;}
-h2{font-family:monospace; font-size:18px; font-weight:bold; margin:0px; padding:0px;}
+h1{font-family:Montserrat; font-size:60px; font-weight:900; letter-spacing:1pt; line-height:0.8; margin:0px; padding:0px;}
+h2{font-family:Montserrat; font-size:24px; font-weight:600; margin:0px; padding:0px; line-height:1; margin:0; padding:0;}
+h3{font-family:Montserrat; font-size:16px; font-style:italic; font-weight:300; margin:0; padding:0;}
+p{font-family:Sans; font-size:18px; font-weight:300; margin:0; padding:0;}
 
-#map{height:100vh; margin-left:auto; margin-right:auto; width:100vw;}
+.rotate-text{transform:rotate(0deg) skew(0deg,-5deg); transform-origin: right top 0;}
 
 /* leaflet */
-.leaflet-container a.leaflet-popup-close-button{padding:2px 0;}
+#map{height:100vh; margin-left:auto; margin-right:auto; width:100vw;}
+.leaflet-container a.leaflet-popup-close-button{color:#000; margin:0; padding:0;}
 .leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar{border:0;}
 .leaflet-bottom{background:white; font-family:monospace; line-height:1; margin:5px; opacity:0.7; padding:0px; pointer-events:auto;}
-.leaflet-bottom.leaflet-left{}
-.leaflet-bottom.leaflet-right{}
+/*.leaflet-bottom.leaflet-left{}*/
+/*.leaflet-bottom.leaflet-right{}*/ 
 /*.leaflet-control-attribution.leaflet-control{display:inline; visibility:hidden; z-index:-1;}*/
-.leaflet-popup-close-button{margin:0;}
-.leaflet-popup-content{background-color:#FFF; color:#000; font-family:monospace; line-height:2; margin:2px; padding:2px; text-align:left;}
-.leaflet-popup-content p{margin:0; padding:0;}
-.leaflet-popup-content-wrapper{-webkit-border-radius:4px; border-radius:4px; opacity:1; text-align:center;}
+.leaflet-popup-content{line-height:1; margin:0; padding:10px; text-align:center;}
+.leaflet-popup-content-wrapper{background:transparent; box-shadow:none; -webkit-border-radius:4px; border-radius:4px; opacity:1; text-align:center;}
+.leaflet-popup leaflet-zoom-animated{display:none;}
+.leaflet-popup-tip-container{display:none;}
