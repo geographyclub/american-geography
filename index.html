@@ -45,25 +45,24 @@ function map(){
   var satellite = new L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {id: 'mapbox/satellite-v9', tileSize: 512, zoomOffset: -1, attribution:'<a href="https://www.mapbox.com/">Mapbox</a>'});
 
   // overlays
-//  var layerGroup = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/js/test.geojson', {onEachFeature: function(feature, layer){layer.bindPopup('<h1>'+feature.properties.name+'</h1><p>name: '+feature.properties.stname+'</p>');}})
+  var featureGroup = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/test.geojson', {onEachFeature: function(feature, layer){layer.bindPopup('<h2>'+feature.properties.name+'</h2><h3>'+feature.properties.stname+'</h3>', {minWidth:200});}})
 
   // switch layers
   var baseMaps = {"Streets":streets, "Satellite":satellite};
-//  var overlayMaps = {"Layer":layerGroup};
-  L.control.layers(baseMaps).addTo(map);
+  var overlayMaps = {"Issue #1":featureGroup};
+  L.control.layers(baseMaps,overlayMaps).addTo(map);
+  
 
   // click handler
 //  map.on('click', clickAnywhere);
 
-  // layer popup
-//  layerGroup.on("click", function(e){
-//    e.target.openPopup();
-//  });
+  // featureGroup popup
+  featureGroup.on("click", function(e){
+    e.target.openPopup();
+  });
 
 };
 window.onload = map();
-
-
 
 // get data on click
 var popup = L.popup();
@@ -83,7 +82,8 @@ function clickAnywhere(e){
 };
 
 // title
-//var title = popup.setLatLng([39, -98]).setContent('American Geography').openOn(map);
+var title = L.popup({minWidth:"auto"}).setLatLng([45, -98]).setContent('<h1>AMERICAN GEOGRAPHY</h1><h3>A magazine on a map census + street</h3>').openOn(map);
+
 // captions
 //jQuery('.leaflet-bottom.leaflet-left').html('');
 //jQuery('.leaflet-bottom.leaflet-right').html('');
