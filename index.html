@@ -43,13 +43,12 @@ function map(){
   //var french = L.TileLayer('http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {noWrap:false});
   var streets = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {noWrap:false, attribution:'<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
   var satellite = new L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {id: 'mapbox/satellite-v9', tileSize: 512, zoomOffset: -1, attribution:'<a href="https://www.mapbox.com/">Mapbox</a>'});
-var tiger = new L.tileLayer.wms('https://tigerweb.geo.census.gov/arcgis/services/Census2020/tigerWMS_PhysicalFeatures/MapServer/WMSServer?', {id:'0'});
 
   // overlays
 //  var layerGroup = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/js/test.geojson', {onEachFeature: function(feature, layer){layer.bindPopup('<h1>'+feature.properties.name+'</h1><p>name: '+feature.properties.stname+'</p>');}})
 
   // switch layers
-  var baseMaps = {"Streets":streets, "Tiger":tiger, "Satellite":satellite};
+  var baseMaps = {"Streets":streets, "Satellite":satellite};
 //  var overlayMaps = {"Layer":layerGroup};
   L.control.layers(baseMaps).addTo(map);
 
