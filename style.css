@@ -14,6 +14,8 @@ p{font-family:Sans; font-size:18px; font-weight:300; line-height:0.8; margin:0; 
 
 /* leaflet */
 #map{height:100vh; margin-left:auto; margin-right:auto; width:100vw;}
+#map .leaflet-tile-pane{filter:none;}
+
 .leaflet-container a.leaflet-popup-close-button{color:#000; margin:0; padding:0;}
 .leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar{border:0;}
 
