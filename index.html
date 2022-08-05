@@ -34,13 +34,20 @@ var map;
 
 function map(){
   map = L.map('map', {maxZoom:16});
-  map.setMaxBounds([[-90, -180], [90, 180]]);
-  map.setMinZoom(map.getBoundsZoom([[-85.0511, -180], [85.0511, 180]], true));
+  map.setMaxBounds([[20, -130], [50, -60]]);
+  map.setMinZoom(map.getBoundsZoom([[20, -130], [50, -60]], true));
   map.setView([39, -98], 5);
 
   // featuregroups
   var featureGroup1 = new L.featureGroup()
   var featureGroup2 = new L.featureGroup()
+
+  // style
+  function style(feature) {
+    return {
+      weight:1
+    };
+  }
 
   // title
   var title = new L.tooltip({
@@ -49,7 +56,7 @@ function map(){
     opacity:1,
     direction:'top',
     className:'myTitle'
-  }).setContent('<h1>AMERICAN GEOGRAPHY</h1>').setLatLng(new L.LatLng(46,-98)).addTo(featureGroup1);
+  }).setContent('<h1>AMERICAN GEOGRAPHY</h1><h3>~BLOGGING CENSUS AND STREET DATA~</h3>').setLatLng(new L.LatLng(45,-98)).addTo(featureGroup1);
 
   // headlines
   function bindDivIcon(feature, layer){
@@ -60,34 +67,15 @@ function map(){
     offset:[0,0],
     opacity:1,
     direction:'top',
-    className:'myHeadline'
-  }).setContent('<h2>'+feature.properties.name+'</h2>').setLatLng(center).addTo(featureGroup1);
+    className:'myHeadline'}).setContent('<h2>'+feature.properties.name+'</h2>').setLatLng(center).addTo(featureGroup1);
+    layer.bindPopup('<h1>'+feature.properties.name+'</h1>').addTo(featureGroup2);
   }
 
-
-/*
-  function bindDivIcon(feature, layer){
-    var bounds = layer.getBounds();
-    var center = bounds.getCenter();
-    var mypopup = layer.bindPopup('<h1>'+feature.properties.name+'</h1>').addTo(featureGroup2);
-    var marker = L.marker(center, {
-      icon: new L.DivIcon({
-        draggable:'false',
-        iconAnchor:center,
-        popupAnchor:center,
-        className:'myDivIcon',
-        html:'<h2>'+feature.properties.name+'</h2>'
-      })
-    }).addTo(featureGroup1);
-  }
-function bindMarker(feature, layer){
-  var bounds = layer.getBounds();
-  var center = bounds.getCenter();
-  var marker = L.marker(center).addTo(map).bindPopup("Test Label");
-}
-*/
   // get geojson features
-  var featureGroup2 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/test.geojson', {onEachFeature:bindDivIcon}).addTo(map)
+  var featureGroup2 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/test.geojson', {
+	style:style,
+	onEachFeature:bindDivIcon
+  }).addTo(map)
  
   // base layers
   //var german = L.TileLayer('https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png', {noWrap:false});
@@ -101,17 +89,42 @@ function bindMarker(feature, layer){
   var overlayMaps = {"Headlines":featureGroup1, "Features":featureGroup2};
   L.control.layers(baseMaps,overlayMaps).addTo(map);
 
-/*
+};
+window.onload = map();
+
+// footer
+jQuery('.leaflet-bottom.leaflet-left').html('<a href="mailto:emailstevekim@gmail.com">emailstevekim@gmail.com</a>');
+//jQuery('.leaflet-bottom.leaflet-right').html('');
+
+
+/* misc
+  function myIcon(feature, layer){
+    var bounds = layer.getBounds();
+    var center = bounds.getCenter();
+//    var mypopup = layer.bindPopup('<h1>'+feature.properties.name+'</h1>').addTo(featureGroup2);
+    var marker = L.marker(center, {
+      icon: new L.DivIcon({
+        draggable:'false',
+        iconAnchor:center,
+        popupAnchor:center,
+        className:'myDivIcon',
+        html:'<h2>'+feature.properties.name+'</h2>'
+      })
+    }).addTo(featureGroup1);
+  }
+
+function bindMarker(feature, layer){
+  var bounds = layer.getBounds();
+  var center = bounds.getCenter();
+  var marker = L.marker(center).addTo(map).bindPopup("Test Label");
+}
+
 //click on group
   featureGroup2.on('click', function(e){
     e.target.openPopup();
   });
 //click on map
   map.on('click', clickAnywhere);
-*/
-
-};
-window.onload = map();
 
 // get data on click
 var popup = L.popup();
@@ -130,9 +143,22 @@ function clickAnywhere(e){
   });
 };
 
-// footer
-jQuery('.leaflet-bottom.leaflet-left').html('<a href="mailto:emailstevekim@gmail.com">emailstevekim@gmail.com</a>');
-//jQuery('.leaflet-bottom.leaflet-right').html('');
+// geolocate
+function onLocationFound(e){
+  var radius = e.accuracy / 2;
+  L.circle(e.latlng, radius, {weight:1}).addTo(map);
+  L.circle(e.latlng, 1).addTo(map);
+}
+function onLocationError(e){
+  console.log(e.message);
+}
+map.on('locationerror', onLocationError);
+map.on('locationfound', onLocationFound);
+map.locate({setView: true, zoom: 2});
+
+*/
+
+
 
 </script>
 </body>
