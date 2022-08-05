@@ -38,28 +38,55 @@ function map(){
   map.setMinZoom(map.getBoundsZoom([[-85.0511, -180], [85.0511, 180]], true));
   map.setView([39, -98], 5);
 
-var featureGroup1 = new L.featureGroup()
-var featureGroup2 = new L.featureGroup()
+  // featuregroups
+  var featureGroup1 = new L.featureGroup()
+  var featureGroup2 = new L.featureGroup()
+
+  // title
+  var title = new L.tooltip({
+    permanent: true,
+    offset:[0,0],
+    opacity:1,
+    direction:'top',
+    className:'myTitle'
+  }).setContent('<h1>AMERICAN GEOGRAPHY</h1>').setLatLng(new L.LatLng(46,-98)).addTo(featureGroup1);
+
+  // headlines
+  function bindDivIcon(feature, layer){
+    var bounds = layer.getBounds();
+    var center = bounds.getCenter();
+    var mytooltip = new L.tooltip({
+    permanent: true,
+    offset:[0,0],
+    opacity:1,
+    direction:'top',
+    className:'myHeadline'
+  }).setContent('<h2>'+feature.properties.name+'</h2>').setLatLng(center).addTo(featureGroup1);
+  }
+
+
+/*
+  function bindDivIcon(feature, layer){
+    var bounds = layer.getBounds();
+    var center = bounds.getCenter();
+    var mypopup = layer.bindPopup('<h1>'+feature.properties.name+'</h1>').addTo(featureGroup2);
+    var marker = L.marker(center, {
+      icon: new L.DivIcon({
+        draggable:'false',
+        iconAnchor:center,
+        popupAnchor:center,
+        className:'myDivIcon',
+        html:'<h2>'+feature.properties.name+'</h2>'
+      })
+    }).addTo(featureGroup1);
+  }
 function bindMarker(feature, layer){
   var bounds = layer.getBounds();
   var center = bounds.getCenter();
   var marker = L.marker(center).addTo(map).bindPopup("Test Label");
 }
-
-function bindDivIcon(feature, layer){
-  var bounds = layer.getBounds();
-  var center = bounds.getCenter();
-  var marker = L.marker(center, {
-    draggable:'false',
-    direction:'bottom',
-    icon: new L.DivIcon({
-      className:'myDivIcon',
-      html:'<h2>'+feature.properties.name+'</h2>'
-    })
-  }).bindPopup('<h2>'+feature.properties.name+'</h2><h3>'+feature.properties.stname+'</h3>', {minWidth:200}).addTo(featureGroup1);
-}
-
-  // featureGroup
+*/
+  // get geojson features
   var featureGroup2 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/test.geojson', {onEachFeature:bindDivIcon}).addTo(map)
  
   // base layers
@@ -68,18 +95,18 @@ function bindDivIcon(feature, layer){
   var streets = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {noWrap:false, attribution:'<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
   var satellite = new L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {id: 'mapbox/satellite-v9', tileSize: 512, zoomOffset: -1, attribution:'<a href="https://www.mapbox.com/">Mapbox</a>'});
 
-  // switch layers
+  // layer switcher
   map.addLayer(featureGroup1)
   var baseMaps = {"Streets":streets, "Satellite":satellite};
   var overlayMaps = {"Headlines":featureGroup1, "Features":featureGroup2};
   L.control.layers(baseMaps,overlayMaps).addTo(map);
 
 /*
-  // click on group
-  featureGroup1.on('layerAdd', function(e){
+//click on group
+  featureGroup2.on('click', function(e){
     e.target.openPopup();
   });
-  // click on map
+//click on map
   map.on('click', clickAnywhere);
 */
 
@@ -103,10 +130,7 @@ function clickAnywhere(e){
   });
 };
 
-// title
-var title = L.popup({minWidth:"auto"}).setLatLng([45, -98]).setContent('<h1>AMERICAN GEOGRAPHY</h1><h3>A magazine on a map census + street</h3>').openOn(map);
-
-// captions
+// footer
 jQuery('.leaflet-bottom.leaflet-left').html('<a href="mailto:emailstevekim@gmail.com">emailstevekim@gmail.com</a>');
 //jQuery('.leaflet-bottom.leaflet-right').html('');
 
