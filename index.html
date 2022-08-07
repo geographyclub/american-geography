@@ -15,7 +15,7 @@
   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
   crossorigin=""></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script>
-<script src="https://unpkg.com/leaflet-simple-map-screenshoter"></script>
+<!--<script src="https://unpkg.com/leaflet-simple-map-screenshoter"></script>-->
 
 <!-- load styles -->
 <link rel="icon" type="image/png" href="favicon.png">
@@ -36,21 +36,14 @@
 var map;
 
 function map(){
-  map = L.map('map', {maxZoom:16});
-  map.setMaxBounds([[20, -130], [50, -60]]);
-  map.setMinZoom(map.getBoundsZoom([[20, -130], [50, -60]], true));
+  map = L.map('map', {maxZoom:18});
+  map.setMaxBounds([[29, -128], [49, -68]]);
+  map.setMinZoom(map.getBoundsZoom([[29, -128], [49, -68]], false));
   map.setView([39, -98], 4);
 
   // featuregroups
   var featureGroup1 = new L.featureGroup()
   var featureGroup2 = new L.featureGroup()
-
-  // style
-  function style(feature) {
-    return {
-      weight:1
-    };
-  }
 
   // title
   var title = new L.tooltip({
@@ -59,10 +52,17 @@ function map(){
     opacity:1,
     direction:'top',
     className:'myTitle'
-  }).setContent('<h1>AMERICAN GEOGRAPHY</h1><h3>~BLOGGING CENSUS AND STREET DATA~</h3>').setLatLng(new L.LatLng(45,-98)).addTo(featureGroup1);
+  }).setContent('<h1>AMERICAN GEOGRAPHY</h1><h3>~BLOGGING CENSUS AND STREET DATA~</h3>').setLatLng(new L.LatLng(50,-98)).addTo(featureGroup1);
 
-  // headlines
-  function bindDivIcon(feature, layer){
+  // bind marker
+  function myMarker(feature, layer){
+    var bounds = layer.getBounds();
+    var center = bounds.getCenter();
+    var marker = L.marker(center).addTo(map).bindPopup("Test Label");
+  }
+
+  // bind tooltip
+  function myDivIcon(feature, layer){
     var bounds = layer.getBounds();
     var center = bounds.getCenter();
     var mytooltip = new L.tooltip({
@@ -74,11 +74,26 @@ function map(){
     layer.bindPopup('<h1>'+feature.properties.name+'</h1>').addTo(featureGroup2);
   }
 
-  // get geojson features
-  var featureGroup2 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/test.geojson', {
-	style:style,
-	onEachFeature:bindDivIcon
+  function myCircleMarker(feature, latlng) {
+    return L.circleMarker(latlng, {
+      radius : 4,
+      fillColor : "#ff7800",
+      color : "#000",
+      weight : 1,
+      opacity : 1,
+      fillOpacity : 0.8
+    }).bindPopup(feature.properties.amenity);
+  }
+
+  // get geojson polygons
+  var featureGroup2 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/polygons.geojson', {
+  onEachFeature:myDivIcon
   }).addTo(map)
+
+  // get geojson points
+  var featureGroup3 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/points.geojson', {
+  pointToLayer:myCircleMarker
+  })
  
   // base layers
   //var german = L.TileLayer('https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png', {noWrap:false});
@@ -89,11 +104,11 @@ function map(){
   // layer switcher
   map.addLayer(featureGroup1)
   var baseMaps = {"Streets":streets, "Satellite":satellite};
-  var overlayMaps = {"Headlines":featureGroup1, "Features":featureGroup2};
+  var overlayMaps = {"Headlines":featureGroup1, "Polygons":featureGroup2, "Points":featureGroup3};
   L.control.layers(baseMaps,overlayMaps).addTo(map);
 
-  // screenshot
-  L.simpleMapScreenshoter().addTo(map)
+  // screenshoter
+  // L.simpleMapScreenshoter().addTo(map)
 
 };
 window.onload = map();
@@ -108,6 +123,14 @@ $(window).on('load', function() {
 });
 
 /* misc
+
+var ico = L.icon({
+  iconUrl: 'https://api2.datamap.bg/images/blue_icon.png',
+  iconSize: [25, 25],
+  iconAnchor: [15, 15],
+  popupAnchor: [-10, -10]
+});
+
   function myIcon(feature, layer){
     var bounds = layer.getBounds();
     var center = bounds.getCenter();
@@ -123,20 +146,15 @@ $(window).on('load', function() {
     }).addTo(featureGroup1);
   }
 
-function bindMarker(feature, layer){
-  var bounds = layer.getBounds();
-  var center = bounds.getCenter();
-  var marker = L.marker(center).addTo(map).bindPopup("Test Label");
-}
+// click on layer
+featureGroup2.on('click', function(e){
+  e.target.openPopup();
+});
 
-//click on group
-  featureGroup2.on('click', function(e){
-    e.target.openPopup();
-  });
-//click on map
-  map.on('click', clickAnywhere);
+// click on map
+map.on('click', clickAnywhere);
 
-// get data on click
+// get php data
 var popup = L.popup();
 var id; var lat; var lon; var x; var y;
 function clickAnywhere(e){
