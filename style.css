@@ -6,8 +6,8 @@ body{margin:0; padding:0; height:100%; width:100%;}
 html{color:#222; font-size:100%; margin:0; padding:0; height:100%; width:100%;}
 hr{border:0; background:#a0a0a0; height:1px; width:60%;}
 h1{font-family:Montserrat; font-size:50px; font-weight:900; line-height:0.8; margin:0px; padding:0px;}
-h2{font-family:Montserrat; font-size:18px; font-weight:600; line-height:0.8; margin:0; padding:0;}
-h3{font-family:Montserrat; font-size:14px; font-weight:600; line-height:1.5; margin:0; padding:0;}
+h2{font-family:Montserrat; font-size:18px; font-weight:600; line-height:1.5; margin:0; padding:0;}
+h3{font-family:Montserrat; font-size:14px; font-weight:600; line-height:0.8; margin:0; padding:0;}
 p{font-family:Sans; font-size:18px; font-weight:300; line-height:0.8; margin:0; padding:0;}
 
 .rotate-text{transform:rotate(0deg) skew(0deg,-5deg); transform-origin: right top 0;}
@@ -32,6 +32,7 @@ p{font-family:Sans; font-size:18px; font-weight:300; line-height:0.8; margin:0; 
 
 .leaflet-tooltip{text-align:center; white-space:normal; margin:0; padding:0;}
 .leaflet-tooltip:before{display:none;}
-.myHeadline{background-color:transparent; border:none; box-shadow:none; min-width:200px;}
-.myTitle{background-color:transparent; border:none; box-shadow:none;}
+
+.mytoolip{background-color:transparent; border:none; box-shadow:none;}
+.mytitle{background-color:transparent; border:none; box-shadow:none;}
 
