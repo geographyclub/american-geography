@@ -2,7 +2,7 @@
 This is how I processed US census data for Leaflet.
 
 ### Importing into psql
-Geographic files:
+Geography files:
 ```
 # nation level
 ogr2ogr -overwrite -skipfailures --config PG_USE_COPY YES -f PGDump -t_srs "EPSG:3857" /vsistdout/ tlgdb_2021_a_us_nationgeo.gdb | psql -d us -f -
