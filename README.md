@@ -22,7 +22,6 @@ psql -d us -c "CREATE TABLE state2020 AS SELECT a.geoid, b.*, DP05_0005PE AS age
 Find zscores:
 ```
 psql -qAtX -d us -c '\d state2020;' | grep -v "geoid" | grep -v "SHAPE" | grep -v "sumlev" | grep -v "region" | grep -v "division" | grep -v "state" | grep -v "name" | sed -e 's/|.*//g' | while read column; do
-#psql -d us -c "ALTER TABLE state2020 DROP COLUMN zscore_${column};"
   psql -d us -c "ALTER TABLE state2020 ADD COLUMN zscore_${column} REAL;"
   psql -d us -c "WITH b AS (SELECT geoid, (CAST(${column} AS REAL) - AVG(CAST(${column} AS REAL)) OVER()) / STDDEV(CAST(${column} AS REAL)) OVER() AS zscore FROM state2020 WHERE CAST(${column} AS TEXT) ~ '^[0-9\\\.]+$') UPDATE state2020 a SET zscore_${column} = b.zscore FROM b WHERE a.geoid = b.geoid;"
 done
