@@ -27,7 +27,7 @@ psql -Aqt -d us -c "SELECT name from state2020;" | while read name; do
 done
 ```
 
-Columns with significant zscores to geojson:
+Columns with significant zscores:
 ```
 zcolumns_all=$(psql -Aqt -d us -c '\d state2020' | grep "zscore_" | sed -e 's/|.*//g' | paste -sd,)
 psql -Aqt -d us -c "SELECT name from state2020 WHERE name NOT IN ('Kansas','Missouri') ORDER BY name;" | while read state; do
