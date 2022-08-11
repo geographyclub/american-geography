@@ -11,8 +11,8 @@ Data tables:
 ```
 table='dp05_state_2020'
 file='ACSDP5Y2020.DP05_data_with_overlays_2022-07-26T084339.csv'
-psql -d us -c "CREATE TABLE ${table}($(echo $(head -1 ${file} | sed -e 's/"//g' -e 's/,/ VARCHAR,/g')' VARCHAR'));"
 iconv -f latin1 -t ascii//TRANSLIT ${file} | awk 'NR!=2' > ${file%.*}_iconv.csv
+psql -d us -c "CREATE TABLE ${table}($(echo $(head -1 ${file} | sed -e 's/"//g' -e 's/,/ VARCHAR,/g')' VARCHAR'));"
 psql -d us -c "\COPY ${table} FROM ${file%.*}_iconv.csv WITH CSV HEADER;"
 ```
 
