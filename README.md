@@ -12,6 +12,10 @@ ogr2ogr -overwrite -skipfailures --config PG_USE_COPY YES -f PGDump -t_srs "EPSG
 # union census designated places and incporporated places
 psql -d us -c "CREATE TABLE place AS (SELECT * FROM incorporated_place UNION SELECT * FROM census_designated_place);"
 
+# merge then import puma
+ogrmerge.py -overwrite_ds -single -nln puma2020 -o puma2020.gpkg $(ls *.zip | sed 's/^/\/vsizip\//g' | paste -sd' ')
+ogr2ogr -overwrite -skipfailures -nlt promote_to_multi --config PG_USE_COPY YES -f PGDump -t_srs "EPSG:3857" /vsistdout/ puma2020.gpkg | psql -d us -f -
+
 # geonames
 ogr2ogr -overwrite -skipfailures --config PG_USE_COPY YES -lco precision=NO -f PGDump -t_srs 'EPSG:3857' -nln geonames_us -where "countrycode = 'US'" /vsistdout/ PG:dbname=world geonames | psql -d us -f -
 
