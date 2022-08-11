@@ -4,7 +4,12 @@ These are the steps I took from cleaning up, importing and joining tables to exp
 ### Importing into psql
 Geographic files:
 ```
+# nation level
 ogr2ogr -overwrite -skipfailures --config PG_USE_COPY YES -f PGDump -t_srs "EPSG:3857" /vsistdout/ tlgdb_2021_a_us_nationgeo.gdb | psql -d us -f -
+
+# sub-state level
+ogr2ogr -overwrite -skipfailures --config PG_USE_COPY YES -f PGDump -t_srs "EPSG:3857" /vsistdout/ tlgdb_2021_a_us_substategeo.gdb | psql -d us -f -
+
 ```
 
 Data tables:
