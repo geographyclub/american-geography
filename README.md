@@ -1,5 +1,5 @@
 # american-geography
-Mapping choice selects from US census and OSM street data.
+These are the steps I took from cleaning up and joining data tables to exporting geojson files for use in QGIS and Leaflet.
 
 ### Importing into psql
 Geographic files:
