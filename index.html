@@ -29,6 +29,7 @@
 <body>
 
 <div id="map"></div>
+<div id="info"></div>
 
 <!-- start scripts -->
 <script>
@@ -39,7 +40,7 @@ function map(){
   map = L.map('map', {maxZoom:18});
   map.setMaxBounds([[-90, -180], [90, 180]]);
   map.setMinZoom(map.getBoundsZoom([[29, -128], [49, -68]], false));
-  map.setView([39, -98], 2);
+  map.setView([39, -98], 1);
 
   // featuregroups
   var featureGroup1 = new L.featureGroup()
@@ -54,28 +55,7 @@ function map(){
     className:'mytitle'
   }).setContent('<h1>AMERICAN GEOGRAPHY</h1><h2>CENSUS AND STREET DATA</h2>').setLatLng(new L.LatLng(52,-98)).addTo(featureGroup1);
 
-  // bind marker
-  function mymarker(feature, layer){
-    var bounds = layer.getBounds();
-    var center = bounds.getCenter();
-    var marker = L.marker(center).addTo(featureGroup1).bindPopup('<h3>'+feature.properties.name+'</h3>').addTo(map);
-  layer.bindPopup('<pre>'+JSON.stringify(feature.properties,null,' ').replace(/[\{\}"]/g,'')+'</pre>').addTo(map);
-  }
-
-  // bind tooltip
-  function mytooltip(feature, layer){
-    var bounds = layer.getBounds();
-    var center = bounds.getCenter();
-    var mytooltip = new L.tooltip({
-    permanent: true,
-    offset:[0,0],
-    opacity:1,
-    direction:'top',
-    className:'myHeadline'}).setContent('<h3>'+feature.properties.name+'</h3>').setLatLng(center).addTo(featureGroup1);
-    layer.bindPopup('<h3>'+feature.properties.name+'</h3>').addTo(featureGroup2);
-  }
-
-  // bind circleMarker
+  // circleMarker
   function mycirclemarker(feature, latlng) {
     return L.circleMarker(latlng, {
       radius : 4,
@@ -85,6 +65,30 @@ function map(){
       opacity : 1,
       fillOpacity : 0.8
     }).bindPopup(feature.properties.amenity);
+  }
+
+  // marker
+  function mymarker(feature, layer){
+    var bounds = layer.getBounds();
+    var center = bounds.getCenter();
+    var marker = L.marker(center).addTo(featureGroup1);
+    marker.on('click', function(e) {
+      map.fitBounds(bounds);      
+    });  
+    layer.bindPopup('hello world').addTo(map); 
+  }
+
+  // tooltip
+  function mytooltip(feature, layer){
+    var bounds = layer.getBounds();
+    var center = bounds.getCenter();
+    var mytooltip = new L.tooltip({
+    permanent: true,
+    offset:[0,0],
+    opacity:1,
+    direction:'top',
+    className:'myheadline'}).setContent('<h3>'+feature.properties.name+'</h3>').setLatLng(center).addTo(featureGroup1);
+    layer.bindPopup('<h3>'+feature.properties.name+'</h3>').addTo(featureGroup2);
   }
 
   // get geojson polygons
@@ -103,7 +107,7 @@ function map(){
   // base layers
   //var german = L.TileLayer('https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png', {noWrap:false});
   //var french = L.TileLayer('http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {noWrap:false});
-  var streets = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {noWrap:false, attribution:'<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
+  var streets = new L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {noWrap:false, attribution:'<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
   var satellite = new L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {id: 'mapbox/satellite-v9', tileSize: 512, zoomOffset: -1, attribution:'<a href="https://www.mapbox.com/">Mapbox</a>'});
 
   // layer switcher
@@ -113,7 +117,7 @@ function map(){
   L.control.layers(baseMaps,overlayMaps).addTo(map);
 
   // screenshoter
-  // L.simpleMapScreenshoter().addTo(map)
+//  L.simpleMapScreenshoter().addTo(map)
 
 };
 window.onload = map();
@@ -127,7 +131,14 @@ $(window).on('load', function() {
   $('.leaflet-control-simpleMapScreenshoter').css('border', '0');
 });
 
+
 /* misc
+
+// marker with popup
+var marker = L.marker(center).addTo(featureGroup1).bindPopup('<h3>'+feature.properties.name+'</h3>').addTo(map);
+
+// print all json data
+'<pre>'+JSON.stringify(feature.properties,null,' ').replace(/[\{\}"]/g,'')+'</pre>'
 
 var ico = L.icon({
   iconUrl: 'https://api2.datamap.bg/images/blue_icon.png',
@@ -136,20 +147,20 @@ var ico = L.icon({
   popupAnchor: [-10, -10]
 });
 
-  function myIcon(feature, layer){
-    var bounds = layer.getBounds();
-    var center = bounds.getCenter();
-//    var mypopup = layer.bindPopup('<h1>'+feature.properties.name+'</h1>').addTo(featureGroup2);
-    var marker = L.marker(center, {
-      icon: new L.DivIcon({
-        draggable:'false',
-        iconAnchor:center,
-        popupAnchor:center,
-        className:'myDivIcon',
-        html:'<h2>'+feature.properties.name+'</h2>'
-      })
-    }).addTo(featureGroup1);
-  }
+function mydivicon(feature, layer){
+  var bounds = layer.getBounds();
+  var center = bounds.getCenter();
+  var mypopup = layer.bindPopup('<h1>'+feature.properties.name+'</h1>').addTo(featureGroup2);
+  var marker = L.marker(center, {
+    icon: new L.DivIcon({
+      draggable:'false',
+      iconAnchor:center,
+      popupAnchor:center,
+      className:'myDivIcon',
+      html:'<h2>'+feature.properties.name+'</h2>'
+    })
+  }).addTo(featureGroup1);
+}
 
 // click on layer
 featureGroup2.on('click', function(e){
