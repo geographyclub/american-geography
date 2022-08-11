@@ -24,6 +24,7 @@ psql -d us -c "\COPY nst_est2021 FROM 'NST-EST2021-alldata_iconv.csv' WITH CSV H
 
 Data tables:
 ```
+# todo: 2019-2010
 table='dp05_state_2020'
 file='ACSDP5Y2020.DP05_data_with_overlays_2022-07-26T084339.csv'
 iconv -f latin1 -t ascii//TRANSLIT ${file} | awk 'NR!=2' > ${file%.*}_iconv.csv
