@@ -1,5 +1,5 @@
 # american-geography
-These are the steps I took from cleaning up and joining data tables to exporting geojson files for use in QGIS and Leaflet. Regularly posting results to https://geographyclub.github.io/american-geography/.
+These are the steps I took from cleaning up, importing and joining data tables to exporting geojson files for use in QGIS and Leaflet. Regularly posting results to https://geographyclub.github.io/american-geography/.
 
 ### Importing into psql
 Geographic files:
