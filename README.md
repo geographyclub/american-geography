@@ -10,13 +10,15 @@ ogr2ogr -overwrite -skipfailures --config PG_USE_COPY YES -f PGDump -t_srs "EPSG
 # sub-state level
 ogr2ogr -overwrite -skipfailures --config PG_USE_COPY YES -f PGDump -t_srs "EPSG:3857" /vsistdout/ tlgdb_2021_a_us_substategeo.gdb | psql -d us -f -
 
+# union census designated places and incporporated places
+psql -d us -c "CREATE TABLE place AS (SELECT * FROM incorporated_place UNION SELECT * FROM census_designated_place);"
 ```
 
 Population tables:
 ```
 iconv -f latin1 -t ascii//TRANSLIT NST-EST2021-alldata.csv > NST-EST2021-alldata_iconv.csv
-psql -d us -c "CREATE TABLE nst_est2021(SUMLEV VARCHAR,REGION VARCHAR,DIVISION VARCHAR,STATE VARCHAR,NAME VARCHAR,ESTIMATESBASE2020 VARCHAR,POPESTIMATE2020 VARCHAR,POPESTIMATE2021 VARCHAR,NPOPCHG_2020 VARCHAR,NPOPCHG_2021 VARCHAR,BIRTHS2020 VARCHAR,BIRTHS2021 VARCHAR,DEATHS2020 VARCHAR,DEATHS2021 VARCHAR,NATURALINC2020 VARCHAR,NATURALINC2021 VARCHAR,INTERNATIONALMIG2020 VARCHAR,INTERNATIONALMIG2021 VARCHAR,DOMESTICMIG2020 VARCHAR,DOMESTICMIG2021 VARCHAR,NETMIG2020 VARCHAR,NETMIG2021 VARCHAR,RESIDUAL2020 VARCHAR,RESIDUAL2021 VARCHAR,RBIRTH2021 VARCHAR,RDEATH2021 VARCHAR,RNATURALINC2021 VARCHAR,RINTERNATIONALMIG2021 VARCHAR,RDOMESTICMIG2021 VARCHAR,RNETMIG2021 VARCHAR);"
-psql -d us -c "COPY nst_est2021 FROM 'NST-EST2021-alldata_iconv.csv' WITH CSV HEADER;"
+psql -d us -c "CREATE TABLE nst_est2021($(head -1 NST-EST2021-alldata_iconv.csv | sed -e 's/,/ VARCHAR,/g' -e 's/\r$/ VARCHAR/g'));"
+psql -d us -c "\COPY nst_est2021 FROM 'NST-EST2021-alldata_iconv.csv' WITH CSV HEADER;"
 
 ```
 
@@ -25,7 +27,7 @@ Data tables:
 table='dp05_state_2020'
 file='ACSDP5Y2020.DP05_data_with_overlays_2022-07-26T084339.csv'
 iconv -f latin1 -t ascii//TRANSLIT ${file} | awk 'NR!=2' > ${file%.*}_iconv.csv
-psql -d us -c "CREATE TABLE ${table}($(echo $(head -1 ${file} | sed -e 's/"//g' -e 's/,/ VARCHAR,/g')' VARCHAR'));"
+psql -d us -c "CREATE TABLE ${table}($(head -1 ${file} | sed -e 's/"//g' -e 's/,/ VARCHAR,/g' -e 's/\r$/ VARCHAR/g'));"
 psql -d us -c "\COPY ${table} FROM ${file%.*}_iconv.csv WITH CSV HEADER;"
 ```
 
