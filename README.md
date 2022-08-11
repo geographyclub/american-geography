@@ -29,7 +29,7 @@ psql -d us -c "CREATE TABLE ${table}($(echo $(head -1 ${file} | sed -e 's/"//g' 
 psql -d us -c "\COPY ${table} FROM ${file%.*}_iconv.csv WITH CSV HEADER;"
 ```
 
-### Joining geographic files to datatables
+### Joining geographic files to data
 I chose several interesting sounding columns from ACS datatables, mostly percentages.
 
 US:
