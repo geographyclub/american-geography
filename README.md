@@ -18,6 +18,7 @@ psql -d us -c "\COPY ${table} FROM ${file%.*}_iconv.csv WITH CSV HEADER;"
 
 ### Joining geographic files to datatables
 I chose several interesting sounding columns from ACS datatables, mostly percentages.
+
 US:
 ```
 # create table
@@ -31,7 +32,7 @@ psql -d us -c "CREATE TABLE state2020 AS SELECT a.geoid, b.*, DP05_0005PE AS age
 ```
 
 ### Adding zscores
-I added zscores to ACS columns at each geography.
+I added zscores to each ACS column.
 
 States:
 ```
