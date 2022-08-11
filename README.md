@@ -1,5 +1,5 @@
 # american-geography
-This is how I processed US census data for Leaflet.
+This is how I'm processing US census data for Leaflet.
 
 ### Importing into psql
 Geography files:
