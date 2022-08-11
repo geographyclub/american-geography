@@ -2,8 +2,18 @@
 Mapping choice selects from US census and OSM street data.
 
 ### Importing into psql
+Geographic files:
 ```
 ogr2ogr -overwrite -skipfailures --config PG_USE_COPY YES -f PGDump -t_srs "EPSG:3857" /vsistdout/ tlgdb_2021_a_us_nationgeo.gdb | psql -d us -f -
+```
+
+Data tables:
+```
+table='dp05_state_2020'
+file='ACSDP5Y2020.DP05_data_with_overlays_2022-07-26T084339.csv'
+psql -d us -c "CREATE TABLE ${table}($(echo $(head -1 ${file} | sed -e 's/"//g' -e 's/,/ VARCHAR,/g')' VARCHAR'));"
+iconv -f latin1 -t ascii//TRANSLIT ${file} | awk 'NR!=2' > ${file%.*}_iconv.csv
+psql -d us -c "\COPY ${table} FROM ${file%.*}_iconv.csv WITH CSV HEADER;"
 ```
 
 ### Joining geographic files to datatables
@@ -28,15 +38,13 @@ done
 ```
 
 ### Exporting to geojson
-Basic info like population:
 ```
+# basic info
 psql -Aqt -d us -c "SELECT name from state2020;" | while read name; do
   psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', geoid, 'geometry', ST_AsGeoJSON(ST_Transform(\"SHAPE\",4326))::jsonb, 'properties', to_jsonb(inputs) - 'geoid' - 'SHAPE') AS feature FROM (SELECT \"SHAPE\", name, geoid, aland, awater, region, division, popestimate2020, popestimate2021, npopchg_2020, npopchg_2021, rbirth2021::numeric(10,2), rdeath2021::numeric(10,2), rnaturalinc2021::numeric(10,2), rinternationalmig2021::numeric(10,2), rdomesticmig2021::numeric(10,2), rnetmig2021::numeric(10,2) FROM state WHERE name = '${name}') inputs) features) TO STDOUT;" > "${name//[^a-zA-Z_0-9]/}"_info.geojson
 done
-```
 
-Columns with significant zscores:
-```
+# columns with significant zscores
 zcolumns_all=$(psql -Aqt -d us -c '\d state2020' | grep "zscore_" | sed -e 's/|.*//g' | paste -sd,)
 psql -Aqt -d us -c "SELECT name from state2020 WHERE name NOT IN ('Kansas','Missouri') ORDER BY name;" | while read state; do
   zcolumns_significant=$(psql -Aqt -d us -c "WITH b AS (SELECT ${zcolumns_all} FROM state2020 WHERE name = '${state}') SELECT (x).key FROM (SELECT EACH(hstore(b)) x FROM b) q WHERE CAST((x).value AS VARCHAR) ~ '^[0-9\\\.]+$' AND ABS(CAST((x).value AS REAL)) >= 1.65;" | paste -sd,)
