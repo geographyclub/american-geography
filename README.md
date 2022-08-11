@@ -17,7 +17,7 @@ psql -d us -c "\COPY ${table} FROM ${file%.*}_iconv.csv WITH CSV HEADER;"
 ```
 
 ### Joining geographic files to datatables
-One of the problems with working on census data is the size of it. So I chose several interesting sounding columns from ACS datatables, mostly percentages, and found zscores for only those columns.
+I chose several interesting sounding columns from ACS datatables, mostly percentages, and found zscores for those columns.
 
 US:
 ```
