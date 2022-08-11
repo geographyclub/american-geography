@@ -48,7 +48,7 @@ psql -d us -c "CREATE TABLE county2020 AS SELECT a.geoid, a.\"SHAPE\", b.*, DP05
 ```
 
 ### Adding zscores
-I added zscores to each ACS column.
+I added zscores to these columns.
 
 States:
 ```
