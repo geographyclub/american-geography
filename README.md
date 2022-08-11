@@ -112,7 +112,6 @@ done
 PUMAs:
 ```
 psql -qAtX -d us -c '\d puma2020' | grep -v "fid" | grep -v "geom" | grep -v "statefp10" | grep -v "pumace10" | grep -v "geoid10" | grep -v "namelsad10" | grep -v "mtfcc10" | grep -v "funcstat10" | grep -v "aland10" | grep -v "awater10" | grep -v "intptlat10" | grep -v "intptlon10" | sed -e 's/|.*//g' | while read column; do
-#  psql -d us -c "ALTER TABLE puma2020 DROP COLUMN zscore_${column};"
   psql -d us -c "ALTER TABLE puma2020 ADD COLUMN zscore_${column} REAL;"
   psql -d us -c "WITH b AS (SELECT geoid10, (CAST(${column} AS REAL) - AVG(CAST(${column} AS REAL)) OVER()) / STDDEV(CAST(${column} AS REAL)) OVER() AS zscore FROM puma2020 WHERE CAST(${column} AS TEXT) ~ '^[0-9\\\.]+$') UPDATE puma2020 a SET zscore_${column} = b.zscore FROM b WHERE a.geoid10 = b.geoid10;"
 done
