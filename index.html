@@ -15,7 +15,8 @@
   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
   crossorigin=""></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script>
-<!--<script src="https://unpkg.com/leaflet-simple-map-screenshoter"></script>-->
+<script src="js/Leaflet.NavBar-master/src/Leaflet.NavBar.js"></script>
+<script src="js/leaflet-simple-map-screenshoter-master/dist/leaflet-simple-map-screenshoter.js"></script>
 
 <!-- load styles -->
 <link rel="icon" type="image/png" href="favicon.png">
@@ -23,6 +24,7 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
   crossorigin=""/>
+<link rel="stylesheet" href="js/Leaflet.NavBar-master/src/Leaflet.NavBar.css"></link>
 <link rel="stylesheet" href="style.css">
 
 </head>
@@ -116,8 +118,11 @@ function map(){
   var overlayMaps = {"Headlines":featureGroup1, "Polygons":featureGroup2, "Points":featureGroup3};
   L.control.layers(baseMaps,overlayMaps).addTo(map);
 
+  // navbar
+  L.control.navbar().addTo(map);
+
   // screenshoter
-//  L.simpleMapScreenshoter().addTo(map)
+  L.simpleMapScreenshoter().addTo(map)
 
 };
 window.onload = map();
