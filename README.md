@@ -121,15 +121,10 @@ done
 ### Exporting to geojson
 States:
 ```
-# basic info
-psql -Aqt -d us -c "SELECT name from state2020;" | while read name; do
-  psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', geoid, 'geometry', ST_AsGeoJSON(ST_Transform(\"SHAPE\",4326))::jsonb, 'properties', to_jsonb(inputs) - 'geoid' - 'SHAPE') AS feature FROM (SELECT \"SHAPE\", name, geoid, aland, awater, region, division, popestimate2020, popestimate2021, npopchg_2020, npopchg_2021, rbirth2021::numeric(10,2), rdeath2021::numeric(10,2), rnaturalinc2021::numeric(10,2), rinternationalmig2021::numeric(10,2), rdomesticmig2021::numeric(10,2), rnetmig2021::numeric(10,2) FROM state WHERE name = '${name}') inputs) features) TO STDOUT;" > "${name//[^a-zA-Z_0-9]/}"_info.geojson
-done
-
-# columns with significant zscores
+# significant zscores
 zcolumns_all=$(psql -Aqt -d us -c '\d state2020' | grep "zscore_" | sed -e 's/|.*//g' | paste -sd,)
-psql -Aqt -d us -c "SELECT name from state2020 WHERE name NOT IN ('Kansas','Missouri') ORDER BY name;" | while read state; do
-  zcolumns_significant=$(psql -Aqt -d us -c "WITH b AS (SELECT ${zcolumns_all} FROM state2020 WHERE name = '${state}') SELECT (x).key FROM (SELECT EACH(hstore(b)) x FROM b) q WHERE CAST((x).value AS VARCHAR) ~ '^[0-9\\\.]+$' AND ABS(CAST((x).value AS REAL)) >= 1.65;" | paste -sd,)
-  psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', geoid, 'geometry', ST_AsGeoJSON(ST_Transform(\"SHAPE\",4326))::jsonb, 'properties', to_jsonb(inputs) - 'SHAPE') AS feature FROM (SELECT a.name, a.geoid, a.popestimate2020, a.popestimate2021, a.pop_change, a.\"SHAPE\", b.popestimate2020 AS us_popestimate2020, b.popestimate2021 AS us_popestimate2021, b.pop_change AS us_pop_change, $(echo ${zcolumns_significant} | sed -e 's/zscore_/a\./g'), $(echo ${zcolumns_significant} | tr ',' '\n' | sed -e 's/zscore_//g' -e 's/^.*/\0 AS us_\0/g' -e 's/^/b\./g' | paste -sd,) FROM state2020 a, us2020 b WHERE a.name = '${state}') inputs) features) TO STDOUT;" > "${state//[^a-zA-Z_0-9]/}"_zscore_1_65.geojson
+psql -Aqt -d us -c "SELECT name from state2020;" | while read name; do
+  zcolumns_significant=$(psql -Aqt -d us -c "WITH b AS (SELECT ${zcolumns_all} FROM state2020 WHERE name = '${name}') SELECT (x).key FROM (SELECT EACH(hstore(b)) x FROM b) q WHERE CAST((x).value AS VARCHAR) ~ '^[0-9\\\.]+$' AND ABS(CAST((x).value AS REAL)) >= 1.65;" | paste -sd,)
+  psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', geoid, 'geometry', ST_AsGeoJSON(ST_Transform(\"SHAPE\",4326))::jsonb, 'properties', to_jsonb(inputs) - 'geoid' - 'SHAPE') AS feature FROM (SELECT a.\"SHAPE\", a.geoid, a.name, a.pop2020, $(echo ${zcolumns_significant} | sed -e 's/zscore_/a\./g'), $(echo ${zcolumns_significant} | tr ',' '\n' | sed -e 's/zscore_//g' -e 's/^.*/\0 AS us_\0/g' -e 's/^/b\./g' | paste -sd,) FROM state2020 a, us2020 b WHERE a.name = '${name}') inputs) features) TO STDOUT;" > "${name//[^a-zA-Z_0-9]/}"_zscore_1_65.geojson
 done
 ```
