@@ -11,6 +11,7 @@ h3{font-family:Montserrat; font-size:14px; font-weight:600; line-height:0.8; mar
 p{font-family:Sans; font-size:18px; font-weight:300; line-height:0.8; margin:0; padding:0;}
 
 .rotate-text{transform:rotate(0deg) skew(0deg,-5deg); transform-origin: right top 0;}
+.mytitle{font-size:90px;}
 
 /* leaflet */
 #map{height:100vh; margin-left:auto; margin-right:auto; width:100vw;}
