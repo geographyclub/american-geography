@@ -9,9 +9,15 @@ ogr2ogr -overwrite -skipfailures --config PG_USE_COPY YES -f PGDump -t_srs "EPSG
 
 # sub-state level
 ogr2ogr -overwrite -skipfailures --config PG_USE_COPY YES -f PGDump -t_srs "EPSG:3857" /vsistdout/ tlgdb_2021_a_us_substategeo.gdb | psql -d us -f -
-
 # union census designated places and incporporated places
 psql -d us -c "CREATE TABLE place AS (SELECT * FROM incorporated_place UNION SELECT * FROM census_designated_place);"
+
+# geonames
+ogr2ogr -overwrite -skipfailures --config PG_USE_COPY YES -lco precision=NO -f PGDump -t_srs 'EPSG:3857' -nln geonames_us -where "countrycode = 'US'" /vsistdout/ PG:dbname=world geonames | psql -d us -f -
+
+# osm
+ogr2ogr -overwrite -skipfailures --config PG_USE_COPY YES -f PGDump -t_srs "EPSG:3857" -nln points_us /vsistdout/ us-latest.osm.pbf points | psql -d us -f -
+
 ```
 
 Population tables:
