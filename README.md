@@ -1,7 +1,7 @@
 # american-geography
 This is how I'm processing US census data for Leaflet.
 
-### Importing into psql
+### Importing into PostgreSQL
 Geography files:
 ```
 # national level
