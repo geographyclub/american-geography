@@ -1,6 +1,7 @@
 # american-geography
-This is how I'm processing US census data for Leaflet.
+This is how I'm processing census and street data.
 
+## US census data
 ### Importing into PostgreSQL
 Geography files:
 ```
