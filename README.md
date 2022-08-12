@@ -76,7 +76,7 @@ psql -d us -c 'ALTER TABLE tract2020 ADD COLUMN puma VARCHAR;'
 psql -d us -c 'UPDATE tract2020 a SET puma = b.geoid10 FROM puma b WHERE ST_Intersects(b.geom, ST_Centroid(a."SHAPE"));'
 
 # average tract columns by puma
-psql -d us -c "CREATE TABLE puma2020 AS SELECT geom, geoid10 AS geoid, namelsad10 AS name FROM puma;"
+psql -d us -c "CREATE TABLE puma2020 AS SELECT geom AS \"SHAPE\", geoid10 AS geoid, namelsad10 AS name FROM puma;"
 psql -Aqt -d us -c '\d tract2020' | grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | sed -e 's/|.*//g' | while read column; do
   psql -d us -c "ALTER TABLE puma2020 ADD COLUMN ${column} REAL;"
   psql -d us -c "WITH b AS (SELECT a.puma, AVG(CAST(b.${column} AS REAL))::numeric(10,0) average FROM census_tract a, tract2020 b WHERE CAST(b.${column} AS TEXT) ~ '^[0-9\\\.]+$' AND a.geoid = b.geoid GROUP BY a.puma) UPDATE puma2020 a SET ${column} = b.average FROM b WHERE a.geoid = b.puma;"
@@ -88,7 +88,7 @@ I added zscores to these columns.
 
 States:
 ```
-psql -qAtX -d us -c '\d state2020;' | grep -v "geoid" | grep -v "SHAPE" | grep -v "sumlev" | grep -v "region" | grep -v "division" | grep -v "state" | grep -v "name" | sed -e 's/|.*//g' | while read column; do
+psql -qAtX -d us -c '\d state2020;' | grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | sed -e 's/|.*//g' | while read column; do
   psql -d us -c "ALTER TABLE state2020 ADD COLUMN zscore_${column} REAL;"
   psql -d us -c "WITH b AS (SELECT geoid, (CAST(${column} AS REAL) - AVG(CAST(${column} AS REAL)) OVER()) / STDDEV(CAST(${column} AS REAL)) OVER() AS zscore FROM state2020 WHERE CAST(${column} AS TEXT) ~ '^[0-9\\\.]+$') UPDATE state2020 a SET zscore_${column} = b.zscore FROM b WHERE a.geoid = b.geoid;"
 done
@@ -96,7 +96,7 @@ done
 
 Counties (pop2020 > 100000):
 ```
-psql -qAtX -d us -c '\d county2020;' | grep -v "geoid" | grep -v "SHAPE" | grep -v "sumlev" | grep -v "region" | grep -v "division" | grep -v "state" | grep -v "county" | grep -v "stname" | grep -v "ctyname" | grep -v "state_county" | sed -e 's/|.*//g' | while read column; do
+psql -qAtX -d us -c '\d county2020;' | grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | sed -e 's/|.*//g' | while read column; do
   psql -d us -c "ALTER TABLE county2020 ADD COLUMN zscore_${column} REAL;"
   psql -d us -c "WITH b AS (SELECT geoid, (CAST(${column} AS REAL) - AVG(CAST(${column} AS REAL)) OVER()) / STDDEV(CAST(${column} AS REAL)) OVER() AS zscore FROM county2020 WHERE CAST(${column} AS TEXT) ~ '^[0-9\\\.]+$' AND CAST(pop2020 AS REAL) > 100000) UPDATE county2020 a SET zscore_${column} = b.zscore FROM b WHERE a.geoid = b.geoid;"
 done
@@ -104,7 +104,7 @@ done
 
 Places (pop2020 > 100000):
 ```
-psql -qAtX -d us -c '\d place2020;' | grep -v "objectid" | grep -v "SHAPE" | grep -v "placens" | grep -v "geoid" | grep -v "namelsad" | grep -v "classfp" | grep -v "funcstat" | grep -v "aland" | grep -v "awater" | grep -v "intptlat" | grep -v "intptlon" | sed -e 's/|.*//g' | while read column; do
+psql -qAtX -d us -c '\d place2020;' |  grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | sed -e 's/|.*//g' | while read column; do
   psql -d us -c "ALTER TABLE place2020 ADD COLUMN zscore_${column} REAL;"
   psql -d us -c "WITH b AS (SELECT geoid, (CAST(${column} AS REAL) - AVG(CAST(${column} AS REAL)) OVER()) / STDDEV(CAST(${column} AS REAL)) OVER() AS zscore FROM place2020 WHERE CAST(${column} AS TEXT) ~ '^[0-9\\\.]+$' AND CAST(pop2020 AS REAL) > 100000) UPDATE place2020 a SET zscore_${column} = b.zscore FROM b WHERE a.geoid = b.geoid;"
 done
@@ -112,7 +112,7 @@ done
 
 PUMAs:
 ```
-psql -qAtX -d us -c '\d puma2020' | grep -v "fid" | grep -v "geom" | grep -v "statefp10" | grep -v "pumace10" | grep -v "geoid10" | grep -v "namelsad10" | grep -v "mtfcc10" | grep -v "funcstat10" | grep -v "aland10" | grep -v "awater10" | grep -v "intptlat10" | grep -v "intptlon10" | sed -e 's/|.*//g' | while read column; do
+psql -qAtX -d us -c '\d puma2020' | grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | sed -e 's/|.*//g' | while read column; do
   psql -d us -c "ALTER TABLE puma2020 ADD COLUMN zscore_${column} REAL;"
   psql -d us -c "WITH b AS (SELECT geoid10, (CAST(${column} AS REAL) - AVG(CAST(${column} AS REAL)) OVER()) / STDDEV(CAST(${column} AS REAL)) OVER() AS zscore FROM puma2020 WHERE CAST(${column} AS TEXT) ~ '^[0-9\\\.]+$') UPDATE puma2020 a SET zscore_${column} = b.zscore FROM b WHERE a.geoid10 = b.geoid10;"
 done
