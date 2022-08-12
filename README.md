@@ -136,7 +136,7 @@ psql -Aqt -d us -c "COPY (SELECT geoid, name from state2020) TO STDOUT DELIMITER
 done
 ```
 
-Counties:
+Counties (pop2020 > 100000):
 ```
 psql -Aqt -d us -c "COPY (SELECT geoid, name from county2020 WHERE CAST(pop2020 AS INT) > 100000) TO STDOUT DELIMITER E'\t';" | while IFS=$'\t' read -a array; do
   columns=$(psql -Aqt -d us -c "WITH b AS (SELECT $(psql -Aqt -d us -c '\d county2020' | grep "zscore_" | sed -e 's/|.*//g' | paste -sd,) FROM county2020 WHERE geoid = '${array[0]}') SELECT (x).key FROM (SELECT EACH(hstore(b)) x FROM b) q WHERE CAST((x).value AS VARCHAR) ~ '^[0-9\\\.]+$' AND ABS(CAST((x).value AS REAL)) >= 1.65;" | paste -sd,)
@@ -144,7 +144,7 @@ psql -Aqt -d us -c "COPY (SELECT geoid, name from county2020 WHERE CAST(pop2020 
 done
 ```
 
-Places:
+Places (pop2020 > 100000):
 ```
 psql -Aqt -d us -c "COPY (SELECT geoid, name from place2020 WHERE CAST(pop2020 AS INT) > 100000) TO STDOUT DELIMITER E'\t';" | while IFS=$'\t' read -a array; do
   columns=$(psql -Aqt -d us -c "WITH b AS (SELECT $(psql -Aqt -d us -c '\d place2020' | grep "zscore_" | sed -e 's/|.*//g' | paste -sd,) FROM place2020 WHERE geoid = '${array[0]}') SELECT (x).key FROM (SELECT EACH(hstore(b)) x FROM b) q WHERE CAST((x).value AS VARCHAR) ~ '^[0-9\\\.]+$' AND ABS(CAST((x).value AS REAL)) >= 1.65;" | paste -sd,)
