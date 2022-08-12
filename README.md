@@ -75,11 +75,18 @@ PUMAs
 psql -d us -c 'ALTER TABLE tract2020 ADD COLUMN puma VARCHAR;'
 psql -d us -c 'UPDATE tract2020 a SET puma = b.geoid10 FROM puma b WHERE ST_Intersects(b.geom, ST_Centroid(a."SHAPE"));'
 
-# average tract columns by puma
+# IMPORTANT! AVERAGE percentages, SUM counts
 psql -d us -c "CREATE TABLE puma2020 AS SELECT geom AS \"SHAPE\", geoid10 AS geoid, namelsad10 AS name FROM puma;"
 psql -Aqt -d us -c '\d tract2020' | grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | sed -e 's/|.*//g' | while read column; do
   psql -d us -c "ALTER TABLE puma2020 ADD COLUMN ${column} REAL;"
-  psql -d us -c "WITH b AS (SELECT a.puma, AVG(CAST(b.${column} AS REAL))::numeric(10,0) average FROM census_tract a, tract2020 b WHERE CAST(b.${column} AS TEXT) ~ '^[0-9\\\.]+$' AND a.geoid = b.geoid GROUP BY a.puma) UPDATE puma2020 a SET ${column} = b.average FROM b WHERE a.geoid = b.puma;"
+  case ${column} in
+    pop2020|housing_total|housing_units)
+      psql -d us -c "WITH b AS (SELECT a.puma, SUM(CAST(b.${column} AS REAL))::numeric(10,0) total FROM census_tract a, tract2020 b WHERE CAST(b.${column} AS TEXT) ~ '^[0-9\\\.]+$' AND a.geoid = b.geoid GROUP BY a.puma) UPDATE puma2020 a SET ${column} = b.total FROM b WHERE a.geoid = b.puma;"
+    ;;
+    *)
+      psql -d us -c "WITH b AS (SELECT a.puma, AVG(CAST(b.${column} AS REAL))::numeric(10,0) total FROM census_tract a, tract2020 b WHERE CAST(b.${column} AS TEXT) ~ '^[0-9\\\.]+$' AND a.geoid = b.geoid GROUP BY a.puma) UPDATE puma2020 a SET ${column} = b.total FROM b WHERE a.geoid = b.puma;"
+    ;;
+  esac
 done
 ```
 
