@@ -152,7 +152,7 @@ psql -Aqt -d us -c "COPY (SELECT geoid, name from place2020 WHERE CAST(pop2020 A
 done
 ```
 
-PUMAs
+PUMAs (pop2020 > 150000):
 ```
 psql -Aqt -d us -c "COPY (SELECT geoid, name from puma2020 WHERE CAST(pop2020 AS INT) > 150000) TO STDOUT DELIMITER E'\t';" | while IFS=$'\t' read -a array; do
   columns=$(psql -Aqt -d us -c "WITH b AS (SELECT $(psql -Aqt -d us -c '\d puma2020' | grep "zscore_" | sed -e 's/|.*//g' | paste -sd,) FROM puma2020 WHERE geoid = '${array[0]}') SELECT (x).key FROM (SELECT EACH(hstore(b)) x FROM b) q WHERE CAST((x).value AS VARCHAR) ~ '^[0-9\\\.]+$' AND ABS(CAST((x).value AS REAL)) >= 1.65;" | paste -sd,)
