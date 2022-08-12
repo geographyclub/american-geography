@@ -2,9 +2,9 @@
 This is how I'm processing census and street data.
 
 1. [US Census](#1-us-census-data)
-2. [Open Street Maps]
+2. [OpenStreetMap](#2-openstreetmap)
 
-## 1. US census data
+## 1. US census
 ### Importing into PostgreSQL
 Geography files:
 ```
@@ -85,7 +85,7 @@ done
 ```
 
 ### Adding zscores
-I added zscores to these columns.
+Find zscores to these columns.
 
 ```
 # states
@@ -114,7 +114,7 @@ done
 ```
 
 ### Exporting to geojson
-Selecting columns with zscore > 1.65.
+Select columns with zscore > 1.65.
 
 ```
 # states
@@ -141,4 +141,32 @@ psql -Aqt -d us -c "COPY (SELECT a.geoid, a.name, b.geoid from puma2020 a, place
   psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', geoid, 'geometry', ST_AsGeoJSON(ST_Transform(\"SHAPE\",4326))::jsonb, 'properties', to_jsonb(inputs) - 'SHAPE' - 'geoid') AS feature FROM (SELECT a.\"SHAPE\", a.geoid, a.name, $(echo ${columns} | tr ',' '\n' | sed -e 's/zscore_//g' -e "s/.*/CONCAT\('{puma:', a\.\0, '|place:', b\.\0\, '|state:', c\.\0\, '|us:', d\.\0\, '}') AS \0/g" | paste -sd,) FROM puma2020 a, place2020 b, state2020 c, us2020 d WHERE a.geoid = '${array[0]}' AND b.geoid = '${array[2]}' AND SUBSTRING(a.geoid,1,2) = c.geoid) inputs) features) TO STDOUT;" > "${array[0]//[^a-zA-Z_0-9]/}"_"${array[1]//[^a-zA-Z_0-9]/}"_zscore_1_65.geojson
 done
 
+```
+
+## 2. OpenStreetMap
+### Importing into PostgreSQL
+```
+ogr2ogr -nln points_us -t_srs "EPSG:3857" --config OSM_MAX_TMPFILE_SIZE 1000 --config OGR_INTERLEAVED_READING YES --config PG_USE_COPY YES -f PGDump -overwrite -skipfailures /vsistdout/ us-latest.osm.pbf points | psql -d us -f -
+```
+
+### Joining with census data
+Add geoid to points
+```
+psql -d us -c 'ALTER TABLE points_us ADD COLUMN geoid_block VARCHAR;'
+psql -d us -c 'UPDATE points_us a SET geoid_block = b.geoid FROM block20 b WHERE ST_Intersects(a.wkb_geometry, b."SHAPE") AND ST_DWithin(a.wkb_geometry, b."SHAPE", 100000);'
+```
+
+Get amenity counts by census geography
+```
+# amenity counts by state
+psql -d us -c "CREATE TABLE points_amenity_state AS SELECT SUBSTRING(geoid_block,1,2) AS geoid, amenity, count(*) FROM (SELECT geoid_block, other_tags->'amenity' AS amenity FROM points_us WHERE name IS NOT NULL AND other_tags->'amenity' IS NOT NULL) AS stat GROUP BY SUBSTRING(geoid_block,1,2), amenity;"
+
+# amenity counts by county
+psql -d us -c "CREATE TABLE points_amenity_county AS SELECT SUBSTRING(geoid_block,1,5) AS geoid, amenity, count(*) FROM (SELECT geoid_block, other_tags->'amenity' AS amenity FROM points_us WHERE name IS NOT NULL AND other_tags->'amenity' IS NOT NULL) AS stat GROUP BY SUBSTRING(geoid_block,1,5), amenity;"
+
+# amenity counts by place
+psql -d us -c "CREATE TABLE points_amenity_place AS SELECT geoid, amenity, count(*) FROM (SELECT b.geoid, a.other_tags->'amenity' AS amenity FROM points_us a, place b WHERE a.name IS NOT NULL AND a.other_tags->'amenity' IS NOT NULL AND SUBSTRING(a.geoid_block,1,2) = SUBSTRING(b.geoid,1,2) AND ST_Intersects(a.wkb_geometry, b.\"SHAPE\")) AS stat GROUP BY geoid, amenity;"
+
+# amenity counts by puma
+psql -d us -c "CREATE TABLE points_amenity_puma AS SELECT geoid, amenity, count(*) FROM (SELECT b.puma as geoid, a.other_tags->'amenity' AS amenity FROM points_us a, census_tract b WHERE a.name IS NOT NULL AND a.other_tags->'amenity' IS NOT NULL AND b.puma IS NOT NULL AND SUBSTRING(a.geoid_block,1,11) = b.geoid) AS stat GROUP BY geoid, amenity;"
 ```
