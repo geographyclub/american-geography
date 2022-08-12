@@ -154,8 +154,9 @@ done
 
 PUMAs
 ```
-psql -Aqt -d us -c "COPY (SELECT geoid, name from puma2020) TO STDOUT DELIMITER E'\t';" | while IFS=$'\t' read -a array; do
+psql -Aqt -d us -c "COPY (SELECT geoid, name from puma2020 WHERE CAST(pop2020 AS INT) > 150000) TO STDOUT DELIMITER E'\t';" | while IFS=$'\t' read -a array; do
   columns=$(psql -Aqt -d us -c "WITH b AS (SELECT $(psql -Aqt -d us -c '\d puma2020' | grep "zscore_" | sed -e 's/|.*//g' | paste -sd,) FROM puma2020 WHERE geoid = '${array[0]}') SELECT (x).key FROM (SELECT EACH(hstore(b)) x FROM b) q WHERE CAST((x).value AS VARCHAR) ~ '^[0-9\\\.]+$' AND ABS(CAST((x).value AS REAL)) >= 1.65;" | paste -sd,)
   psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', geoid, 'geometry', ST_AsGeoJSON(ST_Transform(\"SHAPE\",4326))::jsonb, 'properties', to_jsonb(inputs) - 'SHAPE' - 'geoid') AS feature FROM (SELECT a.\"SHAPE\", a.geoid, a.name, $(echo ${columns} | tr ',' '\n' | sed -e 's/zscore_//g' -e "s/.*/CONCAT\('{puma:', a\.\0, '|place:', b\.\0\, '|state:', c\.\0\, '|us:', d\.\0\, '}') AS \0/g" | paste -sd,) FROM puma2020 a, place2020 b, state2020 c, us2020 d WHERE a.geoid = '${array[0]}' AND ST_Intersects(ST_Centroid(a.\"SHAPE\"), b.\"SHAPE\") AND SUBSTRING(a.geoid,1,2) = c.geoid) inputs) features) TO STDOUT;" > "${array[0]//[^a-zA-Z_0-9]/}"_"${array[1]//[^a-zA-Z_0-9]/}"_zscore_1_65.geojson
 done
+
 ```
