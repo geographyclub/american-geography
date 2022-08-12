@@ -114,7 +114,7 @@ PUMAs:
 ```
 psql -qAtX -d us -c '\d puma2020' | grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | sed -e 's/|.*//g' | while read column; do
   psql -d us -c "ALTER TABLE puma2020 ADD COLUMN zscore_${column} REAL;"
-  psql -d us -c "WITH b AS (SELECT geoid10, (CAST(${column} AS REAL) - AVG(CAST(${column} AS REAL)) OVER()) / STDDEV(CAST(${column} AS REAL)) OVER() AS zscore FROM puma2020 WHERE CAST(${column} AS TEXT) ~ '^[0-9\\\.]+$') UPDATE puma2020 a SET zscore_${column} = b.zscore FROM b WHERE a.geoid10 = b.geoid10;"
+  psql -d us -c "WITH b AS (SELECT geoid, (CAST(${column} AS REAL) - AVG(CAST(${column} AS REAL)) OVER()) / STDDEV(CAST(${column} AS REAL)) OVER() AS zscore FROM puma2020 WHERE CAST(${column} AS TEXT) ~ '^[0-9\\\.]+$') UPDATE puma2020 a SET zscore_${column} = b.zscore FROM b WHERE a.geoid = b.geoid;"
 done
 ```
 
