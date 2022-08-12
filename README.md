@@ -1,7 +1,10 @@
-# american-geography
+# American Geography
 This is how I'm processing census and street data.
 
-## US census data
+1. [US Census](#1-us-census-data)
+2. [Open Street Maps]
+
+## 1. US census data
 ### Importing into PostgreSQL
 Geography files:
 ```
