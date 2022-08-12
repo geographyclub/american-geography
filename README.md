@@ -126,11 +126,20 @@ done
 ```
 
 ### Exporting to geojson
+Selecting columns with zscore > 1.65.
 
 States:
 ```
 psql -Aqt -d us -c "COPY (SELECT geoid, name from state2020) TO STDOUT DELIMITER E'\t';" | while IFS=$'\t' read -a array; do
   columns=$(psql -Aqt -d us -c "WITH b AS (SELECT $(psql -Aqt -d us -c '\d state2020' | grep "zscore_" | sed -e 's/|.*//g' | paste -sd,) FROM state2020 WHERE geoid = '${array[0]}') SELECT (x).key FROM (SELECT EACH(hstore(b)) x FROM b) q WHERE CAST((x).value AS VARCHAR) ~ '^[0-9\\\.]+$' AND ABS(CAST((x).value AS REAL)) >= 1.65;" | paste -sd,)
   psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', geoid, 'geometry', ST_AsGeoJSON(ST_Transform(\"SHAPE\",4326))::jsonb, 'properties', to_jsonb(inputs) - 'SHAPE' - 'geoid') AS feature FROM (SELECT a.\"SHAPE\", a.geoid, a.name, $(echo ${columns} | tr ',' '\n' | sed -e 's/zscore_//g' -e "s/.*/CONCAT\('{state:', a\.\0, '|us:', b\.\0\, '}') AS \0/g" | paste -sd,) FROM state2020 a, us2020 b WHERE a.geoid = '${array[0]}') inputs) features) TO STDOUT;" > "${array[1]//[^a-zA-Z_0-9]/}"_zscore_1_65.geojson
+done
+```
+
+Counties:
+```
+psql -Aqt -d us -c "COPY (SELECT geoid, name from county2020 WHERE CAST(pop2020 AS INT) > 100000) TO STDOUT DELIMITER E'\t';" | while IFS=$'\t' read -a array; do
+  columns=$(psql -Aqt -d us -c "WITH b AS (SELECT $(psql -Aqt -d us -c '\d county2020' | grep "zscore_" | sed -e 's/|.*//g' | paste -sd,) FROM county2020 WHERE geoid = '${array[0]}') SELECT (x).key FROM (SELECT EACH(hstore(b)) x FROM b) q WHERE CAST((x).value AS VARCHAR) ~ '^[0-9\\\.]+$' AND ABS(CAST((x).value AS REAL)) >= 1.65;" | paste -sd,)
+  psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', geoid, 'geometry', ST_AsGeoJSON(ST_Transform(\"SHAPE\",4326))::jsonb, 'properties', to_jsonb(inputs) - 'SHAPE' - 'geoid') AS feature FROM (SELECT a.\"SHAPE\", a.geoid, a.name, $(echo ${columns} | tr ',' '\n' | sed -e 's/zscore_//g' -e "s/.*/CONCAT\('{county:', a\.\0, '|state:', b\.\0\, '|us:', c\.\0\, '}') AS \0/g" | paste -sd,) FROM county2020 a, state2020 b, us2020 c WHERE a.geoid = '${array[0]}' AND SUBSTRING(a.geoid,1,2) = b.geoid) inputs) features) TO STDOUT;" > "${array[0]//[^a-zA-Z_0-9]/}"_"${array[1]//[^a-zA-Z_0-9]/}"_zscore_1_65.geojson
 done
 ```
