@@ -84,8 +84,8 @@ psql -Aqt -d us -c '\d tract2020' | grep -v "SHAPE" | grep -v "geoid" | grep -v 
 done
 ```
 
-### Adding zscores
-Find zscores to these columns.
+### Finding interesting things
+Get zscores to these columns.
 
 ```
 # states
@@ -156,7 +156,7 @@ psql -d us -c 'ALTER TABLE points_us ADD COLUMN geoid_block VARCHAR;'
 psql -d us -c 'UPDATE points_us a SET geoid_block = b.geoid FROM block20 b WHERE ST_Intersects(a.wkb_geometry, b."SHAPE") AND ST_DWithin(a.wkb_geometry, b."SHAPE", 100000);'
 ```
 
-### Finding interesting points
+### Finding interesting things
 Get amenity counts by census geography
 ```
 # amenity counts by state
