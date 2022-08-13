@@ -150,14 +150,19 @@ ogr2ogr -nln points_us -t_srs "EPSG:3857" --config OSM_MAX_TMPFILE_SIZE 1000 --c
 ```
 
 ### Joining with census data
-Add block geoid to points
+Add block geoid to points.
 ```
 psql -d us -c 'ALTER TABLE points_us ADD COLUMN geoid_block VARCHAR;'
 psql -d us -c 'UPDATE points_us a SET geoid_block = b.geoid FROM block20 b WHERE ST_Intersects(a.wkb_geometry, b."SHAPE") AND ST_DWithin(a.wkb_geometry, b."SHAPE", 100000);'
 ```
 
 ### Finding interesting things
-Get amenity counts by census geography
+Extract and count keys in osm other_tags.
+```
+psql -d us -c "CREATE TABLE points_other_tags_keys AS SELECT key, count(key) FROM (SELECT (each(other_tags)).key FROM points_us WHERE name IS NOT NULL) AS stat GROUP BY key;"
+```
+
+Get amenity counts by census geography.
 ```
 # amenity counts by state
 psql -d us -c "CREATE TABLE points_amenity_state AS SELECT SUBSTRING(geoid_block,1,2) AS geoid, amenity, count(*) FROM (SELECT geoid_block, other_tags->'amenity' AS amenity FROM points_us WHERE name IS NOT NULL AND other_tags->'amenity' IS NOT NULL) AS stat GROUP BY SUBSTRING(geoid_block,1,2), amenity;"
