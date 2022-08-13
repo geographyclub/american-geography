@@ -153,22 +153,22 @@ psql -d us -c 'ALTER TABLE points_us ADD COLUMN geoid_block VARCHAR;'
 psql -d us -c 'UPDATE points_us a SET geoid_block = b.geoid FROM block20 b WHERE ST_Intersects(a.wkb_geometry, b."SHAPE") AND ST_DWithin(a.wkb_geometry, b."SHAPE", 100000);'
 ```
 
-### Finding interesting things
-Find amenities by census geography.
+Create table for each census geography.
 ```
 # states
-psql -d us -c "CREATE TABLE points_amenity_state AS SELECT SUBSTRING(geoid_block,1,2) geoid, osm_id, name, other_tags, wkb_geometry FROM points_us WHERE name IS NOT NULL AND other_tags->'amenity' IS NOT NULL;"
+psql -d us -c "CREATE TABLE points_state AS SELECT SUBSTRING(geoid_block,1,2) geoid, osm_id, name, other_tags, wkb_geometry FROM points_us WHERE name IS NOT NULL;"
 
 # counties
-psql -d us -c "CREATE TABLE points_amenity_county AS SELECT SUBSTRING(geoid_block,1,5) geoid, osm_id, name, other_tags, wkb_geometry FROM points_us WHERE name IS NOT NULL AND other_tags->'amenity' IS NOT NULL;"
+psql -d us -c "CREATE TABLE points_county AS SELECT SUBSTRING(geoid_block,1,5) geoid, osm_id, name, other_tags, wkb_geometry FROM points_us WHERE name IS NOT NULL;"
 
 # places
-psql -d us -c "CREATE TABLE points_amenity_place AS SELECT b.geoid, a.osm_id, a.name, a.other_tags, a.wkb_geometry FROM points_us a, place2020 b WHERE a.name IS NOT NULL AND a.other_tags->'amenity' IS NOT NULL AND SUBSTRING(a.geoid_block,1,2) = SUBSTRING(b.geoid,1,2) AND ST_Intersects(a.wkb_geometry, b.\"SHAPE\");"
+psql -d us -c "CREATE TABLE points_place AS SELECT b.geoid, a.osm_id, a.name, a.other_tags, a.wkb_geometry FROM points_us a, place2020 b WHERE a.name IS NOT NULL AND SUBSTRING(a.geoid_block,1,2) = SUBSTRING(b.geoid,1,2) AND ST_Intersects(a.wkb_geometry, b.\"SHAPE\");"
 
 # pumas
-psql -d us -c "CREATE TABLE points_amenity_puma AS SELECT b.puma AS geoid, a.osm_id, a.name, a.other_tags, a.wkb_geometry FROM points_us a, census_tract b WHERE a.name IS NOT NULL AND a.other_tags->'amenity' IS NOT NULL AND SUBSTRING(a.geoid_block,1,11) = b.geoid;"
+psql -d us -c "CREATE TABLE points_puma AS SELECT b.puma AS geoid, a.osm_id, a.name, a.other_tags, a.wkb_geometry FROM points_us a, census_tract b WHERE a.name IS NOT NULL AND SUBSTRING(a.geoid_block,1,11) = b.geoid;"
 ```
 
+### Finding interesting things
 Misc.
 ```
 # count keys (using each)
