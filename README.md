@@ -177,7 +177,7 @@ psql -d us -c "SELECT key, count(key) FROM (SELECT (each(other_tags)).key FROM p
 ```
 
 ### Exporting geojson
-Export by theme and geography
+Export osm by census geography
 ```
 # states
 psql -Aqt -d us -c "COPY (SELECT geoid, name from state2020) TO STDOUT DELIMITER E'\t';" | while IFS=$'\t' read -a array; do
