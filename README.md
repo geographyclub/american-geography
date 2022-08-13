@@ -150,12 +150,13 @@ ogr2ogr -nln points_us -t_srs "EPSG:3857" --config OSM_MAX_TMPFILE_SIZE 1000 --c
 ```
 
 ### Joining with census data
-Add geoid to points
+Add block geoid to points
 ```
 psql -d us -c 'ALTER TABLE points_us ADD COLUMN geoid_block VARCHAR;'
 psql -d us -c 'UPDATE points_us a SET geoid_block = b.geoid FROM block20 b WHERE ST_Intersects(a.wkb_geometry, b."SHAPE") AND ST_DWithin(a.wkb_geometry, b."SHAPE", 100000);'
 ```
 
+### Finding interesting points
 Get amenity counts by census geography
 ```
 # amenity counts by state
