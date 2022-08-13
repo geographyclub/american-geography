@@ -186,7 +186,7 @@ Export amenities with wikipedia tags by census geography.
 ```
 # states
 psql -Aqt -d us -c "COPY (SELECT geoid, name from state2020) TO STDOUT DELIMITER E'\t';" | while IFS=$'\t' read -a array; do
-  psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', osm_id, 'geometry', ST_AsGeoJSON(ST_Transform(wkb_geometry,4326))::jsonb, 'properties', to_jsonb(inputs) - 'wkb_geometry' - 'osm_id') AS feature FROM (SELECT name, other_tags, osm_id, wkb_geometry FROM points_amenity_state WHERE geoid = '${array[0]}' AND other_tags::text ILIKE '%wikipedia%') inputs) features) TO STDOUT;" > "${array[1]//[^a-zA-Z_0-9]/}"_amenity_wikipedia_.geojson
+  psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', osm_id, 'geometry', ST_AsGeoJSON(ST_Transform(wkb_geometry,4326))::jsonb, 'properties', to_jsonb(inputs) - 'wkb_geometry' - 'osm_id') AS feature FROM (SELECT name, other_tags, osm_id, wkb_geometry FROM points_amenity_state WHERE geoid = '${array[0]}' AND other_tags::text ILIKE '%wikipedia%') inputs) features) TO STDOUT;" > "${array[1]//[^a-zA-Z_0-9]/}"_amenity_wikipedia.geojson
 done
 
 # counties (pop2020 > 100000)
