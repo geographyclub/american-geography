@@ -153,7 +153,7 @@ psql -d us -c 'ALTER TABLE points_us ADD COLUMN geoid_block VARCHAR;'
 psql -d us -c 'UPDATE points_us a SET geoid_block = b.geoid FROM block20 b WHERE ST_Intersects(a.wkb_geometry, b."SHAPE") AND ST_DWithin(a.wkb_geometry, b."SHAPE", 100000);'
 ```
 
-Extract amenities by geography.
+Amenities by geography.
 ```
 # states
 psql -d us -c "CREATE TABLE points_amenity_state AS SELECT SUBSTRING(geoid_block,1,2) geoid, osm_id, name, other_tags, wkb_geometry FROM points_us WHERE name IS NOT NULL AND other_tags->'amenity' IS NOT NULL;"
