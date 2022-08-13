@@ -171,8 +171,11 @@ psql -d us -c "CREATE TABLE points_amenity_puma AS SELECT b.puma AS geoid, a.osm
 
 Misc.
 ```
-# count keys
+# count keys (using each)
 psql -d us -c "SELECT key, count(key) FROM (SELECT (each(other_tags)).key FROM points_us WHERE name IS NOT NULL) AS stat GROUP BY key;"
+
+# count values (using slice)
+SELECT value, count(value) FROM (SELECT svals(slice(other_tags, ARRAY['cuisine'])) value FROM points_us WHERE name IS NOT NULL) AS stat GROUP BY value ORDER BY count DESC;
 
 # order by variable
 psql -d us -c "SELECT geoid, name, age_median, RANK() OVER (ORDER BY age_median::real) FROM county2020;"
