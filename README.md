@@ -147,11 +147,14 @@ ogr2ogr -nln points_us -t_srs "EPSG:3857" --config OSM_MAX_TMPFILE_SIZE 1000 --c
 ```
 
 ### Joining with census data
-Add block geoid to points and create tables.
+Add block geoid to points.
 ```
 psql -d us -c 'ALTER TABLE points_us ADD COLUMN geoid_block VARCHAR;'
 psql -d us -c 'UPDATE points_us a SET geoid_block = b.geoid FROM block20 b WHERE ST_Intersects(a.wkb_geometry, b."SHAPE") AND ST_DWithin(a.wkb_geometry, b."SHAPE", 100000);'
+```
 
+Extract amenities by geography.
+```
 # states
 psql -d us -c "CREATE TABLE points_amenity_state AS SELECT SUBSTRING(geoid_block,1,2) geoid, osm_id, name, other_tags, wkb_geometry FROM points_us WHERE name IS NOT NULL AND other_tags->'amenity' IS NOT NULL;"
 
@@ -174,7 +177,7 @@ psql -d us -c "SELECT key, count(key) FROM (SELECT (each(other_tags)).key FROM p
 ```
 
 ### Exporting geojson
-Select only amenities by geography
+Export by theme and geography
 ```
 # states
 psql -Aqt -d us -c "COPY (SELECT geoid, name from state2020) TO STDOUT DELIMITER E'\t';" | while IFS=$'\t' read -a array; do
