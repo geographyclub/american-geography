@@ -181,7 +181,22 @@ Export by theme and geography
 ```
 # states
 psql -Aqt -d us -c "COPY (SELECT geoid, name from state2020) TO STDOUT DELIMITER E'\t';" | while IFS=$'\t' read -a array; do
-  psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', osm_id, 'geometry', ST_AsGeoJSON(ST_Transform(wkb_geometry,4326))::jsonb, 'properties', to_jsonb(inputs) - 'wkb_geometry' - 'osm_id') AS feature FROM (SELECT name, other_tags, osm_id, wkb_geometry FROM points_amenity_state WHERE geoid = '${array[0]}') inputs) features) TO STDOUT;" > "${array[1]//[^a-zA-Z_0-9]/}"_points.geojson
+  psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', osm_id, 'geometry', ST_AsGeoJSON(ST_Transform(wkb_geometry,4326))::jsonb, 'properties', to_jsonb(inputs) - 'wkb_geometry' - 'osm_id') AS feature FROM (SELECT name, other_tags, osm_id, wkb_geometry FROM points_amenity_state WHERE geoid = '${array[0]}' AND other_tags::text ILIKE '%wikipedia%') inputs) features) TO STDOUT;" > "${array[1]//[^a-zA-Z_0-9]/}"_amenity_wikipedia_.geojson
+done
+
+# counties (pop2020 > 100000)
+psql -Aqt -d us -c "COPY (SELECT geoid, name from county2020 WHERE CAST(pop2020 AS INT) > 100000) TO STDOUT DELIMITER E'\t';" | while IFS=$'\t' read -a array; do
+  psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', osm_id, 'geometry', ST_AsGeoJSON(ST_Transform(wkb_geometry,4326))::jsonb, 'properties', to_jsonb(inputs) - 'wkb_geometry' - 'osm_id') AS feature FROM (SELECT name, other_tags, osm_id, wkb_geometry FROM points_amenity_county WHERE geoid = '${array[0]}' AND other_tags::text ILIKE '%wikipedia%') inputs) features) TO STDOUT;" > "${array[0]//[^a-zA-Z_0-9]/}"_"${array[1]//[^a-zA-Z_0-9]/}"_amenity_wikipedia.geojson
+done
+
+# places (pop2020 > 100000)
+psql -Aqt -d us -c "COPY (SELECT geoid, name from place2020 WHERE CAST(pop2020 AS INT) > 100000) TO STDOUT DELIMITER E'\t';" | while IFS=$'\t' read -a array; do
+  psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', osm_id, 'geometry', ST_AsGeoJSON(ST_Transform(wkb_geometry,4326))::jsonb, 'properties', to_jsonb(inputs) - 'wkb_geometry' - 'osm_id') AS feature FROM (SELECT name, other_tags, osm_id, wkb_geometry FROM points_amenity_place WHERE geoid = '${array[0]}' AND other_tags::text ILIKE '%wikipedia%') inputs) features) TO STDOUT;" > "${array[0]//[^a-zA-Z_0-9]/}"_"${array[1]//[^a-zA-Z_0-9]/}"_amenity_wikipedia.geojson
+done
+
+# pumas (in places with pop2020 > 100000)
+psql -Aqt -d us -c "COPY (SELECT a.geoid, a.name from puma2020 a, place2020 b WHERE ST_Intersects(ST_Centroid(a.\"SHAPE\"), b.\"SHAPE\") AND CAST(b.pop2020 AS INT) > 100000) TO STDOUT DELIMITER E'\t';" | while IFS=$'\t' read -a array; do
+  psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', osm_id, 'geometry', ST_AsGeoJSON(ST_Transform(wkb_geometry,4326))::jsonb, 'properties', to_jsonb(inputs) - 'wkb_geometry' - 'osm_id') AS feature FROM (SELECT name, other_tags, osm_id, wkb_geometry FROM points_amenity_puma WHERE geoid = '${array[0]}' AND other_tags::text ILIKE '%wikipedia%') inputs) features) TO STDOUT;" > "${array[0]//[^a-zA-Z_0-9]/}"_"${array[1]//[^a-zA-Z_0-9]/}"_amenity_wikipedia.geojson
 done
 ```
 
