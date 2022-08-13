@@ -153,7 +153,8 @@ psql -d us -c 'ALTER TABLE points_us ADD COLUMN geoid_block VARCHAR;'
 psql -d us -c 'UPDATE points_us a SET geoid_block = b.geoid FROM block20 b WHERE ST_Intersects(a.wkb_geometry, b."SHAPE") AND ST_DWithin(a.wkb_geometry, b."SHAPE", 100000);'
 ```
 
-Amenities by geography.
+### Finding interesting things
+Find amenities by census geography.
 ```
 # states
 psql -d us -c "CREATE TABLE points_amenity_state AS SELECT SUBSTRING(geoid_block,1,2) geoid, osm_id, name, other_tags, wkb_geometry FROM points_us WHERE name IS NOT NULL AND other_tags->'amenity' IS NOT NULL;"
@@ -168,16 +169,17 @@ psql -d us -c "CREATE TABLE points_amenity_place AS SELECT b.geoid, a.osm_id, a.
 psql -d us -c "CREATE TABLE points_amenity_puma AS SELECT b.puma AS geoid, a.osm_id, a.name, a.other_tags, a.wkb_geometry FROM points_us a, census_tract b WHERE a.name IS NOT NULL AND a.other_tags->'amenity' IS NOT NULL AND SUBSTRING(a.geoid_block,1,11) = b.geoid;"
 ```
 
-### Finding interesting things
 Misc.
 ```
 # count keys
 psql -d us -c "SELECT key, count(key) FROM (SELECT (each(other_tags)).key FROM points_us WHERE name IS NOT NULL) AS stat GROUP BY key;"
 
+# order by variable
+psql -d us -c "SELECT geoid, name, age_median, RANK() OVER (ORDER BY age_median::real) FROM county2020;"
 ```
 
 ### Exporting geojson
-Export osm by census geography
+Export amenities with wikipedia tags by census geography.
 ```
 # states
 psql -Aqt -d us -c "COPY (SELECT geoid, name from state2020) TO STDOUT DELIMITER E'\t';" | while IFS=$'\t' read -a array; do
