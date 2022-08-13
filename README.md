@@ -159,7 +159,7 @@ psql -d us -c "CREATE TABLE points_amenity_state AS SELECT SUBSTRING(geoid_block
 psql -d us -c "CREATE TABLE points_amenity_county AS SELECT SUBSTRING(geoid_block,1,5) geoid, osm_id, name, other_tags, wkb_geometry FROM points_us WHERE name IS NOT NULL AND other_tags->'amenity' IS NOT NULL;"
 
 # places
-psql -d us -c "CREATE TABLE points_amenity_place AS SELECT b.geoid, a.osm_id, a.name, a.other_tags, a.wkb_geometry FROM points_us a, place2020 b WHERE a.name IS NOT NULL AND a.other_tags->'amenity' IS NOT NULL AND SUBSTRING(a.geoid_block,1,2) = SUBSTRING(b.geoid,1,2) AND ST_Intersects(a.wkb_geometry, b.\"SHAPE\"));"
+psql -d us -c "CREATE TABLE points_amenity_place AS SELECT b.geoid, a.osm_id, a.name, a.other_tags, a.wkb_geometry FROM points_us a, place2020 b WHERE a.name IS NOT NULL AND a.other_tags->'amenity' IS NOT NULL AND SUBSTRING(a.geoid_block,1,2) = SUBSTRING(b.geoid,1,2) AND ST_Intersects(a.wkb_geometry, b.\"SHAPE\");"
 
 # pumas
 psql -d us -c "CREATE TABLE points_amenity_puma AS SELECT b.puma AS geoid, a.osm_id, a.name, a.other_tags, a.wkb_geometry FROM points_us a, census_tract b WHERE a.name IS NOT NULL AND a.other_tags->'amenity' IS NOT NULL AND SUBSTRING(a.geoid_block,1,11) = b.geoid;"
