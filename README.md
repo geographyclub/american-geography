@@ -129,13 +129,20 @@ psql -Aqt -d us -c "COPY (SELECT geoid from state2020) TO STDOUT DELIMITER E'\t'
 done
 ```
 
-Add brands and counts by geography
+Add brand names, counts by geography
 ```
 # state
 psql -d us -c "ALTER TABLE state2020 ADD COLUMN brand json;"
 psql -Aqt -d us -c "COPY (SELECT geoid from state2020) TO STDOUT DELIMITER E'\t';" | while read geoid; do
-  psql -d us -c "UPDATE state2020 a SET brand = (SELECT json_agg(json_build_object(value::text, count::text)) FROM (SELECT value, COUNT(value) count FROM (SELECT b.other_tags->'brand' value FROM points_${geoid} b) AS stat WHERE value IS NOT NULL GROUP BY value ORDER BY count DESC) stats) WHERE a.geoid = '${geoid}';"
+  psql -d us -c "UPDATE state2020 a SET brand = (SELECT json_agg(json_build_object(value::text, count::text)) FROM (SELECT value, COUNT(value) count FROM (SELECT b.other_tags->'brand' value FROM points_${geoid} b) stat WHERE value IS NOT NULL GROUP BY value ORDER BY count DESC) stats) WHERE a.geoid = '${geoid}';"
 done
+
+# county
+psql -d us -c "ALTER TABLE county2020 ADD COLUMN brand json;"
+psql -Aqt -d us -c "COPY (SELECT geoid from county2020) TO STDOUT DELIMITER E'\t';" | while read geoid; do
+  psql -d us -c "UPDATE county2020 a SET brand = (SELECT json_agg(json_build_object(value::text, count::text)) FROM (SELECT value, COUNT(value) count FROM (SELECT b.geoid_block, b.other_tags->'brand' value FROM points_${geoid:0:2} b) stat WHERE value IS NOT NULL AND SUBSTRING(stat.geoid_block,1,5) = '${geoid}' GROUP BY value ORDER BY count DESC) stats) WHERE a.geoid = '${geoid}';"
+done
+
 ```
 
 ## 3. Exporting
