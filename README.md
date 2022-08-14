@@ -137,7 +137,7 @@ psql -d us -c "CREATE TABLE points_puma AS SELECT b.puma AS geoid, a.osm_id, a.n
 ```
 
 ## 3. Exporting
-Select columns with zscore > 1.65.
+Export only those columns with zscore > 1.65.
 ```
 # states
 psql -Aqt -d us -c "COPY (SELECT geoid, name from state2020) TO STDOUT DELIMITER E'\t';" | while IFS=$'\t' read -a array; do
