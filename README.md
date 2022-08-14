@@ -40,12 +40,13 @@ psql -d us -c "CREATE TABLE ${table}($(head -1 ${file} | sed -e 's/"//g' -e 's/,
 psql -d us -c "\COPY ${table} FROM ${file%.*}_iconv.csv WITH CSV HEADER;"
 ```
 
-OpenStreetMap and geonames
+OpenStreetMap
 ```
-# osm
 ogr2ogr -overwrite -skipfailures --config OSM_MAX_TMPFILE_SIZE 1000 --config OGR_INTERLEAVED_READING YES --config PG_USE_COPY YES -f PGDump -t_srs "EPSG:3857" -nln points_us /vsistdout/ us-latest.osm.pbf points | psql -d us -f -
+```
 
-# geonames
+GeoNames
+```
 ogr2ogr -overwrite -skipfailures --config PG_USE_COPY YES -lco precision=NO -f PGDump -t_srs 'EPSG:3857' -nln geonames_us -where "countrycode = 'US'" /vsistdout/ PG:dbname=world geonames | psql -d us -f -
 ```
 
