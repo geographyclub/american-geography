@@ -88,7 +88,7 @@ psql -Aqt -d us -c '\d tract2020' | grep -v "SHAPE" | grep -v "geoid" | grep -v 
 done
 ```
 
-Get zscores to these columns.
+Add zscores to these columns.
 ```
 # states
 psql -qAtX -d us -c '\d state2020;' | grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | sed -e 's/|.*//g' | while read column; do
@@ -115,14 +115,14 @@ psql -qAtX -d us -c '\d puma2020' | grep -v "SHAPE" | grep -v "geoid" | grep -v 
 done
 ```
 
-Joining census to osm
+Added census block geoid to intersecting osm points.
 ```
 # add block geoid to points
 psql -d us -c 'ALTER TABLE points_us ADD COLUMN geoid_block VARCHAR;'
 psql -d us -c 'UPDATE points_us a SET geoid_block = b.geoid FROM block20 b WHERE ST_Intersects(a.wkb_geometry, b."SHAPE") AND ST_DWithin(a.wkb_geometry, b."SHAPE", 100000);'
 ```
 
-Create table for each census geography.
+Create osm table for each census geography.
 ```
 # states
 psql -d us -c "CREATE TABLE points_state AS SELECT SUBSTRING(geoid_block,1,2) geoid, osm_id, name, other_tags, wkb_geometry FROM points_us;"
@@ -138,7 +138,7 @@ psql -d us -c "CREATE TABLE points_puma AS SELECT b.puma AS geoid, a.osm_id, a.n
 ```
 
 ## 3. Exporting
-Export only those columns with zscore > 1.65.
+Export census geographies with columns of zscore > 1.65.
 ```
 # states
 psql -Aqt -d us -c "COPY (SELECT geoid, name from state2020) TO STDOUT DELIMITER E'\t';" | while IFS=$'\t' read -a array; do
@@ -165,7 +165,7 @@ psql -Aqt -d us -c "COPY (SELECT a.geoid, a.name, b.geoid from puma2020 a, place
 done
 ```
 
-Export amenities with wikipedia tags by census geography.
+Export OSM amenities with Wikipedia tags.
 ```
 # states
 psql -Aqt -d us -c "COPY (SELECT geoid, name from state2020) TO STDOUT DELIMITER E'\t';" | while IFS=$'\t' read -a array; do
