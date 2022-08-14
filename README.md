@@ -1,12 +1,13 @@
 # American Geography
 This is how I'm processing census and street data.
 
-1. [US Census](#1-us-census-data)
-2. [OpenStreetMap](#2-openstreetmap)
+1. [Importing](#1-importing)
+2. [Processing](#2-processing)
+2. [Exporting](#3-exporting)
 
-## 1. US census
-### Importing into PostgreSQL
-Geography files:
+## 1. Importing
+
+Census geography files
 ```
 # national level
 ogr2ogr -overwrite -skipfailures --config PG_USE_COPY YES -f PGDump -t_srs "EPSG:3857" /vsistdout/ tlgdb_2021_a_us_nationgeo.gdb | psql -d us -f -
@@ -17,25 +18,19 @@ ogr2ogr -overwrite -skipfailures --config PG_USE_COPY YES -f PGDump -t_srs "EPSG
 # union census designated places and incorporated places
 psql -d us -c "CREATE TABLE place AS (SELECT * FROM incorporated_place UNION ALL SELECT * FROM census_designated_place);"
 
-# merge then import puma
+# merge state files then import puma
 ogrmerge.py -overwrite_ds -single -nln puma -o puma.gpkg $(ls *.zip | sed 's/^/\/vsizip\//g' | paste -sd' ')
 ogr2ogr -overwrite -skipfailures -nlt promote_to_multi --config PG_USE_COPY YES -f PGDump -t_srs "EPSG:3857" /vsistdout/ puma.gpkg | psql -d us -f -
-
-# geonames
-ogr2ogr -overwrite -skipfailures --config PG_USE_COPY YES -lco precision=NO -f PGDump -t_srs 'EPSG:3857' -nln geonames_us -where "countrycode = 'US'" /vsistdout/ PG:dbname=world geonames | psql -d us -f -
-
-# osm
-ogr2ogr -overwrite -skipfailures --config PG_USE_COPY YES -f PGDump -t_srs "EPSG:3857" -nln points_us /vsistdout/ us-latest.osm.pbf points | psql -d us -f -
 ```
 
-Population tables:
+Census population tables
 ```
 iconv -f latin1 -t ascii//TRANSLIT NST-EST2021-alldata.csv > NST-EST2021-alldata_iconv.csv
 psql -d us -c "CREATE TABLE nst_est2021($(head -1 NST-EST2021-alldata_iconv.csv | sed -e 's/,/ VARCHAR,/g' -e 's/\r$/ VARCHAR/g'));"
 psql -d us -c "\COPY nst_est2021 FROM 'NST-EST2021-alldata_iconv.csv' WITH CSV HEADER;"
 ```
 
-Data tables:
+Census data tables
 ```
 # todo: 2019-2010
 table='dp05_state_2020'
@@ -45,7 +40,16 @@ psql -d us -c "CREATE TABLE ${table}($(head -1 ${file} | sed -e 's/"//g' -e 's/,
 psql -d us -c "\COPY ${table} FROM ${file%.*}_iconv.csv WITH CSV HEADER;"
 ```
 
-### Joining geography to datasets
+OpenStreetMap and geonames
+```
+# osm
+ogr2ogr -overwrite -skipfailures --config OSM_MAX_TMPFILE_SIZE 1000 --config OGR_INTERLEAVED_READING YES --config PG_USE_COPY YES -f PGDump -t_srs "EPSG:3857" -nln points_us /vsistdout/ us-latest.osm.pbf points | psql -d us -f -
+
+# geonames
+ogr2ogr -overwrite -skipfailures --config PG_USE_COPY YES -lco precision=NO -f PGDump -t_srs 'EPSG:3857' -nln geonames_us -where "countrycode = 'US'" /vsistdout/ PG:dbname=world geonames | psql -d us -f -
+```
+
+## 2. Processing
 I chose several interesting sounding columns from ACS datatables, mostly percentages.
 ```
 # us
@@ -83,7 +87,6 @@ psql -Aqt -d us -c '\d tract2020' | grep -v "SHAPE" | grep -v "geoid" | grep -v 
 done
 ```
 
-### Finding interesting things
 Get zscores to these columns.
 ```
 # states
@@ -111,7 +114,29 @@ psql -qAtX -d us -c '\d puma2020' | grep -v "SHAPE" | grep -v "geoid" | grep -v 
 done
 ```
 
-### Exporting to geojson
+Joining census to osm
+```
+# add block geoid to points
+psql -d us -c 'ALTER TABLE points_us ADD COLUMN geoid_block VARCHAR;'
+psql -d us -c 'UPDATE points_us a SET geoid_block = b.geoid FROM block20 b WHERE ST_Intersects(a.wkb_geometry, b."SHAPE") AND ST_DWithin(a.wkb_geometry, b."SHAPE", 100000);'
+```
+
+Create table for each census geography.
+```
+# states
+psql -d us -c "CREATE TABLE points_state AS SELECT SUBSTRING(geoid_block,1,2) geoid, osm_id, name, other_tags, wkb_geometry FROM points_us;"
+
+# counties
+psql -d us -c "CREATE TABLE points_county AS SELECT SUBSTRING(geoid_block,1,5) geoid, osm_id, name, other_tags, wkb_geometry FROM points_us;"
+
+# places
+psql -d us -c "CREATE TABLE points_place AS SELECT b.geoid, a.osm_id, a.name, a.other_tags, a.wkb_geometry FROM points_us a, place2020 b WHERE SUBSTRING(a.geoid_block,1,2) = SUBSTRING(b.geoid,1,2) AND ST_Intersects(a.wkb_geometry, b.\"SHAPE\");"
+
+# pumas
+psql -d us -c "CREATE TABLE points_puma AS SELECT b.puma AS geoid, a.osm_id, a.name, a.other_tags, a.wkb_geometry FROM points_us a, census_tract b WHERE SUBSTRING(a.geoid_block,1,11) = b.geoid;"
+```
+
+## 3. Exporting
 Select columns with zscore > 1.65.
 ```
 # states
@@ -137,51 +162,8 @@ psql -Aqt -d us -c "COPY (SELECT a.geoid, a.name, b.geoid from puma2020 a, place
   columns=$(psql -Aqt -d us -c "WITH b AS (SELECT $(psql -Aqt -d us -c '\d puma2020' | grep "zscore_" | sed -e 's/|.*//g' | paste -sd,) FROM puma2020 WHERE geoid = '${array[0]}') SELECT (x).key FROM (SELECT EACH(hstore(b)) x FROM b) q WHERE CAST((x).value AS VARCHAR) ~ '^[0-9\\\.]+$' AND ABS(CAST((x).value AS REAL)) >= 1.65;" | paste -sd,)
   psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', geoid, 'geometry', ST_AsGeoJSON(ST_Transform(\"SHAPE\",4326))::jsonb, 'properties', to_jsonb(inputs) - 'SHAPE' - 'geoid') AS feature FROM (SELECT a.\"SHAPE\", a.geoid, a.name, $(echo ${columns} | tr ',' '\n' | sed -e 's/zscore_//g' -e "s/.*/CONCAT\('{puma:', a\.\0, '|place:', b\.\0\, '|state:', c\.\0\, '|us:', d\.\0\, '}') AS \0/g" | paste -sd,) FROM puma2020 a, place2020 b, state2020 c, us2020 d WHERE a.geoid = '${array[0]}' AND b.geoid = '${array[2]}' AND SUBSTRING(a.geoid,1,2) = c.geoid) inputs) features) TO STDOUT;" > "${array[0]//[^a-zA-Z_0-9]/}"_"${array[1]//[^a-zA-Z_0-9]/}"_zscore_1_65.geojson
 done
-
 ```
 
-## 2. OpenStreetMap
-### Importing into PostgreSQL
-```
-ogr2ogr -nln points_us -t_srs "EPSG:3857" --config OSM_MAX_TMPFILE_SIZE 1000 --config OGR_INTERLEAVED_READING YES --config PG_USE_COPY YES -f PGDump -overwrite -skipfailures /vsistdout/ us-latest.osm.pbf points | psql -d us -f -
-```
-
-### Joining with census data
-Add block geoid to points.
-```
-psql -d us -c 'ALTER TABLE points_us ADD COLUMN geoid_block VARCHAR;'
-psql -d us -c 'UPDATE points_us a SET geoid_block = b.geoid FROM block20 b WHERE ST_Intersects(a.wkb_geometry, b."SHAPE") AND ST_DWithin(a.wkb_geometry, b."SHAPE", 100000);'
-```
-
-Create table for each census geography.
-```
-# states
-psql -d us -c "CREATE TABLE points_state AS SELECT SUBSTRING(geoid_block,1,2) geoid, osm_id, name, other_tags, wkb_geometry FROM points_us;"
-
-# counties
-psql -d us -c "CREATE TABLE points_county AS SELECT SUBSTRING(geoid_block,1,5) geoid, osm_id, name, other_tags, wkb_geometry FROM points_us;"
-
-# places
-psql -d us -c "CREATE TABLE points_place AS SELECT b.geoid, a.osm_id, a.name, a.other_tags, a.wkb_geometry FROM points_us a, place2020 b WHERE SUBSTRING(a.geoid_block,1,2) = SUBSTRING(b.geoid,1,2) AND ST_Intersects(a.wkb_geometry, b.\"SHAPE\");"
-
-# pumas
-psql -d us -c "CREATE TABLE points_puma AS SELECT b.puma AS geoid, a.osm_id, a.name, a.other_tags, a.wkb_geometry FROM points_us a, census_tract b WHERE SUBSTRING(a.geoid_block,1,11) = b.geoid;"
-```
-
-### Finding interesting things
-Misc.
-```
-# count keys (using each)
-psql -d us -c "SELECT key, count(key) FROM (SELECT (each(other_tags)).key FROM points_us WHERE name IS NOT NULL) AS stat GROUP BY key;"
-
-# count values (using slice)
-SELECT value, count(value) FROM (SELECT svals(slice(other_tags, ARRAY['cuisine'])) value FROM points_us WHERE name IS NOT NULL) AS stat GROUP BY value ORDER BY count DESC;
-
-# order by variable
-psql -d us -c "SELECT geoid, name, age_median, RANK() OVER (ORDER BY age_median::real) FROM county2020;"
-```
-
-### Exporting geojson
 Export amenities with wikipedia tags by census geography.
 ```
 # states
