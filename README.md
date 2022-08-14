@@ -122,19 +122,11 @@ psql -d us -c 'ALTER TABLE points_us ADD COLUMN geoid_block VARCHAR;'
 psql -d us -c 'UPDATE points_us a SET geoid_block = b.geoid FROM block20 b WHERE ST_Intersects(a.wkb_geometry, b."SHAPE") AND ST_DWithin(a.wkb_geometry, b."SHAPE", 100000);'
 ```
 
-Create osm table for each census geography.
+Create table of osm points by state (easier to work with).
 ```
-# states
-psql -d us -c "CREATE TABLE points_state AS SELECT SUBSTRING(geoid_block,1,2) geoid, osm_id, name, other_tags, wkb_geometry FROM points_us;"
-
-# counties
-psql -d us -c "CREATE TABLE points_county AS SELECT SUBSTRING(geoid_block,1,5) geoid, osm_id, name, other_tags, wkb_geometry FROM points_us;"
-
-# places
-psql -d us -c "CREATE TABLE points_place AS SELECT b.geoid, a.osm_id, a.name, a.other_tags, a.wkb_geometry FROM points_us a, place2020 b WHERE SUBSTRING(a.geoid_block,1,2) = SUBSTRING(b.geoid,1,2) AND ST_Intersects(a.wkb_geometry, b.\"SHAPE\");"
-
-# pumas
-psql -d us -c "CREATE TABLE points_puma AS SELECT b.puma AS geoid, a.osm_id, a.name, a.other_tags, a.wkb_geometry FROM points_us a, census_tract b WHERE SUBSTRING(a.geoid_block,1,11) = b.geoid;"
+psql -Aqt -d us -c "COPY (SELECT geoid from state2020) TO STDOUT DELIMITER E'\t';" | while IFS=$'\t' read -a array; do
+  psql -d us -c "CREATE TABLE points_${array[0]} AS SELECT * FROM points_us WHERE SUBSTRING(geoid_block,1,2) = '${array[0]}';"
+done
 ```
 
 ## 3. Exporting
