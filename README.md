@@ -51,6 +51,7 @@ ogr2ogr -overwrite -skipfailures --config PG_USE_COPY YES -lco precision=NO -f P
 ```
 
 ## 2. Processing
+
 Choose interesting sounding columns from ACS datatables, mostly percentages.
 ```
 # us
@@ -115,13 +116,6 @@ psql -qAtX -d us -c '\d puma2020' | grep -v "SHAPE" | grep -v "geoid" | grep -v 
 done
 ```
 
-Add census block geoid to intersecting osm points.
-```
-# add block geoid to points
-psql -d us -c 'ALTER TABLE points_us ADD COLUMN geoid_block VARCHAR;'
-psql -d us -c 'UPDATE points_us a SET geoid_block = b.geoid FROM block20 b WHERE ST_Intersects(a.wkb_geometry, b."SHAPE") AND ST_DWithin(a.wkb_geometry, b."SHAPE", 100000);'
-```
-
 Create table of osm points by state (easier to work with).
 ```
 psql -Aqt -d us -c "COPY (SELECT geoid from state2020) TO STDOUT DELIMITER E'\t';" | while IFS=$'\t' read -a array; do
@@ -129,14 +123,25 @@ psql -Aqt -d us -c "COPY (SELECT geoid from state2020) TO STDOUT DELIMITER E'\t'
 done
 ```
 
-Add geoid_place, geoid_puma.
+Add census geoid to osm points.
 ```
+# block
+psql -Aqt -d us -c "COPY (SELECT geoid from state2020) TO STDOUT DELIMITER E'\t';" | while read geoid; do
+  psql -d us -c 'ALTER TABLE points_${geoid} ADD COLUMN geoid_block VARCHAR;'
+  psql -d us -c 'UPDATE points_${geoid} a SET geoid_block = b.geoid FROM block20 b WHERE ST_Intersects(a.wkb_geometry, b."SHAPE");'
+done
+
+# puma
+psql -Aqt -d us -c "COPY (SELECT geoid from state2020) TO STDOUT DELIMITER E'\t';" | while read geoid; do
+  psql -d us -c "ALTER TABLE points_${geoid} ADD COLUMN geoid_puma varchar;"
+  psql -d us -c "UPDATE points_${geoid} a SET geoid_puma = b.geoid FROM puma2020 b, tract2020 c WHERE SUBSTRING(a.geoid_block,1,11) = c.geoid AND b.geoid = c.puma;"
+done
+
 # place
 psql -Aqt -d us -c "COPY (SELECT geoid from state2020) TO STDOUT DELIMITER E'\t';" | while read geoid; do
   psql -d us -c "ALTER TABLE points_${geoid} ADD COLUMN geoid_place varchar;"
   psql -d us -c "UPDATE points_${geoid} a SET geoid_place = b.geoid FROM place2020 b WHERE SUBSTRING(a.geoid_block,1,2) = SUBSTRING(geoid,1,2) AND ST_Intersects(a.wkb_geometry, b.\"SHAPE\");"
 done
-
 ```
 
 Add brand names, counts by geography
@@ -156,13 +161,13 @@ done
 # places
 psql -d us -c "ALTER TABLE place2020 ADD COLUMN brand json;"
 psql -Aqt -d us -c "COPY (SELECT geoid from place2020) TO STDOUT DELIMITER E'\t';" | while read geoid; do
-  psql -d us -c "UPDATE place2020 a SET brand = (SELECT json_agg(json_build_object(value::text, count::text)) FROM (SELECT value, COUNT(value) count FROM (SELECT wkb_geometry, other_tags->'brand' value FROM points_${geoid:0:2}) stat WHERE value IS NOT NULL AND ST_Intersects(a.\"SHAPE\", stat.wkb_geometry) GROUP BY value ORDER BY count DESC) stats) WHERE a.geoid = '${geoid}';"
+  psql -d us -c "UPDATE place2020 a SET brand = (SELECT json_agg(json_build_object(value::text, count::text)) FROM (SELECT value, COUNT(value) count FROM (SELECT wkb_geometry, other_tags->'brand' value FROM points_${geoid:0:2}) stat WHERE value IS NOT NULL AND a.geoid_place = '${geoid}' GROUP BY value ORDER BY count DESC) stats) WHERE a.geoid = '${geoid}';"
 done
 
 # pumas
 psql -d us -c "ALTER TABLE puma2020 ADD COLUMN brand json;"
 psql -Aqt -d us -c "COPY (SELECT geoid from puma2020) TO STDOUT DELIMITER E'\t';" | while read geoid; do
-  psql -d us -c "UPDATE puma2020 a SET brand = (SELECT json_agg(json_build_object(value::text, count::text)) FROM (SELECT value, COUNT(value) count FROM (SELECT wkb_geometry, other_tags->'brand' value FROM points_${geoid:0:2}) stat WHERE value IS NOT NULL AND ST_Intersects(a.\"SHAPE\", stat.wkb_geometry) GROUP BY value ORDER BY count DESC) stats) WHERE a.geoid = '${geoid}';"
+  psql -d us -c "UPDATE puma2020 a SET brand = (SELECT json_agg(json_build_object(value::text, count::text)) FROM (SELECT value, COUNT(value) count FROM (SELECT wkb_geometry, other_tags->'brand' value FROM points_${geoid:0:2}) stat WHERE value IS NOT NULL AND a.geoid_puma = '${geoid}' GROUP BY value ORDER BY count DESC) stats) WHERE a.geoid = '${geoid}';"
 done
 ```
 
