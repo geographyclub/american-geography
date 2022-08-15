@@ -129,6 +129,16 @@ psql -Aqt -d us -c "COPY (SELECT geoid from state2020) TO STDOUT DELIMITER E'\t'
 done
 ```
 
+Add geoid_place, geoid_puma.
+```
+# place
+psql -Aqt -d us -c "COPY (SELECT geoid from state2020) TO STDOUT DELIMITER E'\t';" | while read geoid; do
+  psql -d us -c "ALTER TABLE points_${geoid} ADD COLUMN geoid_place varchar;"
+  psql -d us -c "UPDATE points_${geoid} a SET geoid_place = b.geoid FROM place2020 b WHERE SUBSTRING(a.geoid_block,1,2) = SUBSTRING(geoid,1,2) AND ST_Intersects(a.wkb_geometry, b.\"SHAPE\");"
+done
+
+```
+
 Add brand names, counts by geography
 ```
 # state
