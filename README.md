@@ -131,16 +131,16 @@ psql -Aqt -d us -c "COPY (SELECT geoid from state2020) TO STDOUT DELIMITER E'\t'
   psql -d us -c 'UPDATE points_${geoid} a SET geoid_block = b.geoid FROM block20 b WHERE ST_Intersects(a.wkb_geometry, b."SHAPE");'
 done
 
-# puma
-psql -Aqt -d us -c "COPY (SELECT geoid from state2020) TO STDOUT DELIMITER E'\t';" | while read geoid; do
-  psql -d us -c "ALTER TABLE points_${geoid} ADD COLUMN geoid_puma varchar;"
-  psql -d us -c "UPDATE points_${geoid} a SET geoid_puma = b.geoid FROM puma2020 b, tract2020 c WHERE SUBSTRING(a.geoid_block,1,11) = c.geoid AND b.geoid = c.puma;"
-done
-
 # place
 psql -Aqt -d us -c "COPY (SELECT geoid from state2020) TO STDOUT DELIMITER E'\t';" | while read geoid; do
   psql -d us -c "ALTER TABLE points_${geoid} ADD COLUMN geoid_place varchar;"
-  psql -d us -c "UPDATE points_${geoid} a SET geoid_place = b.geoid FROM place2020 b WHERE SUBSTRING(a.geoid_block,1,2) = SUBSTRING(geoid,1,2) AND ST_Intersects(a.wkb_geometry, b.\"SHAPE\");"
+  psql -d us -c "UPDATE points_${geoid} a SET geoid_place = b.geoid FROM place b WHERE SUBSTRING(a.geoid_block,1,2) = SUBSTRING(b.geoid,1,2) AND ST_Intersects(a.wkb_geometry, b.\"SHAPE\");"
+done
+
+# puma
+psql -Aqt -d us -c "COPY (SELECT geoid from state2020) TO STDOUT DELIMITER E'\t';" | while read geoid; do
+  psql -d us -c "ALTER TABLE points_${geoid} ADD COLUMN geoid_puma varchar;"
+  psql -d us -c "UPDATE points_${geoid} a SET geoid_puma = b.puma FROM census_tract b WHERE SUBSTRING(a.geoid_block,1,11) = b.geoid;"
 done
 ```
 
