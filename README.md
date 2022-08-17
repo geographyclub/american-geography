@@ -94,25 +94,25 @@ Add zscores to these columns.
 # states
 psql -qAtX -d us -c '\d state2020;' | grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | sed -e 's/|.*//g' | while read column; do
   psql -d us -c "ALTER TABLE state2020 ADD COLUMN zscore_${column} REAL;"
-  psql -d us -c "WITH b AS (SELECT geoid, (CAST(${column} AS REAL) - AVG(CAST(${column} AS REAL)) OVER()) / STDDEV(CAST(${column} AS REAL)) OVER() AS zscore FROM state2020 WHERE CAST(${column} AS TEXT) ~ '^[0-9\\\.]+$') UPDATE state2020 a SET zscore_${column} = b.zscore FROM b WHERE a.geoid = b.geoid;"
+  psql -d us -c "WITH b AS (SELECT geoid, (${column}::real - AVG(${column}::real) OVER()) / STDDEV(${column}::real) OVER() AS zscore FROM state2020 WHERE CAST(${column} AS TEXT) ~ '^[0-9\\\.]+$') UPDATE state2020 a SET zscore_${column} = b.zscore FROM b WHERE a.geoid = b.geoid;"
 done
 
-# counties (pop2020 > 100000)
+# counties
 psql -qAtX -d us -c '\d county2020;' | grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | sed -e 's/|.*//g' | while read column; do
   psql -d us -c "ALTER TABLE county2020 ADD COLUMN zscore_${column} REAL;"
-  psql -d us -c "WITH b AS (SELECT geoid, (CAST(${column} AS REAL) - AVG(CAST(${column} AS REAL)) OVER()) / STDDEV(CAST(${column} AS REAL)) OVER() AS zscore FROM county2020 WHERE CAST(${column} AS TEXT) ~ '^[0-9\\\.]+$' AND CAST(pop2020 AS REAL) > 100000) UPDATE county2020 a SET zscore_${column} = b.zscore FROM b WHERE a.geoid = b.geoid;"
+  psql -d us -c "WITH b AS (SELECT geoid, (${column}::real - AVG(${column}::real) OVER()) / STDDEV(${column}::real) OVER() AS zscore FROM county2020 WHERE CAST(${column} AS TEXT) ~ '^[0-9\\\.]+$') UPDATE county2020 a SET zscore_${column} = b.zscore FROM b WHERE a.geoid = b.geoid;"
 done
 
-# places (pop2020 > 100000)
+# places
 psql -qAtX -d us -c '\d place2020;' |  grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | sed -e 's/|.*//g' | while read column; do
   psql -d us -c "ALTER TABLE place2020 ADD COLUMN zscore_${column} REAL;"
-  psql -d us -c "WITH b AS (SELECT geoid, (CAST(${column} AS REAL) - AVG(CAST(${column} AS REAL)) OVER()) / STDDEV(CAST(${column} AS REAL)) OVER() AS zscore FROM place2020 WHERE CAST(${column} AS TEXT) ~ '^[0-9\\\.]+$' AND CAST(pop2020 AS REAL) > 100000) UPDATE place2020 a SET zscore_${column} = b.zscore FROM b WHERE a.geoid = b.geoid;"
+  psql -d us -c "WITH b AS (SELECT geoid, (${column}::real - AVG(${column}::real) OVER()) / STDDEV(${column}::real) OVER() AS zscore FROM place2020 WHERE ${column}::text ~ '^[0-9\\\.]+$') UPDATE place2020 a SET zscore_${column} = b.zscore FROM b WHERE a.geoid = b.geoid;"
 done
 
 # pumas
 psql -qAtX -d us -c '\d puma2020' | grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | sed -e 's/|.*//g' | while read column; do
   psql -d us -c "ALTER TABLE puma2020 ADD COLUMN zscore_${column} REAL;"
-  psql -d us -c "WITH b AS (SELECT geoid, (CAST(${column} AS REAL) - AVG(CAST(${column} AS REAL)) OVER()) / STDDEV(CAST(${column} AS REAL)) OVER() AS zscore FROM puma2020 WHERE CAST(${column} AS TEXT) ~ '^[0-9\\\.]+$') UPDATE puma2020 a SET zscore_${column} = b.zscore FROM b WHERE a.geoid = b.geoid;"
+  psql -d us -c "WITH b AS (SELECT geoid, (${column}::real - AVG(${column}::real) OVER()) / STDDEV(${column}::real) OVER() AS zscore FROM puma2020 WHERE CAST(${column} AS TEXT) ~ '^[0-9\\\.]+$') UPDATE puma2020 a SET zscore_${column} = b.zscore FROM b WHERE a.geoid = b.geoid;"
 done
 ```
 
