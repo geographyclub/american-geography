@@ -40,14 +40,14 @@ psql -d us -c "CREATE TABLE ${table}($(head -1 ${file} | sed -e 's/"//g' -e 's/,
 psql -d us -c "\COPY ${table} FROM ${file%.*}_iconv.csv WITH CSV HEADER;"
 ```
 
-OpenStreetMap
-```
-ogr2ogr -overwrite -skipfailures --config OSM_MAX_TMPFILE_SIZE 1000 --config OGR_INTERLEAVED_READING YES --config PG_USE_COPY YES -f PGDump -t_srs "EPSG:3857" -nln points_us /vsistdout/ us-latest.osm.pbf points | psql -d us -f -
-```
-
 GeoNames
 ```
 ogr2ogr -overwrite -skipfailures --config PG_USE_COPY YES -lco precision=NO -f PGDump -t_srs 'EPSG:3857' -nln geonames_us -where "countrycode = 'US'" /vsistdout/ PG:dbname=world geonames | psql -d us -f -
+```
+
+OpenStreetMap
+```
+ogr2ogr -overwrite -skipfailures --config OSM_MAX_TMPFILE_SIZE 1000 --config OGR_INTERLEAVED_READING YES --config PG_USE_COPY YES -f PGDump -t_srs "EPSG:3857" -nln points_us /vsistdout/ us-latest.osm.pbf points | psql -d us -f -
 ```
 
 ## 2. Processing
@@ -114,6 +114,22 @@ psql -qAtX -d us -c '\d puma2020' | grep -v "SHAPE" | grep -v "geoid" | grep -v 
   psql -d us -c "ALTER TABLE puma2020 ADD COLUMN zscore_${column} REAL;"
   psql -d us -c "WITH b AS (SELECT geoid, (CAST(${column} AS REAL) - AVG(CAST(${column} AS REAL)) OVER()) / STDDEV(CAST(${column} AS REAL)) OVER() AS zscore FROM puma2020 WHERE CAST(${column} AS TEXT) ~ '^[0-9\\\.]+$') UPDATE puma2020 a SET zscore_${column} = b.zscore FROM b WHERE a.geoid = b.geoid;"
 done
+```
+
+Add census geoid to geonames
+```
+# block
+psql -d us -c 'ALTER TABLE geonames_us ADD COLUMN geoid_block VARCHAR;'
+psql -d us -c 'UPDATE geonames_us a SET geoid_block = b.geoid FROM block20 b WHERE ST_Intersects(a.geom, b."SHAPE");'
+
+# place
+psql -d us -c "ALTER TABLE geonames_us ADD COLUMN geoid_place varchar;"
+psql -d us -c "UPDATE geonames_us a SET geoid_place = b.geoid FROM place b WHERE SUBSTRING(a.geoid_block,1,2) = SUBSTRING(b.geoid,1,2) AND ST_Intersects(a.geom, b.\"SHAPE\");"
+
+# puma
+psql -d us -c "ALTER TABLE geonames_us ADD COLUMN geoid_puma varchar;"
+psql -d us -c "UPDATE geonames_us a SET geoid_puma = b.puma FROM census_tract b WHERE SUBSTRING(a.geoid_block,1,11) = b.geoid;"
+
 ```
 
 Create table of osm points by state (easier to work with).
