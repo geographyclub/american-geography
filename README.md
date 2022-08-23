@@ -1,5 +1,5 @@
 # American Geography
-This is how I'm working with census and street data.
+This is how I'm working with census and street data. Work in progress.
 
 1. [Importing](#1-importing)
 2. [Processing](#2-processing)
