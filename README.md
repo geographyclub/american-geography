@@ -116,7 +116,7 @@ psql -qAtX -d us -c '\d puma2020' | grep -v "SHAPE" | grep -v "geoid" | grep -v 
 done
 ```
 
-Find zscores over 1.65.
+Find zscores over 1.65 and compare geographies.
 ```
 # state
 psql -d us -c "ALTER TABLE state2020 ADD COLUMN zscore_1_65 jsonb;"
