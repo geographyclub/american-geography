@@ -94,12 +94,33 @@ function map(){
     layer.bindPopup('<h3>'+feature.properties.name+'</h3>').addTo(featureGroup2);
   }
 
+  // colors
+  function getcolor(feature) {
+    switch (feature.properties.quartile) {
+      case "q1": return "#2b83ba";
+      case "q2": return "#abdda4";
+      case "q3": return "#fdae61";
+      case "q4": return "#d7191c";
+    }
+  }
+
+  // style
+  function style(feature) {
+    return {
+        fillColor: getcolor(feature),
+        weight: 0,
+        opacity: 1,
+        color: 'white',
+        fillOpacity: 0.5
+    };
+  }
+
   // get geojson polygons
   var featureGroup2 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_pop2020_quartile.geojson', {
-  style:{
-    weight:1
-  },
-  onEachFeature:mymarker
+  style:style,
+  onEachFeature:function mymarker(feature, layer){
+      layer.bindPopup('<h2>'+feature.properties.min+'</h2><h2>'+feature.properties.max+'</h2>').addTo(map);
+    }
   }).addTo(map)
 
   // get geojson points
@@ -139,6 +160,13 @@ $(window).on('load', function() {
 
 
 /* misc
+
+  // get geojson polygons with markers
+  var featureGroup2 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_pop2020_quartile.geojson', {
+  style:style,
+  onEachFeature:mymarker
+  }).addTo(map)
+
 
 // marker with popup
 var marker = L.marker(center).addTo(featureGroup1).bindPopup('<h3>'+feature.properties.name+'</h3>').addTo(map);
