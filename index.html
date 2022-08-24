@@ -55,7 +55,7 @@ function map(){
     opacity:1,
     direction:'top',
     className:'mytitle'
-  }).setContent('<h1>AMERICAN GEOGRAPHY</h1><h2>CENSUS AND STREET DATA</h2>').setLatLng(new L.LatLng(52,-98)).addTo(featureGroup1);
+  }).setContent('<h1>AMERICAN GEOGRAPHY</h1><h3>CENSUS AND STREET DATA</h3>').setLatLng(new L.LatLng(52,-98)).addTo(featureGroup1);
 
   // circleMarker
   function mycirclemarker(feature, latlng) {
@@ -74,10 +74,11 @@ function map(){
     var bounds = layer.getBounds();
     var center = bounds.getCenter();
     var marker = L.marker(center).addTo(featureGroup1);
+	// zoom on click
     marker.on('click', function(e) {
       map.fitBounds(bounds);      
     });  
-    layer.bindPopup('hello world').addTo(map); 
+    layer.bindPopup('<h2>'+feature.properties.name+'</h2><h2>'+feature.properties.myvar+'</h2>').addTo(map); 
   }
 
   // tooltip
@@ -115,7 +116,7 @@ function map(){
   // layer switcher
   map.addLayer(featureGroup1)
   var baseMaps = {"Streets":streets, "Satellite":satellite};
-  var overlayMaps = {"Headlines":featureGroup1, "Polygons":featureGroup2, "Points":featureGroup3};
+  var overlayMaps = {"Markers":featureGroup1, "Polygons":featureGroup2, "Points":featureGroup3};
   L.control.layers(baseMaps,overlayMaps).addTo(map);
 
   // navbar
