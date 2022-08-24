@@ -78,7 +78,7 @@ function map(){
     marker.on('click', function(e) {
       map.fitBounds(bounds);      
     });  
-    layer.bindPopup('<h2>'+feature.properties.name+'</h2><h2>'+feature.properties.myvar+': '+feature.properties.myvalue+'</h2><hr/><p>'+JSON.stringify(feature.properties.zscore_1_65,null,' ').replace(/[\{\}"]/g,'').replace(/,/g,'\n')+'</p><hr/>').addTo(map); 
+    layer.bindPopup('<h2>'+feature.properties.name+'</h2><h3>'+feature.properties.myvar+': '+feature.properties.myvalue+'</h3><p>'+JSON.stringify(feature.properties.zscore_1_65,null,' ').replace(/[\{\}"]/g,'').replace(/,/g,"\n")+'</p>').addTo(map); 
   }
 
   // tooltip
