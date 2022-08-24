@@ -5,10 +5,10 @@ a:active {color:#003366; text-decoration:none;}
 body{margin:0; padding:0; height:100%; width:100%;}
 html{color:#222; font-size:100%; margin:0; padding:0; height:100%; width:100%;}
 hr{border:0; background:#a0a0a0; height:1px; width:60%;}
-h1{font-family:Montserrat; font-size:40px; font-weight:900; line-height:0.9; margin:0; padding:0;}
-h2{font-family:Montserrat; font-size:20px; font-weight:600; line-height:0.9; margin:0; padding:0;}
-h3{font-family:Montserrat; font-size:14px; font-weight:600; line-height:0.9; margin:0; padding:0;}
-p{font-family:Sans; font-size:12px; font-weight:300; line-height:1; margin:0; padding:0;}
+h1{font-family:Montserrat; font-size:40px; font-weight:900; line-height:1; margin:0; padding:0;}
+h2{font-family:Montserrat; font-size:24px; font-weight:600; line-height:1; margin:0; padding:0;}
+h3{font-family:Montserrat; font-size:14px; font-weight:600; line-height:1; margin:0; padding:0;}
+p{font-family:Sans; font-size:12px; font-weight:300; line-height:1.2; margin:0; padding:0;}
 
 .rotate-text{transform:rotate(0deg) skew(0deg,-5deg); transform-origin: right top 0;}
 .mytitle{font-size:90px;}
@@ -26,9 +26,9 @@ p{font-family:Sans; font-size:12px; font-weight:300; line-height:1; margin:0; pa
 .leaflet-control-attribution.leaflet-control{margin:0; padding:0;}
 /*.leaflet-control-attribution.leaflet-control{display:inline; visibility:hidden; z-index:-1;}*/
 
-.leaflet-popup-content{color:#222; margin:0; padding:10px; text-align:left;}
+.leaflet-popup-content{color:#222; margin:0; padding:10px; text-align:center;}
 .leaflet-popup-content p{margin:0; padding:0;}
-.leaflet-popup-content-wrapper{background:#fff; box-shadow:none; -webkit-border-radius:4px; border-radius:4px; opacity:0.9; text-align:center;}
+.leaflet-popup-content-wrapper{background:transparent; box-shadow:none; -webkit-border-radius:4px; border-radius:4px; opacity:1; text-align:center;}
 .leaflet-popup leaflet-zoom-animated{display:none;}
 .leaflet-popup-tip-container{display:none;}
 
