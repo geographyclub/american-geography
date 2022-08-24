@@ -224,5 +224,5 @@ Export features to geojson for leaflet.
 ```
 # county rank in state
 column=pop2020
-psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', geoid, 'geometry', ST_AsGeoJSON(ST_Transform(\"SHAPE\",4326))::jsonb, 'properties', to_jsonb(inputs) - 'SHAPE' - 'geoid') AS feature FROM (SELECT * FROM (SELECT \"SHAPE\", geoid, name, '${column}' AS myvar, ${column} AS myvalue, zscore_1_65, RANK() OVER (PARTITION BY SUBSTRING(geoid,1,2) ORDER BY ${column}::int DESC) rank FROM county2020) stats WHERE rank IN ('1')) inputs) features) TO STDOUT;" > county_state_${column}_rank_1.geojson
+psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', geoid, 'geometry', ST_AsGeoJSON(ST_SimplifyPreserveTopology(ST_Transform(\"SHAPE\",4326),0.001))::jsonb, 'properties', to_jsonb(inputs) - 'SHAPE' - 'geoid') AS feature FROM (SELECT * FROM (SELECT \"SHAPE\", geoid, name, '${column}' AS myvar, ${column} AS myvalue, zscore_1_65, RANK() OVER (PARTITION BY SUBSTRING(geoid,1,2) ORDER BY ${column}::int DESC) rank FROM county2020) stats WHERE rank IN ('1')) inputs) features) TO STDOUT;" > data/county_state_${column}_rank_1.geojson
 ```
