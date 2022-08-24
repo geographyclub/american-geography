@@ -119,7 +119,7 @@ function map(){
   var featureGroup2 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_pop2020_quartile.geojson', {
   style:style,
   onEachFeature:function mymarker(feature, layer){
-      layer.bindPopup('<h2>'+feature.properties.min+'</h2><h2>'+feature.properties.max+'</h2>').addTo(map);
+      layer.bindPopup('<h2>Min: '+feature.properties.min+'</h2><h2>Max: '+feature.properties.max+'</h2>').addTo(map);
     }
   }).addTo(map)
 
