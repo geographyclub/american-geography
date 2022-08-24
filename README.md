@@ -52,7 +52,7 @@ ogr2ogr -overwrite -skipfailures --config OSM_MAX_TMPFILE_SIZE 1000 --config OGR
 
 NaturalEarth
 ```
-ogr2ogr -overwrite -skipfailures --config PG_USE_COPY YES -f PGDump -t_srs "EPSG:3857" -nlt promote_to_multi /vsistdout/ natural_earth_vector_3857.gpkg ne_10m_admin_2_counties_lakes | psql -d us -f -
+ogr2ogr -overwrite -skipfailures --config PG_USE_COPY YES -f PGDump -t_srs "EPSG:3857" -nlt promote_to_multi /vsistdout/ natural_earth_vector_3857.gpkg ne_10m_admin_2_counties | psql -d us -f -
 ```
 
 ## 2. Processing
@@ -229,5 +229,9 @@ Export features to geojson for leaflet.
 ```
 # county rank in state
 column=pop2020
-psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', geoid, 'geometry', ST_AsGeoJSON(ST_Transform(geom, 4326))::jsonb, 'properties', to_jsonb(inputs) - 'geom' - 'geoid') AS feature FROM (SELECT * FROM (SELECT b.geom, a.geoid, a.name, '${column}' AS myvar, a.${column} AS myvalue, a.zscore_1_65, RANK() OVER (PARTITION BY SUBSTRING(a.geoid,1,2) ORDER BY a.${column}::int DESC) rank FROM county2020 a INNER JOIN ne_10m_admin_2_counties_lakes b ON a.geoid = b.code_local) stats WHERE rank IN ('1')) inputs) features) TO STDOUT;" > data/county_${column}_state_rank_1.geojson
+psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', geoid, 'geometry', ST_AsGeoJSON(ST_Transform(\"SHAPE\",4326))::jsonb, 'properties', to_jsonb(inputs) - 'SHAPE' - 'geoid') AS feature FROM (SELECT * FROM (SELECT \"SHAPE\", geoid, name, '${column}' AS myvar, ${column} AS myvalue, zscore_1_65, RANK() OVER (PARTITION BY SUBSTRING(geoid,1,2) ORDER BY ${column}::int DESC) rank FROM county2020) stats WHERE rank IN ('1')) inputs) features) TO STDOUT;" > data/county_${column}_state_rank_1.geojson
+
+# county quartiles (with simplified geometry from naturalearth)
+column=pop2020
+psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', quartile, 'geometry', ST_AsGeoJSON(ST_Transform(geom,4326))::jsonb, 'properties', to_jsonb(inputs) - 'geom') AS feature FROM (WITH stats AS (SELECT DISTINCT PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY ${column}::real) q1, PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY ${column}::real) q2, PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY ${column}::real) q3 FROM county2020) SELECT 'q1' AS quartile, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM county2020 a, ne_10m_admin_2_counties b, stats WHERE a.${column}::real < stats.q1 AND a.geoid = b.code_local UNION ALL SELECT 'q2' AS quartile, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM county2020 a, ne_10m_admin_2_counties b, stats WHERE a.${column}::real >= stats.q1 AND a.${column}::real < stats.q2 AND a.geoid = b.code_local UNION ALL SELECT 'q3' AS quartile, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM county2020 a, ne_10m_admin_2_counties b, stats WHERE a.${column}::real >= stats.q2 AND a.${column}::real < stats.q3 AND a.geoid = b.code_local UNION ALL SELECT 'q4' AS quartile, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM county2020 a, ne_10m_admin_2_counties b, stats WHERE a.${column}::real >= stats.q3 AND a.geoid = b.code_local) inputs) features) TO STDOUT;" > data/county_${column}_quartile.geojson
 ```
