@@ -42,12 +42,17 @@ psql -d us -c "\COPY ${table} FROM ${file%.*}_iconv.csv WITH CSV HEADER;"
 
 GeoNames
 ```
-ogr2ogr -overwrite -skipfailures --config PG_USE_COPY YES -lco precision=NO -f PGDump -t_srs 'EPSG:3857' -nln geonames_us -where "countrycode = 'US'" /vsistdout/ PG:dbname=world geonames | psql -d us -f -
+ogr2ogr -overwrite -skipfailures --config PG_USE_COPY YES -f PGDump -t_srs 'EPSG:3857' -nln geonames_us -where "countrycode = 'US'" /vsistdout/ PG:dbname=world geonames | psql -d us -f -
 ```
 
 OpenStreetMap
 ```
 ogr2ogr -overwrite -skipfailures --config OSM_MAX_TMPFILE_SIZE 1000 --config OGR_INTERLEAVED_READING YES --config PG_USE_COPY YES -f PGDump -t_srs "EPSG:3857" -nln points_us /vsistdout/ us-latest.osm.pbf points | psql -d us -f -
+```
+
+NaturalEarth
+```
+ogr2ogr -overwrite -skipfailures --config PG_USE_COPY YES -f PGDump -t_srs "EPSG:3857" -nlt promote_to_multi /vsistdout/ natural_earth_vector_3857.gpkg ne_10m_admin_2_counties_lakes | psql -d us -f -
 ```
 
 ## 2. Processing
@@ -224,5 +229,5 @@ Export features to geojson for leaflet.
 ```
 # county rank in state
 column=pop2020
-psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', geoid, 'geometry', ST_AsGeoJSON(ST_SimplifyPreserveTopology(ST_Transform(\"SHAPE\",4326),0.001))::jsonb, 'properties', to_jsonb(inputs) - 'SHAPE' - 'geoid') AS feature FROM (SELECT * FROM (SELECT \"SHAPE\", geoid, name, '${column}' AS myvar, ${column} AS myvalue, zscore_1_65, RANK() OVER (PARTITION BY SUBSTRING(geoid,1,2) ORDER BY ${column}::int DESC) rank FROM county2020) stats WHERE rank IN ('1')) inputs) features) TO STDOUT;" > data/county_state_${column}_rank_1.geojson
+psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', geoid, 'geom', ST_AsGeoJSON(ST_Transform(geom, 4326))::jsonb, 'properties', to_jsonb(inputs) - 'geom' - 'geoid') AS feature FROM (SELECT * FROM (SELECT b.geom, a.geoid, a.name, '${column}' AS myvar, a.${column} AS myvalue, zscore_1_65, RANK() OVER (PARTITION BY SUBSTRING(a.geoid,1,2) ORDER BY a.${column}::int DESC) rank FROM county2020 a, ne_10m_admin_2_counties_lakes b WHERE a.geoid = b.code_local) stats WHERE rank IN ('1')) inputs) features) TO STDOUT;" > data/county_${column}_state_rank_1.geojson
 ```
