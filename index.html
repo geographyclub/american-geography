@@ -148,6 +148,11 @@ function map(){
     style:style
   })
 
+  // top 10 pop2021
+  var featureGroup2 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_popestimate2021_top_10.geojson', {
+  style:style,
+  onEachFeature:mymarker
+  }).addTo(map)
 
   // base layers
   //var german = L.TileLayer('https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png', {noWrap:false});
