@@ -87,7 +87,7 @@ function map(){
     marker.on('click', function(e) {
       map.fitBounds(bounds);      
     });  
-    layer.bindPopup('<h2>'+feature.properties.name+'</h2><h3>'+feature.properties.myvar+': '+feature.properties.myvalue+'</h3>').addTo(map); 
+    layer.bindPopup('<h2>'+feature.properties.ctyname+'</h2><h3>Rank: '+feature.properties.rank+'</h3><h3>Pop: '+feature.properties.popestimate2021+'</h3>'').addTo(map);
   }
 
   // tooltip
@@ -150,9 +150,15 @@ function map(){
 
   // top 10 popestimate2021
   var popestimate2021_top_10 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_popestimate2021_top_10.geojson', {
-  style:style,
+    style:{
+	  fillColor: 'white',
+      weight: 0.1,
+      opacity: 1,
+      color: 'black',
+      fillOpacity: 0.5
+    },
   onEachFeature:mymarker
-  }).addTo(map)
+  })
 
   // base layers
   //var german = L.TileLayer('https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png', {noWrap:false});
