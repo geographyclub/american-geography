@@ -225,7 +225,7 @@ done
 
 ## 3. Exporting
 
-Export features to geojson for leaflet.
+Export features to geojson.
 ```
 # county2020 quartiles (with simplified geometry from naturalearth)
 column=pop2020

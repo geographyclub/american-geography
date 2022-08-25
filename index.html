@@ -115,7 +115,7 @@ function map(){
     };
   }
 
-  // pop2020
+  // county pop2020
   var pop2020 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_pop2020_quartile.geojson', {
   style:style,
   onEachFeature:function mymarker(feature, layer){
@@ -123,13 +123,30 @@ function map(){
     }
   }).addTo(map)
 
-  // npopchg2021
+  // county npopchg2021
   var npopchg2021 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_npopchg2021_quartile.geojson', {
   style:style,
   onEachFeature:function mymarker(feature, layer){
       layer.bindPopup('<h3>Min: '+feature.properties.min+'</h3><h3>Max: '+feature.properties.max+'</h3>');
     }
   })
+
+  // county rnaturalchg2021
+  var npopchg2021 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_rnaturalchg2021_quartile.geojson', {
+  style:style,
+  onEachFeature:function mymarker(feature, layer){
+      layer.bindPopup('<h3>Min: '+feature.properties.min+'</h3><h3>Max: '+feature.properties.max+'</h3>');
+    }
+  })
+
+  // county rnetmig2021
+  var npopchg2021 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_rnetmig2021_quartile.geojson', {
+  style:style,
+  onEachFeature:function mymarker(feature, layer){
+      layer.bindPopup('<h3>Min: '+feature.properties.min+'</h3><h3>Max: '+feature.properties.max+'</h3>');
+    }
+  })
+
 
   // base layers
   //var german = L.TileLayer('https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png', {noWrap:false});
@@ -140,7 +157,7 @@ function map(){
   // layer switcher
   map.addLayer(featureGroup1)
   var baseMaps = {"Streets":streets, "Satellite":satellite};
-  var overlayMaps = {"Title":featureGroup1, "Pop 2020":pop2020, "Pop Change 2021":npopchg2021};
+  var overlayMaps = {"Title":featureGroup1, "Pop 2020":pop2020, "Pop Change 2021":npopchg2021, "Natural Change Rate 2021":rnaturalchg2021, "Net Migration Rate 2021":rnetmig2021};
   L.control.layers(baseMaps,overlayMaps).addTo(map);
 
   // navbar
