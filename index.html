@@ -124,8 +124,8 @@ function map(){
     };
   }
 
-  // county pop2021
-  var pop2021 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_popestimate2021_quartile.geojson', {
+  // county popestimate2021
+  var popestimate2021 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_popestimate2021_quartile.geojson', {
     interactive:false,
     style:style
   }).addTo(map)
@@ -148,8 +148,8 @@ function map(){
     style:style
   })
 
-  // top 10 pop2021
-  var featureGroup2 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_popestimate2021_top_10.geojson', {
+  // top 10 popestimate2021
+  var popestimate2021_top_10 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_popestimate2021_top_10.geojson', {
   style:style,
   onEachFeature:mymarker
   }).addTo(map)
@@ -163,7 +163,7 @@ function map(){
   // layer switcher
   map.addLayer(featureGroup1)
   var baseMaps = {"Streets":streets, "Satellite":satellite};
-  var overlayMaps = {"Title":featureGroup1, "Pop 2021":pop2021, "Pop Change 2021":npopchg2021, "Natural Change Rate 2021":rnaturalchg2021, "Net Migration Rate 2021":rnetmig2021};
+  var overlayMaps = {"Title":featureGroup1, "Pop 2021":popestimate2021, "Pop Change 2021":npopchg2021, "Natural Change Rate 2021":rnaturalchg2021, "Net Migration Rate 2021":rnetmig2021, "Pop 2021 Top 10":popestimate2021_top_10};
   L.control.layers(baseMaps,overlayMaps).addTo(map);
 
   // navbar
