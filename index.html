@@ -95,8 +95,8 @@ function map(){
   }
 
   // colors
-  function getcolor(feature) {
-    switch (feature.properties.quartile) {
+  function getcolor(d) {
+    switch (d) {
       case "q1": return "#2b83ba";
       case "q2": return "#abdda4";
       case "q3": return "#fdae61";
@@ -107,27 +107,22 @@ function map(){
   // style
   function style(feature) {
     return {
-        fillColor: getcolor(feature),
-        weight: 0,
-        opacity: 1,
-        color: 'white',
-        fillOpacity: 0.5
+      fillColor: getcolor(feature.properties.quartile),
+      weight: 0,
+      opacity: 1,
+      color: 'white',
+      fillOpacity: 0.5
     };
   }
 
   // get geojson polygons
-  var featureGroup2 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_pop2020_quartile.geojson', {
+  var featurePop2020 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_pop2020_quartile.geojson', {
   style:style,
   onEachFeature:function mymarker(feature, layer){
-      layer.bindPopup('<h2>Min: '+feature.properties.min+'</h2><h2>Max: '+feature.properties.max+'</h2>').addTo(map);
+      layer.bindPopup('<h3>Min: '+feature.properties.min+'</h3><h3>Max: '+feature.properties.max+'</h3>').addTo(map);
     }
   }).addTo(map)
 
-  // get geojson points
-  var featureGroup3 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/points.geojson', {
-  pointToLayer:mycirclemarker
-  })
- 
   // base layers
   //var german = L.TileLayer('https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png', {noWrap:false});
   //var french = L.TileLayer('http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {noWrap:false});
@@ -137,7 +132,7 @@ function map(){
   // layer switcher
   map.addLayer(featureGroup1)
   var baseMaps = {"Streets":streets, "Satellite":satellite};
-  var overlayMaps = {"Markers":featureGroup1, "Polygons":featureGroup2, "Points":featureGroup3};
+  var overlayMaps = {"Title":featureGroup1, "Pop2020":featurePop2020};
   L.control.layers(baseMaps,overlayMaps).addTo(map);
 
   // navbar
@@ -166,6 +161,11 @@ $(window).on('load', function() {
   style:style,
   onEachFeature:mymarker
   }).addTo(map)
+
+  // get geojson points
+  var featureGroup3 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/points.geojson', {
+  pointToLayer:mycirclemarker
+  })
 
 
 // marker with popup
