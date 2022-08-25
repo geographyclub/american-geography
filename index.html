@@ -82,7 +82,7 @@ function map(){
   function mymarker(feature, layer){
     var bounds = layer.getBounds();
     var center = bounds.getCenter();
-    var marker = L.marker(center).addTo(featureGroup1);
+    var marker = L.marker(center).addTo(popestimate2021_top_10);
 	// zoom on click
     marker.on('click', function(e) {
       map.fitBounds(bounds);      
