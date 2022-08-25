@@ -57,6 +57,15 @@ function map(){
     className:'mytitle'
   }).setContent('<h1>AMERICAN GEOGRAPHY</h1><h3>CENSUS AND STREET DATA</h3>').setLatLng(new L.LatLng(52,-98)).addTo(featureGroup1);
 
+  // subtitle
+  var title = new L.tooltip({
+    permanent: true,
+    offset:[0,0],
+    opacity:1,
+    direction:'bottom',
+    className:'mysubtitle'
+  }).setContent('<h2>COUNTY TRENDS EDITION</h2><h3>POPULATION</h3>').setLatLng(new L.LatLng(23,-98)).addTo(featureGroup1);
+
   // circleMarker
   function mycirclemarker(feature, latlng) {
     return L.circleMarker(latlng, {
