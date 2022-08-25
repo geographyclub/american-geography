@@ -10,7 +10,7 @@
 <script
   src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
   integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI="
-  crossorigin="anonymous"></script>
+  crossorigin=""></script>
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
   crossorigin=""></script>
@@ -46,7 +46,6 @@ function map(){
 
   // featuregroups
   var featureGroup1 = new L.featureGroup()
-  var featureGroup2 = new L.featureGroup()
 
   // title
   var title = new L.tooltip({
@@ -67,7 +66,7 @@ function map(){
   }).setContent('<h2>COUNTY TRENDS EDITION</h2>').setLatLng(new L.LatLng(24,-98)).addTo(featureGroup1);
 
   // circleMarker
-  function mycirclemarker(feature, latlng) {
+  function myCirclemarker(feature, latlng) {
     return L.circleMarker(latlng, {
       radius : 4,
       fillColor : "#ff7800",
@@ -79,19 +78,19 @@ function map(){
   }
 
   // marker
-  function mymarker(feature, layer){
+  function myMarker(feature, layer){
     var bounds = layer.getBounds();
     var center = bounds.getCenter();
-    var marker = L.marker(center).addTo(popestimate2021_top_10);
+    var marker = L.marker(center).addTo(featurePopestimate2021_top_10);
 	// zoom on click
     marker.on('click', function(e) {
       map.fitBounds(bounds);      
-    });  
-    layer.bindPopup('<h2>'+feature.properties.ctyname+'</h2><h3>Rank: '+feature.properties.rank+'</h3><h3>Pop: '+feature.properties.popestimate2021+'</h3>'').addTo(map);
+    });
+    layer.bindPopup('<h2>'+feature.properties.ctyname+'</h2>').addTo(map);
   }
 
   // tooltip
-  function mytooltip(feature, layer){
+  function myTooltip(feature, layer){
     var bounds = layer.getBounds();
     var center = bounds.getCenter();
     var mytooltip = new L.tooltip({
@@ -104,7 +103,7 @@ function map(){
   }
 
   // colors
-  function getcolor(d) {
+  function getColor(d) {
     switch (d) {
       case "q1": return "#2b83ba";
       case "q2": return "#abdda4";
@@ -116,7 +115,7 @@ function map(){
   // style
   function style(feature) {
     return {
-      fillColor: getcolor(feature.properties.quartile),
+      fillColor: getColor(feature.properties.quartile),
       weight: 0,
       opacity: 1,
       color: 'white',
@@ -125,31 +124,31 @@ function map(){
   }
 
   // county popestimate2021
-  var popestimate2021 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_popestimate2021_quartile.geojson', {
+  var featurePopestimate2021 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_popestimate2021_quartile.geojson', {
     interactive:false,
     style:style
   }).addTo(map)
 
   // county npopchg2021
-  var npopchg2021 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_npopchg2021_quartile.geojson', {
+  var featureNpopchg2021 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_npopchg2021_quartile.geojson', {
     interactive:false,
     style:style
   })
 
   // county rnaturalchg2021
-  var rnaturalchg2021 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_rnaturalchg2021_quartile.geojson', {
+  var featureRnaturalchg2021 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_rnaturalchg2021_quartile.geojson', {
     interactive:false,
     style:style
   })
 
   // county rnetmig2021
-  var rnetmig2021 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_rnetmig2021_quartile.geojson', {
+  var featureRnetmig2021 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_rnetmig2021_quartile.geojson', {
     interactive:false,
     style:style
   })
 
   // top 10 popestimate2021
-  var popestimate2021_top_10 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_popestimate2021_top_10.geojson', {
+  var featurePopestimate2021_top_10 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_popestimate2021_top_10.geojson', {
     style:{
 	  fillColor: 'white',
       weight: 0.1,
@@ -157,7 +156,7 @@ function map(){
       color: 'black',
       fillOpacity: 0.5
     },
-  onEachFeature:mymarker
+  onEachFeature:myMarker
   })
 
   // base layers
@@ -169,7 +168,7 @@ function map(){
   // layer switcher
   map.addLayer(featureGroup1)
   var baseMaps = {"Streets":streets, "Satellite":satellite};
-  var overlayMaps = {"Title":featureGroup1, "Pop 2021":popestimate2021, "Pop Change 2021":npopchg2021, "Natural Change Rate 2021":rnaturalchg2021, "Net Migration Rate 2021":rnetmig2021, "Pop 2021 Top 10":popestimate2021_top_10};
+  var overlayMaps = {"Title":featureGroup1, "Pop 2021":featurePopestimate2021, "Pop Change 2021":featureNpopchg2021, "Natural Change Rate 2021":featureRnaturalchg2021, "Net Migration Rate 2021":featureRnetmig2021, "Pop 2021 Top 10":featurePopestimate2021_top_10};
   L.control.layers(baseMaps,overlayMaps).addTo(map);
 
   // navbar
