@@ -45,7 +45,7 @@ function map(){
   map.setView([39, -98], 1);
 
   // featuregroups
-  var feature_cover = new L.featureGroup()
+  var feature_cover = new L.featureGroup();
 
   // title
   var title = new L.tooltip({
@@ -81,12 +81,12 @@ function map(){
   function myMarker(feature, layer){
     var bounds = layer.getBounds();
     var center = bounds.getCenter();
-    var marker = L.marker(center).addTo(feature_popestimate2021_top_10);
+    var marker = L.marker(center).addTo(layer);
 	// zoom on click
     marker.on('click', function(e) {
       map.fitBounds(bounds);      
     });
-    layer.bindPopup('<h2>'+feature.properties.ctyname+'</h2><h3>Rank: '+feature.properties.rank+'</h3><h3>Pop 2021: '+feature.properties.popestimate2021+'</h3><h3>Pop Change: '+feature.properties.npopchg2021+'</h3><h3>Natural Change Rate: '+feature.properties.rnaturalchg2021+'</h3><h3>Net Migration Rate: '+feature.properties.rnetmig2021+'</h3>');
+    layer.bindPopup('<h2>#'+feature.properties.rank+' '+feature.properties.ctyname+'</h2><h3>Pop 2021: '+feature.properties.popestimate2021+'</h3><h3>Pop Change: '+feature.properties.npopchg2021+'</h3><h3>Natural Change Rate: '+feature.properties.rnaturalchg2021+'</h3><h3>Net Migration Rate: '+feature.properties.rnetmig2021+'</h3>');
   }
 
   // tooltip
@@ -156,7 +156,79 @@ function map(){
       color: 'black',
       fillOpacity: 0.5
     },
-  onEachFeature:myMarker
+  onEachFeature: function (feature, layer){
+    var bounds = layer.getBounds();
+    var center = bounds.getCenter();
+    var marker = L.marker(center).addTo(feature_popestimate2021_top_10);
+	// zoom on click
+    marker.on('click', function(e) {
+      map.fitBounds(bounds);      
+    });
+    layer.bindPopup('<h2>#'+feature.properties.rank+' '+feature.properties.ctyname+'</h2><h3>Pop 2021: '+feature.properties.popestimate2021+'</h3><h3>Pop Change: '+feature.properties.npopchg2021+'</h3><h3>Natural Change Rate: '+feature.properties.rnaturalchg2021+'</h3><h3>Net Migration Rate: '+feature.properties.rnetmig2021+'</h3>');
+  }
+  })
+
+  // top 10 npopchg2021
+  var feature_npopchg2021_top_10 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_npopchg2021_top_10.geojson', {
+    style:{
+	  fillColor: 'yellow',
+      weight: 1,
+      opacity: 1,
+      color: 'black',
+      fillOpacity: 0.5
+    },
+  onEachFeature:function (feature, layer){
+    var bounds = layer.getBounds();
+    var center = bounds.getCenter();
+    var marker = L.marker(center).addTo(feature_npopchg2021_top_10);
+	// zoom on click
+    marker.on('click', function(e) {
+      map.fitBounds(bounds);      
+    });
+    layer.bindPopup('<h2>#'+feature.properties.rank+' '+feature.properties.ctyname+'</h2><h3>Pop 2021: '+feature.properties.popestimate2021+'</h3><h3>Pop Change: '+feature.properties.npopchg2021+'</h3><h3>Natural Change Rate: '+feature.properties.rnaturalchg2021+'</h3><h3>Net Migration Rate: '+feature.properties.rnetmig2021+'</h3>');
+  }
+  })
+
+  // top 10 rnaturalchg2021
+  var feature_rnaturalchg2021_top_10 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_rnaturalchg2021_top_10.geojson', {
+    style:{
+	  fillColor: 'yellow',
+      weight: 1,
+      opacity: 1,
+      color: 'black',
+      fillOpacity: 0.5
+    },
+  onEachFeature:function (feature, layer){
+    var bounds = layer.getBounds();
+    var center = bounds.getCenter();
+    var marker = L.marker(center).addTo(feature_rnaturalchg2021_top_10);
+	// zoom on click
+    marker.on('click', function(e) {
+      map.fitBounds(bounds);      
+    });
+    layer.bindPopup('<h2>#'+feature.properties.rank+' '+feature.properties.ctyname+'</h2><h3>Pop 2021: '+feature.properties.popestimate2021+'</h3><h3>Pop Change: '+feature.properties.npopchg2021+'</h3><h3>Natural Change Rate: '+feature.properties.rnaturalchg2021+'</h3><h3>Net Migration Rate: '+feature.properties.rnetmig2021+'</h3>');
+  }
+  })
+
+  // top 10 rnetmig2021
+  var feature_rnetmig2021_top_10 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_rnetmig2021_top_10.geojson', {
+    style:{
+	  fillColor: 'yellow',
+      weight: 1,
+      opacity: 1,
+      color: 'black',
+      fillOpacity: 0.5
+    },
+  onEachFeature: function myMarker(feature, layer){
+    var bounds = layer.getBounds();
+    var center = bounds.getCenter();
+    var marker = L.marker(center).addTo(feature_rnetmig2021_top_10);
+	// zoom on click
+    marker.on('click', function(e) {
+      map.fitBounds(bounds);      
+    });
+    layer.bindPopup('<h2>#'+feature.properties.rank+' '+feature.properties.ctyname+'</h2><h3>Pop 2021: '+feature.properties.popestimate2021+'</h3><h3>Pop Change: '+feature.properties.npopchg2021+'</h3><h3>Natural Change Rate: '+feature.properties.rnaturalchg2021+'</h3><h3>Net Migration Rate: '+feature.properties.rnetmig2021+'</h3>');
+  }
   })
 
   // base layers
@@ -168,7 +240,7 @@ function map(){
   // layer switcher
   map.addLayer(feature_cover)
   var baseMaps = {"Streets":streets, "Satellite":satellite};
-  var overlayMaps = {"Title":feature_cover, "Pop 2021":feature_popestimate2021, "Pop Change":feature_npopchg2021, "Natural Change Rate":feature_rnaturalchg2021, "Net Migration Rate":feature_rnetmig2021, "Pop 2021 Top 10":feature_popestimate2021_top_10};
+  var overlayMaps = {"Title":feature_cover, "Pop 2021":feature_popestimate2021, "Pop Change":feature_npopchg2021, "Natural Change Rate":feature_rnaturalchg2021, "Net Migration Rate":feature_rnetmig2021, "Top 10 Pop 2021":feature_popestimate2021_top_10, "Top 10 Pop Change":feature_npopchg2021_top_10, "Top 10 Natural Change Rate":feature_rnaturalchg2021_top_10, "Top 10 Net Migration Rate":feature_rnetmig2021_top_10};
   L.control.layers(baseMaps,overlayMaps).addTo(map);
 
   // navbar
