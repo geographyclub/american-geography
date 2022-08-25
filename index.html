@@ -115,8 +115,16 @@ function map(){
     };
   }
 
-  // get geojson polygons
-  var featurePop2020 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_pop2020_quartile.geojson', {
+  // get popestimate2020
+  var popestimate2020 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_popestimate2020_quartile.geojson', {
+  style:style,
+  onEachFeature:function mymarker(feature, layer){
+      layer.bindPopup('<h3>Min: '+feature.properties.min+'</h3><h3>Max: '+feature.properties.max+'</h3>').addTo(map);
+    }
+  }).addTo(map)
+
+  // get popestimate2021
+  var popestimate2021 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_popestimate2021_quartile.geojson', {
   style:style,
   onEachFeature:function mymarker(feature, layer){
       layer.bindPopup('<h3>Min: '+feature.properties.min+'</h3><h3>Max: '+feature.properties.max+'</h3>').addTo(map);
@@ -132,7 +140,7 @@ function map(){
   // layer switcher
   map.addLayer(featureGroup1)
   var baseMaps = {"Streets":streets, "Satellite":satellite};
-  var overlayMaps = {"Title":featureGroup1, "Pop2020":featurePop2020};
+  var overlayMaps = {"Title":featureGroup1, "Pop 2020":popestimate2020, "Pop 2021":popestimate2021};
   L.control.layers(baseMaps,overlayMaps).addTo(map);
 
   // navbar
