@@ -1,5 +1,5 @@
 # American Geography
-This is how I'm working with census and street data. I AM NOT A DEVELOPER.
+Where are the fastest growing counties in the country? Where are the youngest cities? The oldest? Where are the most expensive neighborhoods? What can street data tell us about these places? This is my deep dive into US census and street data.
 
 1. [Importing](#1-importing)
 2. [Processing](#2-processing)
