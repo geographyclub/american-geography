@@ -32,10 +32,10 @@
 |    4 | Haines Borough           | Alaska       |    12.2|
 |    5 | Todd County              | South Dakota |    11.9|
 |    5 | McMullen County          | Texas        |    11.9|
-|    6 | Yoakum County            | Texas        |    11.6|
-|    7 | Dewey County             | South Dakota |    11.2|
-|    7 | Copper River Census Area | Alaska       |    11.2|
-|    8 | Dallam County            | Texas        |    11.1|
+|    7 | Yoakum County            | Texas        |    11.6|
+|    8 | Dewey County             | South Dakota |    11.2|
+|    8 | Copper River Census Area | Alaska       |    11.2|
+|   10 | Dallam County            | Texas        |    11.1|
 
 | rank |      name       |    state     | age_10_14 |
 |------|-----------------|--------------|-----------|
@@ -44,11 +44,11 @@
 |    3 | Oldham County   | Texas        |      12.6|
 |    4 | San Juan County | Colorado     |      11.6|
 |    4 | Blaine County   | Nebraska     |      11.6|
-|    5 | Sioux County    | North Dakota |      11.3|
-|    5 | Haines Borough  | Alaska       |      11.3|
-|    6 | Corson County   | South Dakota |      11.2|
-|    6 | Todd County     | South Dakota |      11.2|
-|    7 | King County     | Texas        |      11.1|
+|    6 | Sioux County    | North Dakota |      11.3|
+|    6 | Haines Borough  | Alaska       |      11.3|
+|    8 | Corson County   | South Dakota |      11.2|
+|    8 | Todd County     | South Dakota |      11.2|
+|   10 | King County     | Texas        |      11.1|
 
 | rank |         name         |    state     | age_15_19 |
 |------|----------------------|--------------|-----------|
@@ -58,10 +58,10 @@
 |    4 | Clay County          | South Dakota |      16.6|
 |    5 | Wheeler County       | Georgia      |      16.0|
 |    5 | Harrisonburg city    | Virginia     |      16.0|
-|    6 | Glasscock County     | Texas        |      15.8|
-|    7 | Whitman County       | Washington   |      15.3|
-|    8 | Wayne County         | Nebraska     |      15.2|
-|    9 | Prince Edward County | Virginia     |      14.6|
+|    7 | Glasscock County     | Texas        |      15.8|
+|    8 | Whitman County       | Washington   |      15.3|
+|    9 | Wayne County         | Nebraska     |      15.2|
+|   10 | Prince Edward County | Virginia     |      14.6|
 
 | rank |         name         |    state    | age_20_24 |
 |------|----------------------|-------------|-----------|
@@ -84,10 +84,10 @@
 |    4 | Trousdale County     | Tennessee            |      23.5|
 |    5 | Denver County        | Colorado             |      23.4|
 |    5 | San Francisco County | California           |      23.4|
-|    6 | District of Columbia | District of Columbia |      23.3|
-|    6 | Suffolk County       | Massachusetts        |      23.3|
-|    7 | Chattahoochee County | Georgia              |      22.8|
-|    8 | New York County      | New York             |      22.2|
+|    7 | District of Columbia | District of Columbia |      23.3|
+|    7 | Suffolk County       | Massachusetts        |      23.3|
+|    9 | Chattahoochee County | Georgia              |      22.8|
+|   10 | New York County      | New York             |      22.2|
 
 | rank |        name        |    state     | age_35_44 |
 |------|--------------------|--------------|-----------|
@@ -96,11 +96,11 @@
 |    3 | Camas County       | Idaho        |      20.3|
 |    4 | Garza County       | Texas        |      19.2|
 |    4 | Billings County    | North Dakota |      19.2|
-|    5 | Hamilton County    | Kansas       |      18.5|
-|    6 | Alexandria city    | Virginia     |      18.4|
-|    7 | Telfair County     | Georgia      |      17.7|
-|    8 | Manassas Park city | Virginia     |      17.6|
-|    8 | Hartley County     | Texas        |      17.6|
+|    6 | Hamilton County    | Kansas       |      18.5|
+|    7 | Alexandria city    | Virginia     |      18.4|
+|    8 | Telfair County     | Georgia      |      17.7|
+|    9 | Manassas Park city | Virginia     |      17.6|
+|    9 | Hartley County     | Texas        |      17.6|
 
 | rank |            name            |  state   | age_45_54 |
 |------|----------------------------|----------|-----------|
@@ -161,11 +161,11 @@
 |    3 | La Paz County         | Arizona  |      17.0|
 |    4 | Terrell County        | Texas    |      16.4|
 |    4 | Foard County          | Texas    |      16.4|
-|    5 | Wheeler County        | Oregon   |      15.3|
-|    6 | Northumberland County | Virginia |      15.1|
-|    7 | Highlands County      | Florida  |      13.7|
-|    8 | Charlotte County      | Florida  |      13.5|
-|    9 | Dolores County        | Colorado |      13.3|
+|    6 | Wheeler County        | Oregon   |      15.3|
+|    7 | Northumberland County | Virginia |      15.1|
+|    8 | Highlands County      | Florida  |      13.7|
+|    9 | Charlotte County      | Florida  |      13.5|
+|   10 | Dolores County        | Colorado |      13.3|
 
 | rank |       name        |    state     | age_85_over |
 |------|-------------------|--------------|-------------|
@@ -176,9 +176,9 @@
 |    5 | Blaine County     | Nebraska     |         7.7|
 |    6 | McPherson County  | South Dakota |         7.5|
 |    6 | Taliaferro County | Georgia      |         7.5|
-|    7 | Haakon County     | South Dakota |         7.3|
-|    8 | Graham County     | Kansas       |         7.1|
-|    8 | Wallace County    | Kansas       |         7.1|
+|    8 | Haakon County     | South Dakota |         7.3|
+|    9 | Graham County     | Kansas       |         7.1|
+|    9 | Wallace County    | Kansas       |         7.1|
 
 | rank |         name          |   state    | age_median |
 |------|-----------------------|------------|------------|
@@ -188,10 +188,10 @@
 |    4 | Custer County         | Colorado   |       60.1|
 |    5 | Charlotte County      | Florida    |       59.5|
 |    5 | Highland County       | Virginia   |       59.5|
-|    6 | Catron County         | New Mexico |       59.4|
-|    7 | Northumberland County | Virginia   |       59.3|
-|    8 | Terrell County        | Texas      |       59.1|
-|    8 | Ontonagon County      | Michigan   |       59.1|
+|    7 | Catron County         | New Mexico |       59.4|
+|    8 | Northumberland County | Virginia   |       59.3|
+|    9 | Terrell County        | Texas      |       59.1|
+|    9 | Ontonagon County      | Michigan   |       59.1|
 
 | rank |         name         |    state     | age_under18 |
 |------|----------------------|--------------|-------------|
@@ -202,9 +202,9 @@
 |    5 | Dewey County         | South Dakota |        36.9|
 |    6 | Corson County        | South Dakota |        36.7|
 |    6 | Oglala Lakota County | South Dakota |        36.7|
-|    7 | Oldham County        | Texas        |        36.5|
-|    8 | Gaines County        | Texas        |        35.8|
-|    8 | Thurston County      | Nebraska     |        35.8|
+|    8 | Oldham County        | Texas        |        36.5|
+|    9 | Gaines County        | Texas        |        35.8|
+|    9 | Thurston County      | Nebraska     |        35.8|
 
 | rank |       name        |    state     | age_16_over |
 |------|-------------------|--------------|-------------|
@@ -241,9 +241,9 @@
 |    5 | Terrell County   | Texas          |        87.0|
 |    6 | Jefferson County | Washington     |        86.5|
 |    6 | McCormick County | South Carolina |        86.5|
-|    7 | Issaquena County | Mississippi    |        86.4|
-|    8 | Esmeralda County | Nevada         |        86.0|
-|    9 | Sullivan County  | Pennsylvania   |        85.8|
+|    8 | Issaquena County | Mississippi    |        86.4|
+|    9 | Esmeralda County | Nevada         |        86.0|
+|   10 | Sullivan County  | Pennsylvania   |        85.8|
 
 | rank |         name          |   state    | age_62_over |
 |------|-----------------------|------------|-------------|
@@ -255,8 +255,8 @@
 |    6 | Charlotte County      | Florida    |        45.4|
 |    7 | La Paz County         | Arizona    |        44.8|
 |    7 | Northumberland County | Virginia   |        44.8|
-|    8 | Jefferson County      | Washington |        43.9|
-|    9 | Alcona County         | Michigan   |        43.3|
+|    9 | Jefferson County      | Washington |        43.9|
+|   10 | Alcona County         | Michigan   |        43.3|
 
 | rank |         name          |   state    | age_65_over |
 |------|-----------------------|------------|-------------|
@@ -282,20 +282,20 @@
 |    7 | Maui County            | Hawaii      |       23.4|
 |    8 | Honolulu County        | Hawaii      |       23.3|
 |    8 | Rincón Municipio       | Puerto Rico |       23.3|
-|    9 | Hudspeth County        | Texas       |       21.4|
+|   10 | Hudspeth County        | Texas       |       21.4|
 
 | rank |      name       |     state     | race_white |
 |------|-----------------|---------------|------------|
 |    1 | Blaine County   | Nebraska      |      100.0|
 |    1 | Billings County | North Dakota  |      100.0|
 |    1 | Loving County   | Texas         |      100.0|
-|    2 | Edwards County  | Texas         |       99.9|
-|    3 | Butte County    | Idaho         |       99.5|
-|    3 | Liberty County  | Montana       |       99.5|
-|    4 | Garfield County | Montana       |       99.4|
-|    5 | Calhoun County  | West Virginia |       99.3|
-|    6 | Clay County     | West Virginia |       99.2|
-|    7 | Dundy County    | Nebraska      |       99.1|
+|    4 | Edwards County  | Texas         |       99.9|
+|    5 | Butte County    | Idaho         |       99.5|
+|    5 | Liberty County  | Montana       |       99.5|
+|    7 | Garfield County | Montana       |       99.4|
+|    8 | Calhoun County  | West Virginia |       99.3|
+|    9 | Clay County     | West Virginia |       99.2|
+|   10 | Dundy County    | Nebraska      |       99.1|
 
 | rank |        name        |    state    | race_black |
 |------|--------------------|-------------|------------|
@@ -354,13 +354,13 @@
 |    1 | Naranjito Municipio    | Puerto Rico |         100.0|
 |    2 | Barranquitas Municipio | Puerto Rico |          99.9|
 |    2 | Yabucoa Municipio      | Puerto Rico |          99.9|
-|    3 | Las Piedras Municipio  | Puerto Rico |          99.8|
-|    3 | Arroyo Municipio       | Puerto Rico |          99.8|
-|    3 | Juana Díaz Municipio   | Puerto Rico |          99.8|
-|    3 | Santa Isabel Municipio | Puerto Rico |          99.8|
-|    3 | Villalba Municipio     | Puerto Rico |          99.8|
-|    4 | Canóvanas Municipio    | Puerto Rico |          99.7|
-|    4 | Patillas Municipio     | Puerto Rico |          99.7|
+|    4 | Las Piedras Municipio  | Puerto Rico |          99.8|
+|    4 | Arroyo Municipio       | Puerto Rico |          99.8|
+|    4 | Juana Díaz Municipio   | Puerto Rico |          99.8|
+|    4 | Santa Isabel Municipio | Puerto Rico |          99.8|
+|    4 | Villalba Municipio     | Puerto Rico |          99.8|
+|    9 | Canóvanas Municipio    | Puerto Rico |          99.7|
+|    9 | Patillas Municipio     | Puerto Rico |          99.7|
 
 | rank |        name        |   state    | housing_total |
 |------|--------------------|------------|---------------|
@@ -397,9 +397,9 @@
 |    5 | Luquillo Municipio         | Puerto Rico  |       12.9|
 |    5 | Utuado Municipio           | Puerto Rico  |       12.9|
 |    5 | Lake and Peninsula Borough | Alaska       |       12.9|
-|    6 | Buffalo County             | South Dakota |       12.6|
-|    7 | Guánica Municipio          | Puerto Rico  |       12.5|
-|    8 | Loíza Municipio            | Puerto Rico  |       12.4|
+|    8 | Buffalo County             | South Dakota |       12.6|
+|    9 | Guánica Municipio          | Puerto Rico  |       12.5|
+|   10 | Loíza Municipio            | Puerto Rico  |       12.4|
 
 | rank |         name         |        state         | job_bus_sci_art |
 |------|----------------------|----------------------|-----------------|
@@ -490,7 +490,7 @@
 |    7 | Sierra County      | California    |            19.1|
 |    8 | Wayne County       | Utah          |            18.4|
 |    8 | Vieques Municipio  | Puerto Rico   |            18.4|
-|    9 | Custer County      | Colorado      |            18.3|
+|   10 | Custer County      | Colorado      |            18.3|
 
 | rank |          name          |    state     | in_manufacturing |
 |------|------------------------|--------------|------------------|
@@ -554,8 +554,8 @@
 |    6 | Kingfisher County    | Oklahoma     |            6.6|
 |    7 | Treasure County      | Montana      |            6.3|
 |    7 | Highland County      | Virginia     |            6.3|
-|    8 | San Francisco County | California   |            6.2|
-|    9 | New York County      | New York     |            5.9|
+|    9 | San Francisco County | California   |            6.2|
+|   10 | New York County      | New York     |            5.9|
 
 | rank |        name        |     state      | in_finance |
 |------|--------------------|----------------|------------|
@@ -639,14 +639,14 @@
 |------|--------------------|--------------|---------------|
 |    1 | Decatur County     | Indiana      |          88.5|
 |    1 | Warren County      | Missouri     |          88.5|
-|    2 | Gibson County      | Indiana      |          88.4|
-|    2 | DeKalb County      | Indiana      |          88.4|
-|    3 | Elk County         | Pennsylvania |          88.1|
-|    3 | Lehigh County      | Pennsylvania |          88.1|
-|    4 | Bartholomew County | Indiana      |          87.9|
-|    5 | Kent County        | Michigan     |          87.6|
-|    6 | Marshall County    | Indiana      |          87.5|
-|    7 | Allen County       | Indiana      |          87.4|
+|    3 | Gibson County      | Indiana      |          88.4|
+|    3 | DeKalb County      | Indiana      |          88.4|
+|    5 | Elk County         | Pennsylvania |          88.1|
+|    5 | Lehigh County      | Pennsylvania |          88.1|
+|    7 | Bartholomew County | Indiana      |          87.9|
+|    8 | Kent County        | Michigan     |          87.6|
+|    9 | Marshall County    | Indiana      |          87.5|
+|   10 | Allen County       | Indiana      |          87.4|
 
 | rank |            name            |    state     | class_govt |
 |------|----------------------------|--------------|------------|
@@ -658,8 +658,8 @@
 |    6 | Kusilvak Census Area       | Alaska       |       59.3|
 |    7 | Loving County              | Texas        |       57.7|
 |    7 | Ziebach County             | South Dakota |       57.7|
-|    8 | Yakutat City and Borough   | Alaska       |       55.3|
-|    9 | Yukon-Koyukuk Census Area  | Alaska       |       54.4|
+|    9 | Yakutat City and Borough   | Alaska       |       55.3|
+|   10 | Yukon-Koyukuk Census Area  | Alaska       |       54.4|
 
 | rank |        name         |    state     | class_selfemployed |
 |------|---------------------|--------------|--------------------|
@@ -707,11 +707,11 @@
 |    3 | Santa Isabel Municipio | Puerto Rico |               18.1|
 |    3 | Jenkins County         | Georgia     |               18.1|
 |    3 | Lajas Municipio        | Puerto Rico |               18.1|
-|    4 | Adjuntas Municipio     | Puerto Rico |               17.2|
-|    5 | Culebra Municipio      | Puerto Rico |               17.1|
-|    6 | Arroyo Municipio       | Puerto Rico |               17.0|
-|    7 | Telfair County         | Georgia     |               16.8|
-|    8 | Aguada Municipio       | Puerto Rico |               16.5|
+|    6 | Adjuntas Municipio     | Puerto Rico |               17.2|
+|    7 | Culebra Municipio      | Puerto Rico |               17.1|
+|    8 | Arroyo Municipio       | Puerto Rico |               17.0|
+|    9 | Telfair County         | Georgia     |               16.8|
+|   10 | Aguada Municipio       | Puerto Rico |               16.5|
 
 | rank |       name        |    state    | income_15000_24999 |
 |------|-------------------|-------------|--------------------|
@@ -735,9 +735,9 @@
 |    5 | Atkinson County | Georgia      |               20.7|
 |    6 | Jackson County  | Colorado     |               20.5|
 |    6 | Pawnee County   | Kansas       |               20.5|
-|    7 | Conecuh County  | Alabama      |               20.4|
-|    7 | Towner County   | North Dakota |               20.4|
-|    8 | Power County    | Idaho        |               20.2|
+|    8 | Conecuh County  | Alabama      |               20.4|
+|    8 | Towner County   | North Dakota |               20.4|
+|   10 | Power County    | Idaho        |               20.2|
 
 | rank |       name        |  state   | income_35000_49999 |
 |------|-------------------|----------|--------------------|
@@ -774,9 +774,9 @@
 |    5 | Rich County                | Utah         |               21.7|
 |    6 | Sioux County               | Iowa         |               21.5|
 |    6 | Beaver County              | Utah         |               21.5|
-|    7 | Eureka County              | Nevada       |               21.3|
-|    8 | Valley County              | Nebraska     |               21.0|
-|    8 | Uinta County               | Wyoming      |               21.0|
+|    8 | Eureka County              | Nevada       |               21.3|
+|    9 | Valley County              | Nebraska     |               21.0|
+|    9 | Uinta County               | Wyoming      |               21.0|
 
 | rank |          name          |   state    | income_100000_149999 |
 |------|------------------------|------------|----------------------|
@@ -800,9 +800,9 @@
 |    5 | Stafford County   | Virginia |                 16.3|
 |    6 | Douglas County    | Colorado |                 15.3|
 |    6 | Teton County      | Idaho    |                 15.3|
-|    7 | Fairfax County    | Virginia |                 15.1|
-|    8 | Howard County     | Maryland |                 14.9|
-|    9 | Elbert County     | Colorado |                 14.8|
+|    8 | Fairfax County    | Virginia |                 15.1|
+|    9 | Howard County     | Maryland |                 14.9|
+|   10 | Elbert County     | Colorado |                 14.8|
 
 | rank |         name         |   state    | income_200000_more |
 |------|----------------------|------------|--------------------|
@@ -913,13 +913,13 @@
 |    1 | Kendall County    | Illinois     |             97.7|
 |    2 | Dakota County     | Minnesota    |             97.2|
 |    2 | Loudoun County    | Virginia     |             97.2|
-|    3 | Scott County      | Minnesota    |             97.0|
-|    3 | Anoka County      | Minnesota    |             97.0|
-|    3 | Broomfield County | Colorado     |             97.0|
-|    3 | Fairfax city      | Virginia     |             97.0|
-|    4 | Lincoln County    | South Dakota |             96.9|
-|    5 | Davis County      | Utah         |             96.8|
-|    6 | Hancock County    | Indiana      |             96.7|
+|    4 | Scott County      | Minnesota    |             97.0|
+|    4 | Anoka County      | Minnesota    |             97.0|
+|    4 | Broomfield County | Colorado     |             97.0|
+|    4 | Fairfax city      | Virginia     |             97.0|
+|    8 | Lincoln County    | South Dakota |             96.9|
+|    9 | Davis County      | Utah         |             96.8|
+|   10 | Hancock County    | Indiana      |             96.7|
 
 | rank |            name            |     state     | housing_vacant |
 |------|----------------------------|---------------|----------------|
@@ -951,7 +951,7 @@
 |    7 | Banner County             | Nebraska     |             94.8|
 |    8 | New Kent County           | Virginia     |             94.6|
 |    8 | Rappahannock County       | Virginia     |             94.6|
-|    9 | Powhatan County           | Virginia     |             94.5|
+|   10 | Powhatan County           | Virginia     |             94.5|
 
 | rank |         name          |    state     | units_1_attached |
 |------|-----------------------|--------------|------------------|
@@ -1012,11 +1012,11 @@
 |    3 | Whitman County         | Washington |        14.0|
 |    4 | Harrisonburg city      | Virginia   |        13.9|
 |    4 | Fairfax city           | Virginia   |        13.9|
-|    5 | Salem city             | Virginia   |        13.0|
-|    6 | Prince George's County | Maryland   |        12.8|
-|    7 | Camden County          | Missouri   |        12.6|
-|    8 | Montgomery County      | Virginia   |        12.0|
-|    9 | Alexandria city        | Virginia   |        11.9|
+|    6 | Salem city             | Virginia   |        13.0|
+|    7 | Prince George's County | Maryland   |        12.8|
+|    8 | Camden County          | Missouri   |        12.6|
+|    9 | Montgomery County      | Virginia   |        12.0|
+|   10 | Alexandria city        | Virginia   |        11.9|
 
 | rank |         name         |        state         | units_20_more |
 |------|----------------------|----------------------|---------------|
@@ -1052,10 +1052,10 @@
 |    4 | Shackelford County  | Texas      |               3.2|
 |    5 | Sherman County      | Oregon     |               2.9|
 |    5 | DeSoto County       | Florida    |               2.9|
-|    6 | Lafayette County    | Florida    |               2.6|
-|    7 | Camas County        | Idaho      |               2.5|
-|    8 | Chugach Census Area | Alaska     |               2.3|
-|    8 | Glades County       | Florida    |               2.3|
+|    7 | Lafayette County    | Florida    |               2.6|
+|    8 | Camas County        | Idaho      |               2.5|
+|    9 | Chugach Census Area | Alaska     |               2.3|
+|    9 | Glades County       | Florida    |               2.3|
 
 | rank |       name        |    state     | built_2014_later |
 |------|-------------------|--------------|------------------|
@@ -1066,9 +1066,9 @@
 |    5 | Comal County      | Texas        |             15.5|
 |    6 | Madison County    | Idaho        |             15.1|
 |    6 | Williamson County | Texas        |             15.1|
-|    7 | Fort Bend County  | Texas        |             14.3|
-|    8 | Montgomery County | Texas        |             13.7|
-|    9 | Forsyth County    | Georgia      |             13.4|
+|    8 | Fort Bend County  | Texas        |             14.3|
+|    9 | Montgomery County | Texas        |             13.7|
+|   10 | Forsyth County    | Georgia      |             13.4|
 
 | rank |       name       |     state      | built_2010_2013 |
 |------|------------------|----------------|-----------------|
@@ -1078,10 +1078,10 @@
 |    4 | Ward County      | North Dakota   |            15.1|
 |    5 | Sumter County    | Florida        |            14.9|
 |    5 | McKenzie County  | North Dakota   |            14.9|
-|    6 | Onslow County    | North Carolina |            13.5|
-|    6 | Mountrail County | North Dakota   |            13.5|
-|    7 | Dallas County    | Iowa           |            13.3|
-|    8 | Richland County  | Montana        |            12.4|
+|    7 | Onslow County    | North Carolina |            13.5|
+|    7 | Mountrail County | North Dakota   |            13.5|
+|    9 | Dallas County    | Iowa           |            13.3|
+|   10 | Richland County  | Montana        |            12.4|
 
 | rank |        name        |   state   | built_2000_2009 |
 |------|--------------------|-----------|-----------------|
@@ -1120,20 +1120,20 @@
 |    7 | Yukon-Koyukuk Census Area  | Alaska         |            30.8|
 |    7 | Manassas city              | Virginia       |            30.8|
 |    7 | Denali Borough             | Alaska         |            30.8|
-|    8 | Northwest Arctic Borough   | Alaska         |            30.5|
+|   10 | Northwest Arctic Borough   | Alaska         |            30.5|
 
 | rank |           name           |    state    | built_1970_1979 |
 |------|--------------------------|-------------|-----------------|
 |    1 | Aguada Municipio         | Puerto Rico |            35.0|
 |    1 | Vega Baja Municipio      | Puerto Rico |            35.0|
-|    2 | Jefferson County         | Mississippi |            34.9|
-|    3 | Kinney County            | Texas       |            34.7|
-|    4 | Power County             | Idaho       |            34.2|
-|    5 | Yakutat City and Borough | Alaska      |            33.6|
-|    6 | Converse County          | Wyoming     |            33.3|
-|    7 | Manatí Municipio         | Puerto Rico |            33.1|
-|    8 | Carson City              | Nevada      |            33.0|
-|    9 | Issaquena County         | Mississippi |            32.4|
+|    3 | Jefferson County         | Mississippi |            34.9|
+|    4 | Kinney County            | Texas       |            34.7|
+|    5 | Power County             | Idaho       |            34.2|
+|    6 | Yakutat City and Borough | Alaska      |            33.6|
+|    7 | Converse County          | Wyoming     |            33.3|
+|    8 | Manatí Municipio         | Puerto Rico |            33.1|
+|    9 | Carson City              | Nevada      |            33.0|
+|   10 | Issaquena County         | Mississippi |            32.4|
 
 | rank |        name        |    state    | built_1960_1969 |
 |------|--------------------|-------------|-----------------|
@@ -1156,10 +1156,10 @@
 |    4 | Reeves County  | Texas    |            28.1|
 |    5 | Winkler County | Texas    |            28.0|
 |    5 | Fairfax city   | Virginia |            28.0|
-|    6 | Cochran County | Texas    |            27.2|
-|    7 | Gray County    | Texas    |            27.0|
-|    8 | Potter County  | Texas    |            26.4|
-|    8 | Scurry County  | Texas    |            26.4|
+|    7 | Cochran County | Texas    |            27.2|
+|    8 | Gray County    | Texas    |            27.0|
+|    9 | Potter County  | Texas    |            26.4|
+|    9 | Scurry County  | Texas    |            26.4|
 
 | rank |       name       |   state    | built_1940_1949 |
 |------|------------------|------------|-----------------|
@@ -1172,7 +1172,7 @@
 |    7 | Harding County   | New Mexico |            16.0|
 |    8 | Giles County     | Virginia   |            15.8|
 |    8 | Kenedy County    | Texas      |            15.8|
-|    9 | Beaver County    | Oklahoma   |            15.7|
+|   10 | Beaver County    | Oklahoma   |            15.7|
 
 | rank |      name       |     state     | built_1939_earlier |
 |------|-----------------|---------------|--------------------|
@@ -1183,9 +1183,9 @@
 |    5 | Kings County    | New York      |               50.2|
 |    6 | Pawnee County   | Nebraska      |               49.9|
 |    6 | Comanche County | Kansas        |               49.9|
-|    7 | Suffolk County  | Massachusetts |               48.7|
-|    8 | Cloud County    | Kansas        |               48.6|
-|    9 | Miner County    | South Dakota  |               48.5|
+|    8 | Suffolk County  | Massachusetts |               48.7|
+|    9 | Cloud County    | Kansas        |               48.6|
+|   10 | Miner County    | South Dakota  |               48.5|
 
 | rank |              name               |    state     | rooms_1 |
 |------|---------------------------------|--------------|---------|
@@ -1220,11 +1220,11 @@
 |    3 | Northwest Arctic Borough | Alaska      |    27.0|
 |    4 | Grand County             | Colorado    |    26.9|
 |    4 | Monroe County            | Florida     |    26.9|
-|    5 | Culebra Municipio        | Puerto Rico |    25.3|
-|    6 | Arlington County         | Virginia    |    25.2|
-|    7 | Kings County             | New York    |    23.9|
-|    8 | Vieques Municipio        | Puerto Rico |    23.2|
-|    9 | Maricao Municipio        | Puerto Rico |    22.8|
+|    6 | Culebra Municipio        | Puerto Rico |    25.3|
+|    7 | Arlington County         | Virginia    |    25.2|
+|    8 | Kings County             | New York    |    23.9|
+|    9 | Vieques Municipio        | Puerto Rico |    23.2|
+|   10 | Maricao Municipio        | Puerto Rico |    22.8|
 
 | rank |         name          |    state    | rooms_4 |
 |------|-----------------------|-------------|---------|
@@ -1235,9 +1235,9 @@
 |    5 | Loíza Municipio       | Puerto Rico |    43.8|
 |    6 | Comerío Municipio     | Puerto Rico |    43.2|
 |    6 | Maunabo Municipio     | Puerto Rico |    43.2|
-|    7 | Patillas Municipio    | Puerto Rico |    42.4|
-|    8 | Kenedy County         | Texas       |    41.2|
-|    9 | Las Piedras Municipio | Puerto Rico |    40.6|
+|    8 | Patillas Municipio    | Puerto Rico |    42.4|
+|    9 | Kenedy County         | Texas       |    41.2|
+|   10 | Las Piedras Municipio | Puerto Rico |    40.6|
 
 | rank |          name           |    state    | rooms_5 |
 |------|-------------------------|-------------|---------|
@@ -1258,12 +1258,12 @@
 |    2 | King County      | Texas       |    33.8|
 |    3 | Tensas Parish    | Louisiana   |    33.6|
 |    3 | Issaquena County | Mississippi |    33.6|
-|    4 | Garvin County    | Oklahoma    |    33.1|
-|    4 | Baylor County    | Texas       |    33.1|
-|    5 | Franklin Parish  | Louisiana   |    32.2|
-|    6 | Trimble County   | Kentucky    |    32.0|
-|    7 | Sherman County   | Texas       |    31.6|
-|    8 | Nevada County    | Arkansas    |    31.3|
+|    5 | Garvin County    | Oklahoma    |    33.1|
+|    5 | Baylor County    | Texas       |    33.1|
+|    7 | Franklin Parish  | Louisiana   |    32.2|
+|    8 | Trimble County   | Kentucky    |    32.0|
+|    9 | Sherman County   | Texas       |    31.6|
+|   10 | Nevada County    | Arkansas    |    31.3|
 
 | rank |       name        |   state    | rooms_7 |
 |------|-------------------|------------|---------|
@@ -1288,8 +1288,8 @@
 |    6 | Rawlins County       | Kansas       |    17.5|
 |    7 | McCone County        | Montana      |    17.0|
 |    7 | Stevens County       | Kansas       |    17.0|
-|    8 | Poquoson city        | Virginia     |    16.9|
-|    9 | Hanover County       | Virginia     |    16.8|
+|    9 | Poquoson city        | Virginia     |    16.9|
+|   10 | Hanover County       | Virginia     |    16.8|
 
 | rank |       name        |   state   | rooms_9 |
 |------|-------------------|-----------|---------|
@@ -1298,24 +1298,24 @@
 |    3 | Williamson County | Tennessee |    37.0|
 |    4 | Loudoun County    | Virginia  |    36.9|
 |    4 | Forsyth County    | Georgia   |    36.9|
-|    5 | Oldham County     | Kentucky  |    36.7|
-|    6 | Douglas County    | Colorado  |    36.0|
-|    7 | Davis County      | Utah      |    34.4|
-|    8 | Carver County     | Minnesota |    34.1|
-|    9 | Goochland County  | Virginia  |    33.9|
+|    6 | Oldham County     | Kentucky  |    36.7|
+|    7 | Douglas County    | Colorado  |    36.0|
+|    8 | Davis County      | Utah      |    34.4|
+|    9 | Carver County     | Minnesota |    34.1|
+|   10 | Goochland County  | Virginia  |    33.9|
 
 | rank |       name        |   state   | rooms_median |
 |------|-------------------|-----------|--------------|
 |    1 | Morgan County     | Utah      |          8.2|
 |    2 | Forsyth County    | Georgia   |          7.7|
 |    2 | Stafford County   | Virginia  |          7.7|
-|    3 | Williamson County | Tennessee |          7.6|
-|    4 | Davis County      | Utah      |          7.4|
-|    4 | Douglas County    | Colorado  |          7.4|
-|    4 | Elbert County     | Colorado  |          7.4|
-|    4 | Fayette County    | Georgia   |          7.4|
-|    4 | Poquoson city     | Virginia  |          7.4|
-|    4 | Oldham County     | Kentucky  |          7.4|
+|    4 | Williamson County | Tennessee |          7.6|
+|    5 | Davis County      | Utah      |          7.4|
+|    5 | Douglas County    | Colorado  |          7.4|
+|    5 | Elbert County     | Colorado  |          7.4|
+|    5 | Fayette County    | Georgia   |          7.4|
+|    5 | Poquoson city     | Virginia  |          7.4|
+|    5 | Oldham County     | Kentucky  |          7.4|
 
 | rank |         name          |     state     | occupied_owner |
 |------|-----------------------|---------------|----------------|
@@ -1325,10 +1325,10 @@
 |    4 | Elbert County         | Colorado      |           91.3|
 |    5 | Park County           | Colorado      |           91.0|
 |    5 | Doddridge County      | West Virginia |           91.0|
-|    6 | Benzie County         | Michigan      |           90.9|
-|    7 | New Kent County       | Virginia      |           90.0|
-|    8 | Washington County     | Alabama       |           89.5|
-|    9 | Northumberland County | Virginia      |           89.4|
+|    7 | Benzie County         | Michigan      |           90.9|
+|    8 | New Kent County       | Virginia      |           90.0|
+|    9 | Washington County     | Alabama       |           89.5|
+|   10 | Northumberland County | Virginia      |           89.4|
 
 | rank |            name            |   state    | occupied_renter |
 |------|----------------------------|------------|-----------------|
@@ -1353,8 +1353,8 @@
 |    6 | McDowell County      | West Virginia  |             58.0|
 |    7 | Cottle County        | Texas          |             56.2|
 |    7 | Stewart County       | Georgia        |             56.2|
-|    8 | Cochran County       | Texas          |             55.8|
-|    9 | Allendale County     | South Carolina |             53.0|
+|    9 | Cochran County       | Texas          |             55.8|
+|   10 | Allendale County     | South Carolina |             53.0|
 
 | rank |          name           |    state    | value_50000_99999 |
 |------|-------------------------|-------------|-------------------|
@@ -1432,7 +1432,7 @@
 |    7 | Sonoma County          | California |                55.2|
 |    8 | San Luis Obispo County | California |                54.3|
 |    8 | Honolulu County        | Hawaii     |                54.3|
-|    9 | Napa County            | California |                53.4|
+|   10 | Napa County            | California |                53.4|
 
 | rank |         name         |     state     | value_1000000_more |
 |------|----------------------|---------------|--------------------|
@@ -1478,13 +1478,13 @@
 |    1 | Loving County     | Texas      |        100.0|
 |    1 | Terrell County    | Texas      |        100.0|
 |    1 | Kenedy County     | Texas      |        100.0|
-|    2 | Logan County      | Nebraska   |         96.2|
-|    3 | Echols County     | Georgia    |         94.3|
-|    4 | Harper County     | Oklahoma   |         93.9|
-|    5 | Sequatchie County | Tennessee  |         92.4|
-|    6 | Motley County     | Texas      |         89.7|
-|    7 | Harding County    | New Mexico |         87.5|
-|    8 | Camas County      | Idaho      |         87.3|
+|    4 | Logan County      | Nebraska   |         96.2|
+|    5 | Echols County     | Georgia    |         94.3|
+|    6 | Harper County     | Oklahoma   |         93.9|
+|    7 | Sequatchie County | Tennessee  |         92.4|
+|    8 | Motley County     | Texas      |         89.7|
+|    9 | Harding County    | New Mexico |         87.5|
+|   10 | Camas County      | Idaho      |         87.3|
 
 | rank |           name           |  state   | rent_1000_1499 |
 |------|--------------------------|----------|----------------|
@@ -1520,10 +1520,10 @@
 |    4 | Loudoun County      | Virginia   |           23.3|
 |    5 | Fairfax County      | Virginia   |           23.0|
 |    5 | Orange County       | California |           23.0|
-|    6 | Fairfax city        | Virginia   |           22.5|
-|    7 | Ventura County      | California |           22.2|
-|    8 | Suffolk County      | New York   |           22.1|
-|    9 | Falls Church city   | Virginia   |           21.5|
+|    7 | Fairfax city        | Virginia   |           22.5|
+|    8 | Ventura County      | California |           22.2|
+|    9 | Suffolk County      | New York   |           22.1|
+|   10 | Falls Church city   | Virginia   |           21.5|
 
 | rank |         name         |    state     | rent_2500_2999 |
 |------|----------------------|--------------|----------------|
@@ -1561,8 +1561,8 @@
 |    6 | Arlington County     | Virginia   |        2005|
 |    7 | Contra Costa County  | California |        1928|
 |    7 | Orange County        | California |        1928|
-|    8 | Loudoun County       | Virginia   |        1913|
-|    9 | Alameda County       | California |        1904|
+|    9 | Loudoun County       | Virginia   |        1913|
+|   10 | Alameda County       | California |        1904|
 
 | rank |         name         |    state     | grapi_15_less |
 |------|----------------------|--------------|---------------|
@@ -1737,14 +1737,14 @@
 |------|-------------------|------------|-----------------------|
 |    1 | Kalawao County    | Hawaii     |                  98.6|
 |    1 | Petroleum County  | Montana    |                  98.6|
-|    2 | Ouray County      | Colorado   |                  98.5|
-|    3 | Loup County       | Nebraska   |                  98.2|
-|    4 | Los Alamos County | New Mexico |                  98.1|
-|    5 | Haines Borough    | Alaska     |                  98.0|
-|    5 | Douglas County    | Colorado   |                  98.0|
-|    5 | Mineral County    | Colorado   |                  98.0|
-|    6 | Morgan County     | Utah       |                  97.8|
-|    7 | Park County       | Colorado   |                  97.7|
+|    3 | Ouray County      | Colorado   |                  98.5|
+|    4 | Loup County       | Nebraska   |                  98.2|
+|    5 | Los Alamos County | New Mexico |                  98.1|
+|    6 | Haines Borough    | Alaska     |                  98.0|
+|    6 | Douglas County    | Colorado   |                  98.0|
+|    6 | Mineral County    | Colorado   |                  98.0|
+|    9 | Morgan County     | Utah       |                  97.8|
+|   10 | Park County       | Colorado   |                  97.7|
 
 | rank |       name        |   state    | edu_bachelor_higher |
 |------|-------------------|------------|---------------------|
@@ -1768,9 +1768,9 @@
 |    5 | Dickenson County   | Virginia |              49.1|
 |    6 | Newton County      | Texas    |              48.0|
 |    6 | Breathitt County   | Kentucky |              48.0|
-|    7 | Jackson County     | Kentucky |              46.7|
-|    8 | Buchanan County    | Virginia |              46.6|
-|    9 | Russell County     | Virginia |              44.2|
+|    8 | Jackson County     | Kentucky |              46.7|
+|    9 | Buchanan County    | Virginia |              46.6|
+|   10 | Russell County     | Virginia |              44.2|
 
 | rank |        name        |   state    | ancestry_arab |
 |------|--------------------|------------|---------------|
@@ -1780,10 +1780,10 @@
 |    4 | Passaic County     | New Jersey |           3.0|
 |    5 | Hudson County      | New Jersey |           2.8|
 |    5 | Harrisonburg city  | Virginia   |           2.8|
-|    6 | Richmond County    | New York   |           2.7|
-|    6 | Fairfax city       | Virginia   |           2.7|
-|    6 | Davidson County    | Tennessee  |           2.7|
-|    7 | Oakland County     | Michigan   |           2.6|
+|    7 | Richmond County    | New York   |           2.7|
+|    7 | Fairfax city       | Virginia   |           2.7|
+|    7 | Davidson County    | Tennessee  |           2.7|
+|   10 | Oakland County     | Michigan   |           2.6|
 
 | rank |       name       |    state     | ancestry_czech |
 |------|------------------|--------------|----------------|
@@ -1796,7 +1796,7 @@
 |    7 | Saline County    | Nebraska     |           13.1|
 |    8 | Fillmore County  | Nebraska     |           11.7|
 |    8 | Howard County    | Iowa         |           11.7|
-|    9 | Wharton County   | Texas        |           11.6|
+|   10 | Wharton County   | Texas        |           11.6|
 
 | rank |      name      | state | ancestry_danish |
 |------|----------------|-------|-----------------|
@@ -1809,7 +1809,7 @@
 |    7 | Rich County    | Utah  |            10.2|
 |    8 | Millard County | Utah  |             9.7|
 |    8 | Cass County    | Iowa  |             9.7|
-|    9 | Juab County    | Utah  |             8.5|
+|   10 | Juab County    | Utah  |             8.5|
 
 | rank |       name       |    state     | ancestry_dutch |
 |------|------------------|--------------|----------------|
@@ -1832,10 +1832,10 @@
 |    4 | King County     | Texas    |             34.8|
 |    5 | Emery County    | Utah     |             34.6|
 |    5 | Daggett County  | Utah     |             34.6|
-|    6 | Oneida County   | Idaho    |             33.5|
-|    7 | Carter County   | Kentucky |             32.5|
-|    7 | Juab County     | Utah     |             32.5|
-|    8 | Lawrence County | Kentucky |             32.1|
+|    7 | Oneida County   | Idaho    |             33.5|
+|    8 | Carter County   | Kentucky |             32.5|
+|    8 | Juab County     | Utah     |             32.5|
+|   10 | Lawrence County | Kentucky |             32.1|
 
 | rank |        name         |     state     | ancestry_french |
 |------|---------------------|---------------|-----------------|
@@ -1843,25 +1843,25 @@
 |    2 | Avoyelles Parish    | Louisiana     |            23.6|
 |    3 | Acadia Parish       | Louisiana     |            22.5|
 |    3 | Evangeline Parish   | Louisiana     |            22.5|
-|    4 | Aroostook County    | Maine         |            22.1|
-|    5 | Assumption Parish   | Louisiana     |            22.0|
-|    6 | Red Lake County     | Minnesota     |            21.7|
-|    7 | Coos County         | New Hampshire |            21.1|
-|    8 | Natchitoches Parish | Louisiana     |            19.9|
-|    9 | Lafourche Parish    | Louisiana     |            19.3|
+|    5 | Aroostook County    | Maine         |            22.1|
+|    6 | Assumption Parish   | Louisiana     |            22.0|
+|    7 | Red Lake County     | Minnesota     |            21.7|
+|    8 | Coos County         | New Hampshire |            21.1|
+|    9 | Natchitoches Parish | Louisiana     |            19.9|
+|   10 | Lafourche Parish    | Louisiana     |            19.3|
 
 | rank |          name          |     state     | ancestry_frenchcanadian |
 |------|------------------------|---------------|-------------------------|
 |    1 | Androscoggin County    | Maine         |                    19.5|
 |    2 | Cameron Parish         | Louisiana     |                    18.7|
 |    2 | St. Landry Parish      | Louisiana     |                    18.7|
-|    3 | Orleans County         | Vermont       |                    14.5|
-|    4 | Coos County            | New Hampshire |                    14.0|
-|    5 | St. Martin Parish      | Louisiana     |                    13.3|
-|    6 | Jefferson Davis Parish | Louisiana     |                    12.9|
-|    7 | Grand Isle County      | Vermont       |                    12.7|
-|    8 | Franklin County        | Vermont       |                    12.1|
-|    9 | Essex County           | Vermont       |                    11.9|
+|    4 | Orleans County         | Vermont       |                    14.5|
+|    5 | Coos County            | New Hampshire |                    14.0|
+|    6 | St. Martin Parish      | Louisiana     |                    13.3|
+|    7 | Jefferson Davis Parish | Louisiana     |                    12.9|
+|    8 | Grand Isle County      | Vermont       |                    12.7|
+|    9 | Franklin County        | Vermont       |                    12.1|
+|   10 | Essex County           | Vermont       |                    11.9|
 
 | rank |       name        |    state     | ancestry_german |
 |------|-------------------|--------------|-----------------|
@@ -1874,7 +1874,7 @@
 |    7 | Grant County      | North Dakota |            60.8|
 |    8 | Sibley County     | Minnesota    |            60.2|
 |    8 | Hutchinson County | South Dakota |            60.2|
-|    9 | Brown County      | Minnesota    |            59.9|
+|   10 | Brown County      | Minnesota    |            59.9|
 
 | rank |        name         |     state     | ancestry_greek |
 |------|---------------------|---------------|----------------|
@@ -1887,7 +1887,7 @@
 |    7 | Grant County        | Kentucky      |            1.6|
 |    7 | Lanier County       | Georgia       |            1.6|
 |    7 | Nassau County       | New York      |            1.6|
-|    8 | Moffat County       | Colorado      |            1.5|
+|   10 | Moffat County       | Colorado      |            1.5|
 
 | rank |       name       |    state     | ancestry_hungarian |
 |------|------------------|--------------|--------------------|
@@ -1900,7 +1900,7 @@
 |    7 | Portage County   | Ohio         |                3.4|
 |    8 | Summit County    | Ohio         |                3.0|
 |    8 | Ashtabula County | Ohio         |                3.0|
-|    9 | Cuyahoga County  | Ohio         |                2.8|
+|   10 | Cuyahoga County  | Ohio         |                2.8|
 
 | rank |       name        |     state     | ancestry_irish |
 |------|-------------------|---------------|----------------|
@@ -1908,12 +1908,12 @@
 |    2 | Plymouth County   | Massachusetts |           30.0|
 |    3 | Barnstable County | Massachusetts |           26.7|
 |    3 | Gloucester County | New Jersey    |           26.7|
-|    4 | Silver Bow County | Montana       |           25.6|
-|    5 | Washington County | Rhode Island  |           25.5|
-|    5 | Norfolk County    | Massachusetts |           25.5|
-|    6 | Rensselaer County | New York      |           25.3|
-|    7 | Lackawanna County | Pennsylvania  |           25.2|
-|    8 | Rockingham County | New Hampshire |           24.5|
+|    5 | Silver Bow County | Montana       |           25.6|
+|    6 | Washington County | Rhode Island  |           25.5|
+|    6 | Norfolk County    | Massachusetts |           25.5|
+|    8 | Rensselaer County | New York      |           25.3|
+|    9 | Lackawanna County | Pennsylvania  |           25.2|
+|   10 | Rockingham County | New Hampshire |           24.5|
 
 | rank |       name        |    state     | ancestry_italian |
 |------|-------------------|--------------|------------------|
@@ -1935,11 +1935,11 @@
 |    3 | Luzerne County      | Pennsylvania |                 2.7|
 |    4 | Litchfield County   | Connecticut  |                 1.6|
 |    4 | Mason County        | Michigan     |                 1.6|
-|    5 | Rappahannock County | Virginia     |                 1.5|
-|    5 | Lackawanna County   | Pennsylvania |                 1.5|
-|    5 | Blaine County       | Montana      |                 1.5|
-|    6 | Putnam County       | Illinois     |                 1.4|
-|    6 | Will County         | Illinois     |                 1.4|
+|    6 | Rappahannock County | Virginia     |                 1.5|
+|    6 | Lackawanna County   | Pennsylvania |                 1.5|
+|    6 | Blaine County       | Montana      |                 1.5|
+|    9 | Putnam County       | Illinois     |                 1.4|
+|    9 | Will County         | Illinois     |                 1.4|
 
 | rank |       name        |    state     | ancestry_norwegian |
 |------|-------------------|--------------|--------------------|
@@ -1948,11 +1948,11 @@
 |    3 | Steele County     | North Dakota |               44.6|
 |    4 | Nelson County     | North Dakota |               44.2|
 |    4 | Traill County     | North Dakota |               44.2|
-|    5 | Norman County     | Minnesota    |               43.9|
-|    6 | Divide County     | North Dakota |               42.8|
-|    7 | Burke County      | North Dakota |               42.5|
-|    8 | Bottineau County  | North Dakota |               41.4|
-|    9 | Pennington County | Minnesota    |               41.1|
+|    6 | Norman County     | Minnesota    |               43.9|
+|    7 | Divide County     | North Dakota |               42.8|
+|    8 | Burke County      | North Dakota |               42.5|
+|    9 | Bottineau County  | North Dakota |               41.4|
+|   10 | Pennington County | Minnesota    |               41.1|
 
 | rank |        name         |    state     | ancestry_polish |
 |------|---------------------|--------------|-----------------|
@@ -1985,13 +1985,13 @@
 |    1 | Campbell County        | South Dakota |             19.1|
 |    2 | McIntosh County        | North Dakota |             17.2|
 |    2 | Logan County           | North Dakota |             17.2|
-|    3 | McPherson County       | South Dakota |             12.2|
-|    4 | Edmunds County         | South Dakota |              9.6|
-|    5 | Emmons County          | North Dakota |              8.8|
-|    6 | Aleutians East Borough | Alaska       |              7.6|
-|    7 | Grant County           | North Dakota |              7.5|
-|    8 | Mercer County          | North Dakota |              6.7|
-|    9 | Morton County          | North Dakota |              6.5|
+|    4 | McPherson County       | South Dakota |             12.2|
+|    5 | Edmunds County         | South Dakota |              9.6|
+|    6 | Emmons County          | North Dakota |              8.8|
+|    7 | Aleutians East Borough | Alaska       |              7.6|
+|    8 | Grant County           | North Dakota |              7.5|
+|    9 | Mercer County          | North Dakota |              6.7|
+|   10 | Morton County          | North Dakota |              6.5|
 
 | rank |       name        |     state      | ancestry_scottish_irish |
 |------|-------------------|----------------|-------------------------|
@@ -2004,7 +2004,7 @@
 |    7 | Rich County       | Utah           |                     5.8|
 |    8 | Clay County       | North Carolina |                     5.7|
 |    8 | Jackson County    | North Carolina |                     5.7|
-|    9 | Mathews County    | Virginia       |                     5.6|
+|   10 | Mathews County    | Virginia       |                     5.6|
 
 | rank |        name         |  state   | ancestry_scottish |
 |------|---------------------|----------|-------------------|
@@ -2030,20 +2030,20 @@
 |    7 | Indiana County      | Pennsylvania |             3.6|
 |    8 | Washington County   | Pennsylvania |             3.3|
 |    8 | Allegheny County    | Pennsylvania |             3.3|
-|    9 | Armstrong County    | Pennsylvania |             3.2|
+|   10 | Armstrong County    | Pennsylvania |             3.2|
 
 | rank |        name        |     state      | ancestry_subsaharan_african |
 |------|--------------------|----------------|-----------------------------|
 |    1 | Greensville County | Virginia       |                        24.7|
 |    2 | Emporia city       | Virginia       |                        24.4|
 |    2 | Franklin city      | Virginia       |                        24.4|
-|    3 | Sussex County      | Virginia       |                        22.8|
-|    4 | Brunswick County   | Virginia       |                        16.7|
-|    5 | Suffolk city       | Virginia       |                        13.4|
-|    6 | Surry County       | Virginia       |                        11.4|
-|    7 | Chester County     | South Carolina |                        11.3|
-|    8 | Danville city      | Virginia       |                        10.7|
-|    9 | Southampton County | Virginia       |                        10.5|
+|    4 | Sussex County      | Virginia       |                        22.8|
+|    5 | Brunswick County   | Virginia       |                        16.7|
+|    6 | Suffolk city       | Virginia       |                        13.4|
+|    7 | Surry County       | Virginia       |                        11.4|
+|    8 | Chester County     | South Carolina |                        11.3|
+|    9 | Danville city      | Virginia       |                        10.7|
+|   10 | Southampton County | Virginia       |                        10.5|
 
 | rank |      name       |   state   | ancestry_swedish |
 |------|-----------------|-----------|------------------|
@@ -2054,9 +2054,9 @@
 |    5 | Kanabec County  | Minnesota |             15.6|
 |    6 | Marshall County | Minnesota |             15.5|
 |    6 | Polk County     | Nebraska  |             15.5|
-|    7 | Lake County     | Minnesota |             15.2|
-|    8 | Pine County     | Minnesota |             13.5|
-|    9 | Burnett County  | Wisconsin |             12.6|
+|    8 | Lake County     | Minnesota |             15.2|
+|    9 | Pine County     | Minnesota |             13.5|
+|   10 | Burnett County  | Wisconsin |             12.6|
 
 | rank |       name       |   state    | ancestry_swiss |
 |------|------------------|------------|----------------|
@@ -2076,13 +2076,13 @@
 |    1 | Billings County                 | North Dakota |              11.4|
 |    2 | Southeast Fairbanks Census Area | Alaska       |               3.1|
 |    2 | Pettis County                   | Missouri     |               3.1|
-|    3 | Stark County                    | North Dakota |               2.5|
-|    3 | Mono County                     | California   |               2.5|
-|    4 | Knox County                     | Texas        |               2.2|
-|    5 | Koochiching County              | Minnesota    |               2.1|
-|    6 | Bucks County                    | Pennsylvania |               2.0|
-|    6 | Cayuga County                   | New York     |               2.0|
-|    6 | Kittson County                  | Minnesota    |               2.0|
+|    4 | Stark County                    | North Dakota |               2.5|
+|    4 | Mono County                     | California   |               2.5|
+|    6 | Knox County                     | Texas        |               2.2|
+|    7 | Koochiching County              | Minnesota    |               2.1|
+|    8 | Bucks County                    | Pennsylvania |               2.0|
+|    8 | Cayuga County                   | New York     |               2.0|
+|    8 | Kittson County                  | Minnesota    |               2.0|
 
 | rank |        name        |    state     | ancestry_welsh |
 |------|--------------------|--------------|----------------|
@@ -2093,9 +2093,9 @@
 |    5 | Lackawanna County  | Pennsylvania |            4.7|
 |    6 | Jackson County     | Ohio         |            4.0|
 |    6 | Roberts County     | Texas        |            4.0|
-|    7 | Susquehanna County | Pennsylvania |            3.9|
-|    7 | Luzerne County     | Pennsylvania |            3.9|
-|    8 | Haakon County      | South Dakota |            3.8|
+|    8 | Susquehanna County | Pennsylvania |            3.9|
+|    8 | Luzerne County     | Pennsylvania |            3.9|
+|   10 | Haakon County      | South Dakota |            3.8|
 
 | rank |       name        |     state     | ancestry_west_indian |
 |------|-------------------|---------------|----------------------|
@@ -2104,9 +2104,9 @@
 |    3 | Palm Beach County | Florida       |                  8.9|
 |    4 | St. Lucie County  | Florida       |                  7.0|
 |    4 | Bronx County      | New York      |                  7.0|
-|    5 | Essex County      | New Jersey    |                  6.8|
-|    6 | Queens County     | New York      |                  6.7|
-|    7 | Miami-Dade County | Florida       |                  6.5|
-|    7 | Orange County     | Florida       |                  6.5|
-|    8 | Suffolk County    | Massachusetts |                  5.9|
+|    6 | Essex County      | New Jersey    |                  6.8|
+|    7 | Queens County     | New York      |                  6.7|
+|    8 | Miami-Dade County | Florida       |                  6.5|
+|    8 | Orange County     | Florida       |                  6.5|
+|   10 | Suffolk County    | Massachusetts |                  5.9|
 
