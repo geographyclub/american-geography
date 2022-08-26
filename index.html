@@ -124,31 +124,31 @@ function map(){
   }
 
   // county popestimate2021
-  var feature_popestimate2021 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_popestimate2021_quartile.geojson', {
+  var feature_popestimate2021 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/geojson/county_popestimate2021_quartile.geojson', {
     interactive:false,
     style:style
   }).addTo(map)
 
   // county npopchg2021
-  var feature_npopchg2021 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_npopchg2021_quartile.geojson', {
+  var feature_npopchg2021 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/geojson/county_npopchg2021_quartile.geojson', {
     interactive:false,
     style:style
   })
 
   // county naturalchg2021
-  var feature_naturalchg2021 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_naturalchg2021_quartile.geojson', {
+  var feature_naturalchg2021 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/geojson/county_naturalchg2021_quartile.geojson', {
     interactive:false,
     style:style
   })
 
   // county netmig2021
-  var feature_netmig2021 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_netmig2021_quartile.geojson', {
+  var feature_netmig2021 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/geojson/county_netmig2021_quartile.geojson', {
     interactive:false,
     style:style
   })
 
   // top 10 popestimate2021
-  var feature_popestimate2021_top_10 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_popestimate2021_top_10.geojson', {
+  var feature_popestimate2021_top_10 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/geojson/county_popestimate2021_top_10.geojson', {
     style:{
 	  fillColor: 'yellow',
       weight: 1,
@@ -169,7 +169,7 @@ function map(){
   })
 
   // top 10 npopchg2021
-  var feature_npopchg2021_top_10 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_npopchg2021_top_10.geojson', {
+  var feature_npopchg2021_top_10 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/geojson/county_npopchg2021_top_10.geojson', {
     style:{
 	  fillColor: 'yellow',
       weight: 1,
@@ -190,7 +190,7 @@ function map(){
   })
 
   // top 10 naturalchg2021
-  var feature_naturalchg2021_top_10 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_naturalchg2021_top_10.geojson', {
+  var feature_naturalchg2021_top_10 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/geojson/county_naturalchg2021_top_10.geojson', {
     style:{
 	  fillColor: 'yellow',
       weight: 1,
@@ -211,7 +211,7 @@ function map(){
   })
 
   // top 10 netmig2021
-  var feature_netmig2021_top_10 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_netmig2021_top_10.geojson', {
+  var feature_netmig2021_top_10 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/geojson/county_netmig2021_top_10.geojson', {
     style:{
 	  fillColor: 'yellow',
       weight: 1,
@@ -265,7 +265,7 @@ $(window).on('load', function() {
 /* misc
 
   // geojson with popup
-  var pop2020 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_pop2020_quartile.geojson', {
+  var pop2020 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/geojson/county_pop2020_quartile.geojson', {
   style:style,
   onEachFeature:function mymarker(feature, layer){
       layer.bindPopup('<h3>Min: '+feature.properties.min+'</h3><h3>Max: '+feature.properties.max+'</h3>').addTo(map);
@@ -273,13 +273,13 @@ $(window).on('load', function() {
   }).addTo(map)
 
   // get geojson polygons with markers
-  var featureGroup2 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/county_pop2020_quartile.geojson', {
+  var featureGroup2 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/geojson/county_pop2020_quartile.geojson', {
   style:style,
   onEachFeature:mymarker
   }).addTo(map)
 
   // get geojson points
-  var featureGroup3 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/points.geojson', {
+  var featureGroup3 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/geojson/points.geojson', {
   pointToLayer:mycirclemarker
   })
 
