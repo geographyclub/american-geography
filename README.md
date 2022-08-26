@@ -8,7 +8,7 @@ This is how I'm working with census and street data. I AM NOT A DEVELOPER.
 ## 1. Importing
 
 Census geography files
-```
+```bash
 # national level
 ogr2ogr -overwrite -skipfailures --config PG_USE_COPY YES -f PGDump -t_srs "EPSG:3857" /vsistdout/ tlgdb_2021_a_us_nationgeo.gdb | psql -d us -f -
 

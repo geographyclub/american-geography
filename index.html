@@ -164,7 +164,7 @@ function map(){
     marker.on('click', function(e) {
       map.fitBounds(bounds);      
     });
-    layer.bindPopup('<h2>#'+feature.properties.rank+' '+feature.properties.ctyname+'</h2><h3>Pop 2021: '+feature.properties.popestimate2021+'</h3><h3>Pop Change: '+feature.properties.npopchg2021+'</h3><h3>Natural Change: '+feature.properties.naturalchg2021+'</h3><h3>Net Migration: '+feature.properties.netmig2021+'</h3>');
+    layer.bindPopup('<h2>#'+feature.properties.rank+' '+feature.properties.ctyname+'</h2><h3>Pop 2021: '+feature.properties.popestimate2021+'</h3><h3>Pop Change: '+feature.properties.npopchg2021+'</h3><h3>Natural Change: '+feature.properties.naturalchg2021+' ('+feature.properties.rnaturalchg2021+'%)</h3><h3>Net Migration: '+feature.properties.netmig2021+' ('+feature.properties.rnetmig2021+'%)</h3>');
   }
   })
 
@@ -185,7 +185,7 @@ function map(){
     marker.on('click', function(e) {
       map.fitBounds(bounds);      
     });
-    layer.bindPopup('<h2>#'+feature.properties.rank+' '+feature.properties.ctyname+'</h2><h3>Pop 2021: '+feature.properties.popestimate2021+'</h3><h3>Pop Change: '+feature.properties.npopchg2021+'</h3><h3>Natural Change: '+feature.properties.naturalchg2021+'</h3><h3>Net Migration: '+feature.properties.netmig2021+'</h3>');
+    layer.bindPopup('<h2>#'+feature.properties.rank+' '+feature.properties.ctyname+'</h2><h3>Pop 2021: '+feature.properties.popestimate2021+'</h3><h3>Pop Change: '+feature.properties.npopchg2021+'</h3><h3>Natural Change: '+feature.properties.naturalchg2021+' ('+feature.properties.rnaturalchg2021+'%)</h3><h3>Net Migration: '+feature.properties.netmig2021+' ('+feature.properties.rnetmig2021+'%)</h3>');
   }
   })
 
@@ -201,12 +201,12 @@ function map(){
   onEachFeature:function (feature, layer){
     var bounds = layer.getBounds();
     var center = bounds.getCenter();
-    var marker = L.marker(center).addTo(feature_rnaturalchg2021_top_10);
+    var marker = L.marker(center).addTo(feature_naturalchg2021_top_10);
 	// zoom on click
     marker.on('click', function(e) {
       map.fitBounds(bounds);      
     });
-    layer.bindPopup('<h2>#'+feature.properties.rank+' '+feature.properties.ctyname+'</h2><h3>Pop 2021: '+feature.properties.popestimate2021+'</h3><h3>Pop Change: '+feature.properties.npopchg2021+'</h3><h3>Natural Change: '+feature.properties.naturalchg2021+'</h3><h3>Net Migration: '+feature.properties.netmig2021+'</h3>');
+    layer.bindPopup('<h2>#'+feature.properties.rank+' '+feature.properties.ctyname+'</h2><h3>Pop 2021: '+feature.properties.popestimate2021+'</h3><h3>Pop Change: '+feature.properties.npopchg2021+'</h3><h3>Natural Change: '+feature.properties.naturalchg2021+' ('+feature.properties.rnaturalchg2021+'%)</h3><h3>Net Migration: '+feature.properties.netmig2021+' ('+feature.properties.rnetmig2021+'%)</h3>');
   }
   })
 
@@ -227,7 +227,7 @@ function map(){
     marker.on('click', function(e) {
       map.fitBounds(bounds);      
     });
-    layer.bindPopup('<h2>#'+feature.properties.rank+' '+feature.properties.ctyname+'</h2><h3>Pop 2021: '+feature.properties.popestimate2021+'</h3><h3>Pop Change: '+feature.properties.npopchg2021+'</h3><h3>Natural Change: '+feature.properties.naturalchg2021+'</h3><h3>Net Migration: '+feature.properties.netmig2021+'</h3>');
+    layer.bindPopup('<h2>#'+feature.properties.rank+' '+feature.properties.ctyname+'</h2><h3>Pop 2021: '+feature.properties.popestimate2021+'</h3><h3>Pop Change: '+feature.properties.npopchg2021+'</h3><h3>Natural Change: '+feature.properties.naturalchg2021+' ('+feature.properties.rnaturalchg2021+'%)</h3><h3>Net Migration: '+feature.properties.netmig2021+' ('+feature.properties.rnetmig2021+'%)</h3>');
   }
   })
 
