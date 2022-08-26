@@ -18,7 +18,7 @@ ogr2ogr -overwrite -skipfailures --config PG_USE_COPY YES -f PGDump -t_srs "EPSG
 # union census designated places and incorporated places
 psql -d us -c "CREATE TABLE place AS (SELECT * FROM incorporated_place UNION ALL SELECT * FROM census_designated_place);"
 
-# merge state files then import puma
+# merge state puma files then import
 ogrmerge.py -overwrite_ds -single -nln puma -o puma.gpkg $(ls *.zip | sed 's/^/\/vsizip\//g' | paste -sd' ')
 ogr2ogr -overwrite -skipfailures -nlt promote_to_multi --config PG_USE_COPY YES -f PGDump -t_srs "EPSG:3857" /vsistdout/ puma.gpkg | psql -d us -f -
 ```
@@ -224,7 +224,7 @@ done
 
 ## 3. Exporting
 
-Export features to geojson.
+Export geojson files.
 ```bash
 # county2020 quartiles (with simplified geometry from naturalearth)
 column=pop2020
@@ -237,7 +237,7 @@ done
 
 # top 10 counties ranked by column
 for column in popestimate2021 npopchg2021 naturalchg2021 netmig2021; do
-  psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', state_county, 'geometry', ST_AsGeoJSON(ST_Transform(geom,4326))::jsonb, 'properties', to_jsonb(inputs) - 'geom' - 'state_county') AS feature FROM (SELECT b.geom, a.ctyname, a.state_county, RANK() OVER (ORDER BY a.${column}::real DESC) rank, TO_CHAR(a.popestimate2021::int, 'FM9,999,999,999') AS popestimate2021, TO_CHAR(a.npopchg2021::int, 'FM9,999,999,999') AS npopchg2021, TO_CHAR(a.naturalchg2021::int, 'FM9,999,999,999') AS naturalchg2021, TO_CHAR(a.netmig2021::numeric, 'FM9,999,999,999') AS netmig2021, ROUND(a.rnaturalchg2021::numeric, 2) AS rnaturalchg2021, ROUND(a.rnetmig2021::numeric, 2) AS rnetmig2021 FROM co_est2021 a, ne_10m_admin_2_counties_lakes b WHERE a.sumlev = '050' AND a.state_county = b.code_local ORDER BY ${column}::real DESC LIMIT 10) inputs) features) TO STDOUT;" > data/geojson/county_${column}_top_10.geojson
+  psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', state_county, 'geometry', ST_AsGeoJSON(ST_Transform(geom,4326))::jsonb, 'properties', to_jsonb(inputs) - 'geom' - 'state_county') AS feature FROM (SELECT b.geom, a.ctyname, a.state_county, DENSE_RANK() OVER (ORDER BY a.${column}::real DESC) rank, TO_CHAR(a.popestimate2021::int, 'FM9,999,999,999') AS popestimate2021, TO_CHAR(a.npopchg2021::int, 'FM9,999,999,999') AS npopchg2021, TO_CHAR(a.naturalchg2021::int, 'FM9,999,999,999') AS naturalchg2021, TO_CHAR(a.netmig2021::numeric, 'FM9,999,999,999') AS netmig2021, ROUND(a.rnaturalchg2021::numeric, 2) AS rnaturalchg2021, ROUND(a.rnetmig2021::numeric, 2) AS rnetmig2021 FROM co_est2021 a, ne_10m_admin_2_counties_lakes b WHERE a.sumlev = '050' AND a.state_county = b.code_local ORDER BY ${column}::real DESC LIMIT 10) inputs) features) TO STDOUT;" > data/geojson/county_${column}_top_10.geojson
 done
 
 ```
