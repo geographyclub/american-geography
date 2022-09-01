@@ -79,7 +79,7 @@ psql -d us -c "CREATE TABLE tract2020 AS SELECT a.\"SHAPE\", a.geoid, a.namelsad
 psql -d us -c 'ALTER TABLE tract2020 ADD COLUMN puma VARCHAR;'
 psql -d us -c 'UPDATE tract2020 a SET puma = b.geoid10 FROM puma b WHERE ST_Intersects(b.geom, ST_Centroid(a."SHAPE"));'
 
-# IMPORTANT! AVERAGE percentages, SUM counts
+# IMPORTANT! AVERAGE percentages/medians, SUM counts
 psql -d us -c "CREATE TABLE puma2020 AS SELECT geom AS \"SHAPE\", geoid10 AS geoid, namelsad10 AS name FROM puma;"
 psql -Aqt -d us -c '\d tract2020' | grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | sed -e 's/|.*//g' | while read column; do
   psql -d us -c "ALTER TABLE puma2020 ADD COLUMN ${column} REAL;"
