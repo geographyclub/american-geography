@@ -1,4 +1,4 @@
-POPULATION:
+# POPULATION:
 
 name	popestimate2020	popestimate2021	npopchg2020	npopchg2021	births2020	births2021	deaths2020	deaths2021	naturalchg2020	naturalchg2021	internationalmig2020	internationalmig2021	domesticmig2020	domesticmig2021	netmig2020	netmig2021	rbirth2021	rdeath2021	rnaturalchg2021	rinternationalmig2021	rdomesticmig2021	rnetmig2021
 Bastrop County	97,983	102,058	767	4,075	248	1,063	194	923	54	140	0	-14	710	4,013	710	3,999	10.63	9.23	1.40	-0.14	40.12	39.98

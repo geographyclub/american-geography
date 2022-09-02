@@ -1,4 +1,4 @@
-POPULATION:
+# POPULATION:
 
 name	popestimate2020	popestimate2021	npopchg2020	npopchg2021	births2020	births2021	deaths2020	deaths2021	naturalchg2020	naturalchg2021	internationalmig2020	internationalmig2021	domesticmig2020	domesticmig2021	netmig2020	netmig2021	rbirth2021	rdeath2021	rnaturalchg2021	rinternationalmig2021	rdomesticmig2021	rnetmig2021
 Galax city	6,691	6,660	-29	-31	21	97	43	115	-22	-18	-1	2	-6	-16	-7	-14	14.53	17.23	-2.70	0.30	-2.40	-2.10
