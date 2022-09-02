@@ -1,5 +1,4 @@
 # American Geography
-This is my deep dive into US census and street data.
 
 1. [Importing](#1-importing)
 2. [Processing](#2-processing)
