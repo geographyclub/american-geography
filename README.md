@@ -1,5 +1,5 @@
 # American Geography
-Where are the fastest growing counties in the country? Where are the youngest cities? The oldest? Where are the most expensive neighborhoods? What can street data tell us about these places? This is my deep dive into US census and street data.
+This is my deep dive into US census and street data.
 
 1. [Importing](#1-importing)
 2. [Processing](#2-processing)
@@ -239,5 +239,21 @@ done
 for column in popestimate2021 npopchg2021 naturalchg2021 netmig2021; do
   psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', state_county, 'geometry', ST_AsGeoJSON(ST_Transform(geom,4326))::jsonb, 'properties', to_jsonb(inputs) - 'geom' - 'state_county') AS feature FROM (SELECT b.geom, a.ctyname, a.state_county, RANK() OVER (ORDER BY a.${column}::real DESC) rank, TO_CHAR(a.popestimate2021::int, 'FM9,999,999,999') AS popestimate2021, TO_CHAR(a.npopchg2021::int, 'FM9,999,999,999') AS npopchg2021, TO_CHAR(a.naturalchg2021::int, 'FM9,999,999,999') AS naturalchg2021, TO_CHAR(a.netmig2021::numeric, 'FM9,999,999,999') AS netmig2021, ROUND(a.rnaturalchg2021::numeric, 2) AS rnaturalchg2021, ROUND(a.rnetmig2021::numeric, 2) AS rnetmig2021 FROM co_est2021 a, ne_10m_admin_2_counties_lakes b WHERE a.sumlev = '050' AND a.state_county = b.code_local ORDER BY ${column}::real DESC LIMIT 10) inputs) features) TO STDOUT;" > data/geojson/county_${column}_top_10.geojson
 done
+```
 
+Export markdown table.
+```bash
+rm county2020_pop2020_100000_top_10.md
+psql -qAtX -d us -c '\d county2020;' | grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | grep -v 'brand' | grep -v 'zscore_' | sed -e 's/|.*//g' | while read column; do
+  psql -d us -c "SELECT * FROM (SELECT DENSE_RANK() OVER (ORDER BY a.${column}::numeric DESC) rank, a.name, b.name AS state, a.${column} FROM county2020 a, state2020 b WHERE SUBSTRING(a.geoid,1,2) = b.geoid AND a.${column}::text ~ '^[0-9\\\.]+$' AND a.pop2020::numeric > 100000) stats WHERE rank <= 10;" | sed -e 's/-+-/-\|-/g' -e 's/^/\|/g' -e 's/$/\|/g' -e "s/||//g" | grep -v 'rows)|' >> county2020_pop2020_100000_top_10.md
+done
+```
+
+Export html table.
+```bash
+# top 10 counties pop2020 > 100000 by column
+rm county2020_pop2020_100000_top_10.html
+psql -qAtX -d us -c '\d county2020;' | grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | grep -v 'brand' | grep -v 'zscore_' | sed -e 's/|.*//g' | while read column; do
+  psql --html -d us -c "SELECT * FROM (SELECT DENSE_RANK() OVER (ORDER BY a.${column}::numeric DESC) rank, a.name, b.name AS state, a.${column} FROM county2020 a, state2020 b WHERE SUBSTRING(a.geoid,1,2) = b.geoid AND a.${column}::text ~ '^[0-9\\\.]+$' AND a.pop2020::numeric > 100000) stats WHERE rank <= 10;" >> county2020_pop2020_100000_top_10.html
+done
 ```
