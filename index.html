@@ -153,7 +153,7 @@ function map(){
     marker.on('click', function(e) {
       map.fitBounds(bounds);      
     });
-    layer.bindPopup('<h2>#'+feature.properties.rank+' '+feature.properties.name+'</h2><h2>'+feature.properties.state+'</h2><h3>'+feature.properties.column_name+': '+feature.properties.column+'</h3>');
+    layer.bindPopup('<h2>#'+feature.properties.rank+' '+feature.properties.name+', '+feature.properties.state+'</h2><h3>'+feature.properties.column_name+': '+feature.properties.column+'</h3>');
   }
   })
 
