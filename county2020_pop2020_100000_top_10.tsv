@@ -1,0 +1,2917 @@
+rank	name	state	pop2020
+1	Los Angeles County	California	10040682
+2	Cook County	Illinois	5169517
+3	Harris County	Texas	4680609
+4	Maricopa County	Arizona	4412779
+5	San Diego County	California	3323970
+6	Orange County	California	3170345
+7	Miami-Dade County	Florida	2705528
+8	Dallas County	Texas	2622634
+9	Kings County	New York	2576771
+10	Riverside County	California	2437864
+rank	name	state	age_5_under
+1	Webb County	Texas	9.3
+1	Utah County	Utah	9.3
+2	Ector County	Texas	9.0
+3	Hidalgo County	Texas	8.9
+4	Midland County	Texas	8.8
+5	Onslow County	North Carolina	8.6
+6	Bell County	Texas	8.4
+6	Bonneville County	Idaho	8.4
+6	Cache County	Utah	8.4
+6	Montgomery County	Tennessee	8.4
+7	Davis County	Utah	8.3
+8	Rockland County	New York	8.1
+8	Cameron County	Texas	8.1
+9	Yakima County	Washington	8.0
+9	Tulare County	California	8.0
+9	Imperial County	California	8.0
+10	Wyandotte County	Kansas	7.9
+rank	name	state	age_5_9
+1	Davis County	Utah	9.3
+2	Utah County	Utah	9.2
+3	Bonneville County	Idaho	9.0
+4	Cache County	Utah	8.9
+4	Ector County	Texas	8.9
+5	Tulare County	California	8.8
+6	Hidalgo County	Texas	8.7
+7	Webb County	Texas	8.6
+7	Kendall County	Illinois	8.6
+8	Sarpy County	Nebraska	8.3
+8	Yakima County	Washington	8.3
+9	Cameron County	Texas	8.2
+9	Carver County	Minnesota	8.2
+9	Midland County	Texas	8.2
+10	Forsyth County	Georgia	8.1
+rank	name	state	age_10_14
+1	Hidalgo County	Texas	9.6
+2	Webb County	Texas	9.5
+3	Utah County	Utah	9.4
+4	Davis County	Utah	9.2
+5	Merced County	California	8.9
+5	Tulare County	California	8.9
+6	Cameron County	Texas	8.8
+7	Johnston County	North Carolina	8.7
+7	Union County	North Carolina	8.7
+7	Paulding County	Georgia	8.7
+7	Douglas County	Georgia	8.7
+8	Yakima County	Washington	8.6
+9	Wright County	Minnesota	8.5
+9	Kern County	California	8.5
+9	Loudoun County	Virginia	8.5
+10	Imperial County	California	8.4
+10	Bonneville County	Idaho	8.4
+rank	name	state	age_15_19
+1	Tompkins County	New York	12.2
+2	Coconino County	Arizona	11.9
+3	Hampshire County	Massachusetts	11.4
+4	Clarke County	Georgia	10.9
+4	Monroe County	Indiana	10.9
+5	Champaign County	Illinois	10.2
+5	Tippecanoe County	Indiana	10.2
+6	Yolo County	California	9.9
+6	Centre County	Pennsylvania	9.9
+7	Brazos County	Texas	9.8
+8	Orange County	North Carolina	9.6
+9	Utah County	Utah	9.5
+9	Cache County	Utah	9.5
+9	Tolland County	Connecticut	9.5
+10	Tuscaloosa County	Alabama	9.3
+10	Douglas County	Kansas	9.3
+rank	name	state	age_20_24
+1	Brazos County	Texas	19.1
+2	Monroe County	Indiana	18.2
+3	Onslow County	North Carolina	17.5
+3	Clarke County	Georgia	17.5
+4	Tippecanoe County	Indiana	17.2
+5	Douglas County	Kansas	17.1
+5	Tompkins County	New York	17.1
+6	Centre County	Pennsylvania	16.3
+7	Champaign County	Illinois	15.8
+8	Leon County	Florida	15.7
+9	Monongalia County	West Virginia	15.6
+10	Alachua County	Florida	15.4
+10	Johnson County	Iowa	15.4
+rank	name	state	age_25_34
+1	Arlington County	Virginia	24.1
+2	Denver County	Colorado	23.4
+2	San Francisco County	California	23.4
+3	Suffolk County	Massachusetts	23.3
+3	District of Columbia	District of Columbia	23.3
+4	New York County	New York	22.2
+5	Richmond city	Virginia	21.9
+6	Alexandria city	Virginia	21.3
+7	Hudson County	New Jersey	21.0
+8	Davidson County	Tennessee	20.3
+9	St. Louis city	Missouri	20.1
+9	Travis County	Texas	20.1
+10	Norfolk city	Virginia	19.5
+rank	name	state	age_35_44
+1	Alexandria city	Virginia	18.4
+2	Loudoun County	Virginia	17.1
+3	Arlington County	Virginia	16.5
+3	Multnomah County	Oregon	16.5
+4	Williamson County	Texas	16.4
+5	Forsyth County	Georgia	16.1
+5	Denver County	Colorado	16.1
+5	Kendall County	Illinois	16.1
+6	Travis County	Texas	16.0
+7	Collin County	Texas	15.9
+8	Hudson County	New Jersey	15.8
+8	San Francisco County	California	15.8
+9	Rockwall County	Texas	15.4
+9	Denton County	Texas	15.4
+10	Fort Bend County	Texas	15.3
+rank	name	state	age_45_54
+1	Forsyth County	Georgia	16.5
+2	Union County	North Carolina	16.3
+3	Hunterdon County	New Jersey	16.1
+4	Douglas County	Colorado	16.0
+5	Loudoun County	Virginia	15.8
+6	Charles County	Maryland	15.7
+7	Marin County	California	15.6
+7	Sussex County	New Jersey	15.6
+8	Somerset County	New Jersey	15.5
+8	Paulding County	Georgia	15.5
+9	Morris County	New Jersey	15.3
+9	Henry County	Georgia	15.3
+9	Williamson County	Tennessee	15.3
+10	Warren County	New Jersey	15.2
+10	Rockingham County	New Hampshire	15.2
+rank	name	state	age_55_59
+1	Sussex County	New Jersey	9.3
+2	Hunterdon County	New Jersey	9.2
+3	Rockingham County	New Hampshire	9.0
+4	Washington County	Wisconsin	8.7
+5	El Dorado County	California	8.5
+5	Brevard County	Florida	8.5
+5	Brunswick County	North Carolina	8.5
+6	Bucks County	Pennsylvania	8.4
+6	Barnstable County	Massachusetts	8.4
+6	Livingston County	Michigan	8.4
+6	Monmouth County	New Jersey	8.4
+7	Warren County	New Jersey	8.3
+7	St. Clair County	Michigan	8.3
+7	Middlesex County	Connecticut	8.3
+7	Litchfield County	Connecticut	8.3
+7	Monroe County	Pennsylvania	8.3
+7	Waukesha County	Wisconsin	8.3
+8	Kennebec County	Maine	8.2
+8	Somerset County	New Jersey	8.2
+8	Oswego County	New York	8.2
+9	Charlotte County	Florida	8.1
+9	Monroe County	Michigan	8.1
+9	York County	Maine	8.1
+9	Ulster County	New York	8.1
+9	Hanover County	Virginia	8.1
+9	Marin County	California	8.1
+9	Pinellas County	Florida	8.1
+9	Berkshire County	Massachusetts	8.1
+9	Franklin County	Missouri	8.1
+10	McHenry County	Illinois	8.0
+10	Fayette County	Georgia	8.0
+10	Citrus County	Florida	8.0
+10	Columbiana County	Ohio	8.0
+10	Merrimack County	New Hampshire	8.0
+10	LaSalle County	Illinois	8.0
+10	Sussex County	Delaware	8.0
+10	Atlantic County	New Jersey	8.0
+10	Cumberland County	Maine	8.0
+10	Beaver County	Pennsylvania	8.0
+10	Westmoreland County	Pennsylvania	8.0
+rank	name	state	age_60_64
+1	Yavapai County	Arizona	9.7
+1	Brunswick County	North Carolina	9.7
+2	Barnstable County	Massachusetts	9.2
+3	Charlotte County	Florida	9.0
+3	Litchfield County	Connecticut	9.0
+4	Douglas County	Oregon	8.6
+4	Flathead County	Montana	8.6
+5	El Dorado County	California	8.5
+5	Mohave County	Arizona	8.5
+6	Hawaii County	Hawaii	8.4
+6	Citrus County	Florida	8.4
+7	Martin County	Florida	8.3
+7	Cambria County	Pennsylvania	8.3
+7	Berkshire County	Massachusetts	8.3
+7	Horry County	South Carolina	8.3
+7	Washington County	Rhode Island	8.3
+8	Westmoreland County	Pennsylvania	8.2
+8	Sumter County	Florida	8.2
+8	Sussex County	Delaware	8.2
+8	Hunterdon County	New Jersey	8.2
+8	Flagler County	Florida	8.2
+9	Sarasota County	Florida	8.1
+10	Beaver County	Pennsylvania	8.0
+10	York County	Maine	8.0
+10	Washington County	Pennsylvania	8.0
+10	Indian River County	Florida	8.0
+rank	name	state	age_65_74
+1	Sumter County	Florida	33.4
+2	Charlotte County	Florida	21.3
+3	Brunswick County	North Carolina	21.2
+4	Citrus County	Florida	19.6
+5	Yavapai County	Arizona	18.9
+6	Sarasota County	Florida	18.5
+7	Flagler County	Florida	17.7
+8	Mohave County	Arizona	17.4
+8	Sussex County	Delaware	17.4
+9	Indian River County	Florida	17.3
+9	Barnstable County	Massachusetts	17.3
+10	Highlands County	Florida	17.0
+rank	name	state	age_75_84
+1	Sumter County	Florida	19.3
+2	Highlands County	Florida	13.7
+3	Charlotte County	Florida	13.5
+4	Sarasota County	Florida	12.7
+5	Citrus County	Florida	12.1
+6	Collier County	Florida	11.7
+7	Martin County	Florida	11.2
+8	Indian River County	Florida	10.8
+9	Mohave County	Arizona	10.3
+10	Marion County	Florida	9.9
+rank	name	state	age_85_over
+1	Sarasota County	Florida	5.5
+2	Charlotte County	Florida	5.3
+3	Sumter County	Florida	5.1
+4	Highlands County	Florida	5.0
+5	Citrus County	Florida	4.7
+5	Indian River County	Florida	4.7
+5	Collier County	Florida	4.7
+6	Martin County	Florida	4.6
+7	Barnstable County	Massachusetts	4.4
+8	Palm Beach County	Florida	4.2
+9	Pinellas County	Florida	3.8
+9	Mercer County	Pennsylvania	3.8
+10	San Juan Municipio	Puerto Rico	3.7
+rank	name	state	age_median
+1	Sumter County	Florida	68.0
+2	Charlotte County	Florida	59.5
+3	Citrus County	Florida	56.7
+4	Sarasota County	Florida	56.6
+5	Brunswick County	North Carolina	54.7
+6	Yavapai County	Arizona	54.1
+6	Highlands County	Florida	54.1
+7	Indian River County	Florida	54.0
+8	Barnstable County	Massachusetts	53.7
+9	Martin County	Florida	52.7
+10	Mohave County	Arizona	52.3
+rank	name	state	age_under18
+1	Utah County	Utah	33.3
+2	Webb County	Texas	32.9
+3	Hidalgo County	Texas	32.6
+4	Davis County	Utah	32.1
+5	Tulare County	California	30.8
+6	Bonneville County	Idaho	30.7
+7	Cameron County	Texas	30.4
+8	Ector County	Texas	30.3
+8	Cache County	Utah	30.3
+9	Yakima County	Washington	29.7
+10	Merced County	California	29.5
+rank	name	state	age_16_over
+1	Sumter County	Florida	93.6
+2	Charlotte County	Florida	89.4
+3	San Francisco County	California	87.9
+4	Sarasota County	Florida	87.6
+5	Hampshire County	Massachusetts	87.4
+6	Tompkins County	New York	87.0
+6	Barnstable County	Massachusetts	87.0
+6	Citrus County	Florida	87.0
+6	New York County	New York	87.0
+7	Centre County	Pennsylvania	86.8
+8	Brunswick County	North Carolina	86.6
+9	Monroe County	Indiana	86.0
+9	Indian River County	Florida	86.0
+10	Washington County	Rhode Island	85.8
+rank	name	state	age_18_over
+1	Sumter County	Florida	92.7
+2	Charlotte County	Florida	88.0
+3	San Francisco County	California	86.6
+4	Sarasota County	Florida	85.8
+5	New York County	New York	85.7
+6	Hampshire County	Massachusetts	85.5
+7	Citrus County	Florida	85.3
+7	Tompkins County	New York	85.3
+8	Centre County	Pennsylvania	85.0
+8	Barnstable County	Massachusetts	85.0
+9	Brunswick County	North Carolina	84.7
+10	Monroe County	Indiana	84.3
+rank	name	state	age_21_over
+1	Sumter County	Florida	91.3
+2	Charlotte County	Florida	85.7
+3	San Francisco County	California	84.3
+4	Sarasota County	Florida	83.4
+5	Citrus County	Florida	83.2
+6	New York County	New York	82.6
+7	Brunswick County	North Carolina	82.4
+8	Barnstable County	Massachusetts	82.3
+9	Indian River County	Florida	81.4
+10	Pinellas County	Florida	81.3
+rank	name	state	age_62_over
+1	Sumter County	Florida	63.6
+2	Charlotte County	Florida	45.4
+3	Sarasota County	Florida	41.6
+3	Citrus County	Florida	41.6
+4	Highlands County	Florida	39.4
+5	Brunswick County	North Carolina	37.8
+6	Indian River County	Florida	37.7
+7	Yavapai County	Arizona	37.6
+8	Collier County	Florida	36.2
+9	Martin County	Florida	36.1
+9	Barnstable County	Massachusetts	36.1
+10	Mohave County	Arizona	35.7
+rank	name	state	age_65_over
+1	Sumter County	Florida	57.8
+2	Charlotte County	Florida	40.1
+3	Sarasota County	Florida	36.7
+4	Citrus County	Florida	36.4
+5	Highlands County	Florida	35.7
+6	Indian River County	Florida	32.9
+7	Collier County	Florida	32.2
+8	Yavapai County	Arizona	31.6
+9	Brunswick County	North Carolina	31.5
+10	Martin County	Florida	31.2
+rank	name	state	race_mixed
+1	Hawaii County	Hawaii	29.5
+2	Maui County	Hawaii	23.4
+3	Honolulu County	Hawaii	23.3
+4	Bayamón Municipio	Puerto Rico	17.6
+5	Webb County	Texas	14.6
+6	Ponce Municipio	Puerto Rico	14.3
+7	San Joaquin County	California	14.1
+8	El Paso County	Texas	12.1
+9	Hidalgo County	Texas	11.4
+10	Comanche County	Oklahoma	11.1
+rank	name	state	race_white
+1	Livingston County	Michigan	96.0
+2	Franklin County	Missouri	95.6
+3	Kennebec County	Maine	95.5
+3	Butler County	Pennsylvania	95.5
+4	Tazewell County	Illinois	95.4
+5	Blair County	Pennsylvania	95.2
+6	Oswego County	New York	94.9
+7	York County	Maine	94.7
+8	Medina County	Ohio	94.5
+9	Clermont County	Ohio	94.4
+9	Wayne County	Ohio	94.4
+10	Columbiana County	Ohio	94.3
+10	Jefferson County	Missouri	94.3
+10	Westmoreland County	Pennsylvania	94.3
+rank	name	state	race_black
+1	Hinds County	Mississippi	73.0
+2	Clayton County	Georgia	69.8
+3	Baltimore city	Maryland	62.3
+4	Prince George's County	Maryland	62.2
+5	Orleans Parish	Louisiana	59.2
+6	Montgomery County	Alabama	57.9
+7	Richmond County	Georgia	56.7
+8	Bibb County	Georgia	54.3
+9	Shelby County	Tennessee	53.9
+10	DeKalb County	Georgia	53.3
+rank	name	state	race_native
+1	Navajo County	Arizona	43.9
+2	Robeson County	North Carolina	40.2
+3	San Juan County	New Mexico	38.8
+4	Coconino County	Arizona	26.1
+5	Sandoval County	New Mexico	12.3
+6	Pennington County	South Dakota	8.2
+7	Anchorage Municipality	Alaska	7.5
+8	Matanuska-Susitna Borough	Alaska	6.0
+9	Terrebonne Parish	Louisiana	5.7
+10	Tulsa County	Oklahoma	5.1
+rank	name	state	race_asian
+1	Honolulu County	Hawaii	42.6
+2	Santa Clara County	California	37.7
+3	San Francisco County	California	34.3
+4	Alameda County	California	31.3
+5	San Mateo County	California	29.4
+6	Maui County	Hawaii	28.9
+7	Queens County	New York	25.9
+8	Middlesex County	New Jersey	24.5
+9	Hawaii County	Hawaii	22.7
+10	Orange County	California	21.1
+rank	name	state	race_pacific
+1	Hawaii County	Hawaii	12.0
+2	Maui County	Hawaii	11.2
+3	Honolulu County	Hawaii	10.0
+4	Anchorage Municipality	Alaska	2.9
+5	Washington County	Arkansas	2.6
+6	Salt Lake County	Utah	1.6
+7	Pierce County	Washington	1.5
+8	San Mateo County	California	1.3
+9	Sacramento County	California	1.1
+10	Marion County	Oregon	1.0
+rank	name	state	race_hispanic
+1	Ponce Municipio	Puerto Rico	99.3
+2	Bayamón Municipio	Puerto Rico	98.8
+3	Carolina Municipio	Puerto Rico	98.6
+4	Caguas Municipio	Puerto Rico	98.2
+5	San Juan Municipio	Puerto Rico	98.0
+6	Webb County	Texas	95.5
+7	Hidalgo County	Texas	92.3
+8	Cameron County	Texas	89.8
+9	Imperial County	California	84.7
+10	El Paso County	Texas	82.7
+rank	name	state	housing_total
+1	Los Angeles County	California	3559790
+2	Cook County	Illinois	2198489
+3	Harris County	Texas	1795219
+4	Maricopa County	Arizona	1765880
+5	San Diego County	California	1215528
+6	Orange County	California	1101244
+7	Kings County	New York	1055660
+8	Miami-Dade County	Florida	1032310
+9	Dallas County	Texas	1027813
+10	King County	Washington	952344
+rank	name	state	employed
+1	Arlington County	Virginia	74.8
+2	Cass County	North Dakota	73.6
+2	Scott County	Minnesota	73.6
+3	Alexandria city	Virginia	73.5
+4	Minnehaha County	South Dakota	72.4
+5	Loudoun County	Virginia	72.2
+5	Carver County	Minnesota	72.2
+6	Wright County	Minnesota	71.3
+7	Dakota County	Minnesota	70.4
+8	Gallatin County	Montana	70.0
+8	Hamilton County	Indiana	70.0
+9	Johnson County	Kansas	69.8
+9	Travis County	Texas	69.8
+10	Dane County	Wisconsin	69.7
+rank	name	state	unemployed
+1	San Juan Municipio	Puerto Rico	8.4
+2	Carolina Municipio	Puerto Rico	7.6
+3	Imperial County	California	7.0
+4	Merced County	California	6.4
+5	Caguas Municipio	Puerto Rico	6.3
+6	Tulare County	California	6.0
+7	Bronx County	New York	5.9
+8	Matanuska-Susitna Borough	Alaska	5.8
+8	Hinds County	Mississippi	5.8
+9	Bayamón Municipio	Puerto Rico	5.6
+10	Atlantic County	New Jersey	5.5
+10	Jackson County	Mississippi	5.5
+rank	name	state	job_bus_sci_art
+1	Arlington County	Virginia	70.8
+2	District of Columbia	District of Columbia	65.5
+3	Howard County	Maryland	63.9
+4	New York County	New York	62.3
+5	Alexandria city	Virginia	60.6
+6	Loudoun County	Virginia	59.9
+7	San Francisco County	California	59.1
+8	Fairfax County	Virginia	58.9
+9	Middlesex County	Massachusetts	58.2
+10	Orange County	North Carolina	57.6
+rank	name	state	job_service
+1	Bronx County	New York	33.8
+2	Maui County	Hawaii	28.1
+3	Atlantic County	New Jersey	27.9
+4	Clark County	Nevada	27.3
+5	Cameron County	Texas	27.1
+6	Imperial County	California	26.8
+7	Mohave County	Arizona	26.2
+8	Hawaii County	Hawaii	24.8
+9	Collier County	Florida	24.5
+10	Horry County	South Carolina	24.0
+rank	name	state	job_sales
+1	Bayamón Municipio	Puerto Rico	29.6
+2	Carolina Municipio	Puerto Rico	28.6
+3	Lowndes County	Georgia	27.6
+4	Charlotte County	Florida	26.7
+5	Sandoval County	New Mexico	26.6
+6	Webb County	Texas	26.5
+7	Lake County	Florida	26.3
+8	Caguas Municipio	Puerto Rico	26.2
+9	Ponce Municipio	Puerto Rico	26.1
+9	Marion County	Florida	26.1
+9	Volusia County	Florida	26.1
+10	Washington County	Utah	26.0
+10	Horry County	South Carolina	26.0
+rank	name	state	job_construction
+1	Madera County	California	22.2
+2	Kings County	California	20.5
+3	Yakima County	Washington	20.2
+4	Kern County	California	19.6
+5	Monterey County	California	19.4
+5	Tulare County	California	19.4
+6	Merced County	California	19.2
+7	Ector County	Texas	17.4
+8	Yuma County	Arizona	16.5
+9	Matanuska-Susitna Borough	Alaska	16.4
+10	San Juan County	New Mexico	16.2
+rank	name	state	job_prod_transpo
+1	Whitfield County	Georgia	33.5
+2	Elkhart County	Indiana	29.2
+3	Johnson County	Texas	27.4
+4	Sheboygan County	Wisconsin	25.5
+5	Catawba County	North Carolina	25.3
+6	Allen County	Ohio	25.1
+7	Muskegon County	Michigan	24.7
+8	Schuylkill County	Pennsylvania	24.1
+9	Randolph County	North Carolina	23.8
+10	Richland County	Ohio	23.1
+rank	name	state	in_agri_mining
+1	Midland County	Texas	18.8
+2	Monterey County	California	15.9
+3	Tulare County	California	15.6
+4	Yakima County	Washington	15.5
+5	Kings County	California	15.4
+6	Ector County	Texas	15.2
+7	Madera County	California	14.9
+8	Kern County	California	14.7
+9	Merced County	California	11.9
+10	San Juan County	New Mexico	11.6
+rank	name	state	in_construction
+1	Livingston Parish	Louisiana	14.1
+2	Jefferson County	Texas	13.4
+3	Calcasieu Parish	Louisiana	12.7
+4	Lee County	Florida	12.1
+5	Adams County	Colorado	11.9
+6	Matanuska-Susitna Borough	Alaska	11.5
+7	Collier County	Florida	11.4
+7	Franklin County	Missouri	11.4
+8	Wright County	Minnesota	11.2
+9	Brunswick County	North Carolina	11.1
+10	Gallatin County	Montana	11.0
+rank	name	state	in_manufacturing
+1	Whitfield County	Georgia	38.2
+2	Elkhart County	Indiana	34.3
+3	Sheboygan County	Wisconsin	32.9
+4	Catawba County	North Carolina	26.8
+5	Miami County	Ohio	26.6
+5	Muskegon County	Michigan	26.6
+6	Allegan County	Michigan	25.7
+7	Wayne County	Ohio	23.8
+8	Ottawa County	Michigan	23.7
+9	Winnebago County	Wisconsin	23.6
+10	Winnebago County	Illinois	22.8
+10	Randolph County	North Carolina	22.8
+10	Rock County	Wisconsin	22.8
+rank	name	state	in_wholesale
+1	Bayamón Municipio	Puerto Rico	4.8
+2	DeSoto County	Mississippi	4.6
+3	Ascension Parish	Louisiana	4.4
+3	Yakima County	Washington	4.4
+4	Wyandotte County	Kansas	4.3
+4	Cumberland County	New Jersey	4.3
+4	Lake County	Illinois	4.3
+5	Bergen County	New Jersey	4.2
+5	Kent County	Michigan	4.2
+6	Kenosha County	Wisconsin	4.1
+6	Hanover County	Virginia	4.1
+7	Somerset County	New Jersey	4.0
+7	Hall County	Georgia	4.0
+7	Shelby County	Alabama	4.0
+7	Cherokee County	Georgia	4.0
+8	Boone County	Kentucky	3.9
+8	Gloucester County	New Jersey	3.9
+8	Kenton County	Kentucky	3.9
+8	DuPage County	Illinois	3.9
+8	Hamilton County	Indiana	3.9
+8	Ector County	Texas	3.9
+9	Wright County	Minnesota	3.8
+9	York County	South Carolina	3.8
+9	Wilson County	Tennessee	3.8
+9	Webb County	Texas	3.8
+9	Lafayette Parish	Louisiana	3.8
+9	Montgomery County	Texas	3.8
+9	Kane County	Illinois	3.8
+10	Passaic County	New Jersey	3.7
+10	Scott County	Minnesota	3.7
+10	Gwinnett County	Georgia	3.7
+10	St. Tammany Parish	Louisiana	3.7
+10	Madison County	Mississippi	3.7
+10	Ouachita Parish	Louisiana	3.7
+10	Blair County	Pennsylvania	3.7
+10	Clackamas County	Oregon	3.7
+10	Comal County	Texas	3.7
+rank	name	state	in_retail
+1	Benton County	Arkansas	21.5
+2	Johnson County	Texas	18.3
+3	Sumter County	Florida	16.9
+4	Highlands County	Florida	16.3
+5	Horry County	South Carolina	16.2
+5	Lowndes County	Georgia	16.2
+6	Citrus County	Florida	15.9
+7	Eau Claire County	Wisconsin	15.6
+8	Marion County	Florida	15.5
+9	Indian River County	Florida	15.4
+10	Charlotte County	Florida	15.2
+10	Onslow County	North Carolina	15.2
+10	Polk County	Florida	15.2
+rank	name	state	in_transportation
+1	Webb County	Texas	14.9
+2	Henry County	Georgia	14.3
+3	DeSoto County	Mississippi	13.8
+3	Clayton County	Georgia	13.8
+4	Shelby County	Tennessee	13.5
+5	Fayette County	Georgia	12.5
+6	Coweta County	Georgia	11.4
+7	San Bernardino County	California	10.5
+8	Union County	New Jersey	10.2
+9	Anchorage Municipality	Alaska	9.8
+9	Douglas County	Georgia	9.8
+10	Beaver County	Pennsylvania	9.2
+rank	name	state	in_information
+1	San Francisco County	California	6.2
+2	New York County	New York	5.9
+3	Santa Clara County	California	5.2
+4	Douglas County	Colorado	5.1
+5	Kings County	New York	4.8
+6	San Mateo County	California	4.6
+7	Forsyth County	Georgia	4.5
+7	Los Angeles County	California	4.5
+8	Somerset County	New Jersey	4.3
+9	Fulton County	Georgia	4.1
+10	Marin County	California	3.9
+rank	name	state	in_finance
+1	McLean County	Illinois	18.4
+2	New York County	New York	16.3
+3	Polk County	Iowa	15.3
+4	Mecklenburg County	North Carolina	13.8
+5	Delaware County	Ohio	13.2
+6	St. Johns County	Florida	12.8
+7	Collin County	Texas	12.3
+8	Henrico County	Virginia	12.1
+9	Fairfield County	Connecticut	12.0
+9	Hudson County	New Jersey	12.0
+9	Douglas County	Colorado	12.0
+10	New Castle County	Delaware	11.9
+rank	name	state	in_professional
+1	Arlington County	Virginia	30.2
+2	Loudoun County	Virginia	29.1
+3	Fairfax County	Virginia	25.9
+4	San Francisco County	California	25.7
+5	District of Columbia	District of Columbia	24.0
+6	Alexandria city	Virginia	23.7
+7	Santa Clara County	California	22.0
+8	Montgomery County	Maryland	21.7
+9	Fulton County	Georgia	21.6
+10	New York County	New York	21.0
+rank	name	state	in_education_health
+1	Olmsted County	Minnesota	46.9
+2	Tompkins County	New York	44.0
+3	Johnson County	Iowa	41.4
+4	Centre County	Pennsylvania	41.0
+5	Hampshire County	Massachusetts	40.5
+6	Champaign County	Illinois	39.7
+7	Alachua County	Florida	39.3
+8	Orange County	North Carolina	39.2
+9	Washtenaw County	Michigan	37.7
+10	Monongalia County	West Virginia	37.6
+rank	name	state	in_arts_food
+1	Clark County	Nevada	26.1
+2	Maui County	Hawaii	22.9
+3	Osceola County	Florida	22.2
+4	Atlantic County	New Jersey	21.7
+5	Horry County	South Carolina	19.8
+6	Coconino County	Arizona	18.8
+7	Orange County	Florida	18.3
+7	Harrison County	Mississippi	18.3
+8	Mohave County	Arizona	17.8
+9	Orleans Parish	Louisiana	16.6
+10	Hawaii County	Hawaii	16.4
+rank	name	state	in_other
+1	District of Columbia	District of Columbia	9.5
+2	Arlington County	Virginia	8.0
+3	Alexandria city	Virginia	7.8
+4	Citrus County	Florida	7.5
+5	Bradley County	Tennessee	7.1
+6	Montgomery County	Maryland	7.0
+7	Henderson County	North Carolina	6.9
+7	Sumter County	Florida	6.9
+8	St. Lucie County	Florida	6.8
+8	San Juan Municipio	Puerto Rico	6.8
+9	Yavapai County	Arizona	6.7
+10	Sarasota County	Florida	6.5
+10	Santa Fe County	New Mexico	6.5
+rank	name	state	in_public_admin
+1	Stafford County	Virginia	20.1
+1	Charles County	Maryland	20.1
+2	St. Mary's County	Maryland	18.3
+3	Thurston County	Washington	17.0
+4	Arlington County	Virginia	16.9
+5	District of Columbia	District of Columbia	16.8
+5	Cochise County	Arizona	16.8
+6	Houston County	Georgia	16.4
+7	Alexandria city	Virginia	16.1
+8	Leon County	Florida	14.2
+9	Prince George's County	Maryland	13.6
+10	Kings County	California	12.9
+rank	name	state	class_private
+1	Lehigh County	Pennsylvania	88.1
+2	Kent County	Michigan	87.6
+3	Allen County	Indiana	87.4
+4	Elkhart County	Indiana	87.1
+4	Ottawa County	Michigan	87.1
+4	Vanderburgh County	Indiana	87.1
+4	Waukesha County	Wisconsin	87.1
+5	Mecklenburg County	North Carolina	87.0
+5	Montgomery County	Pennsylvania	87.0
+6	Oakland County	Michigan	86.9
+6	St. Joseph County	Indiana	86.9
+7	DuPage County	Illinois	86.8
+8	Macomb County	Michigan	86.7
+8	Sheboygan County	Wisconsin	86.7
+9	St. Charles County	Missouri	86.6
+10	Lake County	Indiana	86.5
+10	Monroe County	Michigan	86.5
+10	Minnehaha County	South Dakota	86.5
+10	Peoria County	Illinois	86.5
+rank	name	state	class_govt
+1	Charles County	Maryland	33.7
+2	Navajo County	Arizona	32.5
+3	St. Mary's County	Maryland	32.4
+4	Stafford County	Virginia	32.3
+5	Leon County	Florida	30.1
+6	Houston County	Georgia	28.7
+6	Cochise County	Arizona	28.7
+7	Thurston County	Washington	28.5
+8	Kitsap County	Washington	28.4
+9	Yolo County	California	28.2
+10	Champaign County	Illinois	27.9
+rank	name	state	class_selfemployed
+1	San Juan Municipio	Puerto Rico	15.3
+2	Marin County	California	15.1
+3	Humboldt County	California	13.6
+4	Hawaii County	Hawaii	11.6
+5	Santa Fe County	New Mexico	11.2
+6	Yavapai County	Arizona	10.7
+7	Hidalgo County	Texas	10.6
+7	Sonoma County	California	10.6
+8	El Dorado County	California	10.1
+9	Barnstable County	Massachusetts	9.9
+10	Santa Cruz County	California	9.7
+10	Caguas Municipio	Puerto Rico	9.7
+rank	name	state	class_unpaid
+1	Sumter County	Florida	1.0
+2	Lycoming County	Pennsylvania	0.9
+3	DeSoto County	Mississippi	0.8
+4	St. Lawrence County	New York	0.6
+4	Clarke County	Georgia	0.6
+4	Sumter County	South Carolina	0.6
+5	Highlands County	Florida	0.5
+5	Washington County	Utah	0.5
+5	Humboldt County	California	0.5
+5	Shelby County	Alabama	0.5
+5	Onslow County	North Carolina	0.5
+5	Clark County	Ohio	0.5
+6	Charlotte County	Florida	0.4
+6	Jefferson County	New York	0.4
+6	Boone County	Kentucky	0.4
+6	Henry County	Georgia	0.4
+6	Santa Cruz County	California	0.4
+6	Aiken County	South Carolina	0.4
+6	Sandoval County	New Mexico	0.4
+6	Marion County	Florida	0.4
+6	McLennan County	Texas	0.4
+6	Wicomico County	Maryland	0.4
+6	Wayne County	Ohio	0.4
+6	Hernando County	Florida	0.4
+6	Kendall County	Illinois	0.4
+6	Wichita County	Texas	0.4
+6	Mesa County	Colorado	0.4
+7	Bell County	Texas	0.3
+7	Matanuska-Susitna Borough	Alaska	0.3
+7	San Juan Municipio	Puerto Rico	0.3
+7	El Paso County	Colorado	0.3
+7	Caddo Parish	Louisiana	0.3
+7	Horry County	South Carolina	0.3
+7	Mohave County	Arizona	0.3
+7	Richland County	South Carolina	0.3
+7	Clark County	Washington	0.3
+7	Tolland County	Connecticut	0.3
+7	Ulster County	New York	0.3
+7	Kent County	Delaware	0.3
+7	Monterey County	California	0.3
+7	Collier County	Florida	0.3
+7	Kaufman County	Texas	0.3
+7	Santa Barbara County	California	0.3
+7	Gregg County	Texas	0.3
+7	Frederick County	Maryland	0.3
+7	Clackamas County	Oregon	0.3
+7	Washington County	Rhode Island	0.3
+7	Pueblo County	Colorado	0.3
+7	Gwinnett County	Georgia	0.3
+7	Chatham County	Georgia	0.3
+7	Sheboygan County	Wisconsin	0.3
+7	Parker County	Texas	0.3
+7	New Hanover County	North Carolina	0.3
+7	Pima County	Arizona	0.3
+7	Rapides Parish	Louisiana	0.3
+7	Harrison County	Mississippi	0.3
+7	Albemarle County	Virginia	0.3
+7	Grayson County	Texas	0.3
+7	Iredell County	North Carolina	0.3
+7	Franklin County	Missouri	0.3
+7	Douglas County	Oregon	0.3
+7	Douglas County	Colorado	0.3
+7	Butte County	California	0.3
+7	Yakima County	Washington	0.3
+7	Taylor County	Texas	0.3
+7	Weld County	Colorado	0.3
+7	Ellis County	Texas	0.3
+7	Brazos County	Texas	0.3
+7	Hawaii County	Hawaii	0.3
+7	Bradley County	Tennessee	0.3
+7	Deschutes County	Oregon	0.3
+7	Comal County	Texas	0.3
+7	Pulaski County	Arkansas	0.3
+7	Barnstable County	Massachusetts	0.3
+7	Orange County	California	0.3
+7	Warren County	Kentucky	0.3
+7	Okaloosa County	Florida	0.3
+7	Bexar County	Texas	0.3
+7	Berrien County	Michigan	0.3
+7	Adams County	Pennsylvania	0.3
+7	Adams County	Colorado	0.3
+7	Fort Bend County	Texas	0.3
+7	Wood County	Ohio	0.3
+7	Jefferson County	Missouri	0.3
+7	Imperial County	California	0.3
+7	St. Lucie County	Florida	0.3
+7	Palm Beach County	Florida	0.3
+7	Saginaw County	Michigan	0.3
+7	Hendricks County	Indiana	0.3
+7	Kootenai County	Idaho	0.3
+7	Jasper County	Missouri	0.3
+7	Centre County	Pennsylvania	0.3
+8	Tompkins County	New York	0.2
+8	Stark County	Ohio	0.2
+8	Snohomish County	Washington	0.2
+8	Livingston County	Michigan	0.2
+8	Lafayette Parish	Louisiana	0.2
+8	Brevard County	Florida	0.2
+8	Thurston County	Washington	0.2
+8	Randall County	Texas	0.2
+8	Faulkner County	Arkansas	0.2
+8	Shelby County	Tennessee	0.2
+8	Warren County	New Jersey	0.2
+8	St. Clair County	Illinois	0.2
+8	Cameron County	Texas	0.2
+8	Mobile County	Alabama	0.2
+8	Greene County	Ohio	0.2
+8	St. Mary's County	Maryland	0.2
+8	Doña Ana County	New Mexico	0.2
+8	Fayette County	Kentucky	0.2
+8	Fairfax County	Virginia	0.2
+8	Honolulu County	Hawaii	0.2
+8	Delaware County	Pennsylvania	0.2
+8	Lee County	Florida	0.2
+8	Marion County	Oregon	0.2
+8	Riverside County	California	0.2
+8	Pinal County	Arizona	0.2
+8	Leon County	Florida	0.2
+8	Prince William County	Virginia	0.2
+8	Ramsey County	Minnesota	0.2
+8	Berkshire County	Massachusetts	0.2
+8	Allen County	Ohio	0.2
+8	Utah County	Utah	0.2
+8	Canyon County	Idaho	0.2
+8	Coconino County	Arizona	0.2
+8	Monroe County	Michigan	0.2
+8	Johnson County	Texas	0.2
+8	Hampden County	Massachusetts	0.2
+8	Volusia County	Florida	0.2
+8	Hays County	Texas	0.2
+8	Lee County	Alabama	0.2
+8	Lancaster County	Pennsylvania	0.2
+8	Tangipahoa Parish	Louisiana	0.2
+8	Mahoning County	Ohio	0.2
+8	Douglas County	Georgia	0.2
+8	Shasta County	California	0.2
+8	San Luis Obispo County	California	0.2
+8	Spokane County	Washington	0.2
+8	York County	Maine	0.2
+8	Cumberland County	North Carolina	0.2
+8	Sussex County	Delaware	0.2
+8	Newton County	Georgia	0.2
+8	Cass County	North Dakota	0.2
+8	St. Charles County	Missouri	0.2
+8	Kings County	New York	0.2
+8	Kern County	California	0.2
+8	Tulsa County	Oklahoma	0.2
+8	Carroll County	Maryland	0.2
+8	Ponce Municipio	Puerto Rico	0.2
+8	Madera County	California	0.2
+8	District of Columbia	District of Columbia	0.2
+8	Muskegon County	Michigan	0.2
+8	Carolina Municipio	Puerto Rico	0.2
+8	Brown County	Wisconsin	0.2
+8	Lake County	Illinois	0.2
+8	Charleston County	South Carolina	0.2
+8	Allegan County	Michigan	0.2
+8	Pasco County	Florida	0.2
+8	Fayette County	Georgia	0.2
+8	Rensselaer County	New York	0.2
+8	Napa County	California	0.2
+8	Rock County	Wisconsin	0.2
+8	Collin County	Texas	0.2
+8	Nueces County	Texas	0.2
+8	Larimer County	Colorado	0.2
+8	Flagler County	Florida	0.2
+8	Whatcom County	Washington	0.2
+8	Houston County	Georgia	0.2
+8	El Paso County	Texas	0.2
+8	Kennebec County	Maine	0.2
+8	Durham County	North Carolina	0.2
+8	Arlington County	Virginia	0.2
+8	Lorain County	Ohio	0.2
+8	Hamilton County	Ohio	0.2
+8	Catawba County	North Carolina	0.2
+8	Jackson County	Missouri	0.2
+8	Ada County	Idaho	0.2
+8	Walworth County	Wisconsin	0.2
+8	Yavapai County	Arizona	0.2
+8	Saline County	Arkansas	0.2
+8	Clermont County	Ohio	0.2
+8	Virginia Beach city	Virginia	0.2
+8	San Bernardino County	California	0.2
+8	Buncombe County	North Carolina	0.2
+8	Fresno County	California	0.2
+8	Johnson County	Kansas	0.2
+8	Carroll County	Georgia	0.2
+8	St. Tammany Parish	Louisiana	0.2
+8	Greenville County	South Carolina	0.2
+8	Johnson County	Iowa	0.2
+8	Richmond city	Virginia	0.2
+8	Cecil County	Maryland	0.2
+8	East Baton Rouge Parish	Louisiana	0.2
+8	Genesee County	Michigan	0.2
+8	Boone County	Missouri	0.2
+8	La Crosse County	Wisconsin	0.2
+8	Spartanburg County	South Carolina	0.2
+8	Orange County	Florida	0.2
+8	Miami-Dade County	Florida	0.2
+8	Harris County	Texas	0.2
+8	Harnett County	North Carolina	0.2
+8	Polk County	Florida	0.2
+8	Chautauqua County	New York	0.2
+8	Citrus County	Florida	0.2
+8	Forsyth County	North Carolina	0.2
+8	Union County	North Carolina	0.2
+8	Miami County	Ohio	0.2
+8	Salt Lake County	Utah	0.2
+8	Clayton County	Georgia	0.2
+8	Ector County	Texas	0.2
+8	Flathead County	Montana	0.2
+8	Columbiana County	Ohio	0.2
+8	Guadalupe County	Texas	0.2
+8	San Francisco County	California	0.2
+8	Washington County	Maryland	0.2
+8	New Castle County	Delaware	0.2
+8	Ingham County	Michigan	0.2
+8	Sacramento County	California	0.2
+8	Pinellas County	Florida	0.2
+8	Cochise County	Arizona	0.2
+8	Yuma County	Arizona	0.2
+8	Knox County	Tennessee	0.2
+8	Kankakee County	Illinois	0.2
+8	Dauphin County	Pennsylvania	0.2
+8	Alamance County	North Carolina	0.2
+8	Eau Claire County	Wisconsin	0.2
+8	Brunswick County	North Carolina	0.2
+8	Oklahoma County	Oklahoma	0.2
+8	Multnomah County	Oregon	0.2
+8	Jefferson County	Kentucky	0.2
+8	Tom Green County	Texas	0.2
+8	Sonoma County	California	0.2
+8	Sumner County	Tennessee	0.2
+8	LaSalle County	Illinois	0.2
+8	Rowan County	North Carolina	0.2
+8	Alachua County	Florida	0.2
+8	Beaufort County	South Carolina	0.2
+8	Montgomery County	Maryland	0.2
+8	Marathon County	Wisconsin	0.2
+8	Hartford County	Connecticut	0.2
+8	Clark County	Nevada	0.2
+8	Nassau County	New York	0.2
+8	Outagamie County	Wisconsin	0.2
+8	Pitt County	North Carolina	0.2
+8	Racine County	Wisconsin	0.2
+8	Jefferson Parish	Louisiana	0.2
+8	Bristol County	Massachusetts	0.2
+8	Gaston County	North Carolina	0.2
+8	Craighead County	Arkansas	0.2
+8	Pickens County	South Carolina	0.2
+8	Clark County	Indiana	0.2
+8	Webb County	Texas	0.2
+8	Ventura County	California	0.2
+8	Rockwall County	Texas	0.2
+8	Clay County	Missouri	0.2
+8	Houston County	Alabama	0.2
+8	Escambia County	Florida	0.2
+8	Cumberland County	Pennsylvania	0.2
+8	York County	Pennsylvania	0.2
+8	Jefferson County	Colorado	0.2
+8	Washington County	Minnesota	0.2
+8	Dutchess County	New York	0.2
+8	Tulare County	California	0.2
+8	Marin County	California	0.2
+8	Jackson County	Mississippi	0.2
+8	Santa Clara County	California	0.2
+8	Ouachita Parish	Louisiana	0.2
+8	Stanislaus County	California	0.2
+8	Lowndes County	Georgia	0.2
+8	St. Clair County	Michigan	0.2
+8	DuPage County	Illinois	0.2
+8	King County	Washington	0.2
+8	Broward County	Florida	0.2
+8	Scott County	Minnesota	0.2
+8	Worcester County	Massachusetts	0.2
+8	St. Johns County	Florida	0.2
+8	Hardin County	Kentucky	0.2
+8	Cleveland County	Oklahoma	0.2
+8	Cache County	Utah	0.2
+8	Jackson County	Michigan	0.2
+8	Hanover County	Virginia	0.2
+8	Bartow County	Georgia	0.2
+8	Kane County	Illinois	0.2
+8	Maui County	Hawaii	0.2
+8	Boulder County	Colorado	0.2
+8	Oneida County	New York	0.2
+8	Middlesex County	Massachusetts	0.2
+8	Williamson County	Tennessee	0.2
+8	Los Angeles County	California	0.2
+8	Alexandria city	Virginia	0.2
+8	Chesapeake city	Virginia	0.2
+8	Franklin County	Pennsylvania	0.2
+8	El Dorado County	California	0.2
+8	McHenry County	Illinois	0.2
+8	Sarasota County	Florida	0.2
+8	Portage County	Ohio	0.2
+8	Osceola County	Florida	0.2
+8	Montgomery County	Pennsylvania	0.2
+8	Morgan County	Alabama	0.2
+8	Elkhart County	Indiana	0.2
+8	Cook County	Illinois	0.2
+8	Dane County	Wisconsin	0.2
+8	Maricopa County	Arizona	0.2
+8	Monroe County	Pennsylvania	0.2
+8	Tippecanoe County	Indiana	0.2
+8	San Diego County	California	0.2
+8	Fairfield County	Connecticut	0.2
+8	Davidson County	North Carolina	0.2
+8	Rockingham County	New Hampshire	0.2
+8	Forsyth County	Georgia	0.2
+8	Kanawha County	West Virginia	0.2
+8	Arapahoe County	Colorado	0.2
+8	Orange County	New York	0.2
+8	DeKalb County	Illinois	0.2
+8	Lane County	Oregon	0.2
+8	Summit County	Ohio	0.2
+8	Vigo County	Indiana	0.2
+8	Burlington County	New Jersey	0.2
+8	Travis County	Texas	0.2
+8	Waukesha County	Wisconsin	0.2
+8	Potter County	Texas	0.2
+8	Hamilton County	Indiana	0.2
+8	Contra Costa County	California	0.2
+8	Blount County	Tennessee	0.2
+8	Shawnee County	Kansas	0.2
+8	Tazewell County	Illinois	0.2
+8	Dallas County	Texas	0.2
+8	Madison County	Indiana	0.2
+8	Camden County	New Jersey	0.2
+8	Linn County	Iowa	0.2
+8	Manatee County	Florida	0.2
+8	Passaic County	New Jersey	0.2
+8	Delaware County	Ohio	0.2
+8	Seminole County	Florida	0.2
+8	Morris County	New Jersey	0.2
+8	Fulton County	Georgia	0.2
+8	Jackson County	Oregon	0.2
+8	Peoria County	Illinois	0.2
+8	Denton County	Texas	0.2
+8	Wake County	North Carolina	0.2
+8	San Mateo County	California	0.2
+8	Mercer County	Pennsylvania	0.2
+8	Rock Island County	Illinois	0.2
+8	Loudoun County	Virginia	0.2
+8	Wayne County	Michigan	0.2
+8	Ocean County	New Jersey	0.2
+9	Dorchester County	South Carolina	0.1
+9	Lucas County	Ohio	0.1
+9	Vanderburgh County	Indiana	0.1
+9	Anderson County	South Carolina	0.1
+9	Macomb County	Michigan	0.1
+9	Hennepin County	Minnesota	0.1
+9	Chester County	Pennsylvania	0.1
+9	Sussex County	New Jersey	0.1
+9	Ontario County	New York	0.1
+9	Rockland County	New York	0.1
+9	Washtenaw County	Michigan	0.1
+9	Hamilton County	Tennessee	0.1
+9	Howard County	Maryland	0.1
+9	Chittenden County	Vermont	0.1
+9	St. Louis city	Missouri	0.1
+9	York County	South Carolina	0.1
+9	Cobb County	Georgia	0.1
+9	Yellowstone County	Montana	0.1
+9	Richland County	Ohio	0.1
+9	Denver County	Colorado	0.1
+9	Northampton County	Pennsylvania	0.1
+9	Erie County	New York	0.1
+9	Craven County	North Carolina	0.1
+9	Brazoria County	Texas	0.1
+9	Calhoun County	Alabama	0.1
+9	Wayne County	North Carolina	0.1
+9	Jefferson County	Texas	0.1
+9	Butler County	Pennsylvania	0.1
+9	New London County	Connecticut	0.1
+9	Davis County	Utah	0.1
+9	LaPorte County	Indiana	0.1
+9	Plymouth County	Massachusetts	0.1
+9	Spotsylvania County	Virginia	0.1
+9	Black Hawk County	Iowa	0.1
+9	Fairfield County	Ohio	0.1
+9	Norfolk city	Virginia	0.1
+9	Guilford County	North Carolina	0.1
+9	Whitfield County	Georgia	0.1
+9	Fond du Lac County	Wisconsin	0.1
+9	Gallatin County	Montana	0.1
+9	Etowah County	Alabama	0.1
+9	Monroe County	New York	0.1
+9	Luzerne County	Pennsylvania	0.1
+9	Hunterdon County	New Jersey	0.1
+9	Stafford County	Virginia	0.1
+9	Washington County	Pennsylvania	0.1
+9	Washington County	Tennessee	0.1
+9	Oswego County	New York	0.1
+9	Queens County	New York	0.1
+9	Woodbury County	Iowa	0.1
+9	Calhoun County	Michigan	0.1
+9	Dakota County	Minnesota	0.1
+9	Warren County	Ohio	0.1
+9	Chesterfield County	Virginia	0.1
+9	Clay County	Florida	0.1
+9	Cumberland County	Maine	0.1
+9	Schuylkill County	Pennsylvania	0.1
+9	Bibb County	Georgia	0.1
+9	Tuscaloosa County	Alabama	0.1
+9	Bucks County	Pennsylvania	0.1
+9	Hillsborough County	New Hampshire	0.1
+9	Linn County	Oregon	0.1
+9	Anchorage Municipality	Alaska	0.1
+9	Suffolk County	Massachusetts	0.1
+9	Randolph County	North Carolina	0.1
+9	McLean County	Illinois	0.1
+9	Lackawanna County	Pennsylvania	0.1
+9	Weber County	Utah	0.1
+9	Milwaukee County	Wisconsin	0.1
+9	Oakland County	Michigan	0.1
+9	Providence County	Rhode Island	0.1
+9	Berkeley County	West Virginia	0.1
+9	Norfolk County	Massachusetts	0.1
+9	Davidson County	Tennessee	0.1
+9	Lubbock County	Texas	0.1
+9	Merced County	California	0.1
+9	Sebastian County	Arkansas	0.1
+9	Harford County	Maryland	0.1
+9	Kalamazoo County	Michigan	0.1
+9	Baltimore County	Maryland	0.1
+9	Lake County	Ohio	0.1
+9	Beaver County	Pennsylvania	0.1
+9	Benton County	Arkansas	0.1
+9	Niagara County	New York	0.1
+9	Franklin County	Ohio	0.1
+9	Greene County	Missouri	0.1
+9	Monroe County	Indiana	0.1
+9	Gloucester County	New Jersey	0.1
+9	Lebanon County	Pennsylvania	0.1
+9	Kent County	Michigan	0.1
+9	Allen County	Indiana	0.1
+9	Mecklenburg County	North Carolina	0.1
+9	Monongalia County	West Virginia	0.1
+9	Rutherford County	Tennessee	0.1
+9	Will County	Illinois	0.1
+9	Essex County	New Jersey	0.1
+9	Onondaga County	New York	0.1
+9	Middlesex County	Connecticut	0.1
+9	Orleans Parish	Louisiana	0.1
+9	St. Louis County	Minnesota	0.1
+9	Sedgwick County	Kansas	0.1
+9	Martin County	Florida	0.1
+9	Yamhill County	Oregon	0.1
+9	Carver County	Minnesota	0.1
+9	Tarrant County	Texas	0.1
+9	Pennington County	South Dakota	0.1
+9	Cass County	Missouri	0.1
+9	Montgomery County	Tennessee	0.1
+9	Charles County	Maryland	0.1
+9	Bernalillo County	New Mexico	0.1
+9	Santa Rosa County	Florida	0.1
+9	Washoe County	Nevada	0.1
+9	Hillsborough County	Florida	0.1
+9	Cuyahoga County	Ohio	0.1
+9	Somerset County	New Jersey	0.1
+9	Marion County	Indiana	0.1
+9	Suffolk County	New York	0.1
+9	Johnson County	Indiana	0.1
+9	Medina County	Ohio	0.1
+9	Minnehaha County	South Dakota	0.1
+9	St. Joseph County	Indiana	0.1
+9	Galveston County	Texas	0.1
+9	Lehigh County	Pennsylvania	0.1
+9	Bonneville County	Idaho	0.1
+9	Mercer County	New Jersey	0.1
+9	Cowlitz County	Washington	0.1
+9	Bergen County	New Jersey	0.1
+9	Williamson County	Texas	0.1
+9	Kenosha County	Wisconsin	0.1
+9	Atlantic County	New Jersey	0.1
+9	Florence County	South Carolina	0.1
+9	Stearns County	Minnesota	0.1
+9	Baldwin County	Alabama	0.1
+9	Canadian County	Oklahoma	0.1
+9	Licking County	Ohio	0.1
+9	Wright County	Minnesota	0.1
+9	Pierce County	Washington	0.1
+9	Lancaster County	Nebraska	0.1
+9	Washington County	Arkansas	0.1
+9	Kitsap County	Washington	0.1
+9	Paulding County	Georgia	0.1
+9	Smith County	Texas	0.1
+9	Olmsted County	Minnesota	0.1
+9	Missoula County	Montana	0.1
+9	Penobscot County	Maine	0.1
+9	Cherokee County	Georgia	0.1
+9	DeKalb County	Georgia	0.1
+9	San Joaquin County	California	0.1
+9	Eaton County	Michigan	0.1
+9	Monmouth County	New Jersey	0.1
+9	Douglas County	Kansas	0.1
+9	Polk County	Iowa	0.1
+9	Winnebago County	Illinois	0.1
+9	Madison County	Illinois	0.1
+9	Muscogee County	Georgia	0.1
+9	Duval County	Florida	0.1
+9	Hidalgo County	Texas	0.1
+9	Hampton city	Virginia	0.1
+9	Erie County	Pennsylvania	0.1
+9	Berks County	Pennsylvania	0.1
+9	Baltimore city	Maryland	0.1
+9	Blair County	Pennsylvania	0.1
+9	Alameda County	California	0.1
+9	Philadelphia County	Pennsylvania	0.1
+9	Winnebago County	Wisconsin	0.1
+9	Lake County	Florida	0.1
+9	Windham County	Connecticut	0.1
+9	Livingston Parish	Louisiana	0.1
+9	Berkeley County	South Carolina	0.1
+9	Middlesex County	New Jersey	0.1
+9	Calcasieu Parish	Louisiana	0.1
+9	Westmoreland County	Pennsylvania	0.1
+9	Henderson County	North Carolina	0.1
+9	Solano County	California	0.1
+9	Kenton County	Kentucky	0.1
+9	Bay County	Florida	0.1
+9	Skagit County	Washington	0.1
+9	Macon County	Illinois	0.1
+9	Jefferson County	Alabama	0.1
+9	Wilson County	Tennessee	0.1
+9	Henrico County	Virginia	0.1
+9	Richmond County	New York	0.1
+9	Daviess County	Kentucky	0.1
+9	Newport News city	Virginia	0.1
+9	Lexington County	South Carolina	0.1
+9	Douglas County	Nebraska	0.1
+9	Albany County	New York	0.1
+9	Westchester County	New York	0.1
+9	New Haven County	Connecticut	0.1
+9	Santa Fe County	New Mexico	0.1
+9	Platte County	Missouri	0.1
+9	Kent County	Rhode Island	0.1
+9	Cambria County	Pennsylvania	0.1
+9	Butler County	Ohio	0.1
+9	Union County	New Jersey	0.1
+9	Columbia County	Georgia	0.1
+9	Cabarrus County	North Carolina	0.1
+9	Lake County	Indiana	0.1
+9	Navajo County	Arizona	0.1
+9	Terrebonne Parish	Louisiana	0.1
+9	Montgomery County	Texas	0.1
+9	Prince George's County	Maryland	0.1
+9	Scott County	Iowa	0.1
+9	Fayette County	Pennsylvania	0.1
+9	Coweta County	Georgia	0.1
+9	Hudson County	New Jersey	0.1
+9	Sullivan County	Tennessee	0.1
+9	Sarpy County	Nebraska	0.1
+9	St. Louis County	Missouri	0.1
+9	Richmond County	Georgia	0.1
+9	Robeson County	North Carolina	0.1
+9	Orange County	North Carolina	0.1
+9	Placer County	California	0.1
+9	San Juan County	New Mexico	0.1
+9	New York County	New York	0.1
+9	Broome County	New York	0.1
+9	Bronx County	New York	0.1
+9	Madison County	Alabama	0.1
+9	Merrimack County	New Hampshire	0.1
+9	Benton County	Washington	0.1
+9	Washington County	Oregon	0.1
+9	Anne Arundel County	Maryland	0.1
+9	Montgomery County	Ohio	0.1
+9	Yolo County	California	0.1
+9	Hinds County	Mississippi	0.1
+9	Anoka County	Minnesota	0.1
+9	Indian River County	Florida	0.1
+9	Comanche County	Oklahoma	0.1
+9	Champaign County	Illinois	0.1
+9	Hall County	Georgia	0.1
+9	Essex County	Massachusetts	0.1
+9	Midland County	Texas	0.1
+9	Litchfield County	Connecticut	0.1
+9	Androscoggin County	Maine	0.1
+9	Allegheny County	Pennsylvania	0.1
+9	Sangamon County	Illinois	0.1
+10	Rankin County	Mississippi	0.0
+10	Montgomery County	Alabama	0.0
+10	Bay County	Michigan	0.0
+10	Madison County	Mississippi	0.0
+10	Hampshire County	Massachusetts	0.0
+10	Strafford County	New Hampshire	0.0
+10	Caguas Municipio	Puerto Rico	0.0
+10	Schenectady County	New York	0.0
+10	Saratoga County	New York	0.0
+10	Bayamón Municipio	Puerto Rico	0.0
+10	Washington County	Wisconsin	0.0
+10	Ascension Parish	Louisiana	0.0
+10	Bossier Parish	Louisiana	0.0
+10	Trumbull County	Ohio	0.0
+10	Johnston County	North Carolina	0.0
+10	Cumberland County	New Jersey	0.0
+10	Delaware County	Indiana	0.0
+10	Kings County	California	0.0
+10	Porter County	Indiana	0.0
+10	Ottawa County	Michigan	0.0
+10	Wyandotte County	Kansas	0.0
+rank	name	state	income_10000_less
+1	Ponce Municipio	Puerto Rico	32.7
+2	San Juan Municipio	Puerto Rico	27.3
+3	Caguas Municipio	Puerto Rico	22.1
+4	Bayamón Municipio	Puerto Rico	20.8
+5	Carolina Municipio	Puerto Rico	17.3
+6	Lowndes County	Georgia	14.1
+7	Bibb County	Georgia	13.5
+8	Orleans Parish	Louisiana	13.4
+9	Robeson County	North Carolina	13.1
+10	Bronx County	New York	12.8
+rank	name	state	income_10000_14999
+1	Ponce Municipio	Puerto Rico	12.5
+2	Caguas Municipio	Puerto Rico	10.3
+3	San Juan Municipio	Puerto Rico	9.6
+4	Bayamón Municipio	Puerto Rico	9.1
+5	Bronx County	New York	9.0
+5	Robeson County	North Carolina	9.0
+6	Carolina Municipio	Puerto Rico	8.9
+7	Imperial County	California	8.6
+8	Cameron County	Texas	7.7
+9	Humboldt County	California	7.5
+10	Doña Ana County	New Mexico	7.3
+rank	name	state	income_15000_24999
+1	Ponce Municipio	Puerto Rico	18.2
+2	Bayamón Municipio	Puerto Rico	17.3
+3	Carolina Municipio	Puerto Rico	17.2
+4	Caguas Municipio	Puerto Rico	16.5
+5	Highlands County	Florida	15.8
+6	Caddo Parish	Louisiana	15.4
+7	San Juan Municipio	Puerto Rico	14.8
+8	Doña Ana County	New Mexico	14.6
+9	Robeson County	North Carolina	14.4
+10	Clarke County	Georgia	14.2
+rank	name	state	income_25000_34999
+1	Carolina Municipio	Puerto Rico	14.1
+2	Sebastian County	Arkansas	13.9
+3	Citrus County	Florida	13.4
+4	Robeson County	North Carolina	13.3
+5	Craven County	North Carolina	13.0
+5	Potter County	Texas	13.0
+5	Bayamón Municipio	Puerto Rico	13.0
+6	Clark County	Ohio	12.9
+6	Bay County	Michigan	12.9
+7	Caguas Municipio	Puerto Rico	12.8
+7	Highlands County	Florida	12.8
+8	Columbiana County	Ohio	12.5
+9	Lake County	Florida	12.4
+9	Etowah County	Alabama	12.4
+10	Whitfield County	Georgia	12.3
+rank	name	state	income_35000_49999
+1	Onslow County	North Carolina	17.5
+2	Marion County	Florida	16.9
+2	Clayton County	Georgia	16.9
+3	Charlotte County	Florida	16.4
+4	Mohave County	Arizona	16.2
+4	Citrus County	Florida	16.2
+4	Jasper County	Missouri	16.2
+5	Richland County	Ohio	16.1
+6	Hernando County	Florida	16.0
+6	Douglas County	Oregon	16.0
+6	Clark County	Indiana	16.0
+6	Osceola County	Florida	16.0
+6	Polk County	Florida	16.0
+7	Randolph County	North Carolina	15.9
+8	Yakima County	Washington	15.8
+9	Bay County	Michigan	15.7
+9	Horry County	South Carolina	15.7
+9	Wayne County	North Carolina	15.7
+9	Hardin County	Kentucky	15.7
+10	St. Lucie County	Florida	15.6
+rank	name	state	income_50000_74999
+1	Canyon County	Idaho	23.6
+2	Kootenai County	Idaho	22.2
+3	Wayne County	Ohio	21.9
+4	Berkeley County	West Virginia	21.8
+5	Miami County	Ohio	21.6
+5	Highlands County	Florida	21.6
+6	Johnson County	Texas	21.4
+7	Sumter County	Florida	21.3
+7	Franklin County	Pennsylvania	21.3
+7	Newton County	Georgia	21.3
+8	Paulding County	Georgia	21.1
+8	Jasper County	Missouri	21.1
+9	Osceola County	Florida	21.0
+10	Sheboygan County	Wisconsin	20.9
+10	Horry County	South Carolina	20.9
+10	Yakima County	Washington	20.9
+rank	name	state	income_75000_99999
+1	Eaton County	Michigan	17.3
+1	Weber County	Utah	17.3
+2	Hendricks County	Indiana	17.2
+2	Davis County	Utah	17.2
+3	Anoka County	Minnesota	16.9
+4	Marathon County	Wisconsin	16.8
+5	Franklin County	Missouri	16.7
+6	Washington County	Wisconsin	16.6
+6	Kendall County	Illinois	16.6
+7	DeSoto County	Mississippi	16.5
+8	Jefferson County	Missouri	16.2
+8	Clay County	Florida	16.2
+9	Benton County	Arkansas	16.1
+9	Henry County	Georgia	16.1
+9	Guadalupe County	Texas	16.1
+9	Cecil County	Maryland	16.1
+10	Allegan County	Michigan	16.0
+10	Thurston County	Washington	16.0
+10	Utah County	Utah	16.0
+rank	name	state	income_100000_149999
+1	Kendall County	Illinois	25.6
+2	Wright County	Minnesota	24.9
+3	Charles County	Maryland	24.8
+4	Rockwall County	Texas	23.9
+5	Douglas County	Colorado	23.8
+5	Carroll County	Maryland	23.8
+6	Davis County	Utah	23.5
+7	Hendricks County	Indiana	23.2
+8	Spotsylvania County	Virginia	23.0
+9	Frederick County	Maryland	22.8
+10	St. Charles County	Missouri	22.7
+rank	name	state	income_150000_199999
+1	Loudoun County	Virginia	17.3
+2	Stafford County	Virginia	16.3
+3	Douglas County	Colorado	15.3
+4	Fairfax County	Virginia	15.1
+5	Howard County	Maryland	14.9
+6	Hunterdon County	New Jersey	14.8
+6	Arlington County	Virginia	14.8
+6	Forsyth County	Georgia	14.8
+7	Delaware County	Ohio	14.3
+8	Nassau County	New York	14.1
+9	St. Mary's County	Maryland	14.0
+9	Prince William County	Virginia	14.0
+10	Sussex County	New Jersey	13.9
+rank	name	state	income_200000_more
+1	Loudoun County	Virginia	31.8
+2	Santa Clara County	California	30.3
+3	San Mateo County	California	30.1
+4	Marin County	California	29.8
+5	San Francisco County	California	29.0
+6	Fairfax County	Virginia	26.5
+7	Howard County	Maryland	25.6
+8	Somerset County	New Jersey	25.3
+9	Nassau County	New York	25.1
+10	Arlington County	Virginia	24.3
+rank	name	state	income_median
+1	Loudoun County	Virginia	147111
+2	Santa Clara County	California	130890
+3	San Mateo County	California	128091
+4	Fairfax County	Virginia	127866
+5	Howard County	Maryland	124042
+6	Arlington County	Virginia	122604
+7	Marin County	California	121671
+8	Douglas County	Colorado	121393
+9	Nassau County	New York	120036
+10	San Francisco County	California	119136
+rank	name	state	income_mean
+1	San Mateo County	California	182158
+2	Marin County	California	181737
+3	Loudoun County	Virginia	174594
+4	Santa Clara County	California	174331
+5	San Francisco County	California	167663
+6	New York County	New York	163997
+7	Fairfax County	Virginia	163072
+8	Nassau County	New York	158190
+9	Fairfield County	Connecticut	157765
+10	Somerset County	New Jersey	157405
+rank	name	state	income_percapita
+1	New York County	New York	78771
+2	Marin County	California	74446
+3	Arlington County	Virginia	73078
+4	San Francisco County	California	72041
+5	Alexandria city	Virginia	64835
+6	San Mateo County	California	64450
+7	Santa Clara County	California	59297
+8	Morris County	New Jersey	58981
+9	Fairfield County	Connecticut	58851
+10	Hunterdon County	New Jersey	58795
+rank	name	state	earnings_median
+1	Arlington County	Virginia	73387
+2	Loudoun County	Virginia	65053
+3	San Francisco County	California	64948
+4	New York County	New York	63418
+5	Alexandria city	Virginia	62795
+6	Howard County	Maryland	62468
+7	District of Columbia	District of Columbia	59677
+8	Hunterdon County	New Jersey	58607
+9	Santa Clara County	California	58214
+10	Marin County	California	58072
+rank	name	state	earnings_male
+1	Loudoun County	Virginia	106757
+2	Marin County	California	103506
+3	Santa Clara County	California	100228
+4	San Francisco County	California	99911
+5	Arlington County	Virginia	98889
+6	Howard County	Maryland	96834
+7	New York County	New York	96611
+8	Forsyth County	Georgia	93621
+9	Douglas County	Colorado	93092
+10	Morris County	New Jersey	92765
+rank	name	state	earnings_female
+1	Arlington County	Virginia	81640
+2	San Francisco County	California	81144
+3	Marin County	California	79611
+4	New York County	New York	78955
+5	Alexandria city	Virginia	74754
+6	San Mateo County	California	74444
+7	District of Columbia	District of Columbia	73682
+8	Howard County	Maryland	72484
+9	Fairfax County	Virginia	71748
+10	Santa Clara County	California	71492
+rank	name	state	housing_units
+1	Los Angeles County	California	3559790
+2	Cook County	Illinois	2198489
+3	Harris County	Texas	1795219
+4	Maricopa County	Arizona	1765880
+5	San Diego County	California	1215528
+6	Orange County	California	1101244
+7	Kings County	New York	1055660
+8	Miami-Dade County	Florida	1032310
+9	Dallas County	Texas	1027813
+10	King County	Washington	952344
+rank	name	state	housing_occupied
+1	Kendall County	Illinois	97.7
+2	Dakota County	Minnesota	97.2
+2	Loudoun County	Virginia	97.2
+3	Scott County	Minnesota	97.0
+3	Anoka County	Minnesota	97.0
+4	Davis County	Utah	96.8
+5	Rockwall County	Texas	96.6
+6	Adams County	Colorado	96.5
+6	Douglas County	Colorado	96.5
+7	Canyon County	Idaho	96.4
+7	Howard County	Maryland	96.4
+8	Jefferson County	Colorado	96.3
+9	Outagamie County	Wisconsin	96.2
+9	Lancaster County	Pennsylvania	96.2
+9	Weld County	Colorado	96.2
+10	Carroll County	Maryland	96.1
+10	Carver County	Minnesota	96.1
+10	Washington County	Oregon	96.1
+10	Kane County	Illinois	96.1
+10	Washington County	Minnesota	96.1
+rank	name	state	housing_vacant
+1	Barnstable County	Massachusetts	41.6
+2	Navajo County	Arizona	37.5
+3	Brunswick County	North Carolina	35.5
+4	Horry County	South Carolina	35.2
+5	Sussex County	Delaware	33.2
+6	Collier County	Florida	32.2
+7	Osceola County	Florida	29.7
+8	Bay County	Florida	29.3
+9	Jefferson County	New York	28.4
+10	Baldwin County	Alabama	28.0
+10	Lee County	Florida	28.0
+rank	name	state	vacancy_homeowner
+rank	name	state	vacancy_rental
+rank	name	state	units_1_detached
+1	Paulding County	Georgia	91.4
+2	Union County	North Carolina	87.6
+3	Rockwall County	Texas	87.1
+4	Newton County	Georgia	85.9
+4	Hanover County	Virginia	85.9
+5	Fayette County	Georgia	85.0
+6	Fort Bend County	Texas	84.7
+6	Forsyth County	Georgia	84.7
+7	Matanuska-Susitna Borough	Alaska	83.5
+8	Coweta County	Georgia	83.4
+9	Canadian County	Oklahoma	83.2
+10	DeSoto County	Mississippi	82.6
+rank	name	state	units_1_attached
+1	Philadelphia County	Pennsylvania	58.2
+2	Baltimore city	Maryland	51.7
+3	Delaware County	Pennsylvania	31.1
+4	Loudoun County	Virginia	29.7
+5	Schuylkill County	Pennsylvania	27.9
+6	Prince William County	Virginia	26.5
+7	Richmond County	New York	25.4
+8	Lehigh County	Pennsylvania	24.7
+9	Baltimore County	Maryland	24.0
+10	District of Columbia	District of Columbia	23.9
+rank	name	state	units_2
+1	Richmond County	New York	22.9
+2	Passaic County	New Jersey	21.8
+3	Hudson County	New Jersey	21.6
+4	Queens County	New York	20.2
+5	Erie County	New York	17.9
+6	Kings County	New York	17.2
+7	Milwaukee County	Wisconsin	17.0
+8	Schenectady County	New York	16.9
+9	Union County	New Jersey	16.8
+10	Orleans Parish	Louisiana	16.4
+rank	name	state	units_3_4
+1	Suffolk County	Massachusetts	23.0
+2	Providence County	Rhode Island	17.1
+3	Kings County	New York	16.2
+4	Essex County	New Jersey	15.8
+5	Bristol County	Massachusetts	15.3
+6	St. Louis city	Missouri	14.1
+7	Hudson County	New Jersey	13.6
+8	Worcester County	Massachusetts	11.8
+9	Essex County	Massachusetts	11.7
+10	San Francisco County	California	11.0
+rank	name	state	units_5_9
+1	Newport News city	Virginia	11.7
+2	Clayton County	Georgia	11.1
+3	Hudson County	New Jersey	11.0
+4	Suffolk County	Massachusetts	10.7
+5	Norfolk city	Virginia	10.5
+6	Kings County	New York	10.4
+7	San Juan Municipio	Puerto Rico	10.1
+8	Richmond city	Virginia	9.8
+8	Cook County	Illinois	9.8
+9	San Francisco County	California	9.6
+9	Hinds County	Mississippi	9.6
+10	Franklin County	Ohio	9.5
+10	Washtenaw County	Michigan	9.5
+rank	name	state	units_10_19
+1	Prince George's County	Maryland	12.8
+2	Alexandria city	Virginia	11.9
+3	Johnson County	Iowa	11.0
+4	New York County	New York	10.8
+5	Baltimore County	Maryland	10.6
+5	Champaign County	Illinois	10.6
+6	Dallas County	Texas	9.9
+6	Howard County	Maryland	9.9
+7	Durham County	North Carolina	9.8
+7	Washington County	Arkansas	9.8
+8	Fairfax County	Virginia	9.7
+8	Fulton County	Georgia	9.7
+8	Clarke County	Georgia	9.7
+9	Harris County	Texas	9.6
+9	Travis County	Texas	9.6
+10	San Francisco County	California	9.4
+rank	name	state	units_20_more
+1	New York County	New York	78.8
+2	Bronx County	New York	61.8
+3	Arlington County	Virginia	47.9
+4	Alexandria city	Virginia	40.6
+5	District of Columbia	District of Columbia	37.8
+6	Kings County	New York	36.0
+7	Miami-Dade County	Florida	32.5
+8	Queens County	New York	32.1
+9	Hudson County	New Jersey	31.1
+10	Cass County	North Dakota	29.9
+rank	name	state	units_mobile
+1	Robeson County	North Carolina	36.9
+2	San Juan County	New Mexico	32.3
+3	Yuma County	Arizona	30.2
+4	Mohave County	Arizona	26.1
+5	Livingston Parish	Louisiana	25.4
+6	Highlands County	Florida	23.6
+7	Wayne County	North Carolina	22.6
+8	Sumter County	South Carolina	22.5
+9	Citrus County	Florida	22.0
+10	Brunswick County	North Carolina	21.9
+rank	name	state	units_boat_rv_van
+1	Yuma County	Arizona	1.9
+2	Cowlitz County	Washington	1.1
+2	Yavapai County	Arizona	1.1
+3	Ector County	Texas	0.9
+4	Highlands County	Florida	0.8
+4	Pinal County	Arizona	0.8
+5	Sumter County	Florida	0.7
+5	Jackson County	Oregon	0.7
+5	Douglas County	Oregon	0.7
+6	Galveston County	Texas	0.6
+6	Benton County	Washington	0.6
+6	Livingston Parish	Louisiana	0.6
+7	Mohave County	Arizona	0.5
+7	Greene County	Missouri	0.5
+7	Lake County	Florida	0.5
+7	Hidalgo County	Texas	0.5
+7	Linn County	Oregon	0.5
+7	Yamhill County	Oregon	0.5
+7	San Juan County	New Mexico	0.5
+7	Lane County	Oregon	0.5
+7	Imperial County	California	0.5
+8	Cochise County	Arizona	0.4
+8	Terrebonne Parish	Louisiana	0.4
+8	Brazoria County	Texas	0.4
+9	Butte County	California	0.3
+9	Baldwin County	Alabama	0.3
+9	Escambia County	Florida	0.3
+9	Johnson County	Texas	0.3
+9	Faulkner County	Arkansas	0.3
+9	Beaufort County	South Carolina	0.3
+9	Grayson County	Texas	0.3
+9	Yolo County	California	0.3
+9	Pima County	Arizona	0.3
+9	Citrus County	Florida	0.3
+9	Navajo County	Arizona	0.3
+9	Canyon County	Idaho	0.3
+9	Parker County	Texas	0.3
+9	Bay County	Florida	0.3
+9	Ascension Parish	Louisiana	0.3
+9	Guadalupe County	Texas	0.3
+9	Skagit County	Washington	0.3
+9	Marin County	California	0.3
+9	Montgomery County	Texas	0.3
+10	Lubbock County	Texas	0.2
+10	Tom Green County	Texas	0.2
+10	Multnomah County	Oregon	0.2
+10	Kootenai County	Idaho	0.2
+10	Tangipahoa Parish	Louisiana	0.2
+10	Vigo County	Indiana	0.2
+10	Shasta County	California	0.2
+10	Gallatin County	Montana	0.2
+10	San Luis Obispo County	California	0.2
+10	Cameron County	Texas	0.2
+10	Onslow County	North Carolina	0.2
+10	Wilson County	Tennessee	0.2
+10	Brazos County	Texas	0.2
+10	Mobile County	Alabama	0.2
+10	Aiken County	South Carolina	0.2
+10	Snohomish County	Washington	0.2
+10	Jefferson County	Texas	0.2
+10	Newton County	Georgia	0.2
+10	Matanuska-Susitna Borough	Alaska	0.2
+10	Columbiana County	Ohio	0.2
+10	Berkeley County	South Carolina	0.2
+10	Maricopa County	Arizona	0.2
+10	Kern County	California	0.2
+10	Calcasieu Parish	Louisiana	0.2
+10	Manatee County	Florida	0.2
+10	McLennan County	Texas	0.2
+10	Sarasota County	Florida	0.2
+10	Coweta County	Georgia	0.2
+10	Polk County	Florida	0.2
+10	Humboldt County	California	0.2
+10	Madera County	California	0.2
+10	St. Tammany Parish	Louisiana	0.2
+10	El Dorado County	California	0.2
+10	Fresno County	California	0.2
+10	Buncombe County	North Carolina	0.2
+10	Saline County	Arkansas	0.2
+10	Franklin County	Pennsylvania	0.2
+10	Kings County	California	0.2
+10	Missoula County	Montana	0.2
+10	Whatcom County	Washington	0.2
+10	Nueces County	Texas	0.2
+10	Santa Cruz County	California	0.2
+10	Lee County	Florida	0.2
+10	Clackamas County	Oregon	0.2
+10	Marion County	Oregon	0.2
+10	Pasco County	Florida	0.2
+10	Hillsborough County	Florida	0.2
+10	Brevard County	Florida	0.2
+10	Deschutes County	Oregon	0.2
+10	Harrison County	Mississippi	0.2
+10	Ellis County	Texas	0.2
+10	Thurston County	Washington	0.2
+10	Charlotte County	Florida	0.2
+10	Lowndes County	Georgia	0.2
+10	Jasper County	Missouri	0.2
+10	Kitsap County	Washington	0.2
+10	Bell County	Texas	0.2
+10	Pickens County	South Carolina	0.2
+10	Pierce County	Washington	0.2
+10	Etowah County	Alabama	0.2
+rank	name	state	built_2014_later
+1	Hays County	Texas	18.0
+2	Comal County	Texas	15.5
+3	Williamson County	Texas	15.1
+4	Fort Bend County	Texas	14.3
+5	Montgomery County	Texas	13.7
+6	Forsyth County	Georgia	13.4
+7	Rockwall County	Texas	13.2
+8	Denton County	Texas	13.0
+9	Williamson County	Tennessee	12.6
+10	St. Johns County	Florida	12.5
+rank	name	state	built_2010_2013
+1	Sumter County	Florida	14.9
+2	Onslow County	North Carolina	13.5
+3	Hays County	Texas	11.2
+4	Fort Bend County	Texas	10.7
+5	Columbia County	Georgia	10.0
+6	Guadalupe County	Texas	9.3
+7	Williamson County	Texas	9.1
+8	Comal County	Texas	8.9
+8	Loudoun County	Virginia	8.9
+8	Harnett County	North Carolina	8.9
+9	Livingston Parish	Louisiana	8.4
+10	Montgomery County	Texas	8.2
+rank	name	state	built_2000_2009
+1	Pinal County	Arizona	47.3
+2	Kendall County	Illinois	44.8
+3	Flagler County	Florida	41.1
+4	Sumter County	Florida	40.9
+5	Rockwall County	Texas	38.3
+6	Paulding County	Georgia	37.0
+7	Henry County	Georgia	36.7
+8	Forsyth County	Georgia	35.5
+9	Newton County	Georgia	35.0
+10	Osceola County	Florida	32.9
+rank	name	state	built_1990_1999
+1	Douglas County	Colorado	33.5
+2	Clark County	Nevada	28.8
+3	Gwinnett County	Georgia	28.6
+4	Fayette County	Georgia	28.5
+5	Paulding County	Georgia	28.0
+6	Henry County	Georgia	27.2
+7	Spotsylvania County	Virginia	26.9
+8	Coweta County	Georgia	26.7
+9	Shelby County	Alabama	26.5
+10	Stafford County	Virginia	26.0
+rank	name	state	built_1980_1989
+1	Hernando County	Florida	30.2
+2	Martin County	Florida	29.9
+3	Highlands County	Florida	28.1
+4	Charlotte County	Florida	27.8
+5	Virginia Beach city	Virginia	27.5
+6	Citrus County	Florida	27.4
+7	Seminole County	Florida	27.3
+7	Palm Beach County	Florida	27.3
+8	Anchorage Municipality	Alaska	26.4
+9	Fayette County	Georgia	25.9
+10	Brevard County	Florida	25.3
+rank	name	state	built_1970_1979
+1	Ponce Municipio	Puerto Rico	27.9
+2	Anchorage Municipality	Alaska	27.7
+3	Broward County	Florida	26.6
+4	Jefferson Parish	Louisiana	26.5
+4	Pinellas County	Florida	26.5
+5	Jefferson County	Colorado	26.4
+6	Carolina Municipio	Puerto Rico	26.3
+7	Pasco County	Florida	24.9
+8	Marion County	Oregon	24.4
+9	Honolulu County	Hawaii	24.2
+10	DuPage County	Illinois	23.8
+rank	name	state	built_1960_1969
+1	Carolina Municipio	Puerto Rico	30.4
+2	Bayamón Municipio	Puerto Rico	26.7
+3	San Juan Municipio	Puerto Rico	26.1
+4	Rockland County	New York	21.7
+5	Caguas Municipio	Puerto Rico	21.2
+6	Marin County	California	20.7
+7	Jefferson Parish	Louisiana	20.6
+8	Suffolk County	New York	20.3
+9	Santa Barbara County	California	20.0
+10	Ventura County	California	19.5
+rank	name	state	built_1950_1959
+1	Nassau County	New York	35.6
+2	Potter County	Texas	26.4
+3	Wayne County	Michigan	24.6
+4	Delaware County	Pennsylvania	24.0
+5	Union County	New Jersey	22.8
+6	Mahoning County	Ohio	22.5
+7	San Mateo County	California	22.2
+8	Ector County	Texas	21.9
+9	Bergen County	New Jersey	21.6
+10	Los Angeles County	California	20.2
+rank	name	state	built_1940_1949
+1	Wayne County	Michigan	15.4
+2	Queens County	New York	15.1
+3	Arlington County	Virginia	13.5
+4	Nassau County	New York	13.2
+4	Union County	New Jersey	13.2
+5	Delaware County	Pennsylvania	12.7
+6	Potter County	Texas	12.6
+7	Kanawha County	West Virginia	12.5
+8	Passaic County	New Jersey	12.3
+9	Baltimore city	Maryland	11.8
+9	Cambria County	Pennsylvania	11.8
+10	District of Columbia	District of Columbia	11.3
+rank	name	state	built_1939_earlier
+1	St. Louis city	Missouri	58.2
+2	Kings County	New York	50.2
+3	Suffolk County	Massachusetts	48.7
+4	Schuylkill County	Pennsylvania	47.6
+5	San Francisco County	California	46.4
+6	Baltimore city	Maryland	44.3
+7	New York County	New York	42.7
+8	Philadelphia County	Pennsylvania	41.3
+9	Chautauqua County	New York	38.7
+10	Lackawanna County	Pennsylvania	38.0
+rank	name	state	rooms_1
+1	San Francisco County	California	12.6
+1	New York County	New York	12.6
+2	Champaign County	Illinois	9.7
+3	District of Columbia	District of Columbia	7.9
+4	Lee County	Alabama	6.8
+4	Matanuska-Susitna Borough	Alaska	6.8
+5	Buncombe County	North Carolina	6.6
+6	Suffolk County	Massachusetts	6.5
+7	Bronx County	New York	6.4
+8	Honolulu County	Hawaii	6.3
+8	Los Angeles County	California	6.3
+8	Multnomah County	Oregon	6.3
+9	King County	Washington	6.0
+10	Hudson County	New Jersey	5.9
+10	San Juan Municipio	Puerto Rico	5.9
+rank	name	state	rooms_2
+1	New York County	New York	13.1
+2	Maui County	Hawaii	11.7
+3	District of Columbia	District of Columbia	10.5
+4	Arlington County	Virginia	10.1
+5	Matanuska-Susitna Borough	Alaska	9.7
+6	San Francisco County	California	9.1
+7	Yuma County	Arizona	7.9
+8	Denver County	Colorado	7.8
+9	Honolulu County	Hawaii	7.4
+10	Travis County	Texas	7.3
+rank	name	state	rooms_3
+1	New York County	New York	29.3
+2	Bronx County	New York	27.2
+3	Arlington County	Virginia	25.2
+4	Kings County	New York	23.9
+5	Hudson County	New Jersey	22.4
+6	District of Columbia	District of Columbia	21.5
+7	Alexandria city	Virginia	21.3
+8	Queens County	New York	21.0
+9	Suffolk County	Massachusetts	18.6
+10	San Francisco County	California	18.3
+rank	name	state	rooms_4
+1	Bronx County	New York	30.5
+2	Caguas Municipio	Puerto Rico	29.1
+3	Kings County	New York	28.4
+4	Broward County	Florida	26.9
+5	Carolina Municipio	Puerto Rico	26.5
+6	Sarasota County	Florida	26.2
+7	Hudson County	New Jersey	26.0
+8	Martin County	Florida	25.5
+9	Pinellas County	Florida	25.4
+10	Palm Beach County	Florida	24.9
+rank	name	state	rooms_5
+1	Ponce Municipio	Puerto Rico	37.7
+2	Johnson County	Texas	36.4
+3	Robeson County	North Carolina	35.4
+4	Bayamón Municipio	Puerto Rico	34.5
+5	San Juan Municipio	Puerto Rico	33.7
+6	Caguas Municipio	Puerto Rico	32.0
+7	Carolina Municipio	Puerto Rico	31.6
+8	Flagler County	Florida	31.2
+9	Marion County	Florida	29.8
+10	Kings County	California	28.8
+rank	name	state	rooms_6
+1	Bayamón Municipio	Puerto Rico	28.0
+2	Hernando County	Florida	26.8
+2	Citrus County	Florida	26.8
+3	Luzerne County	Pennsylvania	25.9
+4	Trumbull County	Ohio	25.8
+5	Philadelphia County	Pennsylvania	25.7
+6	Etowah County	Alabama	24.5
+7	Schuylkill County	Pennsylvania	24.2
+8	Madera County	California	24.0
+9	Livingston Parish	Louisiana	23.9
+10	Volusia County	Florida	23.6
+rank	name	state	rooms_7
+1	Nassau County	New York	19.5
+2	Columbia County	Georgia	19.4
+3	Clay County	Florida	18.8
+4	DeSoto County	Mississippi	18.1
+4	Parker County	Texas	18.1
+5	Paulding County	Georgia	17.7
+6	Hanover County	Virginia	17.4
+7	Sussex County	Delaware	17.1
+8	Cass County	Missouri	17.0
+8	Monroe County	Michigan	17.0
+8	Wilson County	Tennessee	17.0
+9	Schuylkill County	Pennsylvania	16.8
+10	Coweta County	Georgia	16.7
+10	Columbiana County	Ohio	16.7
+rank	name	state	rooms_8
+1	Hanover County	Virginia	16.8
+2	Forsyth County	Georgia	16.2
+3	Fayette County	Georgia	16.1
+4	Hunterdon County	New Jersey	15.9
+5	Charles County	Maryland	15.6
+6	Chesapeake city	Virginia	15.5
+7	Rockwall County	Texas	15.1
+8	Carroll County	Maryland	14.9
+8	Davis County	Utah	14.9
+9	Bucks County	Pennsylvania	14.8
+10	Chesterfield County	Virginia	14.6
+10	Morris County	New Jersey	14.6
+10	Medina County	Ohio	14.6
+rank	name	state	rooms_9
+1	Stafford County	Virginia	39.0
+2	Williamson County	Tennessee	37.0
+3	Loudoun County	Virginia	36.9
+3	Forsyth County	Georgia	36.9
+4	Douglas County	Colorado	36.0
+5	Davis County	Utah	34.4
+6	Carver County	Minnesota	34.1
+7	Fayette County	Georgia	33.0
+8	Hamilton County	Indiana	32.7
+9	Delaware County	Ohio	32.4
+10	Scott County	Minnesota	31.9
+rank	name	state	rooms_median
+1	Forsyth County	Georgia	7.7
+1	Stafford County	Virginia	7.7
+2	Williamson County	Tennessee	7.6
+3	Loudoun County	Virginia	7.4
+3	Douglas County	Colorado	7.4
+3	Davis County	Utah	7.4
+3	Fayette County	Georgia	7.4
+4	Delaware County	Ohio	7.3
+4	Carver County	Minnesota	7.3
+5	Rockwall County	Texas	7.2
+5	Scott County	Minnesota	7.2
+5	Hamilton County	Indiana	7.2
+6	Carroll County	Maryland	7.1
+6	Hunterdon County	New Jersey	7.1
+7	Hanover County	Virginia	7.0
+7	Prince William County	Virginia	7.0
+7	Chester County	Pennsylvania	7.0
+7	Howard County	Maryland	7.0
+7	Charles County	Maryland	7.0
+8	Chesterfield County	Virginia	6.9
+8	Spotsylvania County	Virginia	6.9
+8	Frederick County	Maryland	6.9
+8	Harford County	Maryland	6.9
+8	Kendall County	Illinois	6.9
+8	Washington County	Minnesota	6.9
+9	Fort Bend County	Texas	6.8
+9	Cherokee County	Georgia	6.8
+9	Columbia County	Georgia	6.8
+9	Union County	North Carolina	6.8
+9	Utah County	Utah	6.8
+10	Morris County	New Jersey	6.7
+10	Medina County	Ohio	6.7
+10	Bucks County	Pennsylvania	6.7
+rank	name	state	occupied_owner
+1	Sumter County	Florida	88.6
+2	Livingston County	Michigan	85.1
+3	Allegan County	Michigan	84.4
+4	Forsyth County	Georgia	84.2
+5	Hunterdon County	New Jersey	83.9
+6	Scott County	Minnesota	83.6
+6	Sussex County	New Jersey	83.6
+7	Citrus County	Florida	83.5
+7	Kendall County	Illinois	83.5
+8	Rockwall County	Texas	83.4
+9	Livingston Parish	Louisiana	83.2
+10	Wright County	Minnesota	82.9
+10	Hanover County	Virginia	82.9
+rank	name	state	occupied_renter
+1	Bronx County	New York	79.9
+2	New York County	New York	75.9
+3	Kings County	New York	69.7
+4	Hudson County	New Jersey	67.6
+5	Suffolk County	Massachusetts	63.7
+6	San Francisco County	California	62.0
+7	Clarke County	Georgia	59.5
+8	District of Columbia	District of Columbia	57.5
+8	Arlington County	Virginia	57.5
+9	Alexandria city	Virginia	56.6
+10	Norfolk city	Virginia	56.5
+rank	name	state	value_50000_less
+1	Robeson County	North Carolina	26.9
+2	Cameron County	Texas	22.3
+2	Genesee County	Michigan	22.3
+3	Cambria County	Pennsylvania	22.0
+3	Hidalgo County	Texas	22.0
+4	Schuylkill County	Pennsylvania	20.7
+4	Saginaw County	Michigan	20.7
+5	Wayne County	Michigan	19.7
+6	Highlands County	Florida	19.5
+7	San Juan County	New Mexico	19.2
+8	Delaware County	Indiana	19.1
+9	Wyandotte County	Kansas	17.8
+9	Navajo County	Arizona	17.8
+10	Mahoning County	Ohio	17.1
+rank	name	state	value_50000_99999
+1	Ponce Municipio	Puerto Rico	39.1
+2	Chautauqua County	New York	38.9
+3	St. Lawrence County	New York	38.0
+4	Potter County	Texas	37.3
+5	Robeson County	North Carolina	37.2
+6	Vigo County	Indiana	36.1
+7	Columbiana County	Ohio	34.1
+8	Cameron County	Texas	34.0
+9	Oswego County	New York	33.7
+10	Madison County	Indiana	33.6
+rank	name	state	value_100000_149000
+1	Bayamón Municipio	Puerto Rico	43.4
+2	Carolina Municipio	Puerto Rico	38.4
+3	Caguas Municipio	Puerto Rico	37.3
+4	El Paso County	Texas	30.8
+5	Ponce Municipio	Puerto Rico	29.5
+6	Monroe County	New York	29.1
+7	Rock Island County	Illinois	28.8
+8	Winnebago County	Wisconsin	28.5
+9	Randolph County	North Carolina	28.4
+10	Linn County	Iowa	28.1
+rank	name	state	value_150000_199999
+1	Livingston Parish	Louisiana	29.8
+2	DeKalb County	Illinois	28.4
+3	Douglas County	Georgia	28.1
+4	Canadian County	Oklahoma	27.7
+5	Onslow County	North Carolina	27.5
+6	Paulding County	Georgia	27.3
+7	Windham County	Connecticut	27.1
+8	Henry County	Georgia	26.5
+9	Wicomico County	Maryland	26.3
+10	Cumberland County	New Jersey	26.1
+10	Newton County	Georgia	26.1
+rank	name	state	value_200000_299999
+1	Kendall County	Illinois	44.0
+2	Osceola County	Florida	40.8
+3	Kent County	Rhode Island	40.1
+4	Anoka County	Minnesota	39.8
+5	Providence County	Rhode Island	38.7
+6	Tolland County	Connecticut	38.3
+7	Kent County	Delaware	37.3
+7	Merrimack County	New Hampshire	37.3
+8	Spotsylvania County	Virginia	37.2
+9	Cecil County	Maryland	37.1
+10	Matanuska-Susitna Borough	Alaska	37.0
+10	Yellowstone County	Montana	37.0
+10	Kings County	California	37.0
+rank	name	state	value_300000_499999
+1	Stafford County	Virginia	54.8
+2	Washington County	Oregon	51.9
+3	Solano County	California	49.9
+4	Larimer County	Colorado	49.5
+5	Charles County	Maryland	49.4
+5	Suffolk County	New York	49.4
+6	Passaic County	New Jersey	49.1
+7	Jefferson County	Colorado	48.5
+8	Adams County	Colorado	48.2
+9	Carroll County	Maryland	47.6
+10	Clark County	Washington	47.3
+10	Prince William County	Virginia	47.3
+rank	name	state	value_500000_999999
+1	Orange County	California	59.0
+2	Ventura County	California	56.4
+3	Maui County	Hawaii	55.9
+4	Sonoma County	California	55.2
+5	San Luis Obispo County	California	54.3
+5	Honolulu County	Hawaii	54.3
+6	Napa County	California	53.4
+7	Richmond County	New York	53.0
+8	Alameda County	California	52.9
+9	Fairfax County	Virginia	51.6
+10	Loudoun County	Virginia	51.5
+rank	name	state	value_1000000_more
+1	San Francisco County	California	63.3
+2	San Mateo County	California	61.8
+3	Santa Clara County	California	54.4
+4	Marin County	California	53.6
+5	New York County	New York	51.0
+6	Alameda County	California	31.3
+7	Kings County	New York	30.4
+8	Santa Cruz County	California	27.1
+9	Santa Barbara County	California	25.9
+10	Contra Costa County	California	23.0
+rank	name	state	value_median
+1	San Mateo County	California	1163100
+2	San Francisco County	California	1152300
+3	Santa Clara County	California	1061900
+4	Marin County	California	1053600
+5	New York County	New York	1024500
+6	Alameda County	California	825300
+7	Santa Cruz County	California	787000
+8	Kings County	New York	734800
+9	Arlington County	Virginia	731700
+10	Orange County	California	703800
+rank	name	state	rent_500_less
+1	Ponce Municipio	Puerto Rico	64.9
+2	San Juan Municipio	Puerto Rico	49.4
+3	Caguas Municipio	Puerto Rico	42.2
+4	Bayamón Municipio	Puerto Rico	38.9
+5	Carolina Municipio	Puerto Rico	34.6
+6	Cambria County	Pennsylvania	29.6
+7	Navajo County	Arizona	26.0
+8	Robeson County	North Carolina	25.9
+9	Columbiana County	Ohio	25.1
+10	Mercer County	Pennsylvania	24.8
+rank	name	state	rent_500_999
+1	Randolph County	North Carolina	72.1
+2	Trumbull County	Ohio	71.9
+3	Whitfield County	Georgia	70.9
+4	Tangipahoa Parish	Louisiana	70.3
+5	Fond du Lac County	Wisconsin	70.1
+6	Franklin County	Missouri	70.0
+7	Stark County	Ohio	69.9
+8	Sheboygan County	Wisconsin	69.4
+9	Richland County	Ohio	69.3
+9	Calhoun County	Michigan	69.3
+10	Brown County	Wisconsin	69.2
+10	Catawba County	North Carolina	69.2
+rank	name	state	rent_1000_1499
+1	Henry County	Georgia	58.8
+2	Douglas County	Georgia	54.3
+3	Gwinnett County	Georgia	52.7
+4	Cobb County	Georgia	52.3
+5	Comal County	Texas	51.5
+6	Chesterfield County	Virginia	51.4
+7	Henrico County	Virginia	50.1
+8	DeSoto County	Mississippi	49.6
+8	Flagler County	Florida	49.6
+9	Hamilton County	Indiana	49.3
+10	DeKalb County	Georgia	49.2
+rank	name	state	rent_1500_1999
+1	Prince William County	Virginia	43.9
+2	Howard County	Maryland	43.7
+3	Charles County	Maryland	42.8
+4	Fairfax County	Virginia	39.0
+5	Alexandria city	Virginia	38.5
+6	Douglas County	Colorado	38.1
+7	Montgomery County	Maryland	38.0
+8	Anne Arundel County	Maryland	36.8
+9	Williamson County	Tennessee	36.2
+10	Loudoun County	Virginia	33.8
+rank	name	state	rent_2000_2499
+1	Arlington County	Virginia	25.6
+2	Contra Costa County	California	23.5
+3	Loudoun County	Virginia	23.3
+4	Fairfax County	Virginia	23.0
+4	Orange County	California	23.0
+5	Ventura County	California	22.2
+6	Suffolk County	New York	22.1
+7	Santa Cruz County	California	21.2
+8	San Mateo County	California	21.0
+9	Napa County	California	20.3
+9	Marin County	California	20.3
+10	Santa Clara County	California	20.2
+rank	name	state	rent_2500_2999
+1	Santa Clara County	California	18.7
+2	San Mateo County	California	15.8
+3	Marin County	California	13.2
+4	Alameda County	California	12.9
+5	Arlington County	Virginia	12.4
+6	Contra Costa County	California	12.3
+7	Ventura County	California	12.0
+8	San Francisco County	California	11.8
+9	Orange County	California	11.7
+10	Loudoun County	Virginia	11.5
+rank	name	state	rent_3000_more
+1	San Mateo County	California	31.4
+2	Santa Clara County	California	26.7
+3	San Francisco County	California	25.2
+4	Marin County	California	23.4
+5	New York County	New York	22.1
+6	Honolulu County	Hawaii	15.5
+7	Alameda County	California	13.0
+8	Nassau County	New York	12.9
+9	Arlington County	Virginia	12.3
+10	Orange County	California	10.8
+rank	name	state	rent_median
+1	San Mateo County	California	2435
+2	Santa Clara County	California	2386
+3	Marin County	California	2170
+4	San Francisco County	California	2010
+5	Arlington County	Virginia	2005
+6	Contra Costa County	California	1928
+6	Orange County	California	1928
+7	Loudoun County	Virginia	1913
+8	Alameda County	California	1904
+9	Fairfax County	Virginia	1898
+10	Ventura County	California	1854
+rank	name	state	grapi_15_less
+1	Benton County	Arkansas	25.6
+2	Navajo County	Arizona	24.7
+3	Terrebonne Parish	Louisiana	24.2
+3	San Francisco County	California	24.2
+4	Marathon County	Wisconsin	22.8
+5	Delaware County	Ohio	22.7
+6	Woodbury County	Iowa	22.5
+7	Sheboygan County	Wisconsin	22.4
+8	Fond du Lac County	Wisconsin	22.3
+9	Whitfield County	Georgia	21.7
+10	Kenton County	Kentucky	21.6
+rank	name	state	grapi_15_19
+1	Wayne County	Ohio	20.7
+2	Hardin County	Kentucky	19.9
+3	Warren County	Ohio	19.5
+4	Platte County	Missouri	19.4
+5	Outagamie County	Wisconsin	19.1
+6	Shelby County	Alabama	18.8
+7	Arlington County	Virginia	18.7
+8	Paulding County	Georgia	18.6
+9	Williamson County	Tennessee	18.4
+9	Boone County	Kentucky	18.4
+9	Weber County	Utah	18.4
+9	Catawba County	North Carolina	18.4
+10	Fayette County	Georgia	18.3
+rank	name	state	grapi_20_24
+1	Rockwall County	Texas	22.8
+2	Randall County	Texas	19.3
+3	Hendricks County	Indiana	18.3
+4	Livingston Parish	Louisiana	18.1
+4	Douglas County	Colorado	18.1
+5	Alexandria city	Virginia	17.5
+5	Carroll County	Maryland	17.5
+6	Polk County	Iowa	17.3
+6	Onslow County	North Carolina	17.3
+6	Arlington County	Virginia	17.3
+7	Washington County	Oregon	17.1
+8	Franklin County	Missouri	17.0
+8	Orange County	North Carolina	17.0
+9	Scott County	Minnesota	16.8
+9	Sarpy County	Nebraska	16.8
+10	Union County	North Carolina	16.6
+10	Livingston County	Michigan	16.6
+rank	name	state	grapi_25_29
+1	Kendall County	Illinois	20.7
+2	Kennebec County	Maine	18.1
+3	Androscoggin County	Maine	17.0
+4	Jefferson County	New York	16.9
+5	Kent County	Delaware	15.9
+6	Mercer County	Pennsylvania	15.7
+7	St. Lawrence County	New York	15.3
+7	Grayson County	Texas	15.3
+8	Carver County	Minnesota	15.1
+8	Charles County	Maryland	15.1
+8	Cumberland County	Maine	15.1
+9	Bay County	Michigan	15.0
+10	Somerset County	New Jersey	14.9
+10	Anne Arundel County	Maryland	14.9
+rank	name	state	grapi_30_34
+1	Madison County	Mississippi	15.6
+2	Comal County	Texas	14.5
+3	Windham County	Connecticut	13.9
+4	Ontario County	New York	13.5
+5	Kaufman County	Texas	13.4
+6	Okaloosa County	Florida	12.9
+7	St. Lucie County	Florida	12.8
+8	Ouachita Parish	Louisiana	12.7
+9	Middlesex County	Connecticut	12.1
+9	Stafford County	Virginia	12.1
+10	Adams County	Colorado	12.0
+10	Flathead County	Montana	12.0
+10	Virginia Beach city	Virginia	12.0
+rank	name	state	grapi_35_more
+1	Sumter County	Florida	56.1
+2	Miami-Dade County	Florida	54.1
+3	Cumberland County	New Jersey	53.4
+4	Humboldt County	California	52.7
+5	Alachua County	Florida	52.3
+6	Tompkins County	New York	52.0
+7	Broward County	Florida	51.9
+8	Orleans Parish	Louisiana	51.8
+8	Brazos County	Texas	51.8
+9	Centre County	Pennsylvania	51.5
+10	Ocean County	New Jersey	51.3
+rank	name	state	edu_9_less
+1	Hidalgo County	Texas	19.9
+2	Monterey County	California	18.4
+3	Merced County	California	17.9
+4	Cameron County	Texas	17.5
+5	Webb County	Texas	17.3
+6	Tulare County	California	17.2
+7	Madera County	California	16.6
+8	Imperial County	California	15.0
+9	Yakima County	Washington	14.9
+10	Whitfield County	Georgia	14.3
+rank	name	state	edu_9_12
+1	Robeson County	North Carolina	15.2
+2	Imperial County	California	14.8
+3	Webb County	Texas	14.5
+4	Whitfield County	Georgia	14.3
+5	Cameron County	Texas	14.0
+6	Bronx County	New York	13.6
+7	Ector County	Texas	13.5
+8	Hidalgo County	Texas	13.2
+9	Kings County	California	12.8
+10	Merced County	California	12.4
+rank	name	state	edu_highschool
+1	Fayette County	Pennsylvania	48.1
+2	Schuylkill County	Pennsylvania	45.9
+3	Columbiana County	Ohio	44.8
+4	Cambria County	Pennsylvania	44.3
+4	Blair County	Pennsylvania	44.3
+5	Lebanon County	Pennsylvania	44.1
+6	Trumbull County	Ohio	44.0
+7	Franklin County	Pennsylvania	43.4
+8	Mercer County	Pennsylvania	41.8
+9	Richland County	Ohio	40.5
+10	Madison County	Indiana	40.1
+rank	name	state	edu_college_nodegree
+1	Shasta County	California	32.0
+2	Linn County	Oregon	31.3
+3	Cowlitz County	Washington	30.3
+4	Kootenai County	Idaho	30.2
+5	Yavapai County	Arizona	29.8
+6	Navajo County	Arizona	29.7
+7	Mohave County	Arizona	29.6
+8	Douglas County	Oregon	29.1
+9	Yamhill County	Oregon	28.7
+9	Cumberland County	North Carolina	28.7
+9	San Juan County	New Mexico	28.7
+10	Onslow County	North Carolina	28.5
+10	Washington County	Utah	28.5
+rank	name	state	edu_associate_degree
+1	Eau Claire County	Wisconsin	15.4
+2	Cass County	North Dakota	14.3
+2	Niagara County	New York	14.3
+3	Ontario County	New York	13.8
+4	Rensselaer County	New York	13.7
+4	Washington County	Utah	13.7
+5	Chautauqua County	New York	13.6
+5	St. Louis County	Minnesota	13.6
+5	Santa Rosa County	Florida	13.6
+6	Marathon County	Wisconsin	13.5
+6	Stearns County	Minnesota	13.5
+7	Outagamie County	Wisconsin	13.4
+7	Johnston County	North Carolina	13.4
+8	Spokane County	Washington	13.1
+8	Schenectady County	New York	13.1
+8	Scott County	Minnesota	13.1
+9	San Juan County	New Mexico	13.0
+9	La Crosse County	Wisconsin	13.0
+9	Oswego County	New York	13.0
+10	Anoka County	Minnesota	12.9
+10	Linn County	Iowa	12.9
+10	Seminole County	Florida	12.9
+rank	name	state	edu_bachelor_degree
+1	Williamson County	Tennessee	38.1
+2	Douglas County	Colorado	37.9
+3	Hamilton County	Indiana	36.6
+4	Forsyth County	Georgia	35.5
+5	Arlington County	Virginia	35.3
+6	Loudoun County	Virginia	35.2
+7	San Francisco County	California	35.0
+8	Boulder County	Colorado	34.6
+8	Johnson County	Kansas	34.6
+9	Marin County	California	34.4
+10	Delaware County	Ohio	33.9
+rank	name	state	edu_grad_degree
+1	Arlington County	Virginia	40.5
+2	Orange County	North Carolina	34.8
+3	District of Columbia	District of Columbia	34.5
+4	Alexandria city	Virginia	33.8
+5	Howard County	Maryland	32.3
+6	Montgomery County	Maryland	32.0
+7	Fairfax County	Virginia	31.1
+8	New York County	New York	30.5
+9	Washtenaw County	Michigan	30.0
+10	Tompkins County	New York	29.6
+rank	name	state	edu_highschool_higher
+1	Douglas County	Colorado	98.0
+2	Hamilton County	Indiana	97.1
+3	Gallatin County	Montana	97.0
+4	Delaware County	Ohio	96.8
+5	Carver County	Minnesota	96.4
+6	Dane County	Wisconsin	96.2
+6	Waukesha County	Wisconsin	96.2
+6	McLean County	Illinois	96.2
+6	Larimer County	Colorado	96.2
+7	Johnson County	Kansas	96.1
+7	Platte County	Missouri	96.1
+8	Washington County	Minnesota	96.0
+9	Davis County	Utah	95.9
+10	Missoula County	Montana	95.8
+10	Barnstable County	Massachusetts	95.8
+rank	name	state	edu_bachelor_higher
+1	Arlington County	Virginia	75.8
+2	Alexandria city	Virginia	65.1
+3	Boulder County	Colorado	63.0
+4	Howard County	Maryland	62.7
+5	New York County	New York	62.2
+6	Fairfax County	Virginia	62.1
+7	Loudoun County	Virginia	61.6
+8	Orange County	North Carolina	60.8
+9	Williamson County	Tennessee	60.5
+10	Marin County	California	60.2
+rank	name	state	ancestry_american
+1	Johnson County	Texas	33.0
+2	Carroll County	Georgia	27.6
+3	Montgomery County	Alabama	26.2
+4	Robeson County	North Carolina	25.6
+5	Trumbull County	Ohio	23.8
+6	Baldwin County	Alabama	23.2
+7	Wayne County	North Carolina	20.5
+8	Sullivan County	Tennessee	20.2
+8	Aiken County	South Carolina	20.2
+9	Houston County	Alabama	20.0
+10	Morgan County	Alabama	19.8
+rank	name	state	ancestry_arab
+1	Wayne County	Michigan	5.8
+2	Macomb County	Michigan	3.1
+3	Passaic County	New Jersey	3.0
+4	Hudson County	New Jersey	2.8
+5	Richmond County	New York	2.7
+5	Davidson County	Tennessee	2.7
+6	Oakland County	Michigan	2.6
+6	Lehigh County	Pennsylvania	2.6
+7	Fairfax County	Virginia	2.4
+8	Alexandria city	Virginia	2.2
+9	Washtenaw County	Michigan	2.0
+9	Arlington County	Virginia	2.0
+10	Monongalia County	West Virginia	1.9
+10	Loudoun County	Virginia	1.9
+rank	name	state	ancestry_czech
+1	Linn County	Iowa	5.1
+2	Lancaster County	Nebraska	4.9
+3	Johnson County	Iowa	3.6
+4	Sarpy County	Nebraska	3.4
+4	Douglas County	Nebraska	3.4
+5	Scott County	Minnesota	2.7
+6	La Crosse County	Wisconsin	2.5
+6	McLennan County	Texas	2.5
+7	Pennington County	South Dakota	2.4
+8	Marathon County	Wisconsin	2.3
+9	Brown County	Wisconsin	2.1
+10	Carver County	Minnesota	1.9
+10	DuPage County	Illinois	1.9
+10	Racine County	Wisconsin	1.9
+rank	name	state	ancestry_danish
+1	Cache County	Utah	6.5
+2	Utah County	Utah	5.3
+3	Davis County	Utah	4.8
+4	Washington County	Utah	4.3
+5	Racine County	Wisconsin	4.0
+6	Salt Lake County	Utah	3.7
+7	Weber County	Utah	3.5
+8	Bonneville County	Idaho	3.1
+9	Douglas County	Nebraska	2.0
+10	Minnehaha County	South Dakota	1.9
+rank	name	state	ancestry_dutch
+1	Ottawa County	Michigan	28.2
+2	Allegan County	Michigan	21.7
+3	Kent County	Michigan	16.3
+4	Outagamie County	Wisconsin	9.1
+5	Muskegon County	Michigan	8.9
+6	Kalamazoo County	Michigan	8.7
+7	Sheboygan County	Wisconsin	6.9
+8	Minnehaha County	South Dakota	6.4
+9	Whatcom County	Washington	5.7
+10	Ontario County	New York	5.2
+rank	name	state	ancestry_english
+1	Utah County	Utah	28.1
+2	Washington County	Utah	28.0
+3	Cache County	Utah	27.5
+4	Davis County	Utah	26.8
+5	Buncombe County	North Carolina	21.5
+6	Salt Lake County	Utah	20.3
+7	Weber County	Utah	20.2
+7	Cumberland County	Maine	20.2
+8	Whitfield County	Georgia	20.0
+9	Bonneville County	Idaho	19.9
+10	Ada County	Idaho	19.7
+rank	name	state	ancestry_french
+1	Kennebec County	Maine	18.8
+2	Terrebonne Parish	Louisiana	18.5
+3	Lafayette Parish	Louisiana	18.1
+4	Ascension Parish	Louisiana	18.0
+5	Androscoggin County	Maine	17.9
+6	Livingston Parish	Louisiana	16.3
+7	St. Tammany Parish	Louisiana	15.8
+8	Penobscot County	Maine	14.4
+9	Windham County	Connecticut	14.0
+10	York County	Maine	13.8
+rank	name	state	ancestry_frenchcanadian
+1	Androscoggin County	Maine	19.5
+2	York County	Maine	10.9
+3	Hillsborough County	New Hampshire	9.9
+4	Windham County	Connecticut	9.5
+5	Strafford County	New Hampshire	9.0
+6	Chittenden County	Vermont	8.7
+6	Merrimack County	New Hampshire	8.7
+7	Calcasieu Parish	Louisiana	8.2
+8	Kennebec County	Maine	8.1
+9	Rockingham County	New Hampshire	7.7
+10	Lafayette Parish	Louisiana	6.3
+10	St. Lawrence County	New York	6.3
+rank	name	state	ancestry_german
+1	Washington County	Wisconsin	53.1
+2	Fond du Lac County	Wisconsin	50.2
+3	Marathon County	Wisconsin	48.8
+4	Sheboygan County	Wisconsin	48.3
+5	Stearns County	Minnesota	46.7
+6	Winnebago County	Wisconsin	44.5
+7	Waukesha County	Wisconsin	43.6
+8	La Crosse County	Wisconsin	43.4
+9	Outagamie County	Wisconsin	42.5
+10	Carver County	Minnesota	41.5
+rank	name	state	ancestry_greek
+1	Essex County	Massachusetts	1.9
+2	Hillsborough County	New Hampshire	1.8
+3	Rockingham County	New Hampshire	1.7
+4	Nassau County	New York	1.6
+5	Middlesex County	Massachusetts	1.4
+6	Strafford County	New Hampshire	1.3
+6	Fairfield County	Connecticut	1.3
+6	Suffolk County	New York	1.3
+6	Queens County	New York	1.3
+6	Norfolk County	Massachusetts	1.3
+6	Mahoning County	Ohio	1.3
+6	DuPage County	Illinois	1.3
+7	Stark County	Ohio	1.2
+7	Hunterdon County	New Jersey	1.2
+7	Pinellas County	Florida	1.2
+7	Porter County	Indiana	1.2
+8	Bergen County	New Jersey	1.1
+8	Windham County	Connecticut	1.1
+8	Merrimack County	New Hampshire	1.1
+9	Lake County	Illinois	1.0
+9	Trumbull County	Ohio	1.0
+9	Arlington County	Virginia	1.0
+9	Morris County	New Jersey	1.0
+9	Lake County	Indiana	1.0
+9	Tolland County	Connecticut	1.0
+10	McHenry County	Illinois	0.9
+10	York County	Maine	0.9
+10	Pasco County	Florida	0.9
+10	Macomb County	Michigan	0.9
+10	Beaver County	Pennsylvania	0.9
+10	Delaware County	Pennsylvania	0.9
+10	Monmouth County	New Jersey	0.9
+10	Washington County	Rhode Island	0.9
+10	Medina County	Ohio	0.9
+10	Dutchess County	New York	0.9
+10	Cook County	Illinois	0.9
+rank	name	state	ancestry_hungarian
+1	Medina County	Ohio	4.5
+2	Lorain County	Ohio	4.4
+3	Rockland County	New York	4.2
+4	Lake County	Ohio	4.0
+5	Portage County	Ohio	3.4
+6	Summit County	Ohio	3.0
+7	Cuyahoga County	Ohio	2.8
+8	Orange County	New York	2.7
+9	St. Joseph County	Indiana	2.6
+10	Northampton County	Pennsylvania	2.5
+10	Warren County	New Jersey	2.5
+10	Wood County	Ohio	2.5
+rank	name	state	ancestry_irish
+1	Plymouth County	Massachusetts	30.0
+2	Gloucester County	New Jersey	26.7
+2	Barnstable County	Massachusetts	26.7
+3	Washington County	Rhode Island	25.5
+3	Norfolk County	Massachusetts	25.5
+4	Rensselaer County	New York	25.3
+5	Lackawanna County	Pennsylvania	25.2
+6	Rockingham County	New Hampshire	24.5
+7	Delaware County	Pennsylvania	24.0
+8	Bucks County	Pennsylvania	23.9
+9	Kent County	Rhode Island	23.8
+10	Saratoga County	New York	23.7
+rank	name	state	ancestry_italian
+1	Richmond County	New York	27.9
+2	Gloucester County	New Jersey	23.9
+3	Monmouth County	New Jersey	23.7
+4	Suffolk County	New York	23.3
+5	Ocean County	New Jersey	22.7
+6	Sussex County	New Jersey	22.5
+7	Morris County	New Jersey	21.8
+8	Middlesex County	Connecticut	21.2
+9	Lackawanna County	Pennsylvania	21.0
+10	Warren County	New Jersey	20.5
+10	Litchfield County	Connecticut	20.5
+rank	name	state	ancestry_lithuanian
+1	Schuylkill County	Pennsylvania	4.3
+2	Luzerne County	Pennsylvania	2.7
+3	Litchfield County	Connecticut	1.6
+4	Lackawanna County	Pennsylvania	1.5
+5	Will County	Illinois	1.4
+6	Hampshire County	Massachusetts	1.2
+7	DuPage County	Illinois	1.1
+7	Worcester County	Massachusetts	1.1
+8	Barnstable County	Massachusetts	1.0
+9	Lake County	Ohio	0.9
+9	Kendall County	Illinois	0.9
+9	Hartford County	Connecticut	0.9
+9	Tolland County	Connecticut	0.9
+10	New Haven County	Connecticut	0.8
+rank	name	state	ancestry_norwegian
+1	Cass County	North Dakota	29.4
+2	Eau Claire County	Wisconsin	18.6
+3	La Crosse County	Wisconsin	17.7
+4	Minnehaha County	South Dakota	15.3
+5	Carver County	Minnesota	14.8
+6	Olmsted County	Minnesota	14.1
+7	St. Louis County	Minnesota	13.9
+8	Scott County	Minnesota	13.2
+9	Wright County	Minnesota	13.0
+10	Anoka County	Minnesota	12.7
+rank	name	state	ancestry_polish
+1	Luzerne County	Pennsylvania	19.4
+2	Erie County	New York	17.1
+3	Marathon County	Wisconsin	16.5
+4	Bay County	Michigan	16.4
+5	Lackawanna County	Pennsylvania	15.4
+6	Macomb County	Michigan	15.0
+7	Waukesha County	Wisconsin	12.7
+7	Livingston County	Michigan	12.7
+8	McHenry County	Illinois	12.5
+9	Erie County	Pennsylvania	11.8
+10	Will County	Illinois	11.7
+rank	name	state	ancestry_portuguese
+1	Bristol County	Massachusetts	24.9
+2	Kent County	Rhode Island	8.7
+3	Providence County	Rhode Island	7.0
+4	Hawaii County	Hawaii	6.2
+5	Merced County	California	5.4
+6	Barnstable County	Massachusetts	4.4
+7	Kings County	California	4.2
+8	Stanislaus County	California	4.0
+9	Plymouth County	Massachusetts	3.9
+9	Washington County	Rhode Island	3.9
+10	Maui County	Hawaii	3.7
+rank	name	state	ancestry_russian
+1	New York County	New York	3.6
+2	Lackawanna County	Pennsylvania	3.5
+2	Richmond County	New York	3.5
+3	Nassau County	New York	3.2
+4	Palm Beach County	Florida	3.0
+5	Kings County	New York	2.8
+5	Bergen County	New Jersey	2.8
+6	Marin County	California	2.7
+7	Luzerne County	Pennsylvania	2.6
+7	Monmouth County	New Jersey	2.6
+8	Lake County	Illinois	2.5
+8	Rockland County	New York	2.5
+8	Montgomery County	Pennsylvania	2.5
+8	Bucks County	Pennsylvania	2.5
+9	Montgomery County	Maryland	2.4
+10	Westchester County	New York	2.3
+10	Norfolk County	Massachusetts	2.3
+rank	name	state	ancestry_scottish_irish
+1	York County	South Carolina	4.2
+1	Henderson County	North Carolina	4.2
+2	Sullivan County	Tennessee	4.0
+3	Knox County	Tennessee	3.8
+4	Blount County	Tennessee	3.7
+4	Buncombe County	North Carolina	3.7
+5	Washington County	Pennsylvania	3.6
+6	Randolph County	North Carolina	3.5
+7	Rowan County	North Carolina	3.4
+8	Orange County	North Carolina	3.2
+9	Iredell County	North Carolina	3.1
+9	Gaston County	North Carolina	3.1
+9	Greenville County	South Carolina	3.1
+10	Anderson County	South Carolina	3.0
+10	Butler County	Pennsylvania	3.0
+rank	name	state	ancestry_scottish
+1	Washington County	Utah	4.8
+2	Utah County	Utah	4.7
+3	Kennebec County	Maine	4.5
+3	Davis County	Utah	4.5
+3	Weber County	Utah	4.5
+4	Cumberland County	Maine	4.4
+5	Cache County	Utah	4.3
+5	Penobscot County	Maine	4.3
+6	Rockingham County	New Hampshire	4.2
+7	Merrimack County	New Hampshire	4.1
+8	Buncombe County	North Carolina	4.0
+8	Strafford County	New Hampshire	4.0
+9	York County	Maine	3.9
+9	Androscoggin County	Maine	3.9
+10	Barnstable County	Massachusetts	3.8
+10	Henderson County	North Carolina	3.8
+rank	name	state	ancestry_slovak
+1	Cambria County	Pennsylvania	6.2
+2	Westmoreland County	Pennsylvania	5.6
+3	Mahoning County	Ohio	5.4
+4	Fayette County	Pennsylvania	5.1
+5	Luzerne County	Pennsylvania	4.2
+6	Allegheny County	Pennsylvania	3.3
+6	Washington County	Pennsylvania	3.3
+7	Trumbull County	Ohio	3.0
+7	Medina County	Ohio	3.0
+8	Butler County	Pennsylvania	2.7
+9	Mercer County	Pennsylvania	2.6
+10	Beaver County	Pennsylvania	2.4
+rank	name	state	ancestry_subsaharan_african
+1	Alexandria city	Virginia	9.5
+2	Prince George's County	Maryland	8.8
+3	Kankakee County	Illinois	7.7
+4	Montgomery County	Maryland	6.4
+5	Orleans Parish	Louisiana	6.1
+6	Hennepin County	Minnesota	5.8
+7	Bronx County	New York	5.4
+7	Plymouth County	Massachusetts	5.4
+8	DeKalb County	Georgia	5.1
+9	Prince William County	Virginia	5.0
+10	Baltimore County	Maryland	4.9
+rank	name	state	ancestry_swedish
+1	St. Louis County	Minnesota	10.3
+2	Chautauqua County	New York	10.2
+3	Anoka County	Minnesota	8.9
+4	Carver County	Minnesota	8.8
+4	Wright County	Minnesota	8.8
+5	Washington County	Minnesota	8.5
+6	Winnebago County	Illinois	7.4
+7	Hennepin County	Minnesota	7.3
+8	Ramsey County	Minnesota	6.6
+9	Dakota County	Minnesota	6.4
+10	Cass County	North Dakota	5.9
+rank	name	state	ancestry_swiss
+1	Wayne County	Ohio	5.7
+2	Lancaster County	Pennsylvania	3.4
+2	Elkhart County	Indiana	3.4
+3	Cache County	Utah	2.5
+4	Washington County	Utah	2.2
+5	Dane County	Wisconsin	1.9
+5	Lebanon County	Pennsylvania	1.9
+6	Franklin County	Pennsylvania	1.6
+7	Allen County	Ohio	1.5
+7	Rock County	Wisconsin	1.5
+8	Stark County	Ohio	1.3
+8	Davis County	Utah	1.3
+8	Utah County	Utah	1.3
+9	Bonneville County	Idaho	1.2
+10	Medina County	Ohio	1.0
+10	Allen County	Indiana	1.0
+10	Tolland County	Connecticut	1.0
+10	Salt Lake County	Utah	1.0
+rank	name	state	ancestry_ukranian
+1	Bucks County	Pennsylvania	2.0
+2	Schuylkill County	Pennsylvania	1.9
+3	Clark County	Washington	1.8
+4	Hunterdon County	New Jersey	1.7
+5	Warren County	New Jersey	1.5
+5	Kings County	New York	1.5
+5	Beaver County	Pennsylvania	1.5
+6	Sacramento County	California	1.4
+7	Luzerne County	Pennsylvania	1.3
+7	Richmond County	New York	1.3
+7	Northampton County	Pennsylvania	1.3
+7	Onondaga County	New York	1.3
+8	Lackawanna County	Pennsylvania	1.2
+8	Spartanburg County	South Carolina	1.2
+8	Multnomah County	Oregon	1.2
+8	Monroe County	New York	1.2
+8	Snohomish County	Washington	1.2
+8	Lehigh County	Pennsylvania	1.2
+8	Clackamas County	Oregon	1.2
+8	Mahoning County	Ohio	1.2
+8	Cuyahoga County	Ohio	1.2
+8	Montgomery County	Pennsylvania	1.2
+9	Oneida County	New York	1.1
+9	Morris County	New Jersey	1.1
+9	Sussex County	New Jersey	1.1
+9	King County	Washington	1.1
+9	Bradley County	Tennessee	1.1
+10	Medina County	Ohio	1.0
+10	Westmoreland County	Pennsylvania	1.0
+10	Albany County	New York	1.0
+10	Allegheny County	Pennsylvania	1.0
+rank	name	state	ancestry_welsh
+1	Lackawanna County	Pennsylvania	4.7
+2	Luzerne County	Pennsylvania	3.9
+3	Cache County	Utah	2.6
+4	Schuylkill County	Pennsylvania	2.5
+5	Utah County	Utah	2.3
+6	Mahoning County	Ohio	2.2
+6	Oneida County	New York	2.2
+7	Mercer County	Pennsylvania	2.0
+7	Bonneville County	Idaho	2.0
+8	Davis County	Utah	1.8
+8	Delaware County	Ohio	1.8
+9	Fairfield County	Ohio	1.7
+9	Columbiana County	Ohio	1.7
+9	Licking County	Ohio	1.7
+9	Salt Lake County	Utah	1.7
+9	Weber County	Utah	1.7
+9	Kootenai County	Idaho	1.7
+10	Northampton County	Pennsylvania	1.6
+10	Chester County	Pennsylvania	1.6
+10	Washington County	Utah	1.6
+rank	name	state	ancestry_west_indian
+1	Broward County	Florida	14.5
+2	Kings County	New York	11.1
+3	Palm Beach County	Florida	8.9
+4	Bronx County	New York	7.0
+4	St. Lucie County	Florida	7.0
+5	Essex County	New Jersey	6.8
+6	Queens County	New York	6.7
+7	Miami-Dade County	Florida	6.5
+7	Orange County	Florida	6.5
+8	Suffolk County	Massachusetts	5.9
+9	Rockland County	New York	5.5
+10	Collier County	Florida	4.5

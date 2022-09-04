@@ -256,3 +256,12 @@ psql -qAtX -d us -c '\d county2020;' | grep -v "SHAPE" | grep -v "geoid" | grep 
   psql --html -d us -c "SELECT * FROM (SELECT DENSE_RANK() OVER (ORDER BY a.${column}::numeric DESC) rank, a.name, b.name AS state, a.${column} FROM county2020 a, state2020 b WHERE SUBSTRING(a.geoid,1,2) = b.geoid AND a.${column}::text ~ '^[0-9\\\.]+$' AND a.pop2020::numeric > 100000) stats WHERE rank <= 10;" >> county2020_pop2020_100000_top_10.html
 done
 ```
+
+Export tsv table.
+```bash
+# top 10 counties pop2020 > 100000 by column
+rm county2020_pop2020_100000_top_10.tsv
+psql -qAtX -d us -c '\d county2020;' | grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | grep -v 'brand' | grep -v 'zscore_' | sed -e 's/|.*//g' | while read column; do
+  psql -d us -c "COPY (SELECT * FROM (SELECT DENSE_RANK() OVER (ORDER BY a.${column}::numeric DESC) rank, a.name, b.name AS state, a.${column} FROM county2020 a, state2020 b WHERE SUBSTRING(a.geoid,1,2) = b.geoid AND a.${column}::text ~ '^[0-9\\\.]+$' AND a.pop2020::numeric > 100000) stats WHERE rank <= 10) TO STDOUT DELIMITER E'\t' CSV HEADER;" >> county2020_pop2020_100000_top_10.tsv
+done
+```
