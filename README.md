@@ -256,9 +256,15 @@ psql -qAtX -d us -c '\d county2020;' | grep -v "SHAPE" | grep -v "geoid" | grep 
 done
 
 # tsv files
+# county2020 top 10 by column
 psql -qAtX -d us -c '\d county2020;' | grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | grep -v "pop2020" | grep -v 'brand' | grep -v 'zscore_' | sed -e 's/|.*//g' | while read column; do
-  psql -d us -c "COPY (SELECT * FROM (SELECT DENSE_RANK() OVER (ORDER BY a.${column}::numeric DESC) rank, a.name, b.stname state, a.${column}, TO_CHAR(b.popestimate2020::int, 'FM9,999,999,999') popestimate2020, TO_CHAR(b.popestimate2021::int, 'FM9,999,999,999') popestimate2021, TO_CHAR(b.npopchg2020::numeric, 'FM9,999,999,999') npopchg2020, TO_CHAR(b.npopchg2021::int, 'FM9,999,999,999') npopchg2021, TO_CHAR(ROUND((b.popestimate2021::int/(b.aland/1000000))::numeric,0), 'FM9,999,999,999') pop_sqkm, a.zscore_1_65, a.brand FROM county2020 a, county b WHERE a.geoid = b.geoid AND a.${column}::text ~ '^[0-9\\\.]+$' AND b.namelsad NOT IN ('Puerto Rico') AND b.popestimate2021::numeric > 100000) stats WHERE rank <= 10) TO STDOUT DELIMITER E'\t' CSV HEADER;" > data/county/county2020_pop100000_${column}.tsv
+  psql -d us -c "COPY (SELECT * FROM (SELECT DENSE_RANK() OVER (ORDER BY a.${column}::numeric DESC) rank, a.name, b.stname state, a.${column}, TO_CHAR(b.popestimate2020::int, 'FM9,999,999,999') popestimate2020, TO_CHAR(b.popestimate2021::int, 'FM9,999,999,999') popestimate2021, TO_CHAR(b.npopchg2020::numeric, 'FM9,999,999,999') npopchg2020, TO_CHAR(b.npopchg2021::int, 'FM9,999,999,999') npopchg2021, TO_CHAR(ROUND((b.popestimate2021::int/(b.aland/1000000))::numeric,0), 'FM9,999,999,999') pop_sqkm FROM county2020 a, county b WHERE a.geoid = b.geoid AND a.${column}::text ~ '^[0-9\\\.]+$' AND b.namelsad NOT IN ('Puerto Rico') AND b.popestimate2021::numeric > 100000) stats WHERE rank <= 10) TO STDOUT DELIMITER E'\t' CSV HEADER;" > data/county/county2020_pop100000_${column}.tsv
 done
 
+# zscore_1_65
+psql -d us -c "COPY (SELECT a.name, b.stname state, a.zscore_1_65 FROM county2020 a, county b WHERE a.geoid = b.geoid ORDER BY a.name) TO STDOUT DELIMITER E'\t' CSV HEADER;" > data/county/county2020_zscore_1_65.tsv
+
+# brand
+psql -d us -c "COPY (SELECT a.name, b.stname state, a.brand FROM county2020 a, county b WHERE a.geoid = b.geoid ORDER BY a.name) TO STDOUT DELIMITER E'\t' CSV HEADER;" > data/county/county2020_brand.tsv
 
 ```
