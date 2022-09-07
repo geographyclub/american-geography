@@ -75,8 +75,7 @@ psql -d us -c "CREATE TABLE tract2020 AS SELECT a.\"SHAPE\", a.geoid, a.namelsad
 
 # pumas
 # join tracts to puma
-psql -d us -c 'ALTER TABLE tract2020 ADD COLUMN puma VARCHAR;'
-psql -d us -c 'UPDATE tract2020 a SET puma = b.geoid10 FROM puma b WHERE ST_Intersects(b.geom, ST_Centroid(a."SHAPE"));'
+psql -d us -c 'ALTER TABLE tract2020 ADD COLUMN puma VARCHAR; UPDATE tract2020 a SET puma = b.geoid10 FROM puma b WHERE ST_Intersects(b.geom, ST_Centroid(a."SHAPE"));'
 
 # IMPORTANT! AVERAGE percentages/medians, SUM counts
 psql -d us -c "CREATE TABLE puma2020 AS SELECT geom AS \"SHAPE\", geoid10 AS geoid, namelsad10 AS name FROM puma;"
@@ -93,30 +92,45 @@ psql -Aqt -d us -c '\d tract2020' | grep -v "SHAPE" | grep -v "geoid" | grep -v 
 done
 ```
 
+Index for faster processing.
+```bash
+# state2020
+psql -d us -c "ALTER TABLE state2020 ADD PRIMARY KEY (geoid);"
+psql -d us -c "CREATE INDEX state2020_gid ON state2020 USING GIST (\"SHAPE\");"
+
+# county2020
+psql -d us -c "ALTER TABLE county2020 ADD PRIMARY KEY (geoid);"
+psql -d us -c "CREATE INDEX county2020_gid ON county2020 USING GIST (\"SHAPE\");"
+
+# place2020
+psql -d us -c "ALTER TABLE place2020 ADD PRIMARY KEY (geoid);"
+psql -d us -c "CREATE INDEX place2020_gid ON place2020 USING GIST (\"SHAPE\");"
+
+# puma2020
+psql -d us -c "ALTER TABLE puma2020 ADD PRIMARY KEY (geoid);"
+psql -d us -c "CREATE INDEX puma2020_gid ON puma2020 USING GIST (\"SHAPE\");"
+```
+
 Add zscores of these columns.
 ```bash
 # states
 psql -qAtX -d us -c '\d state2020;' | grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | sed -e 's/|.*//g' | while read column; do
-  psql -d us -c "ALTER TABLE state2020 ADD COLUMN zscore_${column} REAL;"
-  psql -d us -c "WITH b AS (SELECT geoid, (${column}::real - AVG(${column}::real) OVER()) / STDDEV(${column}::real) OVER() AS zscore FROM state2020 WHERE CAST(${column} AS TEXT) ~ '^[0-9\\\.]+$') UPDATE state2020 a SET zscore_${column} = b.zscore FROM b WHERE a.geoid = b.geoid;"
+  psql -d us -c "ALTER TABLE state2020 ADD COLUMN zscore_${column} REAL; WITH b AS (SELECT geoid, (${column}::real - AVG(${column}::real) OVER()) / STDDEV(${column}::real) OVER() AS zscore FROM state2020 WHERE CAST(${column} AS TEXT) ~ '^[0-9\\\.]+$') UPDATE state2020 a SET zscore_${column} = b.zscore FROM b WHERE a.geoid = b.geoid;"
 done
 
 # counties
 psql -qAtX -d us -c '\d county2020;' | grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | sed -e 's/|.*//g' | while read column; do
-  psql -d us -c "ALTER TABLE county2020 ADD COLUMN zscore_${column} REAL;"
-  psql -d us -c "WITH b AS (SELECT geoid, (${column}::real - AVG(${column}::real) OVER()) / STDDEV(${column}::real) OVER() AS zscore FROM county2020 WHERE CAST(${column} AS TEXT) ~ '^[0-9\\\.]+$') UPDATE county2020 a SET zscore_${column} = b.zscore FROM b WHERE a.geoid = b.geoid;"
+  psql -d us -c "ALTER TABLE county2020 ADD COLUMN zscore_${column} REAL; WITH b AS (SELECT geoid, (${column}::real - AVG(${column}::real) OVER()) / STDDEV(${column}::real) OVER() AS zscore FROM county2020 WHERE CAST(${column} AS TEXT) ~ '^[0-9\\\.]+$') UPDATE county2020 a SET zscore_${column} = b.zscore FROM b WHERE a.geoid = b.geoid;"
 done
 
 # places
 psql -qAtX -d us -c '\d place2020;' |  grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | sed -e 's/|.*//g' | while read column; do
-  psql -d us -c "ALTER TABLE place2020 ADD COLUMN zscore_${column} REAL;"
-  psql -d us -c "WITH b AS (SELECT geoid, (${column}::real - AVG(${column}::real) OVER()) / STDDEV(${column}::real) OVER() AS zscore FROM place2020 WHERE ${column}::text ~ '^[0-9\\\.]+$') UPDATE place2020 a SET zscore_${column} = b.zscore FROM b WHERE a.geoid = b.geoid;"
+  psql -d us -c "ALTER TABLE place2020 ADD COLUMN zscore_${column} REAL; WITH b AS (SELECT geoid, (${column}::real - AVG(${column}::real) OVER()) / STDDEV(${column}::real) OVER() AS zscore FROM place2020 WHERE ${column}::text ~ '^[0-9\\\.]+$') UPDATE place2020 a SET zscore_${column} = b.zscore FROM b WHERE a.geoid = b.geoid;"
 done
 
 # pumas
 psql -qAtX -d us -c '\d puma2020' | grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | sed -e 's/|.*//g' | while read column; do
-  psql -d us -c "ALTER TABLE puma2020 ADD COLUMN zscore_${column} REAL;"
-  psql -d us -c "WITH b AS (SELECT geoid, (${column}::real - AVG(${column}::real) OVER()) / STDDEV(${column}::real) OVER() AS zscore FROM puma2020 WHERE CAST(${column} AS TEXT) ~ '^[0-9\\\.]+$') UPDATE puma2020 a SET zscore_${column} = b.zscore FROM b WHERE a.geoid = b.geoid;"
+  psql -d us -c "ALTER TABLE puma2020 ADD COLUMN zscore_${column} REAL; WITH b AS (SELECT geoid, (${column}::real - AVG(${column}::real) OVER()) / STDDEV(${column}::real) OVER() AS zscore FROM puma2020 WHERE CAST(${column} AS TEXT) ~ '^[0-9\\\.]+$') UPDATE puma2020 a SET zscore_${column} = b.zscore FROM b WHERE a.geoid = b.geoid;"
 done
 ```
 
@@ -154,22 +168,19 @@ done
 Add census geoid to geonames
 ```bash
 # block
-psql -d us -c 'ALTER TABLE geonames_us ADD COLUMN geoid_block VARCHAR;'
-psql -d us -c 'UPDATE geonames_us a SET geoid_block = b.geoid FROM block20 b WHERE ST_Intersects(a.geom, b."SHAPE");'
+psql -d us -c 'ALTER TABLE geonames_us ADD COLUMN geoid_block VARCHAR; UPDATE geonames_us a SET geoid_block = b.geoid FROM block20 b WHERE ST_Intersects(a.geom, b."SHAPE");'
 
 # place
-psql -d us -c "ALTER TABLE geonames_us ADD COLUMN geoid_place varchar;"
-psql -d us -c "UPDATE geonames_us a SET geoid_place = b.geoid FROM place b WHERE SUBSTRING(a.geoid_block,1,2) = SUBSTRING(b.geoid,1,2) AND ST_Intersects(a.geom, b.\"SHAPE\");"
+psql -d us -c "ALTER TABLE geonames_us ADD COLUMN geoid_place varchar; UPDATE geonames_us a SET geoid_place = b.geoid FROM place b WHERE SUBSTRING(a.geoid_block::text,1,2) = SUBSTRING(b.geoid,1,2) AND ST_Intersects(a.geom, b.\"SHAPE\");"
 
 # puma
-psql -d us -c "ALTER TABLE geonames_us ADD COLUMN geoid_puma varchar;"
-psql -d us -c "UPDATE geonames_us a SET geoid_puma = b.puma FROM census_tract b WHERE SUBSTRING(a.geoid_block,1,11) = b.geoid;"
+psql -d us -c "ALTER TABLE geonames_us ADD COLUMN geoid_puma varchar; UPDATE geonames_us a SET geoid_puma = b.puma FROM census_tract b WHERE SUBSTRING(a.geoid_block::text,1,11) = b.geoid;"
 ```
 
 Create table of osm points by state (easier to work with).
 ```bash
 psql -Aqt -d us -c "COPY (SELECT geoid from state2020) TO STDOUT DELIMITER E'\t';" | while IFS=$'\t' read -a array; do
-  psql -d us -c "CREATE TABLE points_${array[0]} AS SELECT * FROM points_us WHERE SUBSTRING(geoid_block,1,2) = '${array[0]}';"
+  psql -d us -c "CREATE TABLE points_${array[0]} AS SELECT * FROM points_us WHERE SUBSTRING(geoid_block::text,1,2) = '${array[0]}';"
 done
 ```
 
@@ -177,20 +188,17 @@ Add census geoid to osm points.
 ```bash
 # block
 psql -Aqt -d us -c "COPY (SELECT geoid from state2020) TO STDOUT DELIMITER E'\t';" | while read geoid; do
-  psql -d us -c 'ALTER TABLE points_${geoid} ADD COLUMN geoid_block VARCHAR;'
-  psql -d us -c 'UPDATE points_${geoid} a SET geoid_block = b.geoid FROM block20 b WHERE ST_Intersects(a.wkb_geometry, b."SHAPE");'
+  psql -d us -c 'ALTER TABLE points_${geoid} ADD COLUMN geoid_block VARCHAR; UPDATE points_${geoid} a SET geoid_block = b.geoid FROM block20 b WHERE ST_Intersects(a.wkb_geometry, b."SHAPE");'
 done
 
 # place
 psql -Aqt -d us -c "COPY (SELECT geoid from state2020) TO STDOUT DELIMITER E'\t';" | while read geoid; do
-  psql -d us -c "ALTER TABLE points_${geoid} ADD COLUMN geoid_place varchar;"
-  psql -d us -c "UPDATE points_${geoid} a SET geoid_place = b.geoid FROM place b WHERE SUBSTRING(a.geoid_block,1,2) = SUBSTRING(b.geoid,1,2) AND ST_Intersects(a.wkb_geometry, b.\"SHAPE\");"
+  psql -d us -c "ALTER TABLE points_${geoid} ADD COLUMN geoid_place varchar; UPDATE points_${geoid} a SET geoid_place = b.geoid FROM place b WHERE SUBSTRING(a.geoid_block::text,1,2) = SUBSTRING(b.geoid,1,2) AND ST_Intersects(a.wkb_geometry, b.\"SHAPE\");"
 done
 
 # puma
 psql -Aqt -d us -c "COPY (SELECT geoid from state2020) TO STDOUT DELIMITER E'\t';" | while read geoid; do
-  psql -d us -c "ALTER TABLE points_${geoid} ADD COLUMN geoid_puma varchar;"
-  psql -d us -c "UPDATE points_${geoid} a SET geoid_puma = b.puma FROM census_tract b WHERE SUBSTRING(a.geoid_block,1,11) = b.geoid;"
+  psql -d us -c "ALTER TABLE points_${geoid} ADD COLUMN geoid_puma varchar; UPDATE points_${geoid} a SET geoid_puma = b.puma FROM census_tract b WHERE SUBSTRING(a.geoid_block::text,1,11) = b.geoid;"
 done
 ```
 
@@ -205,7 +213,7 @@ done
 # counties
 psql -d us -c "ALTER TABLE county2020 ADD COLUMN brand json;"
 psql -Aqt -d us -c "COPY (SELECT geoid from county2020) TO STDOUT DELIMITER E'\t';" | while read geoid; do
-  psql -d us -c "UPDATE county2020 a SET brand = (SELECT json_agg(json_build_object(value::text, count::text)) FROM (SELECT value, COUNT(value) count FROM (SELECT geoid_block, other_tags->'brand' value FROM points_${geoid:0:2}) stat WHERE value IS NOT NULL AND SUBSTRING(stat.geoid_block,1,5) = '${geoid}' GROUP BY value ORDER BY count DESC) stats) WHERE a.geoid = '${geoid}';"
+  psql -d us -c "UPDATE county2020 a SET brand = (SELECT json_agg(json_build_object(value::text, count::text)) FROM (SELECT value, COUNT(value) count FROM (SELECT geoid_block, other_tags->'brand' value FROM points_${geoid:0:2}) stat WHERE value IS NOT NULL AND SUBSTRING(stat.geoid_block::text,1,5) = '${geoid}' GROUP BY value ORDER BY count DESC) stats) WHERE a.geoid = '${geoid}';"
 done
 
 # places
@@ -241,30 +249,72 @@ psql -qAtX -d us -c '\d county2020;' | grep -v "SHAPE" | grep -v "geoid" | grep 
 done
 ```
 
-Export tables.
+Example of exporting markdown file.
 ```bash
-# markdown files
 rm county2020_pop2020_100000_top_10.md
 psql -qAtX -d us -c '\d county2020;' | grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | grep -v 'brand' | grep -v 'zscore_' | sed -e 's/|.*//g' | while read column; do
   psql -d us -c "SELECT * FROM (SELECT DENSE_RANK() OVER (ORDER BY a.${column}::numeric DESC) rank, a.name, b.name AS state, a.${column} FROM county2020 a, state2020 b WHERE SUBSTRING(a.geoid,1,2) = b.geoid AND a.${column}::text ~ '^[0-9\\\.]+$' AND a.pop2020::numeric > 100000) stats WHERE rank <= 10;" | sed -e 's/-+-/-\|-/g' -e 's/^/\|/g' -e 's/$/\|/g' -e "s/||//g" | grep -v 'rows)|' >> county2020_pop2020_100000_top_10.md
 done
+```
 
-# html files
-rm county2020_pop100000_top10.html
+State ranks as html tables.
+```bash
+# state2020
+rm tables/state2020_rank.html
+psql -qAtX -d us -c '\d state2020;' | grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | grep -v "pop2020" | grep -v 'brand' | grep -v 'zscore_' | sed -e 's/|.*//g' | while read column; do
+  psql --html -d us -c "SELECT * FROM (SELECT RANK() OVER (ORDER BY a.${column}::numeric DESC) rank, a.name, TO_CHAR(b.popestimate2020::int, 'FM9,999,999,999') popestimate2020, TO_CHAR(b.popestimate2021::int, 'FM9,999,999,999') popestimate2021, TO_CHAR(b.npopchg_2020::numeric, 'FM9,999,999,999') npopchg2020, TO_CHAR(b.npopchg_2021::int, 'FM9,999,999,999') npopchg2021, ROUND((b.popestimate2021::int/(b.aland/1000000))::numeric,2) pop_sqkm, a.${column}::numeric FROM state2020 a, state b WHERE a.geoid = b.geoid AND a.${column}::text ~ '^[0-9\\\.]+$') stats;" >> tables/state2020_rank.html
+done
+```
+
+Top 10 lists as html tables.
+```bash
+# county2020
+rm tables/county2020_pop100000_top10.html
+rm tables/county2020_pop100000_bottom10.html
 psql -qAtX -d us -c '\d county2020;' | grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | grep -v "pop2020" | grep -v 'brand' | grep -v 'zscore_' | sed -e 's/|.*//g' | while read column; do
-  psql --html -d us -c "SELECT * FROM (SELECT DENSE_RANK() OVER (ORDER BY a.${column}::numeric DESC) rank, a.name, b.stname state, a.${column}, TO_CHAR(b.popestimate2020::int, 'FM9,999,999,999') popestimate2020, TO_CHAR(b.popestimate2021::int, 'FM9,999,999,999') popestimate2021, TO_CHAR(b.npopchg2020::numeric, 'FM9,999,999,999') npopchg2020, TO_CHAR(b.npopchg2021::int, 'FM9,999,999,999') npopchg2021, TO_CHAR(ROUND((b.popestimate2021::int/(b.aland/1000000))::numeric,0), 'FM9,999,999,999') pop_sqkm, a.zscore_1_65, a.brand FROM county2020 a, county b WHERE a.geoid = b.geoid AND a.${column}::text ~ '^[0-9\\\.]+$' AND b.namelsad NOT IN ('Puerto Rico') AND b.popestimate2021::numeric > 100000) stats WHERE rank <= 10;" >> county2020_pop100000_top10.html
+  psql --html -d us -c "WITH stats AS (SELECT DENSE_RANK() OVER (ORDER BY a.${column}::numeric DESC) rank, a.name, b.stname state, TO_CHAR(b.popestimate2020::int, 'FM9,999,999,999') popestimate2020, TO_CHAR(b.popestimate2021::int, 'FM9,999,999,999') popestimate2021, TO_CHAR(b.npopchg2020::numeric, 'FM9,999,999,999') npopchg2020, TO_CHAR(b.npopchg2021::int, 'FM9,999,999,999') npopchg2021, ROUND((b.popestimate2021::int/(b.aland/1000000))::numeric,2) pop_sqkm, a.${column}::numeric FROM county2020 a, county b WHERE a.geoid = b.geoid AND a.${column}::text ~ '^[0-9\\\.]+$' AND b.stname IS NOT NULL AND a.pop2020::numeric > 100000) SELECT * FROM stats WHERE rank <= 10;" >> tables/county2020_pop100000_top10.html
+  psql --html -d us -c "WITH stats AS (SELECT DENSE_RANK() OVER (ORDER BY a.${column}::numeric) rank, a.name, b.stname state, TO_CHAR(b.popestimate2020::int, 'FM9,999,999,999') popestimate2020, TO_CHAR(b.popestimate2021::int, 'FM9,999,999,999') popestimate2021, TO_CHAR(b.npopchg2020::numeric, 'FM9,999,999,999') npopchg2020, TO_CHAR(b.npopchg2021::int, 'FM9,999,999,999') npopchg2021, ROUND((b.popestimate2021::int/(b.aland/1000000))::numeric,2) pop_sqkm, a.${column}::numeric FROM county2020 a, county b WHERE a.geoid = b.geoid AND a.${column}::text ~ '^[0-9\\\.]+$' AND b.stname IS NOT NULL AND a.pop2020::numeric > 100000) SELECT * FROM stats WHERE rank <= 10;" >> tables/county2020_pop100000_bottom10.html
 done
 
-# tsv files
-# county2020 top 10 by column
-psql -qAtX -d us -c '\d county2020;' | grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | grep -v "pop2020" | grep -v 'brand' | grep -v 'zscore_' | sed -e 's/|.*//g' | while read column; do
-  psql -d us -c "COPY (SELECT * FROM (SELECT DENSE_RANK() OVER (ORDER BY a.${column}::numeric DESC) rank, a.name, b.stname state, a.${column}, TO_CHAR(b.popestimate2020::int, 'FM9,999,999,999') popestimate2020, TO_CHAR(b.popestimate2021::int, 'FM9,999,999,999') popestimate2021, TO_CHAR(b.npopchg2020::numeric, 'FM9,999,999,999') npopchg2020, TO_CHAR(b.npopchg2021::int, 'FM9,999,999,999') npopchg2021, TO_CHAR(ROUND((b.popestimate2021::int/(b.aland/1000000))::numeric,0), 'FM9,999,999,999') pop_sqkm FROM county2020 a, county b WHERE a.geoid = b.geoid AND a.${column}::text ~ '^[0-9\\\.]+$' AND b.namelsad NOT IN ('Puerto Rico') AND b.popestimate2021::numeric > 100000) stats WHERE rank <= 10) TO STDOUT DELIMITER E'\t' CSV HEADER;" > data/county/county2020_pop100000_${column}.tsv
+# place2020
+rm tables/place2020_pop100000_top10.html
+rm tables/place2020_pop100000_bottom10.html
+psql -qAtX -d us -c '\d place2020;' | grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | grep -v "pop2020" | grep -v 'brand' | grep -v 'zscore_' | sed -e 's/|.*//g' | while read column; do
+  psql --html -d us -c "WITH stats AS (SELECT DENSE_RANK() OVER (ORDER BY a.${column}::numeric DESC) rank, a.name, b.stname state, TO_CHAR(b.popestimate2020::int, 'FM9,999,999,999') popestimate2020, TO_CHAR(b.popestimate2021::int, 'FM9,999,999,999') popestimate2021, TO_CHAR(b.popestimate2021::int-b.popestimate2020::int, 'FM9,999,999,999') npopchg2021, ROUND((b.popestimate2021::int/(c.aland/1000000))::numeric,2) pop_sqkm, a.${column}::numeric FROM place2020 a, sub_est2021 b, place c WHERE a.geoid = CONCAT(b.state, b.place) AND b.sumlev = '162' AND a.geoid = c.geoid AND a.${column}::text ~ '^[0-9\\\.]+$' AND a.pop2020::numeric > 100000) SELECT * FROM stats WHERE rank <= 10;" >> tables/place2020_pop100000_top10.html
+  psql --html -d us -c "WITH stats AS (SELECT DENSE_RANK() OVER (ORDER BY a.${column}::numeric) rank, a.name, b.stname state, TO_CHAR(b.popestimate2020::int, 'FM9,999,999,999') popestimate2020, TO_CHAR(b.popestimate2021::int, 'FM9,999,999,999') popestimate2021, TO_CHAR(b.popestimate2021::int-b.popestimate2020::int, 'FM9,999,999,999') npopchg2021, ROUND((b.popestimate2021::int/(c.aland/1000000))::numeric,2) pop_sqkm, a.${column}::numeric FROM place2020 a, sub_est2021 b, place c WHERE a.geoid = CONCAT(b.state, b.place) AND b.sumlev = '162' AND a.geoid = c.geoid AND a.${column}::text ~ '^[0-9\\\.]+$' AND a.pop2020::numeric > 100000) SELECT * FROM stats WHERE rank <= 10;"  >> tables/place2020_pop100000_bottom10.html
 done
+```
+
+Export summaries as tsv files.
+```bash
+# state2020
+psql -d us -c "COPY (SELECT a.name, b.popestimate2020, b.popestimate2021, b.npopchg_2020, b.npopchg_2021, a.age_median, a.income_median, a.rooms_median, a.value_median, a.rent_median, a.housing_total FROM state2020 a, state b WHERE a.geoid = b.geoid) TO STDOUT DELIMITER E'\t' CSV HEADER;" > tables/state2020_summary.tsv
+
+# county2020
+psql -d us -c "COPY (SELECT a.name, b.stname state, b.popestimate2020, b.popestimate2021, b.npopchg2020, b.npopchg2021, a.age_median, a.income_median, a.rooms_median, a.value_median, a.rent_median, a.housing_total FROM county2020 a, county b WHERE a.geoid = b.geoid AND a.pop2020::numeric > 100000) TO STDOUT DELIMITER E'\t' CSV HEADER;" > tables/county2020_pop100000_summary.tsv
+
+# place2020
+psql -d us -c "COPY (SELECT a.name, b.stname state, b.popestimate2020, b.popestimate2021, (b.popestimate2021::int-b.popestimate2020::int) npopchg2021, a.age_median, a.income_median, a.rooms_median, a.value_median, a.rent_median, a.housing_total FROM place2020 a, sub_est2021 b WHERE a.geoid = CONCAT(b.state, b.place) AND b.sumlev = '162' AND a.${column}::text ~ '^[0-9\\\.]+$' AND a.pop2020::numeric > 100000) TO STDOUT DELIMITER E'\t' CSV HEADER;" > tables/place2020_pop100000_summary.tsv
+```
+
+```bash
+# puma summary in select city and state
+place='San Francisco city'
+state='California'
+psql --html -d us -c "SELECT a.name, TO_CHAR(a.pop2020::int, 'FM9,999,999,999') pop2020, TO_CHAR(a.age_median::int, 'FM9,999,999,999') age_median, TO_CHAR(a.income_median::int, 'FM9,999,999,999') income_median, TO_CHAR(a.rooms_median::int, 'FM9,999,999,999') rooms_median, TO_CHAR(a.value_median::int, 'FM9,999,999,999') value_median, TO_CHAR(a.rent_median::int, 'FM9,999,999,999') rent_median, TO_CHAR( a.housing_total::int, 'FM9,999,999,999') housing_total FROM puma2020 a, place2020 b, state2020 c WHERE ST_Intersects(ST_Centroid(a.\"SHAPE\"),b.\"SHAPE\") AND SUBSTRING(b.geoid,1,2) = c.geoid AND b.name = '${place}' AND c.name = '${state}' ORDER BY a.name;" > tables/puma2020_"${place//[^a-zA-Z_0-9]/}"_"${state//[^a-zA-Z_0-9]/}"_summary.html
 
 # zscore_1_65
 psql -d us -c "COPY (SELECT a.name, b.stname state, a.zscore_1_65 FROM county2020 a, county b WHERE a.geoid = b.geoid ORDER BY a.name) TO STDOUT DELIMITER E'\t' CSV HEADER;" > data/county/county2020_zscore_1_65.tsv
 
 # brand
-psql -d us -c "COPY (SELECT a.name, b.stname state, a.brand FROM county2020 a, county b WHERE a.geoid = b.geoid ORDER BY a.name) TO STDOUT DELIMITER E'\t' CSV HEADER;" > data/county/county2020_brand.tsv
+# 3 oldest states vs 3 youngest states
+psql --html -d us -c "SELECT b.name state, a.age_median, a.brand FROM state2020 a, state b WHERE a.geoid = b.geoid AND b.name IN ('Maine','New Hampshire','Vermont','Utah','District of Columbia','Alaska') ORDER BY a.age_median::real DESC;" > state2020_old_vs_young_brand.html
+
+# brands by place
+place='Hartland CDP'
+state='Illinois'
+psql --html -d us -c "SELECT a.name, b.name state, a.pop2020, a.brand FROM place2020 a, state2020 b WHERE SUBSTRING(a.geoid,1,2) = b.geoid AND a.name = '${place}' AND b.name = '${state}';" > place2020_"${place//[^a-zA-Z_0-9]/}"_"${state//[^a-zA-Z_0-9]/}"_brand.html
+
+
 
 ```
