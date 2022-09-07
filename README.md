@@ -202,33 +202,6 @@ psql -Aqt -d us -c "COPY (SELECT geoid from state2020) TO STDOUT DELIMITER E'\t'
 done
 ```
 
-Add brand names, counts by geography
-```bash
-# state
-psql -d us -c "ALTER TABLE state2020 ADD COLUMN brand json;"
-psql -Aqt -d us -c "COPY (SELECT geoid from state2020) TO STDOUT DELIMITER E'\t';" | while read geoid; do
-  psql -d us -c "UPDATE state2020 a SET brand = (SELECT json_agg(json_build_object(value::text, count::text)) FROM (SELECT value, COUNT(value) count FROM (SELECT other_tags->'brand' value FROM points_${geoid}) stat WHERE value IS NOT NULL GROUP BY value ORDER BY count DESC) stats) WHERE a.geoid = '${geoid}';"
-done
-
-# counties
-psql -d us -c "ALTER TABLE county2020 ADD COLUMN brand json;"
-psql -Aqt -d us -c "COPY (SELECT geoid from county2020) TO STDOUT DELIMITER E'\t';" | while read geoid; do
-  psql -d us -c "UPDATE county2020 a SET brand = (SELECT json_agg(json_build_object(value::text, count::text)) FROM (SELECT value, COUNT(value) count FROM (SELECT geoid_block, other_tags->'brand' value FROM points_${geoid:0:2}) stat WHERE value IS NOT NULL AND SUBSTRING(stat.geoid_block::text,1,5) = '${geoid}' GROUP BY value ORDER BY count DESC) stats) WHERE a.geoid = '${geoid}';"
-done
-
-# places
-psql -d us -c "ALTER TABLE place2020 ADD COLUMN brand json;"
-psql -Aqt -d us -c "COPY (SELECT geoid from place2020) TO STDOUT DELIMITER E'\t';" | while read geoid; do
-  psql -d us -c "UPDATE place2020 a SET brand = (SELECT json_agg(json_build_object(value::text, count::text)) FROM (SELECT value, COUNT(value) count FROM (SELECT wkb_geometry, other_tags->'brand' value FROM points_${geoid:0:2}) stat WHERE value IS NOT NULL AND a.geoid_place = '${geoid}' GROUP BY value ORDER BY count DESC) stats) WHERE a.geoid = '${geoid}';"
-done
-
-# pumas
-psql -d us -c "ALTER TABLE puma2020 ADD COLUMN brand json;"
-psql -Aqt -d us -c "COPY (SELECT geoid from puma2020) TO STDOUT DELIMITER E'\t';" | while read geoid; do
-  psql -d us -c "UPDATE puma2020 a SET brand = (SELECT json_agg(json_build_object(value::text, count::text)) FROM (SELECT value, COUNT(value) count FROM (SELECT wkb_geometry, other_tags->'brand' value FROM points_${geoid:0:2}) stat WHERE value IS NOT NULL AND a.geoid_puma = '${geoid}' GROUP BY value ORDER BY count DESC) stats) WHERE a.geoid = '${geoid}';"
-done
-```
-
 ## 3. Exporting
 
 Export geojson files.
@@ -302,19 +275,4 @@ psql -d us -c "COPY (SELECT a.name, b.stname state, b.popestimate2020, b.popesti
 place='San Francisco city'
 state='California'
 psql --html -d us -c "SELECT a.name, TO_CHAR(a.pop2020::int, 'FM9,999,999,999') pop2020, TO_CHAR(a.age_median::int, 'FM9,999,999,999') age_median, TO_CHAR(a.income_median::int, 'FM9,999,999,999') income_median, TO_CHAR(a.rooms_median::int, 'FM9,999,999,999') rooms_median, TO_CHAR(a.value_median::int, 'FM9,999,999,999') value_median, TO_CHAR(a.rent_median::int, 'FM9,999,999,999') rent_median, TO_CHAR( a.housing_total::int, 'FM9,999,999,999') housing_total FROM puma2020 a, place2020 b, state2020 c WHERE ST_Intersects(ST_Centroid(a.\"SHAPE\"),b.\"SHAPE\") AND SUBSTRING(b.geoid,1,2) = c.geoid AND b.name = '${place}' AND c.name = '${state}' ORDER BY a.name;" > tables/puma2020_"${place//[^a-zA-Z_0-9]/}"_"${state//[^a-zA-Z_0-9]/}"_summary.html
-
-# zscore_1_65
-psql -d us -c "COPY (SELECT a.name, b.stname state, a.zscore_1_65 FROM county2020 a, county b WHERE a.geoid = b.geoid ORDER BY a.name) TO STDOUT DELIMITER E'\t' CSV HEADER;" > data/county/county2020_zscore_1_65.tsv
-
-# brand
-# 3 oldest states vs 3 youngest states
-psql --html -d us -c "SELECT b.name state, a.age_median, a.brand FROM state2020 a, state b WHERE a.geoid = b.geoid AND b.name IN ('Maine','New Hampshire','Vermont','Utah','District of Columbia','Alaska') ORDER BY a.age_median::real DESC;" > state2020_old_vs_young_brand.html
-
-# brands by place
-place='Hartland CDP'
-state='Illinois'
-psql --html -d us -c "SELECT a.name, b.name state, a.pop2020, a.brand FROM place2020 a, state2020 b WHERE SUBSTRING(a.geoid,1,2) = b.geoid AND a.name = '${place}' AND b.name = '${state}';" > place2020_"${place//[^a-zA-Z_0-9]/}"_"${state//[^a-zA-Z_0-9]/}"_brand.html
-
-
-
 ```
