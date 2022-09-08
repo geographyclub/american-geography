@@ -212,17 +212,45 @@ for column in popestimate2021 npopchg2021 naturalchg2021 netmig2021; do
 done
 
 # county2020 quartiles (with simplified geometry from naturalearth)
-psql -qAtX -d us -c '\d county2020;' | grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | grep -v "zscore_" | grep -v "brand" | sed -e 's/|.*//g' | while read column; do
+psql -qAtX -d us -c '\d county2020;' | grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | grep -v "zscore_" | sed -e 's/|.*//g' | while read column; do
   psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', quartile, 'geometry', ST_AsGeoJSON(ST_Transform(geom,4326))::jsonb, 'properties', to_jsonb(inputs) - 'geom') AS feature FROM (WITH stats AS (SELECT DISTINCT PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY ${column}::real) q1, PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY ${column}::real) q2, PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY ${column}::real) q3 FROM county2020 WHERE ${column}::text ~ '^[0-9\\\.]+$') SELECT 'q1' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM county2020 a, ne_10m_admin_2_counties b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real < stats.q1 AND a.geoid = b.code_local UNION ALL SELECT 'q2' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM county2020 a, ne_10m_admin_2_counties b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real >= stats.q1 AND a.${column}::real < stats.q2 AND a.geoid = b.code_local UNION ALL SELECT 'q3' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM county2020 a, ne_10m_admin_2_counties b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real >= stats.q2 AND a.${column}::real < stats.q3 AND a.geoid = b.code_local UNION ALL SELECT 'q4' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM county2020 a, ne_10m_admin_2_counties b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real >= stats.q3 AND a.geoid = b.code_local) inputs) features) TO STDOUT;" > geojson/county/county_quartile_${column}.geojson
 done
 
 # top 10 counties
-psql -qAtX -d us -c '\d county2020;' | grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | grep -v "zscore_" | grep -v "brand" | sed -e 's/|.*//g' | while read column; do
+psql -qAtX -d us -c '\d county2020;' | grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | grep -v "zscore_" | sed -e 's/|.*//g' | while read column; do
   psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', geoid, 'geometry', ST_AsGeoJSON(ST_Transform(geom,4326))::jsonb, 'properties', to_jsonb(inputs) - 'geom' - 'geoid') AS feature FROM (SELECT b.geom, a.geoid, a.name, c.stname AS state, RANK() OVER (ORDER BY a.${column}::real DESC) rank, a.${column} AS column, '${column}' AS column_name, TO_CHAR(popestimate2020::int, 'FM9,999,999,999') popestimate2020, TO_CHAR(popestimate2021::int, 'FM9,999,999,999') popestimate2021, TO_CHAR(npopchg2020::numeric, 'FM9,999,999,999') npopchg2020, TO_CHAR(npopchg2021::int, 'FM9,999,999,999') npopchg2021, TO_CHAR(births2020::int, 'FM9,999,999,999') births2020, TO_CHAR(births2021::int, 'FM9,999,999,999') births2021, TO_CHAR(deaths2020::int, 'FM9,999,999,999') deaths2020, TO_CHAR(deaths2021::int, 'FM9,999,999,999') deaths2021, TO_CHAR(naturalchg2020::int, 'FM9,999,999,999') naturalchg2020, TO_CHAR(naturalchg2021::int, 'FM9,999,999,999') naturalchg2021, TO_CHAR(internationalmig2020::int, 'FM9,999,999,999') internationalmig2020, TO_CHAR(internationalmig2021::int, 'FM9,999,999,999') internationalmig2021, TO_CHAR(domesticmig2020::int, 'FM9,999,999,999') domesticmig2020, TO_CHAR(domesticmig2021::int, 'FM9,999,999,999') domesticmig2021, TO_CHAR(netmig2020::int, 'FM9,999,999,999') netmig2020, TO_CHAR(netmig2021::int, 'FM9,999,999,999') netmig2021, ROUND(rbirth2021::numeric, 2) rbirth2021, ROUND(rdeath2021::numeric, 2) rdeath2021, ROUND(rnaturalchg2021::numeric, 2) rnaturalchg2021, ROUND(rinternationalmig2021::numeric, 2) rinternationalmig2021, ROUND(rdomesticmig2021::numeric, 2) rdomesticmig2021, ROUND(rnetmig2021::numeric, 2) rnetmig2021 FROM county2020 a, ne_10m_admin_2_counties_lakes b, co_est2021 c WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.geoid = b.code_local AND a.geoid = c.state_county ORDER BY a.${column}::real DESC LIMIT 10) inputs) features) TO STDOUT;" > geojson/county/county_top_10_${column}.geojson
 done
 ```
 
-Example of exporting markdown file.
+Export svg files.
+```bash
+# county2020
+bounds=($(psql -d us -c "COPY (SELECT ST_XMin(geom), (-1 * ST_YMax(geom)), (ST_XMax(geom) - ST_XMin(geom)), (ST_YMax(geom) - ST_YMin(geom)) FROM ne_10m_admin_0_map_subunits where name = 'United States of America') TO STDOUT;"))
+psql -qAtX -d us -c '\d county2020;' | grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | grep -v "zscore_" | sed -e 's/|.*//g' | while read column; do
+  echo '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="1080" width="1920" viewBox="'${bounds[0]}' '${bounds[1]}' '${bounds[2]}' '${bounds[3]}'">' > svg/county/county2020_quartile_${column}.svg
+  psql -d us -c "COPY (WITH stats AS (SELECT DISTINCT PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY ${column}::real) q1, PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY ${column}::real) q2, PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY ${column}::real) q3 FROM county2020 WHERE ${column}::text ~ '^[0-9\\\.]+$') SELECT 'q1' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_AsSVG(ST_Union(ST_Buffer(b.geom,0)),1) AS geom FROM county2020 a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real < stats.q1 AND a.geoid = b.code_local UNION ALL SELECT 'q2' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_AsSVG(ST_Union(ST_Buffer(b.geom,0)),1) AS geom FROM county2020 a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real >= stats.q1 AND a.${column}::real < stats.q2 AND a.geoid = b.code_local UNION ALL SELECT 'q3' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_AsSVG(ST_Union(ST_Buffer(b.geom,0)),1) AS geom FROM county2020 a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real >= stats.q2 AND a.${column}::real < stats.q3 AND a.geoid = b.code_local UNION ALL SELECT 'q4' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_AsSVG(ST_Union(ST_Buffer(b.geom,0)),1) AS geom FROM county2020 a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real >= stats.q3 AND a.geoid = b.code_local) TO STDOUT DELIMITER E'\t';" | while IFS=$'\t' read -a array; do
+    case ${array[0]} in
+    q1)
+      echo '<path id="'${array[0]}'" d="'${array[3]}'" data-min="'${array[1]}'" data-max="'${array[2]}'" vector-effect="non-scaling-stroke" fill="#F0EBE3" fill-opacity="1" stroke="#000" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/>' >> svg/county/county2020_quartile_${column}.svg
+      ;;
+    q2)
+      echo '<path id="'${array[0]}'" d="'${array[3]}'" data-min="'${array[1]}'" data-max="'${array[2]}'" vector-effect="non-scaling-stroke" fill="#E4DCCF" fill-opacity="1" stroke="#000" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/>' >> svg/county/county2020_quartile_${column}.svg
+      ;;
+    q3)
+      echo '<path id="'${array[0]}'" d="'${array[3]}'" data-min="'${array[1]}'" data-max="'${array[2]}'" vector-effect="non-scaling-stroke" fill="#7D9D9C" fill-opacity="1" stroke="#000" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/>' >> svg/county/county2020_quartile_${column}.svg
+      ;;
+    q4)
+      echo '<path id="'${array[0]}'" d="'${array[3]}'" data-min="'${array[1]}'" data-max="'${array[2]}'" vector-effect="non-scaling-stroke" fill="#576F72" fill-opacity="1" stroke="#000" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/>' >> svg/county/county2020_quartile_${column}.svg
+      ;;
+    esac
+  done
+  states=$(psql -d us -c "COPY (SELECT ST_AsSVG(geom,1) FROM ne_10m_admin_1_states_provinces_lakes WHERE adm0_a3 = 'USA') TO STDOUT;")
+  echo '<path id="states" d="'${states}'" vector-effect="non-scaling-stroke" fill="#fff" fill-opacity="0" stroke="#fff" stroke-width="0.2em" stroke-linejoin="round" stroke-linecap="round"/>' >> svg/county/county2020_quartile_${column}.svg
+  echo '</svg>' >> svg/county/county2020_quartile_${column}.svg
+done
+```
+
+Export markdown file.
 ```bash
 rm county2020_pop2020_100000_top_10.md
 psql -qAtX -d us -c '\d county2020;' | grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | grep -v 'brand' | grep -v 'zscore_' | sed -e 's/|.*//g' | while read column; do
