@@ -166,7 +166,8 @@ function map(){
   // layer switcher
   map.addLayer(feature_cover)
   var baseMaps = {"Streets":streets, "Satellite":satellite};
-  var overlayMaps = {"Title":feature_cover, "Quartiles":feature_quartile, "Top 10":feature_top_10};
+//  var overlayMaps = {"Title":feature_cover, "Quartiles":feature_quartile, "Top 10":feature_top_10};
+  var overlayMaps = {"Title":feature_cover, "Quartiles":feature_quartile};
   L.control.layers(baseMaps,overlayMaps).addTo(map);
 
   // navbar
