@@ -160,12 +160,12 @@ function map(){
   // base layers
   //var german = L.TileLayer('https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png', {noWrap:false});
   //var french = L.TileLayer('http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {noWrap:false});
-  var streets = new L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {noWrap:false, attribution:'<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);
+  var streets = new L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {noWrap:false, attribution:'<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>', lang:'en'}).addTo(map);
   var satellite = new L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {id: 'mapbox/satellite-v9', tileSize: 512, zoomOffset: -1, attribution:'<a href="https://www.mapbox.com/">Mapbox</a>'});
 
   // layer switcher
   map.addLayer(feature_cover)
-  var baseMaps = {"Streets":streets, "Satellite":satellite};
+  var baseMaps = {"Streets":streets};
 //  var overlayMaps = {"Title":feature_cover, "Quartiles":feature_quartile, "Top 10":feature_top_10};
   var overlayMaps = {"Title":feature_cover, "Quartiles":feature_quartile};
   L.control.layers(baseMaps,overlayMaps).addTo(map);
