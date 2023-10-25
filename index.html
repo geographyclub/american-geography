@@ -16,7 +16,7 @@
   crossorigin=""></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script>
 <script src="js/Leaflet.NavBar-master/src/Leaflet.NavBar.js"></script>
-<script src="js/leaflet-simple-map-screenshoter-master/dist/leaflet-simple-map-screenshoter.js"></script>
+<!--<script src="js/leaflet-simple-map-screenshoter-master/dist/leaflet-simple-map-screenshoter.js"></script>-->
 
 <!-- load styles -->
 <link rel="icon" type="image/png" href="favicon.png">
@@ -174,7 +174,7 @@ function map(){
   L.control.navbar().addTo(map);
 
   // screenshoter
-  L.simpleMapScreenshoter().addTo(map)
+//L.simpleMapScreenshoter().addTo(map)
 
 };
 window.onload = map();
@@ -183,13 +183,13 @@ window.onload = map();
 jQuery('.leaflet-bottom.leaflet-left').html('<a href="mailto:emailstevekim@gmail.com">emailstevekim@gmail.com</a>');
 //jQuery('.leaflet-bottom.leaflet-right').html('');
 
-// style screenshoter
-$(window).on('load', function() {
-  $('.leaflet-control-simpleMapScreenshoter').css('border', '0');
-});
-
-
 /* misc
+
+  // style screenshoter
+  $(window).on('load', function() {
+    $('.leaflet-control-simpleMapScreenshoter').css('border', '0');
+  });
+
 
   // geojson with popup
   var pop2020 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/geojson/county_pop2020_quartile.geojson', {
