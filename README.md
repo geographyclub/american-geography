@@ -157,10 +157,6 @@ done
 Export geojson files for qgis.
 ```bash
 psql -qAtX -d us -c '\d state2022;' | grep -v "shape" | grep -v "geoid" | grep -v "name" | grep -v "zscore_" | sed -e 's/|.*//g' | while read column; do
-  psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', geoid, 'geometry', ST_AsGeoJSON(shape)::jsonb, 'properties', to_jsonb(inputs) - 'shape' - 'geoid') AS feature FROM (SELECT a.shape, a.geoid, a.name, b.region, b.division, RANK() OVER (ORDER BY a.${column}::real DESC) rank, a.${column}::real, popestimate2020::int, popestimate2021::int, npopchg_2020::int, npopchg_2021::int, births2020::int, births2021::int, deaths2020::int, deaths2021::int, naturalinc2020::int, naturalinc2021::int, internationalmig2020::int, internationalmig2021::int, domesticmig2020::int, domesticmig2021::int, netmig2020::int, netmig2021::int, rbirth2021::real, rdeath2021::real, rnaturalinc2021::real, rinternationalmig2021::real, rdomesticmig2021::real, rnetmig2021::real FROM state2020 a, state b WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.geoid = b.geoid) inputs) features) TO STDOUT;" > geojson/state/state2020_${column}.geojson
-done
-
-psql -qAtX -d us -c '\d state2022;' | grep -v "shape" | grep -v "geoid" | grep -v "name" | grep -v "zscore_" | sed -e 's/|.*//g' | while read column; do
   psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', geoid, 'geometry', ST_AsGeoJSON(shape)::jsonb, 'properties', to_jsonb(inputs) - 'shape' - 'geoid') AS feature FROM (SELECT shape, geoid, name, RANK() OVER (ORDER BY ${column}::real DESC) rank, ${column}::real FROM state2022 WHERE ${column}::text ~ '^[0-9\\\.]+$') inputs) features) TO STDOUT;" > geojson/state/state2022_${column}.geojson
 done
 ```
