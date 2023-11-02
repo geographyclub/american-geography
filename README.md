@@ -35,14 +35,14 @@ ogr2ogr -overwrite -skipfailures -nlt promote_to_multi --config PG_USE_COPY YES 
 
 Census population tables
 ```bash
-# download files from https://www2.census.gov/programs-surveys/popest/datasets/2020-2022/state/totals/NST-EST2022-ALLDATA.csv
+#https://www2.census.gov/programs-surveys/popest/datasets/2020-2022/state/totals/NST-EST2022-ALLDATA.csv
 
 iconv -f latin1 -t ascii//TRANSLIT NST-EST2022-ALLDATA.csv > NST-EST2022-alldata_iconv.csv
 psql -d us -c "CREATE TABLE nst_est2022($(head -1 NST-EST2022-alldata_iconv.csv | sed -e 's/,/ VARCHAR,/g' -e 's/\r$/ VARCHAR/g'));"
 psql -d us -c "\COPY nst_est2022 FROM 'NST-EST2022-alldata_iconv.csv' WITH CSV HEADER;"
 ```
 
-Census data tables
+Census data profiles
 ```bash
 #https://data.census.gov/table?d=ACS+1-Year+Estimates+Data+Profiles&y=2022&q=DP02,DP03,DP04,DP05&g=010XX00US
 #https://data.census.gov/table?d=ACS+1-Year+Estimates+Data+Profiles&y=2022&q=DP02,DP03,DP04,DP05&g=010XX00US$0400000
@@ -65,7 +65,12 @@ done
 
 NaturalEarth
 ```bash
-ogr2ogr -overwrite -skipfailures --config PG_USE_COPY YES -f PGDump -t_srs "EPSG:3857" -nlt promote_to_multi /vsistdout/ natural_earth_vector_3857.gpkg ne_10m_admin_2_counties | psql -d us -f -
+# states
+ogr2ogr -overwrite -skipfailures --config PG_USE_COPY YES -f PGDump -t_srs "EPSG:3857" -nlt promote_to_multi /vsistdout/ natural_earth_vector_3857.gpkg ne_10m_admin_1_states_provinces_lakes | psql -d us -f -
+
+# counties
+ogr2ogr -overwrite -skipfailures --config PG_USE_COPY YES -f PGDump -t_srs "EPSG:3857" -nlt promote_to_multi /vsistdout/ natural_earth_vector_3857.gpkg ne_10m_admin_2_counties_lakes | psql -d us -f -
+
 ```
 
 ## 2. Processing
@@ -163,19 +168,19 @@ psql -qAtX -d us -c '\d state2022;' | grep -v "shape" | grep -v "geoid" | grep -
 done
 ```
 
-Export geojson files for leaflet.
+Export geojson files for leaflet (with simplified geometry from natural earth).
 ```bash
 # state quartiles
-psql -qAtX -d us -c '\d state2022;' | grep -v "shape" | grep -v "geoid" | grep -v "name" | grep -v "zscore_" | sed -e 's/|.*//g' | while read column; do
-  psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', quartile, 'geometry', ST_AsGeoJSON(ST_Transform(shape,4326))::jsonb, 'properties', to_jsonb(inputs) - 'shape') AS feature FROM (WITH stats AS (SELECT DISTINCT PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY ${column}::real) q1, PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY ${column}::real) q2, PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY ${column}::real) q3 FROM state2022 WHERE ${column}::text ~ '^[0-9\\\.]+$') SELECT 'q1' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(shape,0)) shape FROM state2022, stats WHERE ${column}::text ~ '^[0-9\\\.]+$' AND ${column}::real < stats.q1 UNION ALL SELECT 'q2' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(shape,0)) shape FROM state2022, stats WHERE ${column}::text ~ '^[0-9\\\.]+$' AND ${column}::real >= stats.q1 AND ${column}::real < stats.q2 UNION ALL SELECT 'q3' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(shape,0)) shape FROM state2022, stats WHERE ${column}::text ~ '^[0-9\\\.]+$' AND ${column}::real >= stats.q2 AND ${column}::real < stats.q3 UNION ALL SELECT 'q4' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(shape,0)) AS shape FROM state2022, stats WHERE ${column}::text ~ '^[0-9\\\.]+$' AND ${column}::real >= stats.q3) inputs) features) TO STDOUT;" > geojson/state/state_quartile_${column}.geojson
+psql -qAtX -d us -c '\d state2022;' | grep -v "geom" | grep -v "geoid" | grep -v "name" | grep -v "zscore_" | sed -e 's/|.*//g' | while read column; do
+  psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', quartile, 'geometry', ST_AsGeoJSON(ST_Transform(geom,4326))::jsonb, 'properties', to_jsonb(inputs) - 'geom') AS feature FROM (WITH stats AS (SELECT DISTINCT PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY ${column}::real) q1, PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY ${column}::real) q2, PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY ${column}::real) q3 FROM state2022 WHERE ${column}::text ~ '^[0-9\\\.]+$') SELECT 'q1' AS quartile, MIN(a.${column}::real) AS min, MAX(a.${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) geom FROM state2022 a, ne_10m_admin_1_states_provinces_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real < stats.q1 AND CONCAT('US',a.geoid) = b.code_local UNION ALL SELECT 'q2' AS quartile, MIN(a.${column}::real) AS min, MAX(a.${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) geom FROM state2022 a, ne_10m_admin_1_states_provinces_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real >= stats.q1 AND a.${column}::real < stats.q2 AND CONCAT('US',a.geoid) = b.code_local UNION ALL SELECT 'q3' AS quartile, MIN(a.${column}::real) AS min, MAX(a.${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) geom FROM state2022 a, ne_10m_admin_1_states_provinces_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real >= stats.q2 AND a.${column}::real < stats.q3 AND CONCAT('US',a.geoid) = b.code_local UNION ALL SELECT 'q4' AS quartile, MIN(a.${column}::real) AS min, MAX(a.${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM state2022 a, ne_10m_admin_1_states_provinces_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real >= stats.q3 AND CONCAT('US',a.geoid) = b.code_local) inputs) features) TO STDOUT;" > geojson/state/state_quartile_${column}.geojson
 done
 
 # state top10
 psql -qAtX -d us -c '\d state2022;' | grep -v "shape" | grep -v "geoid" | grep -v "name" | grep -v "zscore_" | sed -e 's/|.*//g' | while read column; do
-  psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', geoid, 'geometry', ST_AsGeoJSON(ST_Transform(shape,4326))::jsonb, 'properties', to_jsonb(inputs) - 'shape' - 'geoid') AS feature FROM (SELECT shape, geoid, name, RANK() OVER (ORDER BY ${column}::real DESC) rank, ${column} AS column, '${column}' AS column_name FROM state2022 WHERE ${column}::text ~ '^[0-9\\\.]+$' ORDER BY ${column}::real DESC LIMIT 10) inputs) features) TO STDOUT;" > geojson/state/state_top10_${column}.geojson
+  psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', geoid, 'geometry', ST_AsGeoJSON(ST_Transform(geom,4326))::jsonb, 'properties', to_jsonb(inputs) - 'geom' - 'geoid') AS feature FROM (SELECT b.geom, a.geoid, a.name, RANK() OVER (ORDER BY a.${column}::real DESC) rank, a.${column} AS column, '${column}' AS column_name FROM state2022 a, ne_10m_admin_1_states_provinces_lakes b WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND CONCAT('US',a.geoid) = b.code_local ORDER BY a.${column}::real DESC LIMIT 10) inputs) features) TO STDOUT;" > geojson/state/state_top10_${column}.geojson
 done
 
-# county quartiles (with simplified geometry from naturalearth)
+# county quartiles
 psql -qAtX -d us -c '\d county2022;' | grep -v "shape" | grep -v "geoid" | grep -v "name" | grep -v "zscore_" | sed -e 's/|.*//g' | while read column; do
   psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', quartile, 'geometry', ST_AsGeoJSON(ST_Transform(geom,4326))::jsonb, 'properties', to_jsonb(inputs) - 'geom') AS feature FROM (WITH stats AS (SELECT DISTINCT PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY ${column}::real) q1, PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY ${column}::real) q2, PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY ${column}::real) q3 FROM county2022 WHERE ${column}::text ~ '^[0-9\\\.]+$') SELECT 'q1' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM county2022 a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real < stats.q1 AND a.geoid = b.code_local UNION ALL SELECT 'q2' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM county2022 a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real >= stats.q1 AND a.${column}::real < stats.q2 AND a.geoid = b.code_local UNION ALL SELECT 'q3' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM county2022 a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real >= stats.q2 AND a.${column}::real < stats.q3 AND a.geoid = b.code_local UNION ALL SELECT 'q4' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM county2022 a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real >= stats.q3 AND a.geoid = b.code_local) inputs) features) TO STDOUT;" > geojson/county/county_quartile_${column}.geojson
 done
