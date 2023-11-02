@@ -174,7 +174,6 @@ Export geojson files for leaflet (with simplified geometry from natural earth).
 psql -qAtX -d us -c '\d state2022;' | grep -v "geom" | grep -v "geoid" | grep -v "name" | grep -v "zscore_" | sed -e 's/|.*//g' | while read column; do
   psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', quartile, 'geometry', ST_AsGeoJSON(ST_Transform(geom,4326))::jsonb, 'properties', to_jsonb(inputs) - 'geom') AS feature FROM (WITH stats AS (SELECT DISTINCT PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY ${column}::real) q1, PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY ${column}::real) q2, PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY ${column}::real) q3 FROM state2022 WHERE ${column}::text ~ '^[0-9\\\.]+$') SELECT 'q1' AS quartile, MIN(a.${column}::real) AS min, MAX(a.${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) geom FROM state2022 a, ne_10m_admin_1_states_provinces_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real < stats.q1 AND CONCAT('US',a.geoid) = b.code_local UNION ALL SELECT 'q2' AS quartile, MIN(a.${column}::real) AS min, MAX(a.${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) geom FROM state2022 a, ne_10m_admin_1_states_provinces_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real >= stats.q1 AND a.${column}::real < stats.q2 AND CONCAT('US',a.geoid) = b.code_local UNION ALL SELECT 'q3' AS quartile, MIN(a.${column}::real) AS min, MAX(a.${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) geom FROM state2022 a, ne_10m_admin_1_states_provinces_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real >= stats.q2 AND a.${column}::real < stats.q3 AND CONCAT('US',a.geoid) = b.code_local UNION ALL SELECT 'q4' AS quartile, MIN(a.${column}::real) AS min, MAX(a.${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM state2022 a, ne_10m_admin_1_states_provinces_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real >= stats.q3 AND CONCAT('US',a.geoid) = b.code_local) inputs) features) TO STDOUT;" > geojson/state/state_quartile_${column}.geojson
 done
-
 # state top10
 psql -qAtX -d us -c '\d state2022;' | grep -v "shape" | grep -v "geoid" | grep -v "name" | grep -v "zscore_" | sed -e 's/|.*//g' | while read column; do
   psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', geoid, 'geometry', ST_AsGeoJSON(ST_Transform(geom,4326))::jsonb, 'properties', to_jsonb(inputs) - 'geom' - 'geoid') AS feature FROM (SELECT b.geom, a.geoid, a.name, RANK() OVER (ORDER BY a.${column}::real DESC) rank, a.${column} AS column, '${column}' AS column_name FROM state2022 a, ne_10m_admin_1_states_provinces_lakes b WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND CONCAT('US',a.geoid) = b.code_local ORDER BY a.${column}::real DESC LIMIT 10) inputs) features) TO STDOUT;" > geojson/state/state_top10_${column}.geojson
@@ -184,74 +183,9 @@ done
 psql -qAtX -d us -c '\d county2022;' | grep -v "shape" | grep -v "geoid" | grep -v "name" | grep -v "zscore_" | sed -e 's/|.*//g' | while read column; do
   psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', quartile, 'geometry', ST_AsGeoJSON(ST_Transform(geom,4326))::jsonb, 'properties', to_jsonb(inputs) - 'geom') AS feature FROM (WITH stats AS (SELECT DISTINCT PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY ${column}::real) q1, PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY ${column}::real) q2, PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY ${column}::real) q3 FROM county2022 WHERE ${column}::text ~ '^[0-9\\\.]+$') SELECT 'q1' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM county2022 a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real < stats.q1 AND a.geoid = b.code_local UNION ALL SELECT 'q2' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM county2022 a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real >= stats.q1 AND a.${column}::real < stats.q2 AND a.geoid = b.code_local UNION ALL SELECT 'q3' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM county2022 a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real >= stats.q2 AND a.${column}::real < stats.q3 AND a.geoid = b.code_local UNION ALL SELECT 'q4' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM county2022 a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real >= stats.q3 AND a.geoid = b.code_local) inputs) features) TO STDOUT;" > geojson/county/county_quartile_${column}.geojson
 done
-
 # county top10
 psql -qAtX -d us -c '\d county2022;' | grep -v "shape" | grep -v "geoid" | grep -v "name" | grep -v "zscore_" | sed -e 's/|.*//g' | while read column; do
   psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', geoid, 'geometry', ST_AsGeoJSON(ST_Transform(geom,4326))::jsonb, 'properties', to_jsonb(inputs) - 'geom' - 'geoid') AS feature FROM (SELECT b.geom, a.geoid, a.name, b.region AS state, RANK() OVER (ORDER BY a.${column}::real DESC) rank, a.${column} AS column, '${column}' AS column_name FROM county2022 a, ne_10m_admin_2_counties_lakes b WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.geoid = b.code_local ORDER BY a.${column}::real DESC LIMIT 10) inputs) features) TO STDOUT;" > geojson/county/county_top10_${column}.geojson
-done
-```
-
-Export svg files.
-```bash
-# county2020
-bounds=($(psql -d us -c "COPY (SELECT ST_XMin(geom), (-1 * ST_YMax(geom)), (ST_XMax(geom) - ST_XMin(geom)), (ST_YMax(geom) - ST_YMin(geom)) FROM ne_10m_admin_0_map_subunits where name = 'United States of America') TO STDOUT;"))
-psql -qAtX -d us -c '\d county2020;' | grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | grep -v "zscore_" | sed -e 's/|.*//g' | while read column; do
-  echo '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="1080" width="1920" viewBox="'${bounds[0]}' '${bounds[1]}' '${bounds[2]}' '${bounds[3]}'">' > svg/county/county2020_quartile_${column}.svg
-  psql -d us -c "COPY (WITH stats AS (SELECT DISTINCT PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY ${column}::real) q1, PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY ${column}::real) q2, PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY ${column}::real) q3 FROM county2020 WHERE ${column}::text ~ '^[0-9\\\.]+$') SELECT 'q1' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_AsSVG(ST_Union(ST_Buffer(b.geom,0)),1) AS geom FROM county2020 a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real < stats.q1 AND a.geoid = b.code_local UNION ALL SELECT 'q2' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_AsSVG(ST_Union(ST_Buffer(b.geom,0)),1) AS geom FROM county2020 a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real >= stats.q1 AND a.${column}::real < stats.q2 AND a.geoid = b.code_local UNION ALL SELECT 'q3' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_AsSVG(ST_Union(ST_Buffer(b.geom,0)),1) AS geom FROM county2020 a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real >= stats.q2 AND a.${column}::real < stats.q3 AND a.geoid = b.code_local UNION ALL SELECT 'q4' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_AsSVG(ST_Union(ST_Buffer(b.geom,0)),1) AS geom FROM county2020 a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real >= stats.q3 AND a.geoid = b.code_local) TO STDOUT DELIMITER E'\t';" | while IFS=$'\t' read -a array; do
-    case ${array[0]} in
-    q1)
-      echo '<path id="'${array[0]}'" d="'${array[3]}'" data-min="'${array[1]}'" data-max="'${array[2]}'" vector-effect="non-scaling-stroke" fill="#F0EBE3" fill-opacity="1" stroke="#000" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/>' >> svg/county/county2020_quartile_${column}.svg
-      ;;
-    q2)
-      echo '<path id="'${array[0]}'" d="'${array[3]}'" data-min="'${array[1]}'" data-max="'${array[2]}'" vector-effect="non-scaling-stroke" fill="#E4DCCF" fill-opacity="1" stroke="#000" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/>' >> svg/county/county2020_quartile_${column}.svg
-      ;;
-    q3)
-      echo '<path id="'${array[0]}'" d="'${array[3]}'" data-min="'${array[1]}'" data-max="'${array[2]}'" vector-effect="non-scaling-stroke" fill="#7D9D9C" fill-opacity="1" stroke="#000" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/>' >> svg/county/county2020_quartile_${column}.svg
-      ;;
-    q4)
-      echo '<path id="'${array[0]}'" d="'${array[3]}'" data-min="'${array[1]}'" data-max="'${array[2]}'" vector-effect="non-scaling-stroke" fill="#576F72" fill-opacity="1" stroke="#000" stroke-width="0" stroke-linejoin="round" stroke-linecap="round"/>' >> svg/county/county2020_quartile_${column}.svg
-      ;;
-    esac
-  done
-  states=$(psql -d us -c "COPY (SELECT ST_AsSVG(geom,1) FROM ne_10m_admin_1_states_provinces_lakes WHERE adm0_a3 = 'USA') TO STDOUT;")
-  echo '<path id="states" d="'${states}'" vector-effect="non-scaling-stroke" fill="#fff" fill-opacity="0" stroke="#fff" stroke-width="0.2em" stroke-linejoin="round" stroke-linecap="round"/>' >> svg/county/county2020_quartile_${column}.svg
-  echo '</svg>' >> svg/county/county2020_quartile_${column}.svg
-done
-```
-
-Export markdown file.
-```bash
-rm county2020_pop2020_100000_top_10.md
-psql -qAtX -d us -c '\d county2020;' | grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | grep -v 'brand' | grep -v 'zscore_' | sed -e 's/|.*//g' | while read column; do
-  psql -d us -c "SELECT * FROM (SELECT DENSE_RANK() OVER (ORDER BY a.${column}::numeric DESC) rank, a.name, b.name AS state, a.${column} FROM county2020 a, state2020 b WHERE SUBSTRING(a.geoid,1,2) = b.geoid AND a.${column}::text ~ '^[0-9\\\.]+$' AND a.pop2020::numeric > 100000) stats WHERE rank <= 10;" | sed -e 's/-+-/-\|-/g' -e 's/^/\|/g' -e 's/$/\|/g' -e "s/||//g" | grep -v 'rows)|' >> county2020_pop2020_100000_top_10.md
-done
-```
-
-State ranks as html tables.
-```bash
-# state2020
-rm tables/state2020_rank.html
-psql -qAtX -d us -c '\d state2020;' | grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | grep -v "pop2020" | grep -v 'brand' | grep -v 'zscore_' | sed -e 's/|.*//g' | while read column; do
-  psql --html -d us -c "SELECT * FROM (SELECT RANK() OVER (ORDER BY a.${column}::numeric DESC) rank, a.name, TO_CHAR(b.popestimate2020::int, 'FM9,999,999,999') popestimate2020, TO_CHAR(b.popestimate2021::int, 'FM9,999,999,999') popestimate2021, TO_CHAR(b.npopchg_2020::numeric, 'FM9,999,999,999') npopchg2020, TO_CHAR(b.npopchg_2021::int, 'FM9,999,999,999') npopchg2021, ROUND((b.popestimate2021::int/(b.aland/1000000))::numeric,2) pop_sqkm, a.${column}::numeric FROM state2020 a, state b WHERE a.geoid = b.geoid AND a.${column}::text ~ '^[0-9\\\.]+$') stats;" >> tables/state2020_rank.html
-done
-```
-
-Top 10 lists as html tables.
-```bash
-# county2020
-rm tables/county2020_pop100000_top10.html
-rm tables/county2020_pop100000_bottom10.html
-psql -qAtX -d us -c '\d county2020;' | grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | grep -v "pop2020" | grep -v 'brand' | grep -v 'zscore_' | sed -e 's/|.*//g' | while read column; do
-  psql --html -d us -c "WITH stats AS (SELECT DENSE_RANK() OVER (ORDER BY a.${column}::numeric DESC) rank, a.name, b.stname state, TO_CHAR(b.popestimate2020::int, 'FM9,999,999,999') popestimate2020, TO_CHAR(b.popestimate2021::int, 'FM9,999,999,999') popestimate2021, TO_CHAR(b.npopchg2020::numeric, 'FM9,999,999,999') npopchg2020, TO_CHAR(b.npopchg2021::int, 'FM9,999,999,999') npopchg2021, ROUND((b.popestimate2021::int/(b.aland/1000000))::numeric,2) pop_sqkm, a.${column}::numeric FROM county2020 a, county b WHERE a.geoid = b.geoid AND a.${column}::text ~ '^[0-9\\\.]+$' AND b.stname IS NOT NULL AND a.pop2020::numeric > 100000) SELECT * FROM stats WHERE rank <= 10;" >> tables/county2020_pop100000_top10.html
-  psql --html -d us -c "WITH stats AS (SELECT DENSE_RANK() OVER (ORDER BY a.${column}::numeric) rank, a.name, b.stname state, TO_CHAR(b.popestimate2020::int, 'FM9,999,999,999') popestimate2020, TO_CHAR(b.popestimate2021::int, 'FM9,999,999,999') popestimate2021, TO_CHAR(b.npopchg2020::numeric, 'FM9,999,999,999') npopchg2020, TO_CHAR(b.npopchg2021::int, 'FM9,999,999,999') npopchg2021, ROUND((b.popestimate2021::int/(b.aland/1000000))::numeric,2) pop_sqkm, a.${column}::numeric FROM county2020 a, county b WHERE a.geoid = b.geoid AND a.${column}::text ~ '^[0-9\\\.]+$' AND b.stname IS NOT NULL AND a.pop2020::numeric > 100000) SELECT * FROM stats WHERE rank <= 10;" >> tables/county2020_pop100000_bottom10.html
-done
-
-# place2020
-rm tables/place2020_pop100000_top10.html
-rm tables/place2020_pop100000_bottom10.html
-psql -qAtX -d us -c '\d place2020;' | grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | grep -v "pop2020" | grep -v 'brand' | grep -v 'zscore_' | sed -e 's/|.*//g' | while read column; do
-  psql --html -d us -c "WITH stats AS (SELECT DENSE_RANK() OVER (ORDER BY a.${column}::numeric DESC) rank, a.name, b.stname state, TO_CHAR(b.popestimate2020::int, 'FM9,999,999,999') popestimate2020, TO_CHAR(b.popestimate2021::int, 'FM9,999,999,999') popestimate2021, TO_CHAR(b.popestimate2021::int-b.popestimate2020::int, 'FM9,999,999,999') npopchg2021, ROUND((b.popestimate2021::int/(c.aland/1000000))::numeric,2) pop_sqkm, a.${column}::numeric FROM place2020 a, sub_est2021 b, place c WHERE a.geoid = CONCAT(b.state, b.place) AND b.sumlev = '162' AND a.geoid = c.geoid AND a.${column}::text ~ '^[0-9\\\.]+$' AND a.pop2020::numeric > 100000) SELECT * FROM stats WHERE rank <= 10;" >> tables/place2020_pop100000_top10.html
-  psql --html -d us -c "WITH stats AS (SELECT DENSE_RANK() OVER (ORDER BY a.${column}::numeric) rank, a.name, b.stname state, TO_CHAR(b.popestimate2020::int, 'FM9,999,999,999') popestimate2020, TO_CHAR(b.popestimate2021::int, 'FM9,999,999,999') popestimate2021, TO_CHAR(b.popestimate2021::int-b.popestimate2020::int, 'FM9,999,999,999') npopchg2021, ROUND((b.popestimate2021::int/(c.aland/1000000))::numeric,2) pop_sqkm, a.${column}::numeric FROM place2020 a, sub_est2021 b, place c WHERE a.geoid = CONCAT(b.state, b.place) AND b.sumlev = '162' AND a.geoid = c.geoid AND a.${column}::text ~ '^[0-9\\\.]+$' AND a.pop2020::numeric > 100000) SELECT * FROM stats WHERE rank <= 10;"  >> tables/place2020_pop100000_bottom10.html
 done
 ```
 
