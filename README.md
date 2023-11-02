@@ -2,13 +2,14 @@
 
 <img src="images/blockworld_pop2020_resized.png"/>
 
-Updated for American Community Survey 1-Year Supplemental Estimates 2022 released Sep-Oct 2023. Release of ACS5YR 2022 data sceduled for Dec, 2023 - Jan, 2024 (see https://www.census.gov/programs-surveys/acs/news/data-releases/2022/release-schedule.html)
+Updated for American Community Survey 1-Year Supplemental Estimates 2022 released Sep-Oct 2023. Release of ACS5YR 2022 data sceduled for Dec, 2023 - Jan, 2024
 
 TODO: Accessing tables from https://api.census.gov/
 
 1. [Importing](#1-importing)
 2. [Processing](#2-processing)
-2. [Exporting](#3-exporting)
+3. [Exporting](#3-exporting)
+4. [Documentation](#acs-documentation)
 
 ## 1. Importing
 
@@ -257,3 +258,13 @@ place='San Francisco city'
 state='California'
 psql --html -d us -c "SELECT a.name, TO_CHAR(a.pop2020::int, 'FM9,999,999,999') pop2020, TO_CHAR(a.age_median::int, 'FM9,999,999,999') age_median, TO_CHAR(a.income_median::int, 'FM9,999,999,999') income_median, TO_CHAR(a.rooms_median::int, 'FM9,999,999,999') rooms_median, TO_CHAR(a.value_median::int, 'FM9,999,999,999') value_median, TO_CHAR(a.rent_median::int, 'FM9,999,999,999') rent_median, TO_CHAR( a.housing_total::int, 'FM9,999,999,999') housing_total FROM puma2020 a, place2020 b, state2020 c WHERE ST_Intersects(ST_Centroid(a.\"SHAPE\"),b.\"SHAPE\") AND SUBSTRING(b.geoid,1,2) = c.geoid AND b.name = '${place}' AND c.name = '${state}' ORDER BY a.name;" > tables/puma2020_"${place//[^a-zA-Z_0-9]/}"_"${state//[^a-zA-Z_0-9]/}"_summary.html
 ```
+
+## ACS Documentation
+
+Release schedule: https://www.census.gov/programs-surveys/acs/news/data-releases/2022/release-schedule.html
+
+Technical documentation: https://www.census.gov/programs-surveys/acs/technical-documentation.html
+
+Table shells: https://www.census.gov/programs-surveys/acs/technical-documentation/table-shells.html
+
+Areas published: https://www.census.gov/programs-surveys/acs/geography-acs/areas-published.html
