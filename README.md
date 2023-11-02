@@ -189,17 +189,7 @@ psql -qAtX -d us -c '\d county2022;' | grep -v "shape" | grep -v "geoid" | grep 
 done
 ```
 
-Export summaries as tsv files.
-```bash
-# state2020
-psql -d us -c "COPY (SELECT a.name, b.popestimate2020, b.popestimate2021, b.npopchg_2020, b.npopchg_2021, a.age_median, a.income_median, a.rooms_median, a.value_median, a.rent_median, a.housing_total FROM state2020 a, state b WHERE a.geoid = b.geoid) TO STDOUT DELIMITER E'\t' CSV HEADER;" > tables/state2020_summary.tsv
-
-# county2020
-psql -d us -c "COPY (SELECT a.name, b.stname state, b.popestimate2020, b.popestimate2021, b.npopchg2020, b.npopchg2021, a.age_median, a.income_median, a.rooms_median, a.value_median, a.rent_median, a.housing_total FROM county2020 a, county b WHERE a.geoid = b.geoid AND a.pop2020::numeric > 100000) TO STDOUT DELIMITER E'\t' CSV HEADER;" > tables/county2020_pop100000_summary.tsv
-
-# place2020
-psql -d us -c "COPY (SELECT a.name, b.stname state, b.popestimate2020, b.popestimate2021, (b.popestimate2021::int-b.popestimate2020::int) npopchg2021, a.age_median, a.income_median, a.rooms_median, a.value_median, a.rent_median, a.housing_total FROM place2020 a, sub_est2021 b WHERE a.geoid = CONCAT(b.state, b.place) AND b.sumlev = '162' AND a.${column}::text ~ '^[0-9\\\.]+$' AND a.pop2020::numeric > 100000) TO STDOUT DELIMITER E'\t' CSV HEADER;" > tables/place2020_pop100000_summary.tsv
-```
+Export summaries.
 
 ```bash
 # puma summary in select city and state
