@@ -2,7 +2,7 @@
 
 <img src="images/blockworld_pop2020_resized.png"/>
 
-Updated for 2022 census data released Sep-Oct 2023.
+Updated for American Community Survey 1-Year Supplemental Estimates 2022 released Sep-Oct 2023. Release of ACS5YR 2022 data sceduled for Dec, 2023 - Jan, 2024 (see https://www.census.gov/programs-surveys/acs/news/data-releases/2022/release-schedule.html)
 
 TODO: Accessing tables from https://api.census.gov/
 
