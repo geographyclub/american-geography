@@ -70,7 +70,7 @@ function map(){
     opacity:1,
     direction:'bottom',
     className:'mysubtitle'
-  }).setContent('<h2>COUNTY EDITION</h2><h2>'+column+'</h2>').setLatLng(new L.LatLng(25,-98)).addTo(feature_cover);
+  }).setContent('<h2>STATE EDITION</h2><h2>'+column+'</h2>').setLatLng(new L.LatLng(25,-98)).addTo(feature_cover);
 
   // circleMarker
   function myCirclemarker(feature, latlng) {
@@ -131,13 +131,13 @@ function map(){
   }
 
   // geojson quartile
-  var feature_quartile = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/geojson/county/county_quartile_'+column+'.geojson', {
+  var feature_quartile = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/geojson/state/state_quartile_'+column+'.geojson', {
     interactive:false,
     style:style
   }).addTo(map)
 
-  // geojson top 10
-  var feature_top_10 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/geojson/county/county_top_10_'+column+'.geojson', {
+  // geojson top10
+  var feature_top_10 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/geojson/state/state_top10_'+column+'.geojson', {
     style:{
 	  fillColor: 'yellow',
       weight: 1,
