@@ -192,7 +192,7 @@ done
 Export tables.  
 ```bash
 # html
-psql --html -d us -c "SELECT a.name, b.name AS state, a.zscore_1_65 FROM place2022 a, state2022 b WHERE SUBSTRING(a.geoid,1,2) = b.geoid ORDER BY b.name, a.name;" > tables/place2022_zscore.html
+psql --html -d us -c "SELECT * FROM (SELECT DENSE_RANK() OVER (ORDER BY a.pop::int DESC) rank, a.name, b.name AS state, a.pop, a.zscore_1_65 FROM place2022 a, state2022 b WHERE SUBSTRING(a.geoid,1,2) = b.geoid) stats WHERE rank <= 100;" > tables/place2022_zscore.html
 
 # markdown
 psql -d us -c "SELECT * FROM (SELECT DENSE_RANK() OVER (ORDER BY a.pop::int DESC) rank, a.name, b.name AS state, a.pop, a.zscore_1_65 FROM place2022 a, state2022 b WHERE SUBSTRING(a.geoid,1,2) = b.geoid) stats WHERE rank <= 100;" | sed -e 's/-+-/-\|-/g' -e 's/^/\|/g' -e 's/$/\|/g' -e "s/||//g" | grep -v 'rows)|' > tables/place2022_zscore.md
