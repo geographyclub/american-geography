@@ -154,7 +154,7 @@ done
 psql -d us -c "ALTER TABLE puma2022 ADD COLUMN zscore_1_65 jsonb;"
 psql -Aqt -d us -c "COPY (SELECT geoid, name from puma2022) TO STDOUT DELIMITER E'\t';" | while IFS=$'\t' read -a array; do
   columns=$(psql -Aqt -d us -c "WITH b AS (SELECT $(psql -Aqt -d us -c '\d puma2022' | grep "zscore_" | sed -e 's/|.*//g' | paste -sd,) FROM puma2022 WHERE geoid = '${array[0]}') SELECT (x).key FROM (SELECT EACH(hstore(b)) x FROM b) q WHERE CAST((x).value AS VARCHAR) ~ '^[0-9\\\.]+$' AND ABS(CAST((x).value AS REAL)) >= 1.65;" | paste -sd,)
-  psql -d us -c "UPDATE puma2022 a SET zscore_1_65 = (SELECT to_jsonb(inputs) FROM (SELECT $(echo ${columns} | tr ',' '\n' | sed -e 's/zscore_//g' -e "s/.*/CONCAT\('{puma:', a\.\0, '|county:', b\.\0\, '|state:', c\.\0\, '|us:', d\.\0\, '}') AS \0/g" | paste -sd,) FROM puma2022 a, county2022 b, state2022 c, us2022 d WHERE a.geoid = '${array[0]}' AND SUBSTRING(a.geoid,1,5) = b.geoid AND SUBSTRING(a.geoid,1,2) = c.geoid) inputs) WHERE a.geoid = '${array[0]}';"
+  psql -d us -c "UPDATE puma2022 a SET zscore_1_65 = (SELECT to_jsonb(inputs) FROM (SELECT $(echo ${columns} | tr ',' '\n' | sed -e 's/zscore_//g' -e "s/.*/CONCAT\('{puma:', a\.\0, '|county:', b\.\0\, '|state:', c\.\0\, '|us:', d\.\0\, '}') AS \0/g" | paste -sd,) FROM puma2022 a, place2022 b, county2022 c, state2022 d, us2022 e WHERE a.geoid = '${array[0]}' AND ST_Intersects(ST_Centroid(a.shape),b.shape) AND SUBSTRING(a.geoid,1,5) = c.geoid AND SUBSTRING(a.geoid,1,2) = c.geoid) inputs) WHERE a.geoid = '${array[0]}';"
 done
 ```
 
@@ -189,10 +189,13 @@ psql -qAtX -d us -c '\d county2022;' | grep -v "shape" | grep -v "geoid" | grep 
 done
 ```
 
-Export data.  
+Export tables.  
 ```bash
-# html table
+# html
 psql --html -d us -c "SELECT a.name, b.name AS state, a.zscore_1_65 FROM place2022 a, state2022 b WHERE SUBSTRING(a.geoid,1,2) = b.geoid ORDER BY b.name, a.name;" > tables/place2022_zscore.html
+
+# markdown
+psql -d us -c "SELECT * FROM (SELECT DENSE_RANK() OVER (ORDER BY a.pop::int DESC) rank, a.name, b.name AS state, a.pop, a.zscore_1_65 FROM place2022 a, state2022 b WHERE SUBSTRING(a.geoid,1,2) = b.geoid) stats WHERE rank <= 100;" | sed -e 's/-+-/-\|-/g' -e 's/^/\|/g' -e 's/$/\|/g' -e "s/||//g" | grep -v 'rows)|' > tables/place2022_zscore.md
 ```
 
 ## References
