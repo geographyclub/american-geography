@@ -194,7 +194,7 @@ psql -d us -c "SELECT * FROM (SELECT DENSE_RANK() OVER (ORDER BY a.pop::int DESC
 SELECT a.name, b.name state, a.pop, a.zscore_1_65 FROM place2022 a, state2022 b WHERE SUBSTRING(a.geoid,1,2) = b.geoid AND a.zscore_1_65::text LIKE '%income_mean%' ORDER BY a.income_mean DESC;
 
 TODO:
-# group counties...
+group counties...
 ST_Union
 ```
 
@@ -210,4 +210,4 @@ Areas published: https://www.census.gov/programs-surveys/acs/geography-acs/areas
 
 ## TO DO
 
-# import all columns from data tables using column-metadata.csv
+import all columns from data tables using column-metadata.csv
