@@ -1,7 +1,5 @@
 # American Geography
 
-<img src="images/blockworld_pop2020_resized.png"/>
-
 Updated for American Community Survey 1-Year Supplemental Estimates 2022 released Sep-Oct 2023.
 
 TODO: Accessing tables from https://api.census.gov/
