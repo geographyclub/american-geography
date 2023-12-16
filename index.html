@@ -57,10 +57,13 @@ function fetchData() {
 <!-- ls -1 | sed -e 's/^/"/g' -e 's/$/"/g' | paste -sd, -->
 var files = ["alabama.json","alaska.json","arizona.json","arkansas.json","california.json","colorado.json","connecticut.json","delaware.json","districtofcolumbia.json","florida.json","georgia.json","hawaii.json","idaho.json","illinois.json","indiana.json","iowa.json","kansas.json","kentucky.json","louisiana.json","maine.json","maryland.json","massachusetts.json","michigan.json","minnesota.json","mississippi.json","missouri.json","montana.json","nebraska.json","nevada.json","newhampshire.json","newjersey.json","newmexico.json","newyork.json","northcarolina.json","northdakota.json","ohio.json","oklahoma.json","oregon.json","pennsylvania.json","puertorico.json","rhodeisland.json","southcarolina.json","southdakota.json","tennessee.json","texas.json","unitedstatesvirginislands.json","utah.json","vermont.json","virginia.json","washington.json","westvirginia.json","wisconsin.json","wyoming.json"]
 
-     // Generate a random index to pick a random file
+      // Generate a random index to pick a random file
       var randomIndex = Math.floor(Math.random() * files.length);
       var randomFile = files[randomIndex];
       var jsonFileUrl = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/states/DP02_${randomFile}`;
+
+      // Extract the filename from the URL
+      var filename = jsonFileUrl.substring(jsonFileUrl.lastIndexOf('/') + 1);
 
       // Fetch the random JSON file
       return fetch(jsonFileUrl)
@@ -93,7 +96,7 @@ var files = ["alabama.json","alaska.json","arizona.json","arkansas.json","califo
             // Convert the entire random property name to uppercase
             randomPropertyName = randomPropertyName.toUpperCase();
 
-            console.log(`Random Property: ${randomPropertyName}, Random Value: ${randomValue}, File: ${randomFile}`);
+            console.log(`Random Property: ${randomPropertyName}, Random Value: ${randomValue}, File: ${filename}`);
 
             // Find the matching code in the 'codes' array
             var matchingCode = codes.find(code => code.code === randomPropertyName);
@@ -111,29 +114,59 @@ var files = ["alabama.json","alaska.json","arizona.json","arkansas.json","califo
               // Access all remaining parts starting from labelParts[2]
               var remainingParts = labelParts.slice(2);
 
-              console.log('Part 1:', labelParts[0]);
-              console.log('Part 2:', labelParts[1]);
               console.log('Remaining Parts:', remainingParts);
 
-              // You can return or use the matching code label and its parts as needed
-              return {
-                randomPropertyName: randomPropertyName,
-                randomValue: randomValue,
-                matchingCodeLabel: matchingCodeLabel,
-                labelParts: labelParts,
-                remainingParts: remainingParts,
-                randomFile: randomFile
-              };
+              // Fetch the data from another file using the matching value
+              return fetchAnotherFile(randomValue, remainingParts);
             } else {
               console.log('No matching code found.');
             }
           } else {
-            throw new Error(`Invalid JSON format in file: ${randomFile}`);
+            throw new Error(`Invalid JSON format in file: ${filename}`);
           }
         });
     })
     .catch(error => {
       console.error(`Error fetching or processing data: ${error.message}`);
+    });
+}
+
+function fetchAnotherFile(matchingValue, remainingParts) {
+  // Assuming the URL to the other file contains the matching value
+  var anotherFileUrl = 'https://raw.githubusercontent.com/geographyclub/american-geography/main/json/us/DP02_us.json';
+
+  return fetch(anotherFileUrl)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(anotherData => {
+      // Search inside the JSON data for the matching value and remaining parts
+      var matchingItem = anotherData.find(item => item.name === matchingValue);
+
+      if (matchingItem) {
+        console.log('Matching Item:', matchingItem);
+
+        // Extract additional values based on remainingParts
+        var additionalValues = remainingParts.reduce((result, part) => {
+          result[part.toLowerCase()] = matchingItem[part];
+          return result;
+        }, {});
+
+        console.log('Additional Values:', additionalValues);
+
+        return {
+          matchingItem: matchingItem,
+          additionalValues: additionalValues
+        };
+      } else {
+        console.log('No matching item found.');
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching data from another file:', error);
     });
 counterValue += 1;
 }
