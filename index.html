@@ -29,9 +29,11 @@
 <!--<div class="border-container"><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div></div>-->
 
 <script>
-const files = ["africa/ag.json","africa/ao.json","africa/bc.json","africa/bn.json","africa/by.json","africa/cd.json","africa/cf.json","africa/cg.json","africa/cm.json","africa/cn.json","africa/ct.json","africa/cv.json","africa/dj.json","africa/eg.json","africa/ek.json","africa/er.json","africa/et.json","africa/ga.json","africa/gb.json","africa/gh.json","africa/gv.json","africa/iv.json","africa/ke.json","africa/li.json","africa/lt.json","africa/ly.json","africa/ma.json","africa/mi.json","africa/ml.json","africa/mo.json","africa/mp.json","africa/mr.json","africa/mz.json","africa/ng.json","africa/ni.json","africa/od.json","africa/pu.json","africa/rw.json","africa/se.json","africa/sf.json","africa/sg.json","africa/sh.json","africa/sl.json","africa/so.json","africa/su.json","africa/to.json","africa/tp.json","africa/ts.json","africa/tz.json","africa/ug.json","africa/uv.json","africa/wa.json","africa/wi.json","africa/wz.json","africa/za.json","africa/zi.json","antarctica/ay.json","antarctica/bv.json","antarctica/fs.json","antarctica/hm.json","australia-oceania/aq.json","australia-oceania/as.json","australia-oceania/at.json","australia-oceania/bp.json","australia-oceania/ck.json","australia-oceania/cq.json","australia-oceania/cr.json","australia-oceania/cw.json","australia-oceania/fj.json","australia-oceania/fm.json","australia-oceania/fp.json","australia-oceania/gq.json","australia-oceania/kr.json","australia-oceania/kt.json","australia-oceania/nc.json","australia-oceania/ne.json","australia-oceania/nf.json","australia-oceania/nh.json","australia-oceania/nr.json","australia-oceania/nz.json","australia-oceania/pc.json","australia-oceania/ps.json","australia-oceania/rm.json","australia-oceania/tl.json","australia-oceania/tn.json","australia-oceania/tv.json","australia-oceania/um.json","australia-oceania/wf.json","australia-oceania/wq.json","australia-oceania/ws.json","central-america-n-caribbean/aa.json","central-america-n-caribbean/ac.json","central-america-n-caribbean/av.json","central-america-n-caribbean/bb.json","central-america-n-caribbean/bf.json","central-america-n-caribbean/bh.json","central-america-n-caribbean/bq.json","central-america-n-caribbean/cj.json","central-america-n-caribbean/cs.json","central-america-n-caribbean/cu.json","central-america-n-caribbean/do.json","central-america-n-caribbean/dr.json","central-america-n-caribbean/es.json","central-america-n-caribbean/gj.json","central-america-n-caribbean/gt.json","central-america-n-caribbean/ha.json","central-america-n-caribbean/ho.json","central-america-n-caribbean/jm.json","central-america-n-caribbean/mh.json","central-america-n-caribbean/nn.json","central-america-n-caribbean/nu.json","central-america-n-caribbean/pm.json","central-america-n-caribbean/rn.json","central-america-n-caribbean/rq.json","central-america-n-caribbean/sc.json","central-america-n-caribbean/st.json","central-america-n-caribbean/tb.json","central-america-n-caribbean/td.json","central-america-n-caribbean/tk.json","central-america-n-caribbean/uc.json","central-america-n-caribbean/vc.json","central-america-n-caribbean/vi.json","central-america-n-caribbean/vq.json","central-asia/kg.json","central-asia/kz.json","central-asia/rs.json","central-asia/ti.json","central-asia/tx.json","central-asia/uz.json","east-n-southeast-asia/bm.json","east-n-southeast-asia/bx.json","east-n-southeast-asia/cb.json","east-n-southeast-asia/ch.json","east-n-southeast-asia/hk.json","east-n-southeast-asia/id.json","east-n-southeast-asia/ja.json","east-n-southeast-asia/kn.json","east-n-southeast-asia/ks.json","east-n-southeast-asia/la.json","east-n-southeast-asia/mc.json","east-n-southeast-asia/mg.json","east-n-southeast-asia/my.json","east-n-southeast-asia/pf.json","east-n-southeast-asia/pg.json","east-n-southeast-asia/pp.json","east-n-southeast-asia/rp.json","east-n-southeast-asia/sn.json","east-n-southeast-asia/th.json","east-n-southeast-asia/tt.json","east-n-southeast-asia/tw.json","east-n-southeast-asia/vm.json","europe/al.json","europe/an.json","europe/au.json","europe/ax.json","europe/be.json","europe/bk.json","europe/bo.json","europe/bu.json","europe/cy.json","europe/da.json","europe/dx.json","europe/ee.json","europe/ei.json","europe/en.json","europe/ez.json","europe/fi.json","europe/fo.json","europe/fr.json","europe/gi.json","europe/gk.json","europe/gm.json","europe/gr.json","europe/hr.json","europe/hu.json","europe/ic.json","europe/im.json","europe/it.json","europe/je.json","europe/jn.json","europe/kv.json","europe/lg.json","europe/lh.json","europe/lo.json","europe/ls.json","europe/lu.json","europe/md.json","europe/mj.json","europe/mk.json","europe/mn.json","europe/mt.json","europe/nl.json","europe/no.json","europe/pl.json","europe/po.json","europe/ri.json","europe/ro.json","europe/si.json","europe/sm.json","europe/sp.json","europe/sv.json","europe/sw.json","europe/sz.json","europe/uk.json","europe/up.json","europe/vt.json","middle-east/ae.json","middle-east/aj.json","middle-east/am.json","middle-east/ba.json","middle-east/gg.json","middle-east/gz.json","middle-east/ir.json","middle-east/is.json","middle-east/iz.json","middle-east/jo.json","middle-east/ku.json","middle-east/le.json","middle-east/mu.json","middle-east/qa.json","middle-east/sa.json","middle-east/sy.json","middle-east/tu.json","middle-east/we.json","middle-east/ym.json","north-america/bd.json","north-america/ca.json","north-america/gl.json","north-america/ip.json","north-america/mx.json","north-america/sb.json","north-america/us.json","oceans/oo.json","oceans/xo.json","oceans/xq.json","oceans/zh.json","oceans/zn.json","south-america/ar.json","south-america/bl.json","south-america/br.json","south-america/ci.json","south-america/co.json","south-america/ec.json","south-america/fk.json","south-america/gy.json","south-america/ns.json","south-america/pa.json","south-america/pe.json","south-america/sx.json","south-america/uy.json","south-america/ve.json","south-asia/af.json","south-asia/bg.json","south-asia/bt.json","south-asia/ce.json","south-asia/in.json","south-asia/io.json","south-asia/mv.json","south-asia/np.json","south-asia/pk.json","world/xx.json"]
+<!-- ls -1 | sed -e 's/^/"/g' -e 's/$/"/g' | paste -sd, -->
+const files = ["alabama.json","alaska.json","americansamoa.json","arizona.json","arkansas.json","california.json","colorado.json","commonwealthofthenorthernmarianaislands.json","connecticut.json","delaware.json","districtofcolumbia.json","florida.json","georgia.json","guam.json","hawaii.json","idaho.json","illinois.json","indiana.json","iowa.json","kansas.json","kentucky.json","louisiana.json","maine.json","maryland.json","massachusetts.json","michigan.json","minnesota.json","mississippi.json","missouri.json","montana.json","nebraska.json","nevada.json","newhampshire.json","newjersey.json","newmexico.json","newyork.json","northcarolina.json","northdakota.json","ohio.json","oklahoma.json","oregon.json","pennsylvania.json","puertorico.json","rhodeisland.json","southcarolina.json","southdakota.json","tennessee.json","texas.json","unitedstatesvirginislands.json","utah.json","vermont.json","virginia.json","washington.json","westvirginia.json","wisconsin.json","wyoming.json"]
 
-const labelsUrl = 'json/labels.json';
+var codes;
+const labelsUrl = 'https://raw.githubusercontent.com/geographyclub/american-geography/main/json/DP02_labels.json';
 fetch(labelsUrl)
   .then(response => {
     if (!response.ok) {
@@ -41,7 +43,7 @@ fetch(labelsUrl)
   })
   .then(data => {
     // Assign the parsed JSON data to a variable
-    const codes = data;
+    codes = data;
 
     console.log(codes);
   })
@@ -55,95 +57,57 @@ function fetchData() {
 
 var random = Math.floor(Math.random() * files.length);
 var file = files[random];
-var jsonFileUrl = 'https://raw.githubusercontent.com/factbook/factbook.json/master/'+file;
-var countryCode = file.substring(file.indexOf('/') + 1, file.indexOf('.'));
-var countryName = Object.keys(codes).find(key => codes[key] === countryCode.toUpperCase()) || countryCode.toUpperCase();
+var jsonFileUrl = 'https://raw.githubusercontent.com/geographyclub/american-geography/main/json/states/'+file;
 
-return fetch(jsonFileUrl)
-.then(response => response.json())
-.then(jsonObject => {
+// Generate a random index to pick a random file
+  var randomIndex = Math.floor(Math.random() * files.length);
+  var randomFile = files[randomIndex];
+  var jsonFileUrl = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/states/${randomFile}`;
 
-// random key
-function getAllKeys(obj) {
-    let keys = [];
-    for (let key in obj) {
-        if (typeof obj[key] === 'object') {
-            keys = keys.concat(getAllKeys(obj[key]).map(subKey => `${key}.${subKey}`));
-        } else {
-            keys.push(key);
-        }
-    }
-    return keys;
-}
+// Fetch the random JSON file
+  return fetch(jsonFileUrl)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(jsonData => {
+      // Assuming the JSON data is an array of objects
+      if (Array.isArray(jsonData) && jsonData.length > 0) {
+        // Pick a random object from the array
+        var randomObjectIndex = Math.floor(Math.random() * jsonData.length);
+        var randomObject = jsonData[randomObjectIndex];
 
-// find matching keys
-function getKeysAndValuesWithSameFirstTwoParts(obj, selectedKey) {
-    // Split the selected key by '.'
-    const keyParts = selectedKey.split('.');
+        // Get an array of property names from the random object
+        var propertyNames = Object.keys(randomObject);
 
-    // Extract the first and second parts
-    const [firstPart, secondPart] = keyParts;
+        // Initialize variables for random property and value
+        var randomPropertyName, randomValue;
 
-    // Find all keys and values with the same first and second parts
-    const matchingKeysAndValues = getAllKeys(obj)
-        .filter(key => {
-            const parts = key.split('.');
-            return parts.length >= 2 && parts[0] === firstPart && parts[1] === secondPart;
-        })
-        .map(key => ({
-            key,
-            value: key.split('.').reduce((acc, key) => acc[key], obj)
-        }));
+        // Pick a random property name and value, ensuring it's not null or "(X)"
+        do {
+          var randomPropertyNameIndex = Math.floor(Math.random() * propertyNames.length);
+          randomPropertyName = propertyNames[randomPropertyNameIndex];
+          randomValue = randomObject[randomPropertyName];
+        } while (randomValue === null || randomValue === "(X)");
 
-    return matchingKeysAndValues;
-}
+        console.log(`Random Property: ${randomPropertyName}, Random Value: ${randomValue}`);
 
-// Get all keys of the JSON object, including nested keys
-const allKeys = getAllKeys(jsonObject);
-// Define a wildcard pattern to exclude specific keys (replace with your pattern)
-const excludeWildcard = /note/;
-// Get all keys of the JSON object, excluding keys with the specified wildcard
-const filteredKeys = getAllKeys(jsonObject, excludeWildcard);
-// Select a random key
-const randomKey = filteredKeys[Math.floor(Math.random() * filteredKeys.length)];
-// find matching keys
-const matchingKeysAndValues = getKeysAndValuesWithSameFirstTwoParts(jsonObject, randomKey);
-// Split the random key by '.'
-const keyParts = randomKey.split('.');
-
-console.log(`File: ${jsonFileUrl}`);
-console.log(`Random Property: ${randomKey}`);
-console.log(countryCode);
-console.log(countryName);
-
-// start div
-const div = document.createElement('div');
-resultContainer.appendChild(div);
-div.classList.add(`flex-column`);
-
-
-// Add title
-contentToAppend = `<div class="part-1" style="margin:5px">${counterValue}.</div><div class="part-2">${keyParts[0]}</div><div class="part-1">${keyParts[1]} ~ ${countryName}</div>`;
-div.innerHTML += contentToAppend;
-
+        // You can return or use the random property and its value as needed
+        return {
+          randomPropertyName: randomPropertyName,
+          randomValue: randomValue
+        };
+      } else {
+        throw new Error('Invalid JSON format');
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching or processing data:', error);
+    });
 counterValue += 1;
-
-// Add content
-matchingKeysAndValues.forEach((item) => {
-  const itemParts = item.key.split('.');
-  const remainingParts = itemParts.slice(2).join('.');
-  console.log(`  Key: ${item.key}: ${JSON.stringify(item.value)}`);
-  if (remainingParts !== 'text') {
-    contentToAppend = `<p style="font-size:12px; font-weight:600; margin-top:5px;">${remainingParts.replace(/text/g, '').replace(/\./g, '')}</p><p>${item.value.replace(/<strong>note:\s*<\/strong>/g, '').replace(/<strong>note\s*<\/strong>:/g, '')}</p>`;
-    div.innerHTML += contentToAppend;
-  } else {
-    contentToAppend = `<p>${item.value.replace(/<strong>note:\s*<\/strong>/g, '').replace(/<strong>note\s*<\/strong>:/g, '')}</p>`;
-    div.innerHTML += contentToAppend;
-  }
-});
-div.innerHTML += `<hr>`;
-
-})} <!-- end fetch function -->
+}
 
 const numberOfFetches = 10;
 for (let i = 0; i < numberOfFetches; i++) {

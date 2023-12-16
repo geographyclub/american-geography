@@ -134,12 +134,15 @@ done
 
 Export codes, labels to json.  
 ```bash
-psql -Aqt -d us -c 'SELECT jsonb_agg(row_to_json(labels)) FROM (SELECT * FROM dp02_county_metadata) labels;' > ~/american-geography/json/labels.json
+files=('DP02' 'DP03' 'DP04' 'DP05')
+for file in ${files[*]}; do
+  psql -Aqt -d us -c 'SELECT jsonb_agg(row_to_json(labels)) FROM (SELECT * FROM '"${file}"'_state_metadata) labels;' > ~/american-geography/json/${file}_labels.json
+done
 ```
 
 Export states to json.  
 ```bash
-columns=$(psql -Aqt -d us -c 'SELECT * FROM dp02_county_metadata' | grep -v ".*M|" | sed -e 's/|.*//g' | paste -sd,)
+columns=$(psql -Aqt -d us -c 'SELECT * FROM dp02_state_metadata' | grep -v ".*M|" | sed -e 's/|.*//g' | paste -sd,)
 psql -Aqt -d us -c "COPY (SELECT geoid, name FROM state) TO STDOUT DELIMITER E'\t'" | while IFS=$'\t' read -a array; do
   stateUpper=${array[1]// /}; state=${stateUpper,,};
   psql -Aqt -d us -c 'SELECT jsonb_agg(row_to_json(fields)) FROM (SELECT '"${columns}"' FROM dp02_state2022 WHERE SUBSTRING(geo_id,10,2) = '\'${array[0]}\'') fields;' > ~/american-geography/json/states/${state}.json
