@@ -12,7 +12,7 @@
 <body>
 
 <header>
-<div><a href="#"><h1 style="font-size:18px;"><span style="font-weight:600">american</span><span style="font-family:'Pacifico'">geography</span></h1></a></div>
+<div><a href="#"><h1 style="font-size:16px;"><span style="font-weight:600">american</span><span style="font-family:'Pacifico'">geography</span></h1></a></div>
 <div class="menu-icon">&#9776;</div>
 <nav>
 <a href="#" onclick="closeMenu()">Home</a>
@@ -29,82 +29,111 @@
 <!--<div class="border-container"><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div></div>-->
 
 <script>
-<!-- ls -1 | sed -e 's/^/"/g' -e 's/$/"/g' | paste -sd, -->
-const files = ["alabama.json","alaska.json","americansamoa.json","arizona.json","arkansas.json","california.json","colorado.json","commonwealthofthenorthernmarianaislands.json","connecticut.json","delaware.json","districtofcolumbia.json","florida.json","georgia.json","guam.json","hawaii.json","idaho.json","illinois.json","indiana.json","iowa.json","kansas.json","kentucky.json","louisiana.json","maine.json","maryland.json","massachusetts.json","michigan.json","minnesota.json","mississippi.json","missouri.json","montana.json","nebraska.json","nevada.json","newhampshire.json","newjersey.json","newmexico.json","newyork.json","northcarolina.json","northdakota.json","ohio.json","oklahoma.json","oregon.json","pennsylvania.json","puertorico.json","rhodeisland.json","southcarolina.json","southdakota.json","tennessee.json","texas.json","unitedstatesvirginislands.json","utah.json","vermont.json","virginia.json","washington.json","westvirginia.json","wisconsin.json","wyoming.json"]
-
-var codes;
-const labelsUrl = 'https://raw.githubusercontent.com/geographyclub/american-geography/main/json/DP02_labels.json';
-fetch(labelsUrl)
-  .then(response => {
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    return response.json();
-  })
-  .then(data => {
-    // Assign the parsed JSON data to a variable
-    codes = data;
-
-    console.log(codes);
-  })
-  .catch(error => {
-    console.error('Error fetching the file:', error);
-  });
-
 let counterValue = 1;
 // Fetch JSON
-function fetchData() {
-
-var random = Math.floor(Math.random() * files.length);
-var file = files[random];
-var jsonFileUrl = 'https://raw.githubusercontent.com/geographyclub/american-geography/main/json/states/'+file;
-
-// Generate a random index to pick a random file
-  var randomIndex = Math.floor(Math.random() * files.length);
-  var randomFile = files[randomIndex];
-  var jsonFileUrl = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/states/${randomFile}`;
-
-// Fetch the random JSON file
-  return fetch(jsonFileUrl)
+function fetchCodes() {
+  const labelsUrl = 'https://raw.githubusercontent.com/geographyclub/american-geography/main/json/DP02_labels.json';
+  return fetch(labelsUrl)
     .then(response => {
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       return response.json();
     })
-    .then(jsonData => {
-      // Assuming the JSON data is an array of objects
-      if (Array.isArray(jsonData) && jsonData.length > 0) {
-        // Pick a random object from the array
-        var randomObjectIndex = Math.floor(Math.random() * jsonData.length);
-        var randomObject = jsonData[randomObjectIndex];
-
-        // Get an array of property names from the random object
-        var propertyNames = Object.keys(randomObject);
-
-        // Initialize variables for random property and value
-        var randomPropertyName, randomValue;
-
-        // Pick a random property name and value, ensuring it's not null or "(X)"
-        do {
-          var randomPropertyNameIndex = Math.floor(Math.random() * propertyNames.length);
-          randomPropertyName = propertyNames[randomPropertyNameIndex];
-          randomValue = randomObject[randomPropertyName];
-        } while (randomValue === null || randomValue === "(X)");
-
-        console.log(`Random Property: ${randomPropertyName}, Random Value: ${randomValue}`);
-
-        // You can return or use the random property and its value as needed
-        return {
-          randomPropertyName: randomPropertyName,
-          randomValue: randomValue
-        };
-      } else {
-        throw new Error('Invalid JSON format');
-      }
+    .then(data => {
+      // Assign the parsed JSON data to the 'codes' variable
+      return data;
     })
     .catch(error => {
-      console.error('Error fetching or processing data:', error);
+      console.error('Error fetching the file:', error);
+    });
+}
+
+function fetchData() {
+  // Call the function to fetch 'codes'
+  return fetchCodes()
+    .then(codes => {
+      // Assuming you have the list of file names in the 'files' array
+<!-- ls -1 | sed -e 's/^/"/g' -e 's/$/"/g' | paste -sd, -->
+var files = ["alabama.json","alaska.json","arizona.json","arkansas.json","california.json","colorado.json","connecticut.json","delaware.json","districtofcolumbia.json","florida.json","georgia.json","hawaii.json","idaho.json","illinois.json","indiana.json","iowa.json","kansas.json","kentucky.json","louisiana.json","maine.json","maryland.json","massachusetts.json","michigan.json","minnesota.json","mississippi.json","missouri.json","montana.json","nebraska.json","nevada.json","newhampshire.json","newjersey.json","newmexico.json","newyork.json","northcarolina.json","northdakota.json","ohio.json","oklahoma.json","oregon.json","pennsylvania.json","puertorico.json","rhodeisland.json","southcarolina.json","southdakota.json","tennessee.json","texas.json","unitedstatesvirginislands.json","utah.json","vermont.json","virginia.json","washington.json","westvirginia.json","wisconsin.json","wyoming.json"]
+
+     // Generate a random index to pick a random file
+      var randomIndex = Math.floor(Math.random() * files.length);
+      var randomFile = files[randomIndex];
+      var jsonFileUrl = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/states/DP02_${randomFile}`;
+
+      // Fetch the random JSON file
+      return fetch(jsonFileUrl)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then(jsonData => {
+          // Assuming the JSON data is an array of objects
+          if (Array.isArray(jsonData) && jsonData.length > 0) {
+            // Pick a random object from the array
+            var randomObjectIndex = Math.floor(Math.random() * jsonData.length);
+            var randomObject = jsonData[randomObjectIndex];
+
+            // Get an array of property names from the random object
+            var propertyNames = Object.keys(randomObject);
+
+            // Initialize variables for random property and value
+            var randomPropertyName, randomValue;
+
+            // Pick a random property name and value, ensuring it's not null or "(X)"
+            do {
+              var randomPropertyNameIndex = Math.floor(Math.random() * propertyNames.length);
+              randomPropertyName = propertyNames[randomPropertyNameIndex];
+              randomValue = randomObject[randomPropertyName];
+            } while (randomValue === null || randomValue === "(X)");
+
+            // Convert the entire random property name to uppercase
+            randomPropertyName = randomPropertyName.toUpperCase();
+
+            console.log(`Random Property: ${randomPropertyName}, Random Value: ${randomValue}, File: ${randomFile}`);
+
+            // Find the matching code in the 'codes' array
+            var matchingCode = codes.find(code => code.code === randomPropertyName);
+
+            // Check if a matching code is found
+            if (matchingCode) {
+              // Get the corresponding label from the matching code
+              var matchingCodeLabel = matchingCode.label;
+
+              console.log(`Matching Code Label: ${matchingCodeLabel}`);
+
+              // Split the matching code label by '!!'
+              var labelParts = matchingCodeLabel.split('!!');
+
+              // Access all remaining parts starting from labelParts[2]
+              var remainingParts = labelParts.slice(2);
+
+              console.log('Part 1:', labelParts[0]);
+              console.log('Part 2:', labelParts[1]);
+              console.log('Remaining Parts:', remainingParts);
+
+              // You can return or use the matching code label and its parts as needed
+              return {
+                randomPropertyName: randomPropertyName,
+                randomValue: randomValue,
+                matchingCodeLabel: matchingCodeLabel,
+                labelParts: labelParts,
+                remainingParts: remainingParts,
+                randomFile: randomFile
+              };
+            } else {
+              console.log('No matching code found.');
+            }
+          } else {
+            throw new Error(`Invalid JSON format in file: ${randomFile}`);
+          }
+        });
+    })
+    .catch(error => {
+      console.error(`Error fetching or processing data: ${error.message}`);
     });
 counterValue += 1;
 }
