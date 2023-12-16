@@ -142,13 +142,13 @@ done
 
 # us
 columns=$(psql -Aqt -d us -c 'SELECT * FROM dp02_us_metadata' | grep -v ".*M|" | sed -e 's/|.*//g' | paste -sd,)
-psql -Aqt -d us -c 'SELECT jsonb_agg(row_to_json(fields)) FROM (SELECT '"${columns}"' FROM dp02_us2022) fields;' > ~/american-geography/json/us/DP02_us.json
+psql -Aqt -d us -c 'SELECT jsonb_agg(row_to_json(fields)) FROM (SELECT '"${columns}"' FROM dp02_us2022) fields;' > ~/american-geography/json/us/dp02_us.json
 
 # states
 columns=$(psql -Aqt -d us -c 'SELECT * FROM dp02_state_metadata' | grep -v ".*M|" | sed -e 's/|.*//g' | paste -sd,)
 psql -Aqt -d us -c "COPY (SELECT geoid, name FROM state) TO STDOUT DELIMITER E'\t'" | while IFS=$'\t' read -a array; do
   stateUpper=${array[1]// /}; state=${stateUpper,,};
-  psql -Aqt -d us -c 'SELECT jsonb_agg(row_to_json(fields)) FROM (SELECT name, '"${columns}"' FROM dp02_state2022 WHERE SUBSTRING(geo_id,10,2) = '\'${array[0]}\'') fields;' > ~/american-geography/json/states/DP02_${state}.json
+  psql -Aqt -d us -c 'SELECT jsonb_agg(row_to_json(fields)) FROM (SELECT name, '"${columns}"' FROM dp02_state2022 WHERE SUBSTRING(geo_id,10,2) = '\'${array[0]}\'') fields;' > ~/american-geography/json/states/dp02_${state}.json
 done
 ```
 

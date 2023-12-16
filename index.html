@@ -32,7 +32,7 @@ var files = ["alabama.json","alaska.json","arizona.json","arkansas.json","califo
 // Function to read a JSON file and pick a random key-value pair
 function readAndPickRandomKeyValuePair() {
 // Assuming the JSON file is named 'data.json'
-const jsonFile = 'https://raw.githubusercontent.com/geographyclub/american-geography/main/json/DP02_labels.json';
+const jsonFile = 'https://raw.githubusercontent.com/geographyclub/american-geography/main/json/dp02_labels.json';
 // Fetch the JSON file
 fetch(jsonFile)
 .then(response => response.json())
@@ -51,7 +51,7 @@ console.log(`Random Label: ${randomLabel}`);
 
 // Function to pick two random items without picking the same one
 function pickTwoRandomItems() {
-const baseUrl = 'https://raw.githubusercontent.com/geographyclub/american-geography/main/json/states/DP02_';
+const baseUrl = 'https://raw.githubusercontent.com/geographyclub/american-geography/main/json/states/dp02_';
 
 // Pick the first random item
 const randomIndex1 = Math.floor(Math.random() * files.length);
