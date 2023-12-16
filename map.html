@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>American Geography</title>
+
+<!-- load scripts -->
+<script
+  src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+  integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI="
+  crossorigin=""></script>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+  integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+  crossorigin=""></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script>
+<script src="js/Leaflet.NavBar-master/src/Leaflet.NavBar.js"></script>
+<!--<script src="js/leaflet-simple-map-screenshoter-master/dist/leaflet-simple-map-screenshoter.js"></script>-->
+
+<!-- load styles -->
+<link rel="icon" type="image/png" href="favicon.png">
+<link href="https://fonts.googleapis.com/css?family=Montserrat:600,900" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+  integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+  crossorigin=""/>
+<link rel="stylesheet" href="js/Leaflet.NavBar-master/src/Leaflet.NavBar.css"></link>
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<div id="map"></div>
+<div id="info"></div>
+
+<!-- start scripts -->
+<script>
+// create map
+var map;
+
+function map(){
+  map = L.map('map', {maxZoom:18});
+  map.setMaxBounds([[-90, -180], [90, 180]]);
+  map.setMinZoom(map.getBoundsZoom([[25, -128], [55, -68]], false));
+  map.setView([39, -98], 1);
+
+  // featuregroups
+  var feature_cover = new L.featureGroup();
+  var feature_quartile = new L.featureGroup();
+  var feature_top_10 = new L.featureGroup();
+
+  // get random file
+  const columns = ["pop","age_5_under","age_5_9","age_10_14","age_15_19","age_20_24","age_25_34","age_35_44","age_45_54","age_55_59","age_60_64","age_65_74","age_75_84","age_85_over","age_median","age_under18","age_16_over","age_18_over","age_21_over","age_62_over","age_65_over","race_mixed","race_white","race_black","race_native","race_asian","race_pacific","race_hispanic","housing_total","employed","unemployed","job_bus_sci_art","job_service","job_sales","job_construction","job_prod_transpo","in_agri_mining","in_construction","in_manufacturing","in_wholesale","in_retail","in_transportation","in_information","in_finance","in_professional","in_education_health","in_arts_food","in_other","in_public_admin","class_private","class_govt","class_selfemployed","class_unpaid","income_10000_less","income_10000_14999","income_15000_24999","income_25000_34999","income_35000_49999","income_50000_74999","income_75000_99999","income_100000_149999","income_150000_199999","income_200000_more","income_median","income_mean","income_percapita","earnings_median","earnings_male","earnings_female","housing_units","housing_occupied","housing_vacant","vacancy_homeowner","vacancy_rental","units_1_detached","units_1_attached","units_2","units_3_4","units_5_9","units_10_19","units_20_more","units_mobile","units_boat_rv_van","built_2014_later","built_2010_2013","built_2000_2009","built_1990_1999","built_1980_1989","built_1970_1979","built_1960_1969","built_1950_1959","built_1940_1949","built_1939_earlier","rooms_1","rooms_2","rooms_3","rooms_4","rooms_5","rooms_6","rooms_7","rooms_8","rooms_9","rooms_median","occupied_owner","occupied_renter","value_50000_less","value_50000_99999","value_100000_149000","value_150000_199999","value_200000_299999","value_300000_499999","value_500000_999999","value_1000000_more","value_median","rent_500_less","rent_500_999","rent_1000_1499","rent_1500_1999","rent_2000_2499","rent_2500_2999","rent_3000_more","rent_median","grapi_15_less","grapi_15_19","grapi_20_24","grapi_25_29","grapi_30_34","grapi_35_more","edu_9_less","edu_9_12","edu_highschool","edu_college_nodegree","edu_associate_degree","edu_bachelor_degree","edu_grad_degree","edu_highschool_higher","edu_bachelor_higher","ancestry_american","ancestry_arab","ancestry_czech","ancestry_danish","ancestry_dutch","ancestry_english","ancestry_french","ancestry_frenchcanadian","ancestry_german","ancestry_greek","ancestry_hungarian","ancestry_irish","ancestry_italian","ancestry_lithuanian","ancestry_norwegian","ancestry_polish","ancestry_portuguese","ancestry_russian","ancestry_scottish_irish","ancestry_scottish","ancestry_slovak","ancestry_subsaharan_african","ancestry_swedish","ancestry_swiss","ancestry_ukranian","ancestry_welsh","ancestry_west_indian"];
+  const random = Math.floor(Math.random() * columns.length);
+  const column = columns[random];
+
+  // title
+  var title = new L.tooltip({
+    permanent: true,
+    offset:[0,0],
+    opacity:1,
+    direction:'top',
+    className:'mytitle'
+  }).setContent('<h1>AMERICAN GEOGRAPHY</h1><h3>(Refresh for random category)</h3>').setLatLng(new L.LatLng(49,-98)).addTo(feature_cover);
+
+  // subtitle
+  var title = new L.tooltip({
+    permanent: true,
+    offset:[0,0],
+    opacity:1,
+    direction:'bottom',
+    className:'mysubtitle'
+  }).setContent('<h2>STATE EDITION</h2><h2>'+column+'</h2>').setLatLng(new L.LatLng(25,-98)).addTo(feature_cover);
+
+  // circleMarker
+  function myCirclemarker(feature, latlng) {
+    return L.circleMarker(latlng, {
+      radius : 4,
+      fillColor : "#ff7800",
+      color : "#000",
+      weight : 1,
+      opacity : 1,
+      fillOpacity : 0.8
+    }).bindPopup(feature.properties.amenity);
+  }
+
+  // marker
+  function myMarker(feature, layer){
+    var bounds = layer.getBounds();
+    var center = bounds.getCenter();
+    var marker = L.marker(center).addTo(layer);
+	// zoom on click
+    marker.on('click', function(e) {
+      map.fitBounds(bounds);      
+    });
+    layer.bindPopup('<h2>#'+feature.properties.rank+' '+feature.properties.ctyname+'</h2><h3>Pop 2021: '+feature.properties.popestimate2021+'</h3><h3>Pop Change: '+feature.properties.npopchg2021+'</h3><h3>Natural Change Rate: '+feature.properties.rnaturalchg2021+'</h3><h3>Net Migration Rate: '+feature.properties.rnetmig2021+'</h3>');
+  }
+
+  // tooltip
+  function myTooltip(feature, layer){
+    var bounds = layer.getBounds();
+    var center = bounds.getCenter();
+    var mytooltip = new L.tooltip({
+    permanent: true,
+    offset:[0,0],
+    opacity:1,
+    direction:'top',
+    className:'myheadline'}).setContent('<h3>'+feature.properties.name+'</h3>').setLatLng(center).addTo(featureGroup1);
+    layer.bindPopup('<h3>'+feature.properties.name+'</h3>').addTo(featureGroup2);
+  }
+
+  // colors
+  function getColor(d) {
+    switch (d) {
+      case "q1": return "#2b83ba";
+      case "q2": return "#abdda4";
+      case "q3": return "#fdae61";
+      case "q4": return "#d7191c";
+    }
+  }
+
+  // style
+  function style(feature) {
+    return {
+      fillColor: getColor(feature.properties.quartile),
+      weight: 0,
+      opacity: 1,
+      color: 'white',
+      fillOpacity: 0.5
+    };
+  }
+
+  // geojson quartile
+  var feature_quartile = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/geojson/state/state_quartile_'+column+'.geojson', {
+    interactive:false,
+    style:style
+  }).addTo(map)
+
+  // geojson top10
+  var feature_top_10 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/geojson/state/state_top10_'+column+'.geojson', {
+    style:{
+	  fillColor: 'yellow',
+      weight: 1,
+      opacity: 1,
+      color: 'black',
+      fillOpacity: 0.5
+    },
+  onEachFeature: function (feature, layer){
+    var bounds = layer.getBounds();
+    var center = bounds.getCenter();
+    var marker = L.marker(center).addTo(feature_top_10);
+	// zoom on click
+    marker.on('click', function(e) {
+      map.fitBounds(bounds);      
+    });
+    layer.bindPopup('<h2>#'+feature.properties.rank+' '+feature.properties.name+', '+feature.properties.state+'</h2><h3>'+feature.properties.column_name+': '+feature.properties.column+'</h3><h3>Pop: '+feature.properties.popestimate2021+'</h3><h3>Pop Change: '+feature.properties.npopchg2021+'</h3><h3>Natural Change Rate: '+feature.properties.rnaturalchg2021+'%</h3><h3>Net Migration Rate: '+feature.properties.rnetmig2021+'%</h3>');
+  }
+  })
+
+  // base layers
+  //var german = L.TileLayer('https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png', {noWrap:false});
+  //var french = L.TileLayer('http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {noWrap:false});
+  var streets = new L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {noWrap:false, attribution:'<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>', lang:'en'}).addTo(map);
+  var satellite = new L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {id: 'mapbox/satellite-v9', tileSize: 512, zoomOffset: -1, attribution:'<a href="https://www.mapbox.com/">Mapbox</a>'});
+
+  // layer switcher
+  map.addLayer(feature_cover)
+  var baseMaps = {"Streets":streets};
+//  var overlayMaps = {"Title":feature_cover, "Quartiles":feature_quartile, "Top 10":feature_top_10};
+  var overlayMaps = {"Title":feature_cover, "Quartiles":feature_quartile};
+  L.control.layers(baseMaps,overlayMaps).addTo(map);
+
+  // navbar
+  L.control.navbar().addTo(map);
+
+  // screenshoter
+//L.simpleMapScreenshoter().addTo(map)
+
+};
+window.onload = map();
+
+// footer
+jQuery('.leaflet-bottom.leaflet-left').html('<a href="mailto:emailstevekim@gmail.com">emailstevekim@gmail.com</a>');
+//jQuery('.leaflet-bottom.leaflet-right').html('');
+
+/* misc
+
+  // style screenshoter
+  $(window).on('load', function() {
+    $('.leaflet-control-simpleMapScreenshoter').css('border', '0');
+  });
+
+
+  // geojson with popup
+  var pop = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/geojson/county_quartile_pop.geojson', {
+  style:style,
+  onEachFeature:function mymarker(feature, layer){
+      layer.bindPopup('<h3>Min: '+feature.properties.min+'</h3><h3>Max: '+feature.properties.max+'</h3>').addTo(map);
+    }
+  }).addTo(map)
+
+  // get geojson polygons with markers
+  var featureGroup2 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/geojson/county_quartile_pop.geojson', {
+  style:style,
+  onEachFeature:mymarker
+  }).addTo(map)
+
+  // get geojson points
+  var featureGroup3 = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/data/geojson/points.geojson', {
+  pointToLayer:mycirclemarker
+  })
+
+
+// marker with popup
+var marker = L.marker(center).addTo(featureGroup1).bindPopup('<h3>'+feature.properties.name+'</h3>').addTo(map);
+
+// print all json data
+'<pre>'+JSON.stringify(feature.properties,null,' ').replace(/[\{\}"]/g,'')+'</pre>'
+
+var ico = L.icon({
+  iconUrl: 'https://api2.datamap.bg/images/blue_icon.png',
+  iconSize: [25, 25],
+  iconAnchor: [15, 15],
+  popupAnchor: [-10, -10]
+});
+
+function mydivicon(feature, layer){
+  var bounds = layer.getBounds();
+  var center = bounds.getCenter();
+  var mypopup = layer.bindPopup('<h1>'+feature.properties.name+'</h1>').addTo(featureGroup2);
+  var marker = L.marker(center, {
+    icon: new L.DivIcon({
+      draggable:'false',
+      iconAnchor:center,
+      popupAnchor:center,
+      className:'myDivIcon',
+      html:'<h2>'+feature.properties.name+'</h2>'
+    })
+  }).addTo(featureGroup1);
+}
+
+// click on layer
+featureGroup2.on('click', function(e){
+  e.target.openPopup();
+});
+
+// click on map
+map.on('click', clickAnywhere);
+
+// get php data
+var popup = L.popup();
+var id; var lat; var lon; var x; var y;
+function clickAnywhere(e){
+  var bbox = e.target.getBounds().toBBoxString();
+  x = e.latlng.lat.toFixed(2);
+  y = e.latlng.lng.toFixed(2);
+  jQuery.post("/weather/get_weather.php", {"x":x, "y":y}).done(function(data){
+    id = data.split(',')[0]
+    lat = data.split(',')[1]
+    lon = data.split(',')[2]
+    var temp = data.split(',')[3]
+    var content = "<div id='content'><p>CURRENT TEMP: "+temp+"°C</p><hr/><p>CLICK COORD: "+x+"°, "+y+"°</p><p>STATION COORD: "+lat+"°, "+lon+"°</p></div>";
+    popup.setLatLng(e.latlng).setContent(content).openOn(map);
+  });
+};
+
+// geolocate
+function onLocationFound(e){
+  var radius = e.accuracy / 2;
+  L.circle(e.latlng, radius, {weight:1}).addTo(map);
+  L.circle(e.latlng, 1).addTo(map);
+}
+function onLocationError(e){
+  console.log(e.message);
+}
+map.on('locationerror', onLocationError);
+map.on('locationfound', onLocationFound);
+map.locate({setView: true, zoom: 2});
+
+*/
+
+
+
+</script>
+</body>
+</html>
+

@@ -4,12 +4,12 @@ Updated for American Community Survey 1-Year Supplemental Estimates 2022 release
 
 TODO: Accessing tables from https://api.census.gov/
 
-1. [Importing](#1-importing)
-2. [Processing](#2-processing)
-3. [Exporting](#3-exporting)
+1. [Importing](#importing)
+2. [Z-scores](#z-scores)
+3. [Exporting](#exporting)
 4. [References](#references)
 
-## 1. Importing
+## Importing
 
 Census geography files
 ```bash
@@ -71,7 +71,20 @@ ogr2ogr -overwrite -skipfailures --config PG_USE_COPY YES -f PGDump -t_srs "EPSG
 ogr2ogr -overwrite -skipfailures --config PG_USE_COPY YES -f PGDump -t_srs "EPSG:3857" -nlt promote_to_multi /vsistdout/ natural_earth_vector_3857.gpkg ne_10m_admin_2_counties_lakes | psql -d us -f -
 ```
 
-## 2. Processing
+Metadata (labels)  
+```bash
+geographies=('us' 'state' 'county' 'place' 'tract' 'puma')
+files=('DP02' 'DP03' 'DP04' 'DP05')
+for geography in ${geographies[*]}; do
+  for file in ${files[*]}; do
+    cat ~/maps/us/dataprofiles/${geography}/ACSDP5Y2022.${file}-Column-Metadata.csv | tail -n +4 | sed -e 's/","/\t/g' -e 's/"//g' > ~/maps/us/dataprofiles/${geography}/ACSDP5Y2022.${file}-Column-Metadata.tsv
+    psql -d us -c "DROP TABLE IF EXISTS ${file}_${geography}_metadata; CREATE TABLE ${file}_${geography}_metadata(code VARCHAR, label VARCHAR);"
+    psql -d us -c "COPY ${file}_${geography}_metadata FROM '/home/steve/maps/us/dataprofiles/${geography}/ACSDP5Y2022.${file}-Column-Metadata.tsv' WITH DELIMITER E'\t';"
+  done
+done
+```
+
+## Z-scores
 
 Select variables and create tables.
 ```bash
@@ -103,20 +116,72 @@ Add zscores.
 geographies=('state' 'county' 'place' 'tract' 'puma')
 for geography in ${geographies[*]}; do
   psql -qAtX -d us -c "\d ${geography}2022" | grep -v "shape" | grep -v "geoid" | grep -v "name" | grep -v "zscore_" | sed -e 's/|.*//g' | while read column; do
-    psql -d us -c "ALTER TABLE ${geography}2022 ADD COLUMN zscore_${column} REAL; WITH b AS (SELECT geoid, (${column}::real - AVG(${column}::real) OVER()) / STDDEV(${column}::real) OVER() AS zscore FROM ${geography}2022 WHERE CAST(${column} AS TEXT) ~ '^[0-9\\\.]+$') UPDATE ${geography}2022 a SET zscore_${column} = b.zscore FROM b WHERE a.geoid = b.geoid;"
+    psql -d us -c "ALTER TABLE ${geography}2022 DROP COLUMN zscore_${column}; ALTER TABLE ${geography}2022 ADD COLUMN zscore_${column} REAL; WITH b AS (SELECT geoid, (${column}::real - AVG(${column}::real) OVER()) / STDDEV(${column}::real) OVER() AS zscore FROM ${geography}2022 WHERE CAST(${column} AS TEXT) ~ '^[0-9\\\.]+$') UPDATE ${geography}2022 a SET zscore_${column} = b.zscore FROM b WHERE a.geoid = b.geoid;"
   done
 done
 ```
 
-## 3. Exporting
-
 Find zscores over 1.65 at different geographies.
 ```bash
-# tracts
-psql -d us -c "ALTER TABLE tract2022 DROP COLUMN zscore_1_65; ALTER TABLE tract2022 ADD COLUMN zscore_1_65 jsonb;"
-psql -Aqt -d us -c "COPY (SELECT geoid, name from tract2022) TO STDOUT DELIMITER E'\t';" | while IFS=$'\t' read -a array; do
-  columns=$(psql -Aqt -d us -c "WITH b AS (SELECT $(psql -Aqt -d us -c '\d tract2022' | grep "zscore_" | sed -e 's/|.*//g' | paste -sd,) FROM tract2022 WHERE geoid = '${array[0]}') SELECT (x).key FROM (SELECT EACH(hstore(b)) x FROM b) q WHERE CAST((x).value AS VARCHAR) ~ '^[0-9\\\.]+$' AND ABS(CAST((x).value AS REAL)) >= 1.65;" | paste -sd,)
-  psql -d us -c "UPDATE tract2022 a SET zscore_1_65 = (SELECT to_jsonb(inputs) FROM (SELECT $(echo ${columns} | tr ',' '\n' | sed -e 's/zscore_//g' -e "s/.*/CONCAT\('{tract:', a\.\0, '|county:', b\.\0\, '|state:', c\.\0\, '|us:', d\.\0\, '}') AS \0/g" | paste -sd,) FROM tract2022 a, county2022 b, state2022 c, us2022 d WHERE a.geoid = '${array[0]}' AND SUBSTRING(a.geoid,3,5) = b.geoid AND SUBSTRING(a.geoid,1,2) = c.geoid) inputs) WHERE a.geoid = '${array[0]}';"
+# counties
+psql -Aqt -d us -c "COPY (SELECT geoid, name from county2022) TO STDOUT DELIMITER E'\t';" | while IFS=$'\t' read -a array; do
+  columns=$(psql -Aqt -d us -c "WITH b AS (SELECT $(psql -Aqt -d us -c '\d county2022' | grep "zscore_" | sed -e 's/|.*//g' | paste -sd,) FROM county2022 WHERE geoid = '${array[0]}') SELECT (x).key FROM (SELECT EACH(hstore(b)) x FROM b) q WHERE CAST((x).value AS VARCHAR) ~ '^[0-9\\\.]+$' AND ABS(CAST((x).value AS REAL)) >= 1.65;" | paste -sd,)
+  psql -d us -c "SELECT to_jsonb(inputs) FROM (SELECT $(echo ${columns} | tr ',' '\n' | sed -e 's/zscore_//g' -e "s/.*/CONCAT\('{county:', a\.\0, '|state:', b\.\0\, '|us:', c\.\0\, '}') AS \0/g" | paste -sd,) FROM county2022 a, state2022 b, us2022 c WHERE a.geoid = '${array[0]}' AND SUBSTRING(a.geoid,1,2) = b.geoid) inputs;"
+done
+```
+
+## Exporting
+
+Export codes, labels to json.  
+```bash
+psql -Aqt -d us -c 'SELECT jsonb_agg(row_to_json(labels)) FROM (SELECT * FROM dp02_county_metadata) labels;' > ~/american-geography/json/labels.json
+```
+
+Export states to json.  
+```bash
+columns=$(psql -Aqt -d us -c 'SELECT * FROM dp02_county_metadata' | grep -v ".*M|" | sed -e 's/|.*//g' | paste -sd,)
+psql -Aqt -d us -c "COPY (SELECT geoid, name FROM state) TO STDOUT DELIMITER E'\t'" | while IFS=$'\t' read -a array; do
+  stateUpper=${array[1]// /}; state=${stateUpper,,};
+  psql -Aqt -d us -c 'SELECT jsonb_agg(row_to_json(fields)) FROM (SELECT '"${columns}"' FROM dp02_state2022 WHERE SUBSTRING(geo_id,10,2) = '\'${array[0]}\'') fields;' > ~/american-geography/json/states/${state}.json
+done
+```
+
+Export to svg with json data for web.  
+```bash
+# states x counties
+width=1920
+height=1080
+psql -d us -c "COPY (SELECT ST_XMin(geom), (-1 * ST_YMax(geom)), (ST_XMax(geom) - ST_XMin(geom)), (ST_YMax(geom) - ST_YMin(geom)), SUBSTRING(code_local,3,5), name FROM ne_10m_admin_1_states_provinces_lakes WHERE substring(code_local,1,2) = 'US') TO STDOUT DELIMITER E'\t'" | while IFS=$'\t' read -a array; do
+  stateUpper=${array[5]// /}; state=${stateUpper,,};
+  echo '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="'${height}'" width="'${width}'" viewBox="'${array[0]}' '${array[1]}' '${array[2]}' '${array[3]}'">' > ~/svgeo/svg/states/${state}_counties.svg
+  psql -d us -c "COPY (SELECT a.geoid, ST_AsSVG(b.geom, 1), a.name FROM county2022 a, ne_10m_admin_2_counties_lakes b WHERE a.geoid = b.code_local AND SUBSTRING(a.geoid,1,2) = '${array[4]}') TO STDOUT DELIMITER E'\t'" | while IFS=$'\t' read -a array; do
+  columns=$(psql -Aqt -d us -c '\d county2022' | grep "zscore_" | sed -e 's/zscore_//g' -e 's/|.*//g' | paste -sd,)  
+  zcolumns=$(psql -Aqt -d us -c "SELECT to_jsonb(inputs) FROM (SELECT $(echo ${columns} | tr ',' '\n' | sed -e 's/zscore_//g' -e "s/.*/CONCAT\('{county:', a\.\0, '|state:', b\.\0\, '|us:', c\.\0\, '}') AS \0/g" | paste -sd,) FROM county2022 a, state2022 b, us2022 c WHERE a.geoid = '${array[0]}' AND SUBSTRING(a.geoid,1,2) = b.geoid) inputs;")
+    if [ -z "$zcolumns" ]; then
+      echo '<path id="'${array[0]}'" d="'${array[1]}'" vector-effect="non-scaling-stroke" fill="#000" fill-opacity="0" stroke="#000" stroke-width="0.3px" stroke-linejoin="round" stroke-linecap="round"><title>'"${array[2]}"'</title></path>' >> ~/svgeo/svg/states/${state}_counties.svg
+    else
+      echo '<path id="'${array[0]}'" d="'${array[1]}'" vector-effect="non-scaling-stroke" fill="#000" fill-opacity="0" stroke="#000" stroke-width="0.3px" stroke-linejoin="round" stroke-linecap="round" data-json='\'${zcolumns}\''><title>'"${array[2]}"'</title></path>' >> ~/svgeo/svg/states/${state}_counties.svg
+    fi
+  done
+  echo '</svg>' >> ~/svgeo/svg/states/${state}_counties.svg
+done
+
+# states x counties with zscores over 1.65
+width=1920
+height=1080
+psql -d us -c "COPY (SELECT ST_XMin(geom), (-1 * ST_YMax(geom)), (ST_XMax(geom) - ST_XMin(geom)), (ST_YMax(geom) - ST_YMin(geom)), SUBSTRING(code_local,3,5), name FROM ne_10m_admin_1_states_provinces_lakes WHERE substring(code_local,1,2) = 'US') TO STDOUT DELIMITER E'\t'" | while IFS=$'\t' read -a array; do
+  stateUpper=${array[5]// /}; state=${stateUpper,,};
+  echo '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="'${height}'" width="'${width}'" viewBox="'${array[0]}' '${array[1]}' '${array[2]}' '${array[3]}'">' > ~/svgeo/svg/states/${state}_counties.svg
+  psql -d us -c "COPY (SELECT a.geoid, ST_AsSVG(b.geom, 1), a.name, a.pop FROM county2022 a, ne_10m_admin_2_counties_lakes b WHERE a.geoid = b.code_local AND SUBSTRING(a.geoid,1,2) = '${array[4]}') TO STDOUT DELIMITER E'\t'" | while IFS=$'\t' read -a array; do
+    columns=$(psql -Aqt -d us -c "WITH b AS (SELECT $(psql -Aqt -d us -c '\d county2022' | grep "zscore_" | sed -e 's/|.*//g' | paste -sd,) FROM county2022 WHERE geoid = '${array[0]}') SELECT (x).key FROM (SELECT EACH(hstore(b)) x FROM b) q WHERE CAST((x).value AS VARCHAR) ~ '^[0-9\\\.]+$' AND ABS(CAST((x).value AS REAL)) >= 1.65;" | paste -sd,)
+    zcolumns=$(psql -Aqt -d us -c "SELECT to_jsonb(inputs) FROM (SELECT $(echo ${columns} | tr ',' '\n' | sed -e 's/zscore_//g' -e "s/.*/CONCAT\('{county:', a\.\0, '|state:', b\.\0\, '|us:', c\.\0\, '}') AS \0/g" | paste -sd,) FROM county2022 a, state2022 b, us2022 c WHERE a.geoid = '${array[0]}' AND SUBSTRING(a.geoid,1,2) = b.geoid) inputs;")
+    if [ -z "$zcolumns" ]; then
+      echo '<path id="'${array[0]}'" d="'${array[1]}'" vector-effect="non-scaling-stroke" fill="#000" fill-opacity="0" stroke="#000" stroke-width="0.3px" stroke-linejoin="round" stroke-linecap="round"><title>'"${array[2]}"'</title></path>' >> ~/svgeo/svg/states/${state}_counties.svg
+    else
+      echo '<path id="'${array[0]}'" d="'${array[1]}'" vector-effect="non-scaling-stroke" fill="#000" fill-opacity="0" stroke="#000" stroke-width="0.3px" stroke-linejoin="round" stroke-linecap="round" data-json='\'${zcolumns}\''><title>'"${array[2]}"'</title></path>' >> ~/svgeo/svg/states/${state}_counties.svg
+    fi
+  done
+  echo '</svg>' >> ~/svgeo/svg/states/${state}_counties.svg
 done
 ```
 
