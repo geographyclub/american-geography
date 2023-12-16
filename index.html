@@ -57,7 +57,9 @@ function fetchData() {
 <!-- ls -1 | sed -e 's/^/"/g' -e 's/$/"/g' | paste -sd, -->
 var files = ["alabama.json","alaska.json","arizona.json","arkansas.json","california.json","colorado.json","connecticut.json","delaware.json","districtofcolumbia.json","florida.json","georgia.json","hawaii.json","idaho.json","illinois.json","indiana.json","iowa.json","kansas.json","kentucky.json","louisiana.json","maine.json","maryland.json","massachusetts.json","michigan.json","minnesota.json","mississippi.json","missouri.json","montana.json","nebraska.json","nevada.json","newhampshire.json","newjersey.json","newmexico.json","newyork.json","northcarolina.json","northdakota.json","ohio.json","oklahoma.json","oregon.json","pennsylvania.json","puertorico.json","rhodeisland.json","southcarolina.json","southdakota.json","tennessee.json","texas.json","unitedstatesvirginislands.json","utah.json","vermont.json","virginia.json","washington.json","westvirginia.json","wisconsin.json","wyoming.json"]
 
-      // Generate a random index to pick a random file
+//counterValue += 1;
+
+     // Generate a random index to pick a random file
       var randomIndex = Math.floor(Math.random() * files.length);
       var randomFile = files[randomIndex];
       var jsonFileUrl = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/states/DP02_${randomFile}`;
@@ -106,18 +108,14 @@ var files = ["alabama.json","alaska.json","arizona.json","arkansas.json","califo
               // Get the corresponding label from the matching code
               var matchingCodeLabel = matchingCode.label;
 
+        // Split the matching code label by '!!'
+        var labelParts = matchingCodeLabel.split('!!');
+        console.log('Matching Code Label Parts:', labelParts);
+
               console.log(`Matching Code Label: ${matchingCodeLabel}`);
 
-              // Split the matching code label by '!!'
-              var labelParts = matchingCodeLabel.split('!!');
-
-              // Access all remaining parts starting from labelParts[2]
-              var remainingParts = labelParts.slice(2);
-
-              console.log('Remaining Parts:', remainingParts);
-
-              // Fetch the data from another file using the matching value
-              return fetchAnotherFile(randomValue, remainingParts);
+              // Fetch the data from another file using the matching key
+              return fetchAnotherFile(randomPropertyName);
             } else {
               console.log('No matching code found.');
             }
@@ -129,10 +127,11 @@ var files = ["alabama.json","alaska.json","arizona.json","arkansas.json","califo
     .catch(error => {
       console.error(`Error fetching or processing data: ${error.message}`);
     });
+counterValue += 1;
 }
 
-function fetchAnotherFile(matchingValue, remainingParts) {
-  // Assuming the URL to the other file contains the matching value
+function fetchAnotherFile(matchingKey) {
+  // Assuming the URL to the other file
   var anotherFileUrl = 'https://raw.githubusercontent.com/geographyclub/american-geography/main/json/us/DP02_us.json';
 
   return fetch(anotherFileUrl)
@@ -143,33 +142,29 @@ function fetchAnotherFile(matchingValue, remainingParts) {
       return response.json();
     })
     .then(anotherData => {
-      // Search inside the JSON data for the matching value and remaining parts
-      var matchingItem = anotherData.find(item => item.name === matchingValue);
+      // Convert the matching key to lowercase
+      var lowercaseMatchingKey = matchingKey.toLowerCase();
+
+      // Find the matching key-value pair in the second file
+      var matchingItem = anotherData.find(item => item.hasOwnProperty(lowercaseMatchingKey));
 
       if (matchingItem) {
-        console.log('Matching Item:', matchingItem);
-
-        // Extract additional values based on remainingParts
-        var additionalValues = remainingParts.reduce((result, part) => {
-          result[part.toLowerCase()] = matchingItem[part];
-          return result;
-        }, {});
-
-        console.log('Additional Values:', additionalValues);
-
+        var matchingValue = matchingItem[lowercaseMatchingKey];
+        console.log(`Matching Item for Key '${matchingKey}': ${matchingValue}`);
         return {
-          matchingItem: matchingItem,
-          additionalValues: additionalValues
+          matchingKey: matchingKey,
+          matchingValue: matchingValue
         };
       } else {
-        console.log('No matching item found.');
+        console.log(`No matching item found for Key '${matchingKey}'.`);
       }
     })
     .catch(error => {
       console.error('Error fetching data from another file:', error);
     });
-counterValue += 1;
 }
+
+
 
 const numberOfFetches = 10;
 for (let i = 0; i < numberOfFetches; i++) {

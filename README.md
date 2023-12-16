@@ -137,7 +137,7 @@ Export geographies to json.
 # labels
 files=('DP02' 'DP03' 'DP04' 'DP05')
 for file in ${files[*]}; do
-  psql -Aqt -d us -c 'SELECT jsonb_agg(row_to_json(labels)) FROM (SELECT * FROM '"${file}"'_state_metadata) labels;' > ~/american-geography/json/${file}_labels.json
+  psql -Aqt -d us -c 'SELECT jsonb_agg(row_to_json(labels)) FROM (SELECT * FROM '"${file}"'_us_metadata) labels;' > ~/american-geography/json/${file}_labels.json
 done
 
 # us
