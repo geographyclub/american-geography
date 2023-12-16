@@ -57,15 +57,10 @@ function fetchData() {
 <!-- ls -1 | sed -e 's/^/"/g' -e 's/$/"/g' | paste -sd, -->
 var files = ["alabama.json","alaska.json","arizona.json","arkansas.json","california.json","colorado.json","connecticut.json","delaware.json","districtofcolumbia.json","florida.json","georgia.json","hawaii.json","idaho.json","illinois.json","indiana.json","iowa.json","kansas.json","kentucky.json","louisiana.json","maine.json","maryland.json","massachusetts.json","michigan.json","minnesota.json","mississippi.json","missouri.json","montana.json","nebraska.json","nevada.json","newhampshire.json","newjersey.json","newmexico.json","newyork.json","northcarolina.json","northdakota.json","ohio.json","oklahoma.json","oregon.json","pennsylvania.json","puertorico.json","rhodeisland.json","southcarolina.json","southdakota.json","tennessee.json","texas.json","unitedstatesvirginislands.json","utah.json","vermont.json","virginia.json","washington.json","westvirginia.json","wisconsin.json","wyoming.json"]
 
-//counterValue += 1;
-
      // Generate a random index to pick a random file
       var randomIndex = Math.floor(Math.random() * files.length);
       var randomFile = files[randomIndex];
       var jsonFileUrl = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/states/DP02_${randomFile}`;
-
-      // Extract the filename from the URL
-      var filename = jsonFileUrl.substring(jsonFileUrl.lastIndexOf('/') + 1);
 
       // Fetch the random JSON file
       return fetch(jsonFileUrl)
@@ -86,19 +81,20 @@ var files = ["alabama.json","alaska.json","arizona.json","arkansas.json","califo
             var propertyNames = Object.keys(randomObject);
 
             // Initialize variables for random property and value
-            var randomPropertyName, randomValue;
+            var randomPropertyName, randomValue, nameFieldValue;
 
             // Pick a random property name and value, ensuring it's not null or "(X)"
             do {
               var randomPropertyNameIndex = Math.floor(Math.random() * propertyNames.length);
               randomPropertyName = propertyNames[randomPropertyNameIndex];
               randomValue = randomObject[randomPropertyName];
+              nameFieldValue = randomObject.name;
             } while (randomValue === null || randomValue === "(X)");
 
             // Convert the entire random property name to uppercase
             randomPropertyName = randomPropertyName.toUpperCase();
 
-            console.log(`Random Property: ${randomPropertyName}, Random Value: ${randomValue}, File: ${filename}`);
+console.log(`Random Property: ${randomPropertyName}, Random Value: ${randomValue}, Name Field Value: ${nameFieldValue}`);
 
             // Find the matching code in the 'codes' array
             var matchingCode = codes.find(code => code.code === randomPropertyName);
