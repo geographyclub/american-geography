@@ -147,7 +147,7 @@ for file in ${files[*]}; do
   psql -Aqt -d us -c 'SELECT jsonb_agg(row_to_json(fields)) FROM (SELECT name, '"${columns}"' FROM '"${file}"'_us2022) fields;' > ~/american-geography/json/us/${file}_us.json
 done 
 
-# states
+# states (individual files)
 files=('dp02' 'dp03' 'dp04' 'dp05')
 for file in ${files[*]}; do
   columns=$(psql -Aqt -d us -c "SELECT * FROM ${file}_state_metadata" | grep -v ".*M|" | sed -e 's/|.*//g' | paste -sd,)
@@ -156,6 +156,15 @@ for file in ${files[*]}; do
     psql -Aqt -d us -c 'SELECT jsonb_agg(row_to_json(fields)) FROM (SELECT name, '"${columns}"' FROM '"${file}"'_state2022 WHERE SUBSTRING(geo_id,10,2) = '\'${array[0]}\'') fields;' > ~/american-geography/json/states/${file}_${state}.json
   done
 done
+
+# states (single file)
+files=('dp02' 'dp03' 'dp04' 'dp05')
+for file in ${files[*]}; do
+  columns=$(psql -Aqt -d us -c "SELECT * FROM ${file}_state_metadata" | grep -v ".*M|" | sed -e 's/|.*//g' | paste -sd,);
+  psql -Aqt -d us -c 'SELECT jsonb_agg(row_to_json(fields)) FROM (SELECT name, '"${columns}"' FROM '"${file}"'_state2022) fields;' > ~/american-geography/json/states/${file}_states.json
+done
+
+
 ```
 
 Export to svg with json data for web.  

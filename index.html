@@ -27,13 +27,7 @@
 <!--<div class="border-container"><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div></div>-->
 
 <script>
-// Function to check if a value is valid
-function isValidValue(value) {
-  return value !== "null" && value !== "{X}";
-}
-
-// Function to fetch a random key from Labels and check its value in three different files
-function fetchRandomKeyAndCheckValue(labelsData, thirdFileUrl, resultContainer) {
+function fetchData() {
   // Generate a random prefix each time the function is called
   const prefixes = ["dp02", "dp03", "dp04", "dp05"];
   const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
@@ -48,98 +42,31 @@ function fetchRandomKeyAndCheckValue(labelsData, thirdFileUrl, resultContainer) 
       // Select a random object from the labels array
       const randomLabelObject = labelsData[Math.floor(Math.random() * labelsData.length)];
 
-      // Extract the randomly chosen key and value from labels
-      const randomKey = Object.keys(randomLabelObject)[0];
-      const lowercasedKey = randomKey.toLowerCase();
-      const valueFromLabels = randomLabelObject[randomKey].split('!!');
+      // Log the key and value separately
+      for (const [key, value] of Object.entries(randomLabelObject)) {
+        console.log(`${key}: ${value}`);
+      }
 
-      // Construct the file URLs for the first two files
-      const files = [
-        "alabama", "alaska", "arizona", "arkansas", "california",
-        "colorado", "connecticut", "delaware", "districtofcolumbia", "florida",
-        "georgia", "hawaii", "idaho", "illinois", "indiana", "iowa",
-        "kansas", "kentucky", "louisiana", "maine", "maryland", "massachusetts",
-        "michigan", "minnesota", "mississippi", "missouri", "montana", "nebraska",
-        "nevada", "newhampshire", "newjersey", "newmexico", "newyork", "northcarolina",
-        "northdakota", "ohio", "oklahoma", "oregon", "pennsylvania", "puertorico",
-        "rhodeisland", "southcarolina", "southdakota", "tennessee", "texas", "utah",
-        "vermont", "virginia", "washington", "westvirginia", "wisconsin", "wyoming"
-      ];
+      // Now, fetch the second JSON file
+      const fileUrl = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/states/${randomPrefix}_states.json`;
 
-      let randomFile1, randomFile2;
-      do {
-        randomFile1 = files[Math.floor(Math.random() * files.length)];
-        randomFile2 = files[Math.floor(Math.random() * files.length)];
-      } while (randomFile1 === randomFile2); // Ensure randomFile2 is different from randomFile1
+      fetch(fileUrl)
+        .then(response => response.json())
+        .then(secondFileData => {
+          // Find all matching keys
+          const matchingKeys = Object.keys(randomLabelObject).filter(key => key in secondFileData[0]);
 
-      const fileUrl1 = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/states/${randomPrefix}_${randomFile1}.json`;
-      const fileUrl2 = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/states/${randomPrefix}_${randomFile2}.json`;
-
-      // Construct the URL for the third file
-      const thirdFileUrl = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/us/${randomPrefix}_us.json`;
-
-      // Fetch the JSON files corresponding to the first two files and the third file
-      return Promise.all([
-        fetch(fileUrl1).then(response => response.json()),
-        fetch(fileUrl2).then(response => response.json()),
-        fetch(thirdFileUrl).then(response => response.json())
-      ])
-        .then(([fileData1, fileData2, thirdFileData]) => {
-          // Find the value corresponding to the lowercase randomly chosen key in the first file
-          const randomValue1 = fileData1.find(obj => obj.hasOwnProperty(lowercasedKey))?.[lowercasedKey];
-
-          // Find the value corresponding to the lowercase randomly chosen key in the second file
-          const randomValue2 = fileData2.find(obj => obj.hasOwnProperty(lowercasedKey))?.[lowercasedKey];
-
-          // Find the value corresponding to the lowercase randomly chosen key in the third file
-          const randomValue3 = thirdFileData.find(obj => obj.hasOwnProperty(lowercasedKey))?.[lowercasedKey];
-
-          // Get the value of the "name" key from each file
-          const nameValue1 = fileData1.find(obj => obj.hasOwnProperty('name'))?.name;
-          const nameValue2 = fileData2.find(obj => obj.hasOwnProperty('name'))?.name;
-          const nameValue3 = thirdFileData.find(obj => obj.hasOwnProperty('name'))?.name;
-
-          // Log the results
-          console.log(`\nRandom Key from Labels: ${lowercasedKey}`);
-          console.log(`Value from Labels: ${valueFromLabels.slice(1)}`);
-          console.log(`${randomFile1}: ${isValidValue(randomValue1) ? randomValue1 : 'Invalid'}`);
-          console.log(`${randomFile2}: ${isValidValue(randomValue2) ? randomValue2 : 'Invalid'}`);
-          console.log(`${thirdFileUrl}: ${isValidValue(randomValue3) ? randomValue3 : 'Invalid'}`);
-
-          // Update the HTML content with the retrieved values
-          const container = document.getElementById('jsonContainer');
-          const jsonItem = document.createElement('div');
-          jsonItem.classList.add('item');
-
-          // Append the new div to the resultContainer (replace 'resultContainer' with your actual container variable or method)
-          jsonItem.innerHTML = `
-            <div class="flex-column-wide"><hr><span style="color:#888; letter-spacing:1px"><p>${valueFromLabels[1]}</p></span><h1>${valueFromLabels.slice(2).map(item => item.replace(', ', ' ~ ')).join(' ~ ')}</h1></div>
-			<div class="flex-container">
-			<div class="flex-column"><h2>${Number(randomValue1).toLocaleString()}</h2><h2>${nameValue1}</h2></div>
-			<div class="flex-column"><h2>${Number(randomValue2).toLocaleString()}</h2><h2>${nameValue2}</h2></div>
-			</div>
-          `;
-
-          // Append the new div to the resultContainer (replace 'resultContainer' with your actual container variable or method)
-          container.appendChild(jsonItem);
+          // Log the matching keys
+          console.log("Matching keys:", matchingKeys);
         })
-        .catch(error => console.error('Error fetching JSON files:', error));
+        .catch(error => console.error("Error fetching second file:", error));
     })
-    .catch(error => console.error('Error fetching JSON labels:', error));
+    .catch(error => console.error("Error fetching labels:", error));
 }
 
-function runScriptMultipleTimes(resultContainer) {
-  // Call fetchRandomKeyAndCheckValue 10 times
-  for (let i = 0; i < 10; i++) {
-    fetchRandomKeyAndCheckValue(resultContainer);
-  }
-}
+fetchData();
 
-// Example usage: Replace 'yourResultContainer' with the actual container reference in your HTML
-const resultContainer = 'jsonContainer';
 
-// Call the function to run fetchRandomKeyAndCheckValue 10 times
-runScriptMultipleTimes(resultContainer);
 </script>
 
 
