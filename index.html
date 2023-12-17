@@ -106,20 +106,22 @@ function fetchRandomKeyAndCheckValue(labelsData, thirdFileUrl, resultContainer) 
           console.log(`${thirdFileUrl}: ${isValidValue(randomValue3) ? randomValue3 : 'Invalid'}`);
 
           // Update the HTML content with the retrieved values
-          const div = document.createElement('div');
-          div.classList.add('flex-column');
+          const container = document.getElementById('jsonContainer');
+          const jsonItem = document.createElement('div');
+          jsonItem.classList.add('item');
 
           // Append the new div to the resultContainer (replace 'resultContainer' with your actual container variable or method)
-          div.innerHTML = `
-            <h1>${nameValue1}</h1>
-            <h2>${valueFromLabels.slice(1)}</h2>
-            <p>${randomFile1}: ${isValidValue(randomValue1) ? randomValue1 : 'Invalid'}</p>
-            <p>${randomFile2}: ${isValidValue(randomValue2) ? randomValue2 : 'Invalid'}</p>
-            <p>US: ${isValidValue(randomValue3) ? randomValue3 : 'Invalid'}</p>
+          jsonItem.innerHTML = `
+            <div class="flex-column-wide"><p>${valueFromLabels[1]}</p><h1>${valueFromLabels.slice(2)}</h1><hr></div>
+			<div class="flex-container">
+			<div class="flex-column"><h1>${nameValue1}</h1></div>
+			<div class="flex-column"><h1>${nameValue1}</h1></div>
+			</div>
+
           `;
 
           // Append the new div to the resultContainer (replace 'resultContainer' with your actual container variable or method)
-          document.body.appendChild(div);
+          container.appendChild(jsonItem);
         })
         .catch(error => console.error('Error fetching JSON files:', error));
     })
