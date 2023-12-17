@@ -26,123 +26,122 @@
 <!--<div class="border-container"><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div></div>-->
 
 <script>
-const prefixes = ["dp02", "dp03", "dp04", "dp05"];
-const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
-const labelsUrl = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/${randomPrefix}_labels.json`;
-
 // Function to check if a value is valid
 function isValidValue(value) {
   return value !== "null" && value !== "{X}";
 }
 
 // Function to fetch a random key from Labels and check its value in three different files
-function fetchRandomKeyAndCheckValue(labelsData, files, thirdFileUrl) {
-  // Select a random object from the labels array
-  const randomLabelObject = labelsData[Math.floor(Math.random() * labelsData.length)];
+function fetchRandomKeyAndCheckValue(labelsData, thirdFileUrl, resultContainer) {
+  // Generate a random prefix each time the function is called
+  const prefixes = ["dp02", "dp03", "dp04", "dp05"];
+  const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
 
-  // Extract the randomly chosen key and value from labels
-  const randomKey = Object.keys(randomLabelObject)[0];
-  const lowercasedKey = randomKey.toLowerCase();
-  const valueFromLabels = randomLabelObject[randomKey].split('!!');
+  // Construct the labels URL with the random prefix
+  const labelsUrl = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/${randomPrefix}_labels.json`;
 
-  // Log the result
-  console.log(`Random Key from Labels: ${lowercasedKey}`);
-  console.log(`Value from Labels: ${valueFromLabels}`);
-
-  // Choose three different random files from the list
-  let randomFile1, randomFile2;
-  do {
-    randomFile1 = files[Math.floor(Math.random() * files.length)];
-    randomFile2 = files[Math.floor(Math.random() * files.length)];
-  } while (randomFile1 === randomFile2); // Ensure randomFile2 is different from randomFile1
-
-      const fileUrl1 = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/states/${randomPrefix}_${randomFile1}`;
-      const fileUrl2 = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/states/${randomPrefix}_${randomFile2}`;
-      // Specify the URL for the third file
-      //const thirdFileUrl = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/us/${randomPrefix}_us.json`;
-
-  // Fetch the JSON files corresponding to the random files
-  return Promise.all([
-    fetch(fileUrl1).then(response => response.json()),
-    fetch(fileUrl2).then(response => response.json()),
-    fetch(thirdFileUrl).then(response => response.json()) // Fetch the third file
-  ])
-    .then(([fileData1, fileData2, thirdFileData]) => {
-      // Find the value corresponding to the lowercase randomly chosen key in the first file
-      const randomValue1 = fileData1.find(obj => obj.hasOwnProperty(lowercasedKey))?.[lowercasedKey];
-
-      // Find the value corresponding to the lowercase randomly chosen key in the second file
-      const randomValue2 = fileData2.find(obj => obj.hasOwnProperty(lowercasedKey))?.[lowercasedKey];
-
-      // Find the value corresponding to the lowercase randomly chosen key in the third file
-      const randomValue3 = thirdFileData.find(obj => obj.hasOwnProperty(lowercasedKey))?.[lowercasedKey];
-
-      // Get the value of the "name" key from each file
-      const nameValue1 = fileData1.find(obj => obj.hasOwnProperty('name'))?.name;
-      const nameValue2 = fileData2.find(obj => obj.hasOwnProperty('name'))?.name;
-      const nameValue3 = thirdFileData.find(obj => obj.hasOwnProperty('name'))?.name;
-
-      // Log the results
-      const container = document.getElementById('jsonContainer');
-      const jsonItem = document.createElement('div');
-      jsonItem.classList.add('item');
-
-      // Update the HTML content with the retrieved values
-      jsonItem.innerHTML = `
-      <div class="flex-container">
-      <div class="flex-column-wide"><h2>${valueFromLabels.slice(1)}</h2></div>
-      <div class="flex-column"><h2>${nameValue1}</h2></div>
-        <h2>${lowercasedKey}</h2>
-        <p>Random Value 1: ${isValidValue(randomValue1) ? randomValue1 : 'Invalid'}</p>
-        
-        <h1>${randomFile2}</h1>
-        <h2>${lowercasedKey}</h2>
-        <p>Random Value 2: ${isValidValue(randomValue2) ? randomValue2 : 'Invalid'}</p>
-        
-        <h1>${thirdFileUrl}</h1>
-        <h2>${lowercasedKey}</h2>
-        <p>Random Value 3: ${isValidValue(randomValue3) ? randomValue3 : 'Invalid'}</p>
-</div>
-      `;
-
-      // Append the new div to the resultContainer
-      container.appendChild(jsonItem);
-    })
-    .catch(error => console.error('Error fetching JSON files:', error));
-}
-const thirdFileUrl = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/us/${randomPrefix}_us.json`;
-
-// Function to repeat the script a specified number of times
-function runScriptMultipleTimes(numTimes) {
   // Fetch the labels JSON file
   fetch(labelsUrl)
     .then(response => response.json())
     .then(labelsData => {
-      // Now, choose random files from the list
+      // Select a random object from the labels array
+      const randomLabelObject = labelsData[Math.floor(Math.random() * labelsData.length)];
+
+      // Extract the randomly chosen key and value from labels
+      const randomKey = Object.keys(randomLabelObject)[0];
+      const lowercasedKey = randomKey.toLowerCase();
+      const valueFromLabels = randomLabelObject[randomKey].split('!!');
+
+      // Construct the file URLs for the first two files
       const files = [
-        "alabama.json", "alaska.json", "arizona.json", "arkansas.json", "california.json",
-        "colorado.json", "connecticut.json", "delaware.json", "districtofcolumbia.json", "florida.json",
-        "georgia.json", "hawaii.json", "idaho.json", "illinois.json", "indiana.json", "iowa.json",
-        "kansas.json", "kentucky.json", "louisiana.json", "maine.json", "maryland.json", "massachusetts.json",
-        "michigan.json", "minnesota.json", "mississippi.json", "missouri.json", "montana.json", "nebraska.json",
-        "nevada.json", "newhampshire.json", "newjersey.json", "newmexico.json", "newyork.json", "northcarolina.json",
-        "northdakota.json", "ohio.json", "oklahoma.json", "oregon.json", "pennsylvania.json", "puertorico.json",
-        "rhodeisland.json", "southcarolina.json", "southdakota.json", "tennessee.json", "texas.json", "utah.json",
-        "vermont.json", "virginia.json", "washington.json", "westvirginia.json", "wisconsin.json", "wyoming.json"
+        "alabama", "alaska", "arizona", "arkansas", "california",
+        "colorado", "connecticut", "delaware", "districtofcolumbia", "florida",
+        "georgia", "hawaii", "idaho", "illinois", "indiana", "iowa",
+        "kansas", "kentucky", "louisiana", "maine", "maryland", "massachusetts",
+        "michigan", "minnesota", "mississippi", "missouri", "montana", "nebraska",
+        "nevada", "newhampshire", "newjersey", "newmexico", "newyork", "northcarolina",
+        "northdakota", "ohio", "oklahoma", "oregon", "pennsylvania", "puertorico",
+        "rhodeisland", "southcarolina", "southdakota", "tennessee", "texas", "utah",
+        "vermont", "virginia", "washington", "westvirginia", "wisconsin", "wyoming"
       ];
 
-      // Run the script multiple times
-      for (let i = 0; i < numTimes; i++) {
-        console.log(`\n=== Run ${i + 1} ===`);
-        fetchRandomKeyAndCheckValue(labelsData, files, thirdFileUrl);
-      }
+      let randomFile1, randomFile2;
+      do {
+        randomFile1 = files[Math.floor(Math.random() * files.length)];
+        randomFile2 = files[Math.floor(Math.random() * files.length)];
+      } while (randomFile1 === randomFile2); // Ensure randomFile2 is different from randomFile1
+
+      const fileUrl1 = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/states/${randomPrefix}_${randomFile1}.json`;
+      const fileUrl2 = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/states/${randomPrefix}_${randomFile2}.json`;
+
+      // Construct the URL for the third file
+      const thirdFileUrl = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/us/${randomPrefix}_us.json`;
+
+      // Fetch the JSON files corresponding to the first two files and the third file
+      return Promise.all([
+        fetch(fileUrl1).then(response => response.json()),
+        fetch(fileUrl2).then(response => response.json()),
+        fetch(thirdFileUrl).then(response => response.json())
+      ])
+        .then(([fileData1, fileData2, thirdFileData]) => {
+          // Find the value corresponding to the lowercase randomly chosen key in the first file
+          const randomValue1 = fileData1.find(obj => obj.hasOwnProperty(lowercasedKey))?.[lowercasedKey];
+
+          // Find the value corresponding to the lowercase randomly chosen key in the second file
+          const randomValue2 = fileData2.find(obj => obj.hasOwnProperty(lowercasedKey))?.[lowercasedKey];
+
+          // Find the value corresponding to the lowercase randomly chosen key in the third file
+          const randomValue3 = thirdFileData.find(obj => obj.hasOwnProperty(lowercasedKey))?.[lowercasedKey];
+
+          // Get the value of the "name" key from each file
+          const nameValue1 = fileData1.find(obj => obj.hasOwnProperty('name'))?.name;
+          const nameValue2 = fileData2.find(obj => obj.hasOwnProperty('name'))?.name;
+          const nameValue3 = thirdFileData.find(obj => obj.hasOwnProperty('name'))?.name;
+
+          // Log the results
+          console.log(`\nRandom Key from Labels: ${lowercasedKey}`);
+          console.log(`Value from Labels: ${valueFromLabels.slice(1)}`);
+          console.log(`${randomFile1}: ${isValidValue(randomValue1) ? randomValue1 : 'Invalid'}`);
+          console.log(`${randomFile2}: ${isValidValue(randomValue2) ? randomValue2 : 'Invalid'}`);
+          console.log(`${thirdFileUrl}: ${isValidValue(randomValue3) ? randomValue3 : 'Invalid'}`);
+
+          // Update the HTML content with the retrieved values
+          const div = document.createElement('div');
+          div.classList.add('flex-column');
+
+          // Append the new div to the resultContainer (replace 'resultContainer' with your actual container variable or method)
+          div.innerHTML = `
+            <h1>${nameValue1}</h1>
+            <h2>${valueFromLabels.slice(1)}</h2>
+            <p>${randomFile1}: ${isValidValue(randomValue1) ? randomValue1 : 'Invalid'}</p>
+            <p>${randomFile2}: ${isValidValue(randomValue2) ? randomValue2 : 'Invalid'}</p>
+            <p>US: ${isValidValue(randomValue3) ? randomValue3 : 'Invalid'}</p>
+          `;
+
+          // Append the new div to the resultContainer (replace 'resultContainer' with your actual container variable or method)
+          document.body.appendChild(div);
+        })
+        .catch(error => console.error('Error fetching JSON files:', error));
     })
     .catch(error => console.error('Error fetching JSON labels:', error));
 }
 
-// Call the function to run the script 10 times
-runScriptMultipleTimes(10);
+function runScriptMultipleTimes(resultContainer) {
+  // Call fetchRandomKeyAndCheckValue 10 times
+  for (let i = 0; i < 10; i++) {
+    fetchRandomKeyAndCheckValue(resultContainer);
+  }
+}
+
+// Example usage: Replace 'yourResultContainer' with the actual container reference in your HTML
+const resultContainer = 'jsonContainer';
+
+// Call the function to run fetchRandomKeyAndCheckValue 10 times
+runScriptMultipleTimes(resultContainer);
 </script>
+
+
+
 
 <!-- close menu -->
 <script>
