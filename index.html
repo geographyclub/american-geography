@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,700" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,600,800" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <title>American Geography</title>
 </head>
@@ -19,10 +20,8 @@
 </nav>
 </header>
 
-<div class="container">
-  <div class="flex-container"><div class="flex-column-wide color-gradient" style="padding:10px 0; letter-spacing:-1px"><h1>State vs. State</h1><h1 style="font-size:12px">from the <a href="https://data.census.gov/" target="_blank">US Census</a></h1></div></div>
-  <div class="flex-container" id="resultContainer"></div>
-</div>
+<div class="container" id="jsonBanner"></div>
+<div class="container" id="jsonContainer"></div>
 
 <!--<div class="border-container"><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div></div>-->
 
@@ -42,7 +41,7 @@ function fetchRandomKeyAndCheckValue(labelsData, files, thirdFileUrl) {
   // Extract the randomly chosen key and value from labels
   const randomKey = Object.keys(randomLabelObject)[0];
   const lowercasedKey = randomKey.toLowerCase();
-  const valueFromLabels = randomLabelObject[randomKey];
+  const valueFromLabels = randomLabelObject[randomKey].split('!!');
 
   // Log the result
   console.log(`Random Key from Labels: ${lowercasedKey}`);
@@ -75,11 +74,15 @@ function fetchRandomKeyAndCheckValue(labelsData, files, thirdFileUrl) {
       const randomValue3 = thirdFileData.find(obj => obj.hasOwnProperty(lowercasedKey))?.[lowercasedKey];
 
       // Log the results
-      const div = document.createElement('div');
-      div.classList.add('flex-column');
+      const container = document.getElementById('jsonContainer');
+      const jsonItem = document.createElement('div');
+      jsonItem.classList.add('item');
 
       // Update the HTML content with the retrieved values
-      div.innerHTML = `
+      jsonItem.innerHTML = `
+      <div class="flex-container">
+
+      <div class="flex-column-wide"><h2>${valueFromLabels.slice(1)}</h2></div>
         <h1>${randomFile1}</h1>
         <h2>${lowercasedKey}</h2>
         <p>Random Value 1: ${isValidValue(randomValue1) ? randomValue1 : 'Invalid'}</p>
@@ -91,10 +94,11 @@ function fetchRandomKeyAndCheckValue(labelsData, files, thirdFileUrl) {
         <h1>${thirdFileUrl}</h1>
         <h2>${lowercasedKey}</h2>
         <p>Random Value 3: ${isValidValue(randomValue3) ? randomValue3 : 'Invalid'}</p>
+</div>
       `;
 
       // Append the new div to the resultContainer
-      resultContainer.appendChild(div);
+      container.appendChild(jsonItem);
     })
     .catch(error => console.error('Error fetching JSON files:', error));
 }
@@ -132,15 +136,7 @@ function runScriptMultipleTimes(numTimes) {
 
 // Call the function to run the script 10 times
 runScriptMultipleTimes(10);
-
-
 </script>
-
-
-
-
-
-
 
 <!-- close menu -->
 <script>
