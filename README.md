@@ -134,10 +134,10 @@ done
 
 Export geographies to json.  
 ```bash
-# labels
+# labels (no error columns)
 files=('dp02' 'dp03' 'dp04' 'dp05')
 for file in ${files[*]}; do
-  psql -Aqt -d us -c "SELECT jsonb_agg(row_to_json(labels)) FROM (SELECT * FROM ${file}_us_metadata WHERE label NOT LIKE '%Margin of Error%') labels;" > ~/american-geography/json/${file}_labels.json
+  psql -Aqt -d us -c "SELECT jsonb_agg(jsonb_build_object(code, label)) FROM ${file}_us_metadata WHERE label NOT LIKE '%Margin of Error%';" > ~/american-geography/json/${file}_labels.json
 done
 
 # us

@@ -10,7 +10,7 @@
 <body>
 
 <header>
-<div><a href="#"><h1 style="font-size:14px"><span style="color:#46bfbd">american</span><span style="">geography</span></h1></a></div>
+<div><a href="#"><h1 style="font-size:14px"><span>american</span><span style="color:#46bfbd">geography</span></h1></a></div>
 <div class="menu-icon">&#9776;</div>
 <nav>
 <a href="#" onclick="closeMenu()">Home</a>
@@ -20,48 +20,71 @@
 </header>
 
 <div class="container">
-  <div class="flex-container"><div class="flex-column-wide color-gradient" style="padding:10px 0"><h1 style="font-style:italic">State vs. State</h1><h1 style="font-size:12px">from the <a href="https://data.census.gov/" target="_blank">US Census</a></h1></div></div>
+  <div class="flex-container"><div class="flex-column-wide color-gradient" style="padding:10px 0; letter-spacing:-1px"><h1 style="font-style:italic">State vs. State</h1><h1 style="font-size:12px">from the <a href="https://data.census.gov/" target="_blank">US Census</a></h1></div></div>
   <div class="flex-container" id="resultContainer"></div>
 </div>
 
 <!--<div class="border-container"><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div></div>-->
 
 <script>
-var files = ["alabama.json","alaska.json","arizona.json","arkansas.json","california.json","colorado.json","connecticut.json","delaware.json","districtofcolumbia.json","florida.json","georgia.json","hawaii.json","idaho.json","illinois.json","indiana.json","iowa.json","kansas.json","kentucky.json","louisiana.json","maine.json","maryland.json","massachusetts.json","michigan.json","minnesota.json","mississippi.json","missouri.json","montana.json","nebraska.json","nevada.json","newhampshire.json","newjersey.json","newmexico.json","newyork.json","northcarolina.json","northdakota.json","ohio.json","oklahoma.json","oregon.json","pennsylvania.json","puertorico.json","rhodeisland.json","southcarolina.json","southdakota.json","tennessee.json","texas.json","unitedstatesvirginislands.json","utah.json","vermont.json","virginia.json","washington.json","westvirginia.json","wisconsin.json","wyoming.json"]
+var files = ["alabama.json","alaska.json","arizona.json","arkansas.json","california.json","colorado.json","connecticut.json","delaware.json","districtofcolumbia.json","florida.json","georgia.json","hawaii.json","idaho.json","illinois.json","indiana.json","iowa.json","kansas.json","kentucky.json","louisiana.json","maine.json","maryland.json","massachusetts.json","michigan.json","minnesota.json","mississippi.json","missouri.json","montana.json","nebraska.json","nevada.json","newhampshire.json","newjersey.json","newmexico.json","newyork.json","northcarolina.json","northdakota.json","ohio.json","oklahoma.json","oregon.json","pennsylvania.json","puertorico.json","rhodeisland.json","southcarolina.json","southdakota.json","tennessee.json","texas.json","utah.json","vermont.json","virginia.json","washington.json","westvirginia.json","wisconsin.json","wyoming.json"]
 
-let jsonLabels; // Variable to store the JSON data
+// Function to get a random element from an array
+function getRandomElement(array) {
+  const randomIndex = Math.floor(Math.random() * array.length);
+  return array[randomIndex];
+}
 
+// Function to search for a code within a JSON file
+function searchCodeAndLabelInFile(filename, code) {
+  return fetch(filename)
+    .then(response => response.json())
+    .then(data => {
+      const result = data.find(item => item.code === code);
+      return result;
+    })
+    .catch(error => console.error(`Error searching code in ${filename}:`, error));
+}
+
+// Choose two random filenames
+const randomFile1 = getRandomElement(files);
+const randomFile2 = getRandomElement(files);
+
+// Build the URLs
+const url1 = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/states/dp02_${randomFile1}`;
+const url2 = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/states/dp02_${randomFile2}`;
+
+// Get a random code and label from jsonLabels
 fetch('https://raw.githubusercontent.com/geographyclub/american-geography/main/json/dp02_labels.json')
   .then(response => response.json())
-  .then(data => {
-    // Store the data in the variable
-    jsonLabels = data;
-    // Now you can use the jsonLabels variable elsewhere in your code
-    console.log(jsonLabels);
+  .then(jsonLabels => {
+    const randomItem = getRandomCodeAndLabel(jsonLabels);
 
-    // Call the function to get a random code and label
-    const randomItem = getRandomCodeAndLabel();
-    console.log('Random Code:', randomItem.code);
-    console.log('Random Label:', randomItem.label);
+    // Search for the randomly chosen code and label in the two random files
+    Promise.all([
+      searchCodeAndLabelInFile(url1, randomItem.code.toLowerCase()),
+      searchCodeAndLabelInFile(url2, randomItem.code.toLowerCase())
+    ])
+      .then(results => {
+        console.log('Random Code:', randomItem.code);
+        console.log('Random Label:', randomItem.label);
+        console.log(`Result in ${randomFile1}:`, results[0]);
+        console.log(`Result in ${randomFile2}:`, results[1]);
+      })
+      .catch(error => console.error('Error searching codes:', error));
   })
   .catch(error => console.error('Error fetching JSON:', error));
 
 // Function to get a random code and label from jsonLabels
-function getRandomCodeAndLabel() {
-  // Check if jsonLabels is defined and not empty
+function getRandomCodeAndLabel(jsonLabels) {
   if (jsonLabels && jsonLabels.length > 0) {
-    // Get a random index
     const randomIndex = Math.floor(Math.random() * jsonLabels.length);
-    // Get the item at the random index
     const randomItem = jsonLabels[randomIndex];
-    // Return the code and label
     return { code: randomItem.code, label: randomItem.label };
   } else {
-    // Return a default value or handle the case where jsonLabels is empty
     return { code: 'N/A', label: 'No data available' };
   }
 }
-
 </script>
 
 
