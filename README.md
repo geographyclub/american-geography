@@ -141,14 +141,20 @@ for file in ${files[*]}; do
 done
 
 # us
-columns=$(psql -Aqt -d us -c 'SELECT * FROM dp02_us_metadata' | grep -v ".*M|" | sed -e 's/|.*//g' | paste -sd,)
-psql -Aqt -d us -c 'SELECT jsonb_agg(row_to_json(fields)) FROM (SELECT name, '"${columns}"' FROM dp02_us2022) fields;' > ~/american-geography/json/us/dp02_us.json
+files=('dp02' 'dp03' 'dp04' 'dp05')
+for file in ${files[*]}; do
+  columns=$(psql -Aqt -d us -c "SELECT * FROM ${file}_us_metadata" | grep -v ".*M|" | sed -e 's/|.*//g' | paste -sd,)
+  psql -Aqt -d us -c 'SELECT jsonb_agg(row_to_json(fields)) FROM (SELECT name, '"${columns}"' FROM '"${file}"'_us2022) fields;' > ~/american-geography/json/us/${file}_us.json
+done 
 
 # states
-columns=$(psql -Aqt -d us -c 'SELECT * FROM dp02_state_metadata' | grep -v ".*M|" | sed -e 's/|.*//g' | paste -sd,)
-psql -Aqt -d us -c "COPY (SELECT geoid, name FROM state) TO STDOUT DELIMITER E'\t'" | while IFS=$'\t' read -a array; do
+files=('dp02' 'dp03' 'dp04' 'dp05')
+for file in ${files[*]}; do
+  columns=$(psql -Aqt -d us -c "SELECT * FROM ${file}_state_metadata" | grep -v ".*M|" | sed -e 's/|.*//g' | paste -sd,)
+  psql -Aqt -d us -c "COPY (SELECT geoid, name FROM state) TO STDOUT DELIMITER E'\t'" | while IFS=$'\t' read -a array; do
   stateUpper=${array[1]// /}; state=${stateUpper,,};
-  psql -Aqt -d us -c 'SELECT jsonb_agg(row_to_json(fields)) FROM (SELECT name, '"${columns}"' FROM dp02_state2022 WHERE SUBSTRING(geo_id,10,2) = '\'${array[0]}\'') fields;' > ~/american-geography/json/states/dp02_${state}.json
+    psql -Aqt -d us -c 'SELECT jsonb_agg(row_to_json(fields)) FROM (SELECT name, '"${columns}"' FROM '"${file}"'_state2022 WHERE SUBSTRING(geo_id,10,2) = '\'${array[0]}\'') fields;' > ~/american-geography/json/states/${file}_${state}.json
+  done
 done
 ```
 

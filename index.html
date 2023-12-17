@@ -26,11 +26,13 @@
 <!--<div class="border-container"><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div></div>-->
 
 <script>
-const labelsUrl = 'https://raw.githubusercontent.com/geographyclub/american-geography/main/json/dp02_labels.json';
+const prefixes = ["dp02", "dp03", "dp04", "dp05"];
+const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+const labelsUrl = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/${randomPrefix}_labels.json`;
 
 // Function to check if a value is valid
 function isValidValue(value) {
-  return value !== "null" && value !== "{X}" && value !== null && value !== undefined;
+  return value !== "null" && value !== "{X}";
 }
 
 // Function to fetch a random key from Labels and check its value in three different files
@@ -54,8 +56,10 @@ function fetchRandomKeyAndCheckValue(labelsData, files, thirdFileUrl) {
     randomFile2 = files[Math.floor(Math.random() * files.length)];
   } while (randomFile1 === randomFile2); // Ensure randomFile2 is different from randomFile1
 
-  const fileUrl1 = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/states/dp02_${randomFile1}`;
-  const fileUrl2 = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/states/dp02_${randomFile2}`;
+      const fileUrl1 = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/states/${randomPrefix}_${randomFile1}`;
+      const fileUrl2 = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/states/${randomPrefix}_${randomFile2}`;
+      // Specify the URL for the third file
+      //const thirdFileUrl = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/us/${randomPrefix}_us.json`;
 
   // Fetch the JSON files corresponding to the random files
   return Promise.all([
@@ -73,6 +77,11 @@ function fetchRandomKeyAndCheckValue(labelsData, files, thirdFileUrl) {
       // Find the value corresponding to the lowercase randomly chosen key in the third file
       const randomValue3 = thirdFileData.find(obj => obj.hasOwnProperty(lowercasedKey))?.[lowercasedKey];
 
+      // Get the value of the "name" key from each file
+      const nameValue1 = fileData1.find(obj => obj.hasOwnProperty('name'))?.name;
+      const nameValue2 = fileData2.find(obj => obj.hasOwnProperty('name'))?.name;
+      const nameValue3 = thirdFileData.find(obj => obj.hasOwnProperty('name'))?.name;
+
       // Log the results
       const container = document.getElementById('jsonContainer');
       const jsonItem = document.createElement('div');
@@ -81,9 +90,8 @@ function fetchRandomKeyAndCheckValue(labelsData, files, thirdFileUrl) {
       // Update the HTML content with the retrieved values
       jsonItem.innerHTML = `
       <div class="flex-container">
-
       <div class="flex-column-wide"><h2>${valueFromLabels.slice(1)}</h2></div>
-        <h1>${randomFile1}</h1>
+      <div class="flex-column"><h2>${nameValue1}</h2></div>
         <h2>${lowercasedKey}</h2>
         <p>Random Value 1: ${isValidValue(randomValue1) ? randomValue1 : 'Invalid'}</p>
         
@@ -102,6 +110,7 @@ function fetchRandomKeyAndCheckValue(labelsData, files, thirdFileUrl) {
     })
     .catch(error => console.error('Error fetching JSON files:', error));
 }
+const thirdFileUrl = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/us/${randomPrefix}_us.json`;
 
 // Function to repeat the script a specified number of times
 function runScriptMultipleTimes(numTimes) {
@@ -121,9 +130,6 @@ function runScriptMultipleTimes(numTimes) {
         "rhodeisland.json", "southcarolina.json", "southdakota.json", "tennessee.json", "texas.json", "utah.json",
         "vermont.json", "virginia.json", "washington.json", "westvirginia.json", "wisconsin.json", "wyoming.json"
       ];
-
-      // Specify the URL for the third file
-      const thirdFileUrl = 'https://raw.githubusercontent.com/geographyclub/american-geography/main/json/us/dp02_us.json';
 
       // Run the script multiple times
       for (let i = 0; i < numTimes; i++) {
