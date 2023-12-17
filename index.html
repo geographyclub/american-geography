@@ -20,7 +20,7 @@
 </header>
 
 <div class="container">
-  <div class="flex-container"><div class="flex-column-wide color-gradient" style="padding:10px 0; letter-spacing:-1px"><h1 style="font-style:italic">State vs. State</h1><h1 style="font-size:12px">from the <a href="https://data.census.gov/" target="_blank">US Census</a></h1></div></div>
+  <div class="flex-container"><div class="flex-column-wide color-gradient" style="padding:10px 0; letter-spacing:-1px"><h1>State vs. State</h1><h1 style="font-size:12px">from the <a href="https://data.census.gov/" target="_blank">US Census</a></h1></div></div>
   <div class="flex-container" id="resultContainer"></div>
 </div>
 
@@ -75,57 +75,63 @@ function fetchRandomKeyAndCheckValue(labelsData, files, thirdFileUrl) {
       const randomValue3 = thirdFileData.find(obj => obj.hasOwnProperty(lowercasedKey))?.[lowercasedKey];
 
       // Log the results
-      console.log(`Random File 1: ${randomFile1}`);
-      if (isValidValue(randomValue1)) {
-        console.log(`Random Value for ${lowercasedKey} in File 1: ${randomValue1}`);
-      } else {
-        console.log(`Value for ${lowercasedKey} in File 1 is invalid, choosing another file.`);
-        return fetchRandomKeyAndCheckValue(labelsData, files, thirdFileUrl);
-      }
+      const div = document.createElement('div');
+      div.classList.add('flex-column');
 
-      console.log(`Random File 2: ${randomFile2}`);
-      if (isValidValue(randomValue2)) {
-        console.log(`Random Value for ${lowercasedKey} in File 2: ${randomValue2}`);
-      } else {
-        console.log(`Value for ${lowercasedKey} in File 2 is invalid, choosing another file.`);
-        return fetchRandomKeyAndCheckValue(labelsData, files, thirdFileUrl);
-      }
+      // Update the HTML content with the retrieved values
+      div.innerHTML = `
+        <h1>${randomFile1}</h1>
+        <h2>${lowercasedKey}</h2>
+        <p>Random Value 1: ${isValidValue(randomValue1) ? randomValue1 : 'Invalid'}</p>
+        
+        <h1>${randomFile2}</h1>
+        <h2>${lowercasedKey}</h2>
+        <p>Random Value 2: ${isValidValue(randomValue2) ? randomValue2 : 'Invalid'}</p>
+        
+        <h1>${thirdFileUrl}</h1>
+        <h2>${lowercasedKey}</h2>
+        <p>Random Value 3: ${isValidValue(randomValue3) ? randomValue3 : 'Invalid'}</p>
+      `;
 
-      console.log(`Third File: ${thirdFileUrl}`);
-      if (isValidValue(randomValue3)) {
-        console.log(`Random Value for ${lowercasedKey} in Third File: ${randomValue3}`);
-      } else {
-        console.log(`Value for ${lowercasedKey} in Third File is invalid.`);
-      }
+      // Append the new div to the resultContainer
+      resultContainer.appendChild(div);
     })
     .catch(error => console.error('Error fetching JSON files:', error));
 }
 
-// Fetch the labels JSON file
-fetch(labelsUrl)
-  .then(response => response.json())
-  .then(labelsData => {
-    // Now, choose random files from the list
-    const files = [
-      "alabama.json", "alaska.json", "arizona.json", "arkansas.json", "california.json",
-      "colorado.json", "connecticut.json", "delaware.json", "districtofcolumbia.json", "florida.json",
-      "georgia.json", "hawaii.json", "idaho.json", "illinois.json", "indiana.json", "iowa.json",
-      "kansas.json", "kentucky.json", "louisiana.json", "maine.json", "maryland.json", "massachusetts.json",
-      "michigan.json", "minnesota.json", "mississippi.json", "missouri.json", "montana.json", "nebraska.json",
-      "nevada.json", "newhampshire.json", "newjersey.json", "newmexico.json", "newyork.json", "northcarolina.json",
-      "northdakota.json", "ohio.json", "oklahoma.json", "oregon.json", "pennsylvania.json", "puertorico.json",
-      "rhodeisland.json", "southcarolina.json", "southdakota.json", "tennessee.json", "texas.json", "utah.json",
-      "vermont.json", "virginia.json", "washington.json", "westvirginia.json", "wisconsin.json", "wyoming.json"
-    ];
+// Function to repeat the script a specified number of times
+function runScriptMultipleTimes(numTimes) {
+  // Fetch the labels JSON file
+  fetch(labelsUrl)
+    .then(response => response.json())
+    .then(labelsData => {
+      // Now, choose random files from the list
+      const files = [
+        "alabama.json", "alaska.json", "arizona.json", "arkansas.json", "california.json",
+        "colorado.json", "connecticut.json", "delaware.json", "districtofcolumbia.json", "florida.json",
+        "georgia.json", "hawaii.json", "idaho.json", "illinois.json", "indiana.json", "iowa.json",
+        "kansas.json", "kentucky.json", "louisiana.json", "maine.json", "maryland.json", "massachusetts.json",
+        "michigan.json", "minnesota.json", "mississippi.json", "missouri.json", "montana.json", "nebraska.json",
+        "nevada.json", "newhampshire.json", "newjersey.json", "newmexico.json", "newyork.json", "northcarolina.json",
+        "northdakota.json", "ohio.json", "oklahoma.json", "oregon.json", "pennsylvania.json", "puertorico.json",
+        "rhodeisland.json", "southcarolina.json", "southdakota.json", "tennessee.json", "texas.json", "utah.json",
+        "vermont.json", "virginia.json", "washington.json", "westvirginia.json", "wisconsin.json", "wyoming.json"
+      ];
 
-    // Specify the URL for the third file
-    const thirdFileUrl = 'https://raw.githubusercontent.com/geographyclub/american-geography/main/json/us/dp02_us.json';
+      // Specify the URL for the third file
+      const thirdFileUrl = 'https://raw.githubusercontent.com/geographyclub/american-geography/main/json/us/dp02_us.json';
 
-    // Call the function to fetch and check a random key in three different random files
-    fetchRandomKeyAndCheckValue(labelsData, files, thirdFileUrl);
-  })
-  .catch(error => console.error('Error fetching JSON labels:', error));
+      // Run the script multiple times
+      for (let i = 0; i < numTimes; i++) {
+        console.log(`\n=== Run ${i + 1} ===`);
+        fetchRandomKeyAndCheckValue(labelsData, files, thirdFileUrl);
+      }
+    })
+    .catch(error => console.error('Error fetching JSON labels:', error));
+}
 
+// Call the function to run the script 10 times
+runScriptMultipleTimes(10);
 
 
 </script>
