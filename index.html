@@ -27,64 +27,107 @@
 <!--<div class="border-container"><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div></div>-->
 
 <script>
-var files = ["alabama.json","alaska.json","arizona.json","arkansas.json","california.json","colorado.json","connecticut.json","delaware.json","districtofcolumbia.json","florida.json","georgia.json","hawaii.json","idaho.json","illinois.json","indiana.json","iowa.json","kansas.json","kentucky.json","louisiana.json","maine.json","maryland.json","massachusetts.json","michigan.json","minnesota.json","mississippi.json","missouri.json","montana.json","nebraska.json","nevada.json","newhampshire.json","newjersey.json","newmexico.json","newyork.json","northcarolina.json","northdakota.json","ohio.json","oklahoma.json","oregon.json","pennsylvania.json","puertorico.json","rhodeisland.json","southcarolina.json","southdakota.json","tennessee.json","texas.json","utah.json","vermont.json","virginia.json","washington.json","westvirginia.json","wisconsin.json","wyoming.json"]
+const labelsUrl = 'https://raw.githubusercontent.com/geographyclub/american-geography/main/json/dp02_labels.json';
 
-// Function to get a random element from an array
-function getRandomElement(array) {
-  const randomIndex = Math.floor(Math.random() * array.length);
-  return array[randomIndex];
+// Function to check if a value is valid
+function isValidValue(value) {
+  return value !== "null" && value !== "{X}" && value !== null && value !== undefined;
 }
 
-// Function to search for a code within a JSON file
-function searchCodeAndLabelInFile(filename, code) {
-  return fetch(filename)
-    .then(response => response.json())
-    .then(data => {
-      const result = data.find(item => item.code === code);
-      return result;
+// Function to fetch a random key from Labels and check its value in three different files
+function fetchRandomKeyAndCheckValue(labelsData, files, thirdFileUrl) {
+  // Select a random object from the labels array
+  const randomLabelObject = labelsData[Math.floor(Math.random() * labelsData.length)];
+
+  // Extract the randomly chosen key and value from labels
+  const randomKey = Object.keys(randomLabelObject)[0];
+  const lowercasedKey = randomKey.toLowerCase();
+  const valueFromLabels = randomLabelObject[randomKey];
+
+  // Log the result
+  console.log(`Random Key from Labels: ${lowercasedKey}`);
+  console.log(`Value from Labels: ${valueFromLabels}`);
+
+  // Choose three different random files from the list
+  let randomFile1, randomFile2;
+  do {
+    randomFile1 = files[Math.floor(Math.random() * files.length)];
+    randomFile2 = files[Math.floor(Math.random() * files.length)];
+  } while (randomFile1 === randomFile2); // Ensure randomFile2 is different from randomFile1
+
+  const fileUrl1 = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/states/dp02_${randomFile1}`;
+  const fileUrl2 = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/states/dp02_${randomFile2}`;
+
+  // Fetch the JSON files corresponding to the random files
+  return Promise.all([
+    fetch(fileUrl1).then(response => response.json()),
+    fetch(fileUrl2).then(response => response.json()),
+    fetch(thirdFileUrl).then(response => response.json()) // Fetch the third file
+  ])
+    .then(([fileData1, fileData2, thirdFileData]) => {
+      // Find the value corresponding to the lowercase randomly chosen key in the first file
+      const randomValue1 = fileData1.find(obj => obj.hasOwnProperty(lowercasedKey))?.[lowercasedKey];
+
+      // Find the value corresponding to the lowercase randomly chosen key in the second file
+      const randomValue2 = fileData2.find(obj => obj.hasOwnProperty(lowercasedKey))?.[lowercasedKey];
+
+      // Find the value corresponding to the lowercase randomly chosen key in the third file
+      const randomValue3 = thirdFileData.find(obj => obj.hasOwnProperty(lowercasedKey))?.[lowercasedKey];
+
+      // Log the results
+      console.log(`Random File 1: ${randomFile1}`);
+      if (isValidValue(randomValue1)) {
+        console.log(`Random Value for ${lowercasedKey} in File 1: ${randomValue1}`);
+      } else {
+        console.log(`Value for ${lowercasedKey} in File 1 is invalid, choosing another file.`);
+        return fetchRandomKeyAndCheckValue(labelsData, files, thirdFileUrl);
+      }
+
+      console.log(`Random File 2: ${randomFile2}`);
+      if (isValidValue(randomValue2)) {
+        console.log(`Random Value for ${lowercasedKey} in File 2: ${randomValue2}`);
+      } else {
+        console.log(`Value for ${lowercasedKey} in File 2 is invalid, choosing another file.`);
+        return fetchRandomKeyAndCheckValue(labelsData, files, thirdFileUrl);
+      }
+
+      console.log(`Third File: ${thirdFileUrl}`);
+      if (isValidValue(randomValue3)) {
+        console.log(`Random Value for ${lowercasedKey} in Third File: ${randomValue3}`);
+      } else {
+        console.log(`Value for ${lowercasedKey} in Third File is invalid.`);
+      }
     })
-    .catch(error => console.error(`Error searching code in ${filename}:`, error));
+    .catch(error => console.error('Error fetching JSON files:', error));
 }
 
-// Choose two random filenames
-const randomFile1 = getRandomElement(files);
-const randomFile2 = getRandomElement(files);
-
-// Build the URLs
-const url1 = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/states/dp02_${randomFile1}`;
-const url2 = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/states/dp02_${randomFile2}`;
-
-// Get a random code and label from jsonLabels
-fetch('https://raw.githubusercontent.com/geographyclub/american-geography/main/json/dp02_labels.json')
+// Fetch the labels JSON file
+fetch(labelsUrl)
   .then(response => response.json())
-  .then(jsonLabels => {
-    const randomItem = getRandomCodeAndLabel(jsonLabels);
+  .then(labelsData => {
+    // Now, choose random files from the list
+    const files = [
+      "alabama.json", "alaska.json", "arizona.json", "arkansas.json", "california.json",
+      "colorado.json", "connecticut.json", "delaware.json", "districtofcolumbia.json", "florida.json",
+      "georgia.json", "hawaii.json", "idaho.json", "illinois.json", "indiana.json", "iowa.json",
+      "kansas.json", "kentucky.json", "louisiana.json", "maine.json", "maryland.json", "massachusetts.json",
+      "michigan.json", "minnesota.json", "mississippi.json", "missouri.json", "montana.json", "nebraska.json",
+      "nevada.json", "newhampshire.json", "newjersey.json", "newmexico.json", "newyork.json", "northcarolina.json",
+      "northdakota.json", "ohio.json", "oklahoma.json", "oregon.json", "pennsylvania.json", "puertorico.json",
+      "rhodeisland.json", "southcarolina.json", "southdakota.json", "tennessee.json", "texas.json", "utah.json",
+      "vermont.json", "virginia.json", "washington.json", "westvirginia.json", "wisconsin.json", "wyoming.json"
+    ];
 
-    // Search for the randomly chosen code and label in the two random files
-    Promise.all([
-      searchCodeAndLabelInFile(url1, randomItem.code.toLowerCase()),
-      searchCodeAndLabelInFile(url2, randomItem.code.toLowerCase())
-    ])
-      .then(results => {
-        console.log('Random Code:', randomItem.code);
-        console.log('Random Label:', randomItem.label);
-        console.log(`Result in ${randomFile1}:`, results[0]);
-        console.log(`Result in ${randomFile2}:`, results[1]);
-      })
-      .catch(error => console.error('Error searching codes:', error));
+    // Specify the URL for the third file
+    const thirdFileUrl = 'https://raw.githubusercontent.com/geographyclub/american-geography/main/json/us/dp02_us.json';
+
+    // Call the function to fetch and check a random key in three different random files
+    fetchRandomKeyAndCheckValue(labelsData, files, thirdFileUrl);
   })
-  .catch(error => console.error('Error fetching JSON:', error));
+  .catch(error => console.error('Error fetching JSON labels:', error));
 
-// Function to get a random code and label from jsonLabels
-function getRandomCodeAndLabel(jsonLabels) {
-  if (jsonLabels && jsonLabels.length > 0) {
-    const randomIndex = Math.floor(Math.random() * jsonLabels.length);
-    const randomItem = jsonLabels[randomIndex];
-    return { code: randomItem.code, label: randomItem.label };
-  } else {
-    return { code: 'N/A', label: 'No data available' };
-  }
-}
+
+
 </script>
 
 
