@@ -59,7 +59,6 @@ box-sizing: border-box;
 display: flex;
 flex-wrap: wrap;
 justify-content: space-between;
-padding: 0 5px;
 text-align:center;
 overflow: hidden;
 }
@@ -138,7 +137,7 @@ nav.show{display:flex;}
 
 a{color: white; text-decoration: none;}
 h1{font-family:'Libre Baskerville'; font-size:24px; font-weight:700; line-height:1; margin:0; padding:0 0 5px 0;}
-h2{font-family:'Libre Baskerville'; font-size:14px; font-weight:400; line-height:1; margin:0; padding:0;}
+h2{font-family:'Libre Baskerville'; font-size:14px; font-weight:400; line-height:1; margin:0; padding:0 0 5px 0;}
 h3{font-family:'Open Sans'; font-size:16px; font-weight:600; line-height:1.2; margin:0; padding:0;}
 h4{font-family:'Open Sans'; font-size:12px; font-weight:600; line-height:0.2; margin:0; padding:0; padding:0 0 10px 0;}
 p{font-family:'Open Sans'; font-size:10px; font-weight:600; line-height:1.2; margin:0; padding:0;}
@@ -155,7 +154,7 @@ padding: 2px 5px;
 #matchingResultsDiv{
 text-align: center;
 margin:0 auto;
-width:100%;
+width:80%;
 margin-top:110px;
 }
 

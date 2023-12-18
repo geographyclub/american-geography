@@ -147,16 +147,6 @@ for file in ${files[*]}; do
   psql -Aqt -d us -c 'SELECT jsonb_agg(row_to_json(fields)) FROM (SELECT name, '"${columns}"' FROM '"${file}"'_us2022) fields;' > ~/american-geography/json/us/${file}_us.json
 done 
 
-# states (individual files)
-files=('dp02' 'dp03' 'dp04' 'dp05')
-for file in ${files[*]}; do
-  columns=$(psql -Aqt -d us -c "SELECT * FROM ${file}_state_metadata" | grep -v ".*M|" | sed -e 's/|.*//g' | paste -sd,)
-  psql -Aqt -d us -c "COPY (SELECT geoid, name FROM state) TO STDOUT DELIMITER E'\t'" | while IFS=$'\t' read -a array; do
-  stateUpper=${array[1]// /}; state=${stateUpper,,};
-    psql -Aqt -d us -c 'SELECT jsonb_agg(row_to_json(fields)) FROM (SELECT name, '"${columns}"' FROM '"${file}"'_state2022 WHERE SUBSTRING(geo_id,10,2) = '\'${array[0]}\'') fields;' > ~/american-geography/json/states/${file}_${state}.json
-  done
-done
-
 # states (single file)
 files=('dp02' 'dp03' 'dp04' 'dp05')
 for file in ${files[*]}; do
@@ -164,13 +154,14 @@ for file in ${files[*]}; do
   psql -Aqt -d us -c 'SELECT jsonb_agg(row_to_json(fields)) FROM (SELECT name, '"${columns}"' FROM '"${file}"'_state2022) fields;' > ~/american-geography/json/state/${file}_state.json
 done
 
-# counties (single file)
+# counties (individual files)
 files=('dp02' 'dp03' 'dp04' 'dp05')
 for file in ${files[*]}; do
-  columns=$(psql -Aqt -d us -c "SELECT * FROM ${file}_county_metadata" | grep -v ".*M|" | sed -e 's/|.*//g' | paste -sd,);
-  psql -Aqt -d us -c 'SELECT jsonb_agg(row_to_json(fields)) FROM (SELECT name, '"${columns}"' FROM '"${file}"'_county2022) fields;' > ~/american-geography/json/county/${file}_county.json
+  columns=$(psql -Aqt -d us -c "SELECT * FROM ${file}_county_metadata" | grep -v ".*M|" | sed -e 's/|.*//g' | paste -sd,)
+  psql -Aqt -d us -c "COPY (SELECT geo_id, name FROM ${file}_county2022) TO STDOUT DELIMITER E'\t'" | while IFS=$'\t' read -a array; do
+    psql -Aqt -d us -c 'SELECT jsonb_agg(row_to_json(fields)) FROM (SELECT name, '"${columns}"' FROM '"${file}"'_county2022 WHERE geo_id = '\'${array[0]}\'') fields;' > ~/american-geography/json/county/${file}_${array[0]}.json
+  done
 done
-
 
 ```
 

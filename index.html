@@ -83,7 +83,7 @@ function fetchData() {
           // Append <div><h1>${randomValue}</h1></div> just once
           const matchingResultsDiv = document.getElementById('matchingResultsDiv');
           const randomValueDiv = document.createElement('div');
-          randomValueDiv.innerHTML = `<div style="padding-bottom:5px"><h2>${splitRandomValue[1]}</h2><hr><h1>${splitRandomValue.slice(2).join(' <hr> ').replace(/:/g, '')}</h1></div>`;
+          randomValueDiv.innerHTML = `<div style="padding-bottom:5px"><h2>${splitRandomValue[1]}</h2><h1>${splitRandomValue.slice(2).join(' <hr> ').replace(/:/g, '')}</h1></div>`;
           matchingResultsDiv.appendChild(randomValueDiv);
 
           // Append each matching value and name to the HTML div
