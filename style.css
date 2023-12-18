@@ -1,3 +1,58 @@
+/* for a in {1..52}; do echo '.result-'${a}'{font-size:'$(( 40 - (${a}/2) ))'px;}'; done */
+.result-1{font-size:50px}
+.result-2{font-size:49px}
+.result-3{font-size:49px}
+.result-4{font-size:48px}
+.result-5{font-size:48px}
+.result-6{font-size:47px}
+.result-7{font-size:47px}
+.result-8{font-size:46px}
+.result-9{font-size:46px}
+.result-10{font-size:45px}
+.result-11{font-size:45px}
+.result-12{font-size:44px}
+.result-13{font-size:44px}
+.result-14{font-size:43px}
+.result-15{font-size:43px}
+.result-16{font-size:42px}
+.result-17{font-size:42px}
+.result-18{font-size:41px}
+.result-19{font-size:41px}
+.result-20{font-size:40px}
+.result-21{font-size:40px}
+.result-22{font-size:39px}
+.result-23{font-size:39px}
+.result-24{font-size:38px}
+.result-25{font-size:38px}
+.result-26{font-size:37px}
+.result-27{font-size:37px}
+.result-28{font-size:36px}
+.result-29{font-size:36px}
+.result-30{font-size:35px}
+.result-31{font-size:35px}
+.result-32{font-size:34px}
+.result-33{font-size:34px}
+.result-34{font-size:33px}
+.result-35{font-size:33px}
+.result-36{font-size:32px}
+.result-37{font-size:32px}
+.result-38{font-size:31px}
+.result-39{font-size:31px}
+.result-40{font-size:30px}
+.result-41{font-size:30px}
+.result-42{font-size:29px}
+.result-43{font-size:29px}
+.result-44{font-size:28px}
+.result-45{font-size:28px}
+.result-46{font-size:27px}
+.result-47{font-size:27px}
+.result-48{font-size:26px}
+.result-49{font-size:26px}
+.result-50{font-size:25px}
+.result-51{font-size:25px}
+.result-52{font-size:24px}
+
+
 /* navigation */
 
 nav {
@@ -60,7 +115,7 @@ display: flex;
 flex-wrap: wrap;
 justify-content: space-between;
 padding: 0 5px;
-margin:50px 0 0 0;
+text-align:center;
 }
 
 .item {
@@ -136,10 +191,10 @@ nav.show{display:flex;}
 /* fonts */
 
 a{color: white; text-decoration: none;}
-h1{font-family:'Libre Baskerville'; font-size:24px; font-weight:700; line-height:1; margin:5px 0; padding:0;}
-h2{font-family:'Libre Baskerville'; font-size:16px; font-weight:400; line-height:1; margin:0; padding:0;}
-h3{font-family:'Open Sans'; font-size:20px; font-weight:900; line-height:1.2; margin:0; padding:0;}
-h4{font-family:'Open Sans'; font-size:16px; font-weight:600; line-height:1.2; margin:0; padding:0;}
+h1{font-family:'Libre Baskerville'; font-size:30px; font-weight:700; line-height:1; margin:0; padding:5px 0 0 0; letter-spacing:-2px;}
+h2{font-family:'Libre Baskerville'; font-size:16px; font-weight:400; line-height:1; margin:0; padding:5px 0 0 0;}
+h3{font-family:'Open Sans'; font-size:16px; font-weight:600; line-height:1.2; margin:0; padding:0;}
+h4{font-family:'Open Sans'; font-size:12px; font-weight:600; line-height:0.2; margin:0; padding:0; padding:0 0 5px 0;}
 p{font-family:'Open Sans'; font-size:10px; font-weight:600; line-height:1.2; margin:0; padding:0;}
 
 hr{margin:10px 0; padding:0;}
@@ -151,3 +206,25 @@ margin: 5px 0;
 padding: 2px 5px;
 }
 
+#matchingResultsDiv{
+text-align: center;
+margin:0 auto;
+width:100%;
+overflow:hidden;
+margin-top:110px;
+}
+
+#banner {
+position:fixed;
+left:0;
+top:50px;
+background-color:#333;
+color:#fff;
+z-index:100;
+width:100%;
+height:50px;
+}
+
+#banner div{
+margin: 0 auto;
+}

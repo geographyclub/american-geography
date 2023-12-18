@@ -11,7 +11,7 @@
 <body>
 
 <header>
-<div><a href="#"><h1 style="font-size:14px"><span>american</span><span style="color:#46bfbd">geography</span></h1></a></div>
+<div><a href="#"><h2 style="font-size:14px"><span>american</span><span style="color:#46bfbd">geography</span></h2></a></div>
 <div class="menu-icon">&#9776;</div>
 <nav>
 <a href="#" onclick="closeMenu()">Home</a>
@@ -20,9 +20,8 @@
 </nav>
 </header>
 
-<div class="container" id="jsonContainer">
-<div class="flex-column-wide" style="padding-top:5px"><h1>State vs State</h1><h2>from the <a href="https://data.census.gov/" target="_blank">US Census</a></h2></div>
-</div>
+<div class="container" id="banner"><div><a href="https://data.census.gov/" target="_blank">US Census</a></div></div>
+<div class="container"><div id="matchingResultsDiv"></div>
 
 <!--<div class="border-container"><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div></div>-->
 
@@ -31,9 +30,9 @@ function fetchData() {
   // Generate a random prefix each time the function is called
   const prefixes = ["dp02", "dp03", "dp04", "dp05"];
   const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
-
   // Construct the labels URL with the random prefix
   const labelsUrl = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/${randomPrefix}_labels.json`;
+  let counter = 1;
 
   // Fetch the labels JSON file
   fetch(labelsUrl)
@@ -42,35 +41,59 @@ function fetchData() {
       // Select a random object from the labels array
       const randomLabelObject = labelsData[Math.floor(Math.random() * labelsData.length)];
 
-      // Log the key and value separately
-      for (const [key, value] of Object.entries(randomLabelObject)) {
-        console.log(`${key}: ${value}`);
-      }
+      // Log the key and value
+      const [randomKey, randomValue] = Object.entries(randomLabelObject)[0];
+      console.log(`${randomKey}: ${randomValue}`);
 
-      // Now, fetch the second JSON file
+      // Split randomValue by '!!'
+      const splitRandomValue = randomValue.split('!!');
+      console.log("Split randomValue:", splitRandomValue);
+
+      // Now, fetch the second JSON file with the fixed name "randomPrefix_states.json"
       const fileUrl = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/states/${randomPrefix}_states.json`;
 
-      fetch(fileUrl)
+      return fetch(fileUrl)
         .then(response => response.json())
         .then(secondFileData => {
-          // Find all matching keys
-          const matchingKeys = Object.keys(randomLabelObject).filter(key => key in secondFileData[0]);
+          // Check if the lowercase version of the random key exists in the second file
+          const lowercaseRandomKey = randomKey.toLowerCase();
 
-          // Log the matching keys
-          console.log("Matching keys:", matchingKeys);
-        })
-        .catch(error => console.error("Error fetching second file:", error));
+          // Store the matching values in an array
+          const matchingResults = [];
+
+          secondFileData.forEach(obj => {
+            if (lowercaseRandomKey in obj) {
+              matchingResults.push({
+                matchingKey: randomKey,
+                matchingValue: obj[lowercaseRandomKey],
+                name: obj.name
+              });
+            }
+          });
+
+          // Sort the array in descending order by matchingValue
+          matchingResults.sort((a, b) => b.matchingValue - a.matchingValue);
+
+          // Append <div><h1>${randomValue}</h1></div> just once
+          const matchingResultsDiv = document.getElementById('matchingResultsDiv');
+          const randomValueDiv = document.createElement('div');
+          randomValueDiv.innerHTML = `<div><h3>${splitRandomValue[1]}</h3><h1>${splitRandomValue.slice(2).join(' ~ ').replace(/:/g, '')}</h1></div>`;
+          matchingResultsDiv.appendChild(randomValueDiv);
+
+          // Append each matching value and name to the HTML div
+          matchingResults.forEach(result => {
+            const resultElement = document.createElement('div');
+            resultElement.innerHTML = `
+              <div><h1 class="result-${counter++}">${Number(result.matchingValue).toLocaleString()}</h1><h4>${result.name.toUpperCase()}</h4></div>
+            `;
+            matchingResultsDiv.appendChild(resultElement);
+          });
+        });
     })
-    .catch(error => console.error("Error fetching labels:", error));
+    .then(undefined, error => console.error("Error:", error));
 }
-
 fetchData();
-
-
 </script>
-
-
-
 
 <!-- close menu -->
 <script>
@@ -86,7 +109,7 @@ document.querySelector('nav').classList.remove('show');
 <script>
 function scrollToSection(sectionId) {
 const targetSection = document.getElementById(sectionId);
-const offset = 50;
+const offset = 100;
 
 if (targetSection) {
 window.scrollTo({

@@ -113,7 +113,7 @@ function fetchRandomKeyAndCheckValue(labelsData, thirdFileUrl, resultContainer) 
 
           // Append the new div to the resultContainer (replace 'resultContainer' with your actual container variable or method)
           jsonItem.innerHTML = `
-            <div class="flex-column-wide"><hr><span style="color:#888; letter-spacing:1px"><p>${valueFromLabels[1]}</p></span><h1>${valueFromLabels.slice(2).map(item => item.replace(', ', ' ~ ')).join(' ~ ')}</h1></div>
+            <div class="flex-column-wide"><hr><span style="color:#888; letter-spacing:1px"><p>${valueFromLabels[1]}</p></span><h1>${valueFromLabels.slice(2).join(' ~ ')}</h1></div>
 			<div class="flex-container">
 			<div class="flex-column"><h2>${Number(randomValue1).toLocaleString()}</h2><h2>${nameValue1}</h2></div>
 			<div class="flex-column"><h2>${Number(randomValue2).toLocaleString()}</h2><h2>${nameValue2}</h2></div>
