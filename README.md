@@ -168,7 +168,7 @@ done
 files=('dp02' 'dp03' 'dp04' 'dp05')
 for file in ${files[*]}; do
   columns=$(psql -Aqt -d us -c "SELECT * FROM ${file}_county_metadata" | grep -v ".*M|" | sed -e 's/|.*//g' | paste -sd,);
-  psql -Aqt -d us -c 'SELECT jsonb_agg(row_to_json(fields)) FROM (SELECT name, '"${columns}"' FROM '"${file}"'_state2022) fields;' > ~/american-geography/json/county/${file}_county.json
+  psql -Aqt -d us -c 'SELECT jsonb_agg(row_to_json(fields)) FROM (SELECT name, '"${columns}"' FROM '"${file}"'_county2022) fields;' > ~/american-geography/json/county/${file}_county.json
 done
 
 
