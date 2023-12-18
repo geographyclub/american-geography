@@ -74,14 +74,20 @@ function fetchData() {
           // Sort the array in descending order by matchingValue
           matchingResults.sort((a, b) => b.matchingValue - a.matchingValue);
 
+          // Pick only the top 3 results
+          const topThreeResults = matchingResults.slice(0, 3);
+
+          // Log the top 3 matching results array
+          console.log("Top 3 Matching Results:", topThreeResults);
+
           // Append <div><h1>${randomValue}</h1></div> just once
           const matchingResultsDiv = document.getElementById('matchingResultsDiv');
           const randomValueDiv = document.createElement('div');
-          randomValueDiv.innerHTML = `<div><h3>${splitRandomValue[1]}</h3><h1>${splitRandomValue.slice(2).join(' ~ ').replace(/:/g, '')}</h1></div>`;
+          randomValueDiv.innerHTML = `<div style="padding-bottom:5px"><h2>${splitRandomValue[1]}</h2><hr><h1>${splitRandomValue.slice(2).join(' <hr> ').replace(/:/g, '')}</h1></div>`;
           matchingResultsDiv.appendChild(randomValueDiv);
 
           // Append each matching value and name to the HTML div
-          matchingResults.forEach(result => {
+          topThreeResults.forEach(result => {
             const resultElement = document.createElement('div');
             resultElement.innerHTML = `
               <div><h1 class="result-${counter++}">${Number(result.matchingValue).toLocaleString()}</h1><h4>${result.name.toUpperCase()}</h4></div>
