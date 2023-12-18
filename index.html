@@ -49,8 +49,8 @@ function fetchData() {
       const splitRandomValue = randomValue.split('!!');
       console.log("Split randomValue:", splitRandomValue);
 
-      // Now, fetch the second JSON file with the fixed name "randomPrefix_states.json"
-      const fileUrl = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/states/${randomPrefix}_states.json`;
+      // Now, fetch the second JSON file with the fixed name "randomPrefix_state.json"
+      const fileUrl = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/state/${randomPrefix}_state.json`;
 
       return fetch(fileUrl)
         .then(response => response.json())
@@ -94,6 +94,8 @@ function fetchData() {
             `;
             matchingResultsDiv.appendChild(resultElement);
           });
+
+
         });
     })
     .then(undefined, error => console.error("Error:", error));
