@@ -84,15 +84,22 @@ function fetchData() {
           randomValueDiv.innerHTML = `<div style="padding-bottom:5px"><h2>${splitRandomValue[1]}</h2><h1>${splitRandomValue.slice(2).join(' <hr> ').replace(/:/g, '')}</h1></div>`;
           matchingResultsDiv.appendChild(randomValueDiv);
 
-          // Append each matching value and name to the HTML div
-          matchingResults.slice(0, 3).forEach(result => {
-            const resultElement = document.createElement('div');
-            resultElement.classList.add('flex-column-wide');
-            resultElement.innerHTML = `
-              <div><h1 class="result-${counter++}">${Number(result.matchingValue).toLocaleString()}</h1><h4>${result.name.toUpperCase()}</h4></div>
-            `;
-            matchingResultsDiv.appendChild(resultElement);
-          });
+matchingResults.slice(0, 3).forEach(result => {
+  const resultElement = document.createElement('div');
+  resultElement.classList.add('flex-column-wide');
+
+  // Check if the first result is 'percent' and format the value accordingly
+  const formattedValue = splitRandomValue[0] === 'Percent'
+    ? `${Number(result.matchingValue).toLocaleString()}%`
+    : Number(result.matchingValue).toLocaleString();
+  resultElement.innerHTML = `
+    <div>
+      <h1 class="result-${counter++}">${formattedValue}</h1>
+      <h4>${result.name.toUpperCase()}</h4>
+    </div>
+  `;
+  matchingResultsDiv.appendChild(resultElement);
+});
 
 const resultsContainer = document.createElement('div');
 resultsContainer.classList.add('results-container');
@@ -100,8 +107,14 @@ resultsContainer.classList.add('results-container');
 matchingResults.slice(3).forEach(result => {
   const resultElement = document.createElement('span');
   resultElement.style.lineHeight = '0.5';
+
+// Check if the first result is 'percent' and format the value accordingly
+  const formattedValue = splitRandomValue[0] === 'Percent'
+    ? `${Number(result.matchingValue).toLocaleString()}%`
+    : Number(result.matchingValue).toLocaleString();
+
   resultElement.innerHTML = `
-    <span class="name-4">${result.name.toUpperCase()}</span><span class="result-4">${Number(result.matchingValue).toLocaleString()}</span>
+    <span class="name-4">${result.name.toUpperCase()}</span><span class="result-4">${formattedValue}</span>
   `;
   resultsContainer.appendChild(resultElement);
 });
