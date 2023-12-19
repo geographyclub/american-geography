@@ -155,7 +155,7 @@ padding: 2px 5px;
 text-align: center;
 margin:0 auto;
 width:80%;
-margin-top:110px;
+margin-top:60px;
 }
 
 #banner {
@@ -171,6 +171,7 @@ height:50px;
 
 #banner div{
 margin: 0 auto;
+width:60%;
 }
 
 /* for a in {1..52}; do echo '.result-'${a}'{font-size:'$(( 40 - (${a}/2) ))'px;}'; done */

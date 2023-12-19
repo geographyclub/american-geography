@@ -20,10 +20,8 @@
 </nav>
 </header>
 
-<div class="container" id="banner"><div><a href="https://data.census.gov/" target="_blank">US Census</a></div></div>
+<!-- <div class="container" id="banner"></div> -->
 <div class="flex-container"><div id="matchingResultsDiv"></div>
-
-<!--<div class="border-container"><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div></div>-->
 
 <script>
 function fetchData() {
@@ -131,7 +129,7 @@ document.querySelector('nav').classList.remove('show');
 <script>
 function scrollToSection(sectionId) {
 const targetSection = document.getElementById(sectionId);
-const offset = 100;
+const offset = 50;
 
 if (targetSection) {
 window.scrollTo({
