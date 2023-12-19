@@ -16,6 +16,7 @@ p{font-family:Sans; font-size:12px; font-weight:300; line-height:1.2; margin:0; 
 /* leaflet */
 #map{height:100vh; margin-left:auto; margin-right:auto; width:100vw;}
 #map .leaflet-tile-pane{filter:none;}
+.map-overlay{transform: rotate(45deg);}
 
 .leaflet-container a.leaflet-popup-close-button{color:#000; height:14px; margin:2px 0; padding:0; width:14px;}
 .leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar{border:0;}

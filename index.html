@@ -84,9 +84,9 @@ function fetchData() {
 matchingResults.slice(0, 3).forEach(result => {
   const resultElement = document.createElement('div');
   resultElement.classList.add('flex-column-wide');
-
+console.log(randomKey, randomValue)
   // Check if the first result is 'percent' and format the value accordingly
-  const formattedValue = splitRandomValue[0] === 'Percent'
+  const formattedValue = (randomKey.endsWith('PE') && Number(result.matchingValue) < 100)
     ? `${Number(result.matchingValue).toLocaleString()}%`
     : Number(result.matchingValue).toLocaleString();
   resultElement.innerHTML = `
