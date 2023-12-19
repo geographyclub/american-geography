@@ -177,7 +177,13 @@ margin: 0 auto;
 .result-1{font-size:40px}
 .result-2{font-size:30px}
 .result-3{font-size:20px}
+.result-4{font-size:10px}
 
 .name-1{font-size:20px}
 .name-2{font-size:16px}
 .name-3{font-size:12px}
+.name-4{font-size:10px; font-weight:600}
+
+.results-container {
+line-height:0.8;
+}
