@@ -41,11 +41,9 @@ function fetchData() {
 
       // Log the key and value
       const [randomKey, randomValue] = Object.entries(randomLabelObject)[0];
-      console.log(`${randomKey}: ${randomValue}`);
 
       // Split randomValue by '!!'
       const splitRandomValue = randomValue.split('!!');
-      console.log("Split randomValue:", splitRandomValue);
 
       // Now, fetch the second JSON file with the fixed name "randomPrefix_state.json"
       const fileUrl = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/state/${randomPrefix}_state.json`;
@@ -76,7 +74,6 @@ function fetchData() {
           const topThreeResults = matchingResults.slice(0, 3);
 
           // Log the top 3 matching results array
-          console.log("Top 3 Matching Results:", topThreeResults);
 
           // Append <div><h1>${randomValue}</h1></div> just once
           const matchingResultsDiv = document.getElementById('matchingResultsDiv');
