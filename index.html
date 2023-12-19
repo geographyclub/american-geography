@@ -103,7 +103,7 @@ matchingResults.slice(3).forEach(result => {
   const resultElement = document.createElement('span');
   resultElement.style.lineHeight = '0.5';
   resultElement.innerHTML = `
-    <span class="result-4">${Number(result.matchingValue).toLocaleString()}</span><span class="name-4">${result.name.toUpperCase()}</span>
+    <span class="name-4">${result.name.toUpperCase()}</span><span class="result-4">${Number(result.matchingValue).toLocaleString()}</span>
   `;
   resultsContainer.appendChild(resultElement);
 });
