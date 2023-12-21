@@ -188,3 +188,11 @@ width:60%;
 .results-container {
 line-height:0.8;
 }
+
+.box {
+flex: 0 0 50%;
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+

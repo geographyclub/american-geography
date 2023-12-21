@@ -118,17 +118,20 @@ matchingResults.slice(3).forEach(result => {
 
 matchingResultsDiv.appendChild(resultsContainer);
 
+<!--
+const imageContainerHTML = `
+<div class="box">
+  <div class="image-container">
+    <img class="image" src="">
+  </div>
+</div>
+`;
+matchingResultsDiv.innerHTML += imageContainerHTML;
+-->
         });
     })
     .then(undefined, error => console.error("Error:", error));
 }
-
-
-resultElement.innerHTML = `
-    <div class="image-container"><div class="image"></div></div>>
-  `;
-.appendChild(resultsContainer);
-
 
 fetchData();
 </script>
