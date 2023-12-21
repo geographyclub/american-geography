@@ -78,13 +78,13 @@ function fetchData() {
           // Append <div><h1>${randomValue}</h1></div> just once
           const matchingResultsDiv = document.getElementById('matchingResultsDiv');
           const randomValueDiv = document.createElement('div');
-          randomValueDiv.innerHTML = `<div style="padding-bottom:5px"><h2>${splitRandomValue[1]}</h2><h1>${splitRandomValue.slice(2).join(' <hr> ').replace(/:/g, '')}</h1></div>`;
+          randomValueDiv.innerHTML = `<div style="padding-bottom:5px"><h2 style="padding-bottom:5px;">${splitRandomValue[1]}</h2><h1>${splitRandomValue.slice(2).join(' <hr> ').replace(/:/g, '')}</h1></div>`;
           matchingResultsDiv.appendChild(randomValueDiv);
 
 matchingResults.slice(0, 3).forEach(result => {
   const resultElement = document.createElement('div');
   resultElement.classList.add('flex-column-wide');
-console.log(randomKey, randomValue)
+
   // Check if the first result is 'percent' and format the value accordingly
   const formattedValue = (randomKey.endsWith('PE') && Number(result.matchingValue) < 100)
     ? `${Number(result.matchingValue).toLocaleString()}%`
@@ -122,6 +122,14 @@ matchingResultsDiv.appendChild(resultsContainer);
     })
     .then(undefined, error => console.error("Error:", error));
 }
+
+
+resultElement.innerHTML = `
+    <div class="image-container"><div class="image"></div></div>>
+  `;
+.appendChild(resultsContainer);
+
+
 fetchData();
 </script>
 
