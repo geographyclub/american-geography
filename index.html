@@ -21,7 +21,12 @@
 </header>
 
 <!-- <div class="container" id="banner"></div> -->
-<div class="flex-container"><div id="matchingResultsDiv"></div>
+<div class="container">
+  <div id="banner"><h3 style="font-size:40px; font-weight:900; letter-spacing:-4px;">CENSUS SNIPPETS</h3><h3 style="font-size:12px; font-weight:300;">Scraped from <a href="https://github.com/geographyclub/american-geography" target="_blank">american-geography</a></h3><h3 style="font-size:12px; font-weight:300;">With data from <a href="https://data.census.gov/" target="_blank">US Census</a> accessed Dec, 2023</h3></div>
+
+
+  <div id="matchingResultsDiv"></div>
+</div>
 
 <script>
 function fetchData() {
@@ -118,22 +123,21 @@ matchingResults.slice(3).forEach(result => {
 
 matchingResultsDiv.appendChild(resultsContainer);
 
-<!--
-const imageContainerHTML = `
-<div class="box">
-  <div class="image-container">
-    <img class="image" src="">
-  </div>
-</div>
+const multilineTextToAdd = `
+  <hr class="long">
 `;
-matchingResultsDiv.innerHTML += imageContainerHTML;
--->
+matchingResultsDiv.innerHTML += multilineTextToAdd;
+
         });
     })
     .then(undefined, error => console.error("Error:", error));
 }
 
-fetchData();
+const numberOfFetches = 5;
+for (let i = 0; i < numberOfFetches; i++) {
+  fetchData();
+}
+
 </script>
 
 <!-- close menu -->
