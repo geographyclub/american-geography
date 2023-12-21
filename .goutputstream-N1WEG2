@@ -159,28 +159,25 @@ width:90%;
 }
 
 #banner {
-background-color:#333;
-padding:60px 10px 10px 10px;
-width:100%;
-margin: 0 0 10px 0;
-color: #fff;
+padding:60px 10px 20px 10px;
+text-align: left;
 }
 
 #banner a {
-color: #46bfbd;
+color: #333;
 text-decoration: underline;
+width: 100%;
 }
 
 #banner h1 {
 font-family: 'Damion';
-font-size: 24px;
+font-size: 40px;
 font-weight: 400;
 }
 
 #banner h3 {
-line-height: 1.4;
-font-size:12px;
-font-weight:600;
+line-height: 1.2;
+text-align: right;
 }
 
 /* for a in {1..52}; do echo '.result-'${a}'{font-size:'$(( 40 - (${a}/2) ))'px;}'; done */
