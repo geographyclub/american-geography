@@ -159,31 +159,27 @@ width:90%;
 }
 
 #banner {
-background-color: #46bfbd;
-padding:60px 0 5px 0;
+background-color: #ffdd05;
+padding:55px 0 5px 0;
 width:100%;
 margin: 0 0 10px 0;
-color: #fff;
-text-align: left;
+color: #333;
+text-align: center;
 }
 
 #banner h1 {
-font-size: 60px;
+font-size: 20px;
 font-weight: 400;
-letter-spacing: -5px;
-line-height:0.6;
-margin-bottom:10px;
+letter-spacing: -2px;
 }
 
 #banner h3 {
-line-height: 1.5;
-font-size:10px;
-font-weight:600;
-text-align: right;
-margin: 0 5px;
+font-size:16px;
+font-weight:800;
 }
 
 #banner a {
+color: #333;
 text-decoration: underline;
 }
 
@@ -217,7 +213,7 @@ box-sizing: border-box;
 
 .text-background {
 display: inline-block;
-background-color: rgba(52, 152, 219, 1);
-color: #fff;
-padding: 5px;
+background-color: #ffdd05;
+color: #333;
+padding: 5px 10px;
 }
