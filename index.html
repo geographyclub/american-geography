@@ -111,7 +111,7 @@ matchingResults.slice(3).forEach(result => {
   resultElement.style.lineHeight = '0.5';
 
 // Check if the first result is 'percent' and format the value accordingly
-  const formattedValue = splitRandomValue[0] === 'Percent'
+  const formattedValue = (randomKey.endsWith('PE') && Number(result.matchingValue) < 100)
     ? `${Number(result.matchingValue).toLocaleString()}%`
     : Number(result.matchingValue).toLocaleString();
 
