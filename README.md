@@ -1,8 +1,6 @@
 # American Geography
 
-Updated for American Community Survey 1-Year Supplemental Estimates 2022 released Sep-Oct 2023.
-
-TODO: Accessing tables from https://api.census.gov/
+Updated for American Community Survey 5-Year 2022 released Dec 2023.
 
 1. [Importing](#importing)
 2. [Z-scores](#z-scores)
@@ -250,17 +248,6 @@ psql --html -d us -c "SELECT * FROM (SELECT DENSE_RANK() OVER (ORDER BY a.pop::i
 psql -d us -c "SELECT * FROM (SELECT DENSE_RANK() OVER (ORDER BY a.pop::int DESC) rank, a.name, b.name AS state, a.pop, a.zscore_1_65 FROM place2022 a, state2022 b WHERE SUBSTRING(a.geoid,1,2) = b.geoid) stats WHERE rank <= 100;" | sed -e 's/-+-/-\|-/g' -e 's/^/\|/g' -e 's/$/\|/g' -e "s/||//g" | grep -v 'rows)|' > tables/place2022_zscore.md
 ```
 
-# select places with similar zscores  
-```bash
-
-# income_mean
-SELECT a.name, b.name state, a.pop, a.zscore_1_65 FROM place2022 a, state2022 b WHERE SUBSTRING(a.geoid,1,2) = b.geoid AND a.zscore_1_65::text LIKE '%income_mean%' ORDER BY a.income_mean DESC;
-
-TODO:
-group counties...
-ST_Union
-```
-
 ## References
 
 Release schedule: https://www.census.gov/programs-surveys/acs/news/data-releases/2022/release-schedule.html
@@ -273,6 +260,3 @@ Areas published: https://www.census.gov/programs-surveys/acs/geography-acs/areas
 
 Understanding geoids: https://www.census.gov/programs-surveys/geography/guidance/geo-identifiers.html
 
-## TO DO
-
-import all columns from data tables using column-metadata.csv
