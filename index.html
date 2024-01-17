@@ -1,170 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,700" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,600,800" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-<title>American Geography</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,600,800" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>American Geography</title>
 </head>
 <body>
 
 <header>
-<div><a href="#"><h2 style="font-size:14px"><span>american</span><span style="color:#46bfbd">geography</span></h2></a></div>
-<div class="menu-icon">&#9776;</div>
-<nav>
-<a href="#" onclick="closeMenu()">Home</a>
-<a href="https://github.com/geographyclub/american-geography" target="_blank">Github Repo</a>
-<!--<a href="#" onclick="scrollToSection('Brunei');">Brunei</a>-->
-</nav>
+  <div><a href="#"><h2 style="font-size:14px"><span>american</span><span style="color:#46bfbd">geography</span></h2></a></div>
+  <div class="menu-icon">&#9776;</div>
+  <nav>
+    <a href="#" onclick="closeMenu()">Home</a>
+    <a href="https://github.com/geographyclub/american-geography" target="_blank">Github Repo</a>
+    <!--<a href="#" onclick="scrollToSection('Brunei');">Brunei</a>-->
+  </nav>
 </header>
 
-<!-- <div class="container" id="banner"></div> -->
 <div class="container">
   <!--<div class="border-container"><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div></div>-->
   <div id="banner"><h3>Refresh for more random stats from <a href="https://data.census.gov/" target="_blank">US Census</a></h3></div>
-
   <div id="matchingResultsDiv"></div>
 </div>
 
 <script>
-function fetchData() {
-  // Generate a random prefix each time the function is called
-  const prefixes = ["dp02", "dp03", "dp04", "dp05"];
-  const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
-  // Construct the labels URL with the random prefix
-  const labelsUrl = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/${randomPrefix}_labels.json`;
-  let counter = 1;
+  function fetchData() {
+    const prefixes = ["dp02", "dp03", "dp04", "dp05"];
+    const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+    const labelsUrl = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/${randomPrefix}_labels.json`;
+    let counter = 1;
 
-  // Fetch the labels JSON file
-  fetch(labelsUrl)
-    .then(response => response.json())
-    .then(labelsData => {
-      // Select a random object from the labels array
-      const randomLabelObject = labelsData[Math.floor(Math.random() * labelsData.length)];
+    fetch(labelsUrl)
+      .then(response => response.json())
+      .then(labelsData => {
+        const randomLabelObject = labelsData[Math.floor(Math.random() * labelsData.length)];
+        const [randomKey, randomValue] = Object.entries(randomLabelObject)[0];
+        const splitRandomValue = randomValue.split('!!');
+        const fileUrl = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/state/${randomPrefix}_state.json`;
 
-      // Log the key and value
-      const [randomKey, randomValue] = Object.entries(randomLabelObject)[0];
+        return fetch(fileUrl)
+          .then(response => response.json())
+          .then(secondFileData => {
+            const lowercaseRandomKey = randomKey.toLowerCase();
+            const matchingResults = [];
 
-      // Split randomValue by '!!'
-      const splitRandomValue = randomValue.split('!!');
+            secondFileData.forEach(obj => {
+              if (lowercaseRandomKey in obj) {
+                matchingResults.push({
+                  matchingKey: randomKey,
+                  matchingValue: obj[lowercaseRandomKey],
+                  name: obj.name
+                });
+              }
+            });
 
-      // Now, fetch the second JSON file with the fixed name "randomPrefix_state.json"
-      const fileUrl = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/state/${randomPrefix}_state.json`;
+            matchingResults.sort((a, b) => b.matchingValue - a.matchingValue);
+            const topThreeResults = matchingResults.slice(0, 3);
 
-      return fetch(fileUrl)
-        .then(response => response.json())
-        .then(secondFileData => {
-          // Check if the lowercase version of the random key exists in the second file
-          const lowercaseRandomKey = randomKey.toLowerCase();
+            const matchingResultsDiv = document.getElementById('matchingResultsDiv');
+            const randomValueDiv = document.createElement('div');
+            randomValueDiv.innerHTML = `<div style="padding-bottom:5px"><h2 style="padding-bottom:5px;">${splitRandomValue[1]}</h2><h1>${splitRandomValue.slice(2).join(' <hr> ').replace(/:/g, '')}</h1></div>`;
+            matchingResultsDiv.appendChild(randomValueDiv);
 
-          // Store the matching values in an array
-          const matchingResults = [];
+            topThreeResults.forEach(result => {
+              const resultElement = document.createElement('div');
+              resultElement.classList.add('flex-column-wide');
+              const formattedValue = (randomKey.endsWith('PE') && Number(result.matchingValue) < 100)
+                ? `${Number(result.matchingValue).toLocaleString()}%`
+                : Number(result.matchingValue).toLocaleString();
+              resultElement.innerHTML = `
+                <div>
+                  <h1 class="result-${counter++}">${formattedValue}</h1>
+                  <h4>${result.name.toUpperCase()}</h4>
+                </div>
+              `;
+              matchingResultsDiv.appendChild(resultElement);
+            });
 
-          secondFileData.forEach(obj => {
-            if (lowercaseRandomKey in obj) {
-              matchingResults.push({
-                matchingKey: randomKey,
-                matchingValue: obj[lowercaseRandomKey],
-                name: obj.name
-              });
-            }
+            const resultsContainer = document.createElement('div');
+            resultsContainer.classList.add('results-container');
+
+            matchingResults.slice(3).forEach(result => {
+              const resultElement = document.createElement('span');
+              resultElement.style.lineHeight = '0.5';
+              const formattedValue = (randomKey.endsWith('PE') && Number(result.matchingValue) < 100)
+                ? `${Number(result.matchingValue).toLocaleString()}%`
+                : Number(result.matchingValue).toLocaleString();
+
+              resultElement.innerHTML = `
+                <span class="name-4">${result.name.toUpperCase()}</span><span class="result-4">${formattedValue}</span>
+              `;
+              resultsContainer.appendChild(resultElement);
+            });
+
+            matchingResultsDiv.appendChild(resultsContainer);
+
+            const multilineTextToAdd = `
+              <hr class="long">
+            `;
+            matchingResultsDiv.innerHTML += multilineTextToAdd;
           });
+      })
+      .then(undefined, error => console.error("Error:", error));
+  }
 
-          // Sort the array in descending order by matchingValue
-          matchingResults.sort((a, b) => b.matchingValue - a.matchingValue);
-
-          // Pick only the top 3 results
-          const topThreeResults = matchingResults.slice(0, 3);
-
-          // Log the top 3 matching results array
-
-          // Append <div><h1>${randomValue}</h1></div> just once
-          const matchingResultsDiv = document.getElementById('matchingResultsDiv');
-          const randomValueDiv = document.createElement('div');
-          randomValueDiv.innerHTML = `<div style="padding-bottom:5px"><h2 style="padding-bottom:5px;">${splitRandomValue[1]}</h2><h1>${splitRandomValue.slice(2).join(' <hr> ').replace(/:/g, '')}</h1></div>`;
-          matchingResultsDiv.appendChild(randomValueDiv);
-
-matchingResults.slice(0, 3).forEach(result => {
-  const resultElement = document.createElement('div');
-  resultElement.classList.add('flex-column-wide');
-
-  // Check if the first result is 'percent' and format the value accordingly
-  const formattedValue = (randomKey.endsWith('PE') && Number(result.matchingValue) < 100)
-    ? `${Number(result.matchingValue).toLocaleString()}%`
-    : Number(result.matchingValue).toLocaleString();
-  resultElement.innerHTML = `
-    <div>
-      <h1 class="result-${counter++}">${formattedValue}</h1>
-      <h4>${result.name.toUpperCase()}</h4>
-    </div>
-  `;
-  matchingResultsDiv.appendChild(resultElement);
-});
-
-const resultsContainer = document.createElement('div');
-resultsContainer.classList.add('results-container');
-
-matchingResults.slice(3).forEach(result => {
-  const resultElement = document.createElement('span');
-  resultElement.style.lineHeight = '0.5';
-
-// Check if the first result is 'percent' and format the value accordingly
-  const formattedValue = (randomKey.endsWith('PE') && Number(result.matchingValue) < 100)
-    ? `${Number(result.matchingValue).toLocaleString()}%`
-    : Number(result.matchingValue).toLocaleString();
-
-  resultElement.innerHTML = `
-    <span class="name-4">${result.name.toUpperCase()}</span><span class="result-4">${formattedValue}</span>
-  `;
-  resultsContainer.appendChild(resultElement);
-});
-
-matchingResultsDiv.appendChild(resultsContainer);
-
-const multilineTextToAdd = `
-  <hr class="long">
-`;
-matchingResultsDiv.innerHTML += multilineTextToAdd;
-
-        });
-    })
-    .then(undefined, error => console.error("Error:", error));
-}
-
-const numberOfFetches = 5;
-for (let i = 0; i < numberOfFetches; i++) {
-  fetchData();
-}
-
+  const numberOfFetches = 5;
+  for (let i = 0; i < numberOfFetches; i++) {
+    fetchData();
+  }
 </script>
 
 <!-- close menu -->
 <script>
-document.querySelector('.menu-icon').addEventListener('click', function () {
-document.querySelector('nav').classList.toggle('show');
-});
-function closeMenu() {
-document.querySelector('nav').classList.remove('show');
-}
+  document.querySelector('.menu-icon').addEventListener('click', function () {
+    document.querySelector('nav').classList.toggle('show');
+  });
+
+  function closeMenu() {
+    document.querySelector('nav').classList.remove('show');
+  }
 </script>
 
 <!-- scroll to section with offset -->
 <script>
-function scrollToSection(sectionId) {
-const targetSection = document.getElementById(sectionId);
-const offset = 50;
+  function scrollToSection(sectionId) {
+    const targetSection = document.getElementById(sectionId);
+    const offset = 50;
 
-if (targetSection) {
-window.scrollTo({
-top: targetSection.offsetTop - offset,
-behavior: 'smooth'
-});
-}
-event.preventDefault();
-closeMenu();
-}
+    if (targetSection) {
+      window.scrollTo({
+        top: targetSection.offsetTop - offset,
+        behavior: 'smooth'
+      });
+    }
+    event.preventDefault();
+    closeMenu();
+  }
 </script>
 
 </body>
