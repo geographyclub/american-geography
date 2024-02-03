@@ -128,11 +128,6 @@ psql -Aqt -d us -c "COPY (SELECT geoid, name from county2022) TO STDOUT DELIMITE
 done
 ```
 
-```bash
-psql -Aqt -d us -c "SELECT geoid, name FROM place2022 WHERE pop::INT >= 100000;"
-
-```
-
 ## Exporting
 
 Export geographies to json.  
