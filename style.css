@@ -5,9 +5,9 @@ a:active {color:#003366; text-decoration:none;}
 body{margin:0; padding:0; height:100%; width:100%;}
 html{color:#222; font-size:100%; margin:0; padding:0; height:100%; width:100%;}
 hr{border:0; background:#333; height:1px; width:50%; padding:0; margin:7px auto;}
-h1{font-family:'Libre Baskerville'; font-size:24px; font-weight:400; line-height:0.9; margin:0; padding:0; letter-spacing:-1px;}
+h1{font-family:Montserrat; font-size:24px; font-weight:900; line-height:0.9; margin:0; padding:0; letter-spacing:-1px;}
 h2{font-family:Montserrat; font-size:14px; font-weight:600; line-height:1; margin:0; padding:0;}
-h3{font-family:'Libre Baskerville'; font-size:10px; font-weight:700; line-height:1; margin:0; padding:0;}
+h3{font-family:Montserrat; font-size:9px; font-weight:600; line-height:1; margin:0; padding:0;}
 h4{font-family:Montserrat; font-size:10px; font-weight:600; line-height:1; margin:0; padding:0;}
 p{font-family:Montserrat; font-size:12px; font-weight:600; line-height:1.2; margin:0; padding:0;}
 
@@ -16,7 +16,7 @@ p{font-family:Montserrat; font-size:12px; font-weight:600; line-height:1.2; marg
 #map .leaflet-tile-pane{filter:none;}
 .map-overlay{}
 
-.leaflet-control-container{display:none;}
+.leaflet-control-container{}
 .leaflet-container a.leaflet-popup-close-button{color:#333; height:14px; margin:2px 0; padding:0; width:14px;}
 .leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar{border:0;}
 
@@ -37,10 +37,10 @@ p{font-family:Montserrat; font-size:12px; font-weight:600; line-height:1.2; marg
 
 #title{color:#333; position:absolute; top:0; left:50%; transform:translate(-50%, 30px); margin:0 auto; padding:10px 0;  z-index:999; pointer-events: none; text-align:center; background:#fff; border:3px solid #333; border-radius:10px;}
 
-#subtitle{color:#333; position:absolute; bottom:0; left:50%; transform:translate(-50%, -30px); text-align: center; margin:0 auto; padding:12px 5px 5px 5px; z-index:999; pointer-events: none; width:70%; text-align:center; background:#fff; border:3px solid #333; border-radius:10px;}
+#subtitle{color:#333; position:absolute; bottom:0; left:50%; transform:translate(-50%, -30px); text-align: center; margin:0 auto; padding:12px 5px 10px 5px; z-index:999; pointer-events: none; width:90%; text-align:center; background:#fff; border:3px solid #333; border-radius:10px;}
 
 .flex-container {display:flex; flex-wrap:wrap; padding:0; overflow:hidden; align-items:flex-start; box-sizing:border-box; width:100%; text-align:left;}
 .flex-column {flex:0 0 50%; min-width:100px; box-sizing:border-box; padding:0;}
 
-.legend{font-family:Montserrat; font-size:12px; font-weight:600; padding:0; margin:0;}
-.legend span{font-size:18px; text-shadow:1px 1px 1px #333; padding:0; margin:0;}
+.legend{font-family:Montserrat; font-size:12px; font-weight:600;}
+.legend span{color:rgba(0,0,0,0); font-size:6px; border:1px solid #333; padding-top:5px;}

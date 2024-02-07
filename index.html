@@ -15,7 +15,7 @@
   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
   crossorigin=""></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script>
-<script src="js/Leaflet.NavBar-master/src/Leaflet.NavBar.js"></script>
+<!--<script src="js/Leaflet.NavBar-master/src/Leaflet.NavBar.js"></script>-->
 
 <!-- load styles -->
 <link href="https://fonts.googleapis.com/css?family=Montserrat:300,600,900" rel="stylesheet">
@@ -59,10 +59,11 @@ function map(){
   // Extract the key and value
   const randomKey = Object.keys(randomEntry)[0];
   const randomValue = randomEntry[randomKey];
+console.log(randomKey+' '+randomValue)
   var labelValue = randomValue.split('!!');
 
   const labelDiv = document.getElementById('subtitle');
-  labelDiv.innerHTML = `<div style="padding-bottom:5px"><h3 style="padding-bottom:5px;">${labelValue[1]}</h3><h2>${labelValue.slice(2).join(' <hr> ').replace(/:/g, '')}</h2></div>`;
+  labelDiv.innerHTML = `<div style="padding-bottom:7px"><h3 style="padding-bottom:7px;">${labelValue[1]}</h3><h2>${labelValue.slice(2).join(' <hr> ').replace(/:/g, '')}</h2></div>`;
 
   // colors
   function getColor(d) {
@@ -103,7 +104,7 @@ function map(){
 
   // Set the inner HTML content with the property values
 legendContents.innerHTML = `
-      <span style="color:${getColor(quartilePropertyValue)};">◼</span> ${minPropertyValue}-${maxPropertyValue}
+      <span style="background:${getColor(quartilePropertyValue)};">▬▬</span> ${minPropertyValue}-${maxPropertyValue}
     `;
 
   // Append the infoPopup to the existing div
@@ -124,7 +125,7 @@ legendContents.innerHTML = `
 //  L.control.layers(baseMaps,overlayMaps).addTo(map);
 
   // navbar
-  L.control.navbar().addTo(map);
+//  L.control.navbar().addTo(map);
 };
 window.onload = map();
 
