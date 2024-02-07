@@ -1,145 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,700" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,600,800" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <title>American Geography</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>American Geography</title>
+
+<!-- load scripts -->
+<script
+  src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+  integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI="
+  crossorigin=""></script>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+  integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+  crossorigin=""></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script>
+<script src="js/Leaflet.NavBar-master/src/Leaflet.NavBar.js"></script>
+
+<!-- load styles -->
+<link href="https://fonts.googleapis.com/css?family=Montserrat:600,900" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,700" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+  integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+  crossorigin=""/>
+<link rel="stylesheet" href="js/Leaflet.NavBar-master/src/Leaflet.NavBar.css"></link>
+<link rel="stylesheet" href="style.css">
+
 </head>
 <body>
 
-<header>
-  <div><a href="#"><h2 style="font-size:14px"><span>american</span><span style="color:#46bfbd">geography</span></h2></a></div>
-  <div class="menu-icon">&#9776;</div>
-  <nav>
-    <a href="#" onclick="closeMenu()">Home</a>
-    <a href="https://github.com/geographyclub/american-geography" target="_blank">Github Repo</a>
-    <!--<a href="#" onclick="scrollToSection('Brunei');">Brunei</a>-->
-  </nav>
-</header>
+<div id="map"></div>
+<div id="title"><h1>AMERICAN GEOGRAPHY</h1></div>
+<div id="subtitle"><h2>SUBTITLE</h2></div>
 
-<div class="container">
-  <!--<div class="border-container"><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div></div>-->
-  <div id="banner"><h3>Refresh for more random stats from <a href="https://data.census.gov/" target="_blank">US Census</a></h3></div>
-  <div id="matchingResultsDiv"></div>
-</div>
 
+<!-- start scripts -->
 <script>
-  function fetchData() {
-    const prefixes = ["dp02", "dp03", "dp04", "dp05"];
-    const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
-    const labelsUrl = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/${randomPrefix}_labels.json`;
-    let counter = 1;
+// create map
+var map;
 
-    fetch(labelsUrl)
-      .then(response => response.json())
-      .then(labelsData => {
-        const randomLabelObject = labelsData[Math.floor(Math.random() * labelsData.length)];
-        const [randomKey, randomValue] = Object.entries(randomLabelObject)[0];
-        const splitRandomValue = randomValue.split('!!');
-        const fileUrl = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/state/${randomPrefix}_state.json`;
+function map(){
+  map = L.map('map', {maxZoom:18});
+  map.setMaxBounds([[-90, -180], [90, 180]]);
+  map.setMinZoom(map.getBoundsZoom([[25, -128], [55, -68]], false));
+  map.setView([39, -98], 1);
 
-        return fetch(fileUrl)
-          .then(response => response.json())
-          .then(secondFileData => {
-            const lowercaseRandomKey = randomKey.toLowerCase();
-            const matchingResults = [];
+  // featuregroups
+  var feature_cover = new L.featureGroup();
+  var feature_quartile = new L.featureGroup();
 
-            secondFileData.forEach(obj => {
-              if (lowercaseRandomKey in obj) {
-                matchingResults.push({
-                  matchingKey: randomKey,
-                  matchingValue: obj[lowercaseRandomKey],
-                  name: obj.name
-                });
-              }
-            });
+  // get random file
+  const columns = ["pop","age_5_under","age_5_9","age_10_14","age_15_19","age_20_24","age_25_34","age_35_44","age_45_54","age_55_59","age_60_64","age_65_74","age_75_84","age_85_over","age_median","age_under18","age_16_over","age_18_over","age_21_over","age_62_over","age_65_over","race_mixed","race_white","race_black","race_native","race_asian","race_pacific","race_hispanic","housing_total","employed","unemployed","job_bus_sci_art","job_service","job_sales","job_construction","job_prod_transpo","in_agri_mining","in_construction","in_manufacturing","in_wholesale","in_retail","in_transportation","in_information","in_finance","in_professional","in_education_health","in_arts_food","in_other","in_public_admin","class_private","class_govt","class_selfemployed","class_unpaid","income_10000_less","income_10000_14999","income_15000_24999","income_25000_34999","income_35000_49999","income_50000_74999","income_75000_99999","income_100000_149999","income_150000_199999","income_200000_more","income_median","income_mean","income_percapita","earnings_median","earnings_male","earnings_female","housing_units","housing_occupied","housing_vacant","vacancy_homeowner","vacancy_rental","units_1_detached","units_1_attached","units_2","units_3_4","units_5_9","units_10_19","units_20_more","units_mobile","units_boat_rv_van","built_2014_later","built_2010_2013","built_2000_2009","built_1990_1999","built_1980_1989","built_1970_1979","built_1960_1969","built_1950_1959","built_1940_1949","built_1939_earlier","rooms_1","rooms_2","rooms_3","rooms_4","rooms_5","rooms_6","rooms_7","rooms_8","rooms_9","rooms_median","occupied_owner","occupied_renter","value_50000_less","value_50000_99999","value_100000_149000","value_150000_199999","value_200000_299999","value_300000_499999","value_500000_999999","value_1000000_more","value_median","rent_500_less","rent_500_999","rent_1000_1499","rent_1500_1999","rent_2000_2499","rent_2500_2999","rent_3000_more","rent_median","grapi_15_less","grapi_15_19","grapi_20_24","grapi_25_29","grapi_30_34","grapi_35_more","edu_9_less","edu_9_12","edu_highschool","edu_college_nodegree","edu_associate_degree","edu_bachelor_degree","edu_grad_degree","edu_highschool_higher","edu_bachelor_higher","ancestry_american","ancestry_arab","ancestry_czech","ancestry_danish","ancestry_dutch","ancestry_english","ancestry_french","ancestry_frenchcanadian","ancestry_german","ancestry_greek","ancestry_hungarian","ancestry_irish","ancestry_italian","ancestry_lithuanian","ancestry_norwegian","ancestry_polish","ancestry_portuguese","ancestry_russian","ancestry_scottish_irish","ancestry_scottish","ancestry_slovak","ancestry_subsaharan_african","ancestry_swedish","ancestry_swiss","ancestry_ukranian","ancestry_welsh","ancestry_west_indian"];
+  const random = Math.floor(Math.random() * columns.length);
+  const column = columns[random];
 
-            matchingResults.sort((a, b) => b.matchingValue - a.matchingValue);
-            const topThreeResults = matchingResults.slice(0, 3);
+  // title
+  var title = new L.tooltip({
+    permanent: true,
+    offset:[0,0],
+    opacity:1,
+    direction:'top',
+    className:'mytitle'
+  }).setContent().setLatLng(new L.LatLng(49,-98)).addTo(feature_cover);
 
-            const matchingResultsDiv = document.getElementById('matchingResultsDiv');
-            const randomValueDiv = document.createElement('div');
-            randomValueDiv.innerHTML = `<div style="padding-bottom:5px"><h2 style="padding-bottom:5px;">${splitRandomValue[1]}</h2><h1>${splitRandomValue.slice(2).join(' <hr> ').replace(/:/g, '')}</h1></div>`;
-            matchingResultsDiv.appendChild(randomValueDiv);
+  // subtitle
+  var title = new L.tooltip({
+    permanent: true,
+    offset:[0,0],
+    opacity:1,
+    direction:'bottom',
+    className:'mysubtitle'
+  }).setContent().setLatLng(new L.LatLng(25,-98)).addTo(feature_cover);
 
-            topThreeResults.forEach(result => {
-              const resultElement = document.createElement('div');
-              resultElement.classList.add('flex-column-wide');
-              const formattedValue = (randomKey.endsWith('PE') && Number(result.matchingValue) < 100)
-                ? `${Number(result.matchingValue).toLocaleString()}%`
-                : Number(result.matchingValue).toLocaleString();
-              resultElement.innerHTML = `
-                <div>
-                  <h1 class="result-${counter++}">${formattedValue}</h1>
-                  <h4>${result.name.toUpperCase()}</h4>
-                </div>
-              `;
-              matchingResultsDiv.appendChild(resultElement);
-            });
-
-            const resultsContainer = document.createElement('div');
-            resultsContainer.classList.add('results-container');
-
-            matchingResults.slice(3).forEach(result => {
-              const resultElement = document.createElement('span');
-              resultElement.style.lineHeight = '0.5';
-              const formattedValue = (randomKey.endsWith('PE') && Number(result.matchingValue) < 100)
-                ? `${Number(result.matchingValue).toLocaleString()}%`
-                : Number(result.matchingValue).toLocaleString();
-
-              resultElement.innerHTML = `
-                <span class="name-4">${result.name.toUpperCase()}</span><span class="result-4">${formattedValue}</span>
-              `;
-              resultsContainer.appendChild(resultElement);
-            });
-
-            matchingResultsDiv.appendChild(resultsContainer);
-
-            const multilineTextToAdd = `
-              <hr class="long">
-            `;
-            matchingResultsDiv.innerHTML += multilineTextToAdd;
-          });
-      })
-      .then(undefined, error => console.error("Error:", error));
+  // circleMarker
+  function myCirclemarker(feature, latlng) {
+    return L.circleMarker(latlng, {
+      radius : 4,
+      fillColor : "#ff7800",
+      color : "#000",
+      weight : 1,
+      opacity : 1,
+      fillOpacity : 0.8
+    }).bindPopup(feature.properties.amenity);
   }
 
-  const numberOfFetches = 5;
-  for (let i = 0; i < numberOfFetches; i++) {
-    fetchData();
+  // marker
+  function myMarker(feature, layer){
+    var bounds = layer.getBounds();
+    var center = bounds.getCenter();
+    var marker = L.marker(center).addTo(layer);
+	// zoom on click
+    marker.on('click', function(e) {
+      map.fitBounds(bounds);      
+    });
+    layer.bindPopup('<h2>#'+feature.properties.rank+' '+feature.properties.ctyname+'</h2><h3>Pop 2021: '+feature.properties.popestimate2021+'</h3><h3>Pop Change: '+feature.properties.npopchg2021+'</h3><h3>Natural Change Rate: '+feature.properties.rnaturalchg2021+'</h3><h3>Net Migration Rate: '+feature.properties.rnetmig2021+'</h3>');
   }
-</script>
 
-<!-- close menu -->
-<script>
-  document.querySelector('.menu-icon').addEventListener('click', function () {
-    document.querySelector('nav').classList.toggle('show');
-  });
-
-  function closeMenu() {
-    document.querySelector('nav').classList.remove('show');
+  // tooltip
+  function myTooltip(feature, layer){
+    var bounds = layer.getBounds();
+    var center = bounds.getCenter();
+    var mytooltip = new L.tooltip({
+    permanent: true,
+    offset:[0,0],
+    opacity:1,
+    direction:'top',
+    className:'myheadline'}).setContent('<h3>'+feature.properties.name+'</h3>').setLatLng(center).addTo(featureGroup1);
+    layer.bindPopup('<h3>'+feature.properties.name+'</h3>').addTo(featureGroup2);
   }
-</script>
 
-<!-- scroll to section with offset -->
-<script>
-  function scrollToSection(sectionId) {
-    const targetSection = document.getElementById(sectionId);
-    const offset = 50;
-
-    if (targetSection) {
-      window.scrollTo({
-        top: targetSection.offsetTop - offset,
-        behavior: 'smooth'
-      });
+  // colors
+  function getColor(d) {
+    switch (d) {
+      case "q1": return "rgba(255,255,178,255)";
+      case "q2": return "rgba(254,191,86,255)";
+      case "q3": return "rgba(248,108,49,255)";
+      case "q4": return "rgba(189,0,38,255)";
     }
-    event.preventDefault();
-    closeMenu();
   }
-</script>
 
+  // style
+  function quartileStyle(feature) {
+    return {
+      fillColor: getColor(feature.properties.quartile),
+      weight: 0,
+      opacity: 1,
+      color: 'white',
+      fillOpacity: 0.5
+    };
+  }
+
+  // geojson quartile
+  var feature_quartile = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/geojson/state/state_quartile_'+column+'.geojson', {
+    interactive:false,
+    style:quartileStyle
+  }).addTo(map)
+
+  // base layers
+  //var german = L.TileLayer('https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png', {noWrap:false});
+  //var french = L.TileLayer('http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {noWrap:false});
+  var streets = new L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {noWrap:false, attribution:'<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>', lang:'en'}).addTo(map);
+  var satellite = new L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {id: 'mapbox/satellite-v9', tileSize: 512, zoomOffset: -1, attribution:'<a href="https://www.mapbox.com/">Mapbox</a>'});
+
+  // layer switcher
+  map.addLayer(feature_cover)
+  var baseMaps = {"Streets":streets};
+  var overlayMaps = {"Overlay":feature_quartile};
+  L.control.layers(baseMaps,overlayMaps).addTo(map);
+
+  // navbar
+  L.control.navbar().addTo(map);
+};
+window.onload = map();
+
+// footer
+jQuery('.leaflet-bottom.leaflet-left').html('<a href="mailto:emailstevekim@gmail.com">emailstevekim@gmail.com</a>');
+//jQuery('.leaflet-bottom.leaflet-right').html('');
+
+
+</script>
 </body>
 </html>
+
