@@ -117,14 +117,20 @@ done
 
 ## Exporting
 
-Export geographies to json.  
+Export labels to json.  
 ```bash
-# labels (no error columns)
+# labels (single file)
+psql -Aqt -d us -c "SELECT jsonb_agg(jsonb_build_object(code, label)) FROM dp02_us_metadata WHERE label NOT LIKE '%Margin of Error%' AND label LIKE '%Percent%' UNION ALL SELECT jsonb_agg(jsonb_build_object(code, label)) FROM dp03_us_metadata WHERE label NOT LIKE '%Margin of Error%' AND label LIKE '%Percent%' UNION ALL SELECT jsonb_agg(jsonb_build_object(code, label)) FROM dp04_us_metadata WHERE label NOT LIKE '%Margin of Error%' AND label LIKE '%Percent%' UNION ALL SELECT jsonb_agg(jsonb_build_object(code, label)) FROM dp05_us_metadata WHERE label NOT LIKE '%Margin of Error%' AND label LIKE '%Percent%';" | tr -d '\n' | sed -e 's/\]\[/, /g' > ~/american-geography/geojson/us_labels.json
+
+# labels (separate files)
 files=('dp02' 'dp03' 'dp04' 'dp05')
 for file in ${files[*]}; do
   psql -Aqt -d us -c "SELECT jsonb_agg(jsonb_build_object(code, label)) FROM ${file}_us_metadata WHERE label NOT LIKE '%Margin of Error%';" > ~/american-geography/json/${file}_labels.json
 done
+```
 
+Export geographies to json.  
+```bash
 # us
 files=('dp02' 'dp03' 'dp04' 'dp05')
 for file in ${files[*]}; do
@@ -151,16 +157,8 @@ done
 # counties (top 3)
 files=('dp02' 'dp03' 'dp04' 'dp05')
 for file in ${files[*]}; do
-
-# test
-
-file='dp02'
 psql -Aqt -d us -c "SELECT column_name FROM information_schema.columns WHERE table_name = '${file}_county2022';" | grep -v "name" | grep -v "geo_id" | grep -v ".*m$" | while read column; do psql -Aqt -d us -c "SELECT jsonb_agg(row_to_json(fields)) FROM (SELECT name, ${column} FROM ${file}_county2022 WHERE ${column} NOT IN ('null','(X)') ORDER BY ${column}::REAL DESC LIMIT 3) fields"; done
-
-# end test
-
 done
-
 ```
 
 Export to svg with json data for web.  
