@@ -117,7 +117,7 @@ done
 
 ## Exporting
 
-Export labels to json.  
+Export labels to json (only percentages).  
 ```bash
 # labels (single file)
 psql -Aqt -d us -c "SELECT jsonb_agg(jsonb_build_object(code, label)) FROM dp02_us_metadata WHERE label NOT LIKE '%Margin of Error%' AND label NOT LIKE '%dollars%' AND label LIKE '%Percent%' UNION ALL SELECT jsonb_agg(jsonb_build_object(code, label)) FROM dp03_us_metadata WHERE label NOT LIKE '%Margin of Error%' AND label NOT LIKE '%dollars%' AND label LIKE '%Percent%' UNION ALL SELECT jsonb_agg(jsonb_build_object(code, label)) FROM dp04_us_metadata WHERE label NOT LIKE '%Margin of Error%' AND label NOT LIKE '%dollars%' AND label LIKE '%Percent%' UNION ALL SELECT jsonb_agg(jsonb_build_object(code, label)) FROM dp05_us_metadata WHERE label NOT LIKE '%Margin of Error%' AND label NOT LIKE '%dollars%' AND label LIKE '%Percent%';" | tr -d '\n' | sed -e 's/\]\[/, /g' > ~/american-geography/geojson/us_labels.json
@@ -208,7 +208,7 @@ psql -qAtX -d us -c '\d state2022;' | grep -v "shape" | grep -v "geoid" | grep -
 done
 ```
 
-Export county quartiles (percentages only) to geojson files for leaflet (with simplified geometry from natural earth).  
+Export county quartiles (percentage columns only).  
 ```bash
 files=('dp02' 'dp03' 'dp04' 'dp05')
 for file in ${files[*]}; do
@@ -217,6 +217,21 @@ for file in ${files[*]}; do
     psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', quartile, 'geometry', ST_AsGeoJSON(ST_Transform(geom,4326))::jsonb, 'properties', to_jsonb(inputs) - 'geom') AS feature FROM (WITH stats AS (SELECT DISTINCT PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY ${column}::real) q1, PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY ${column}::real) q2, PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY ${column}::real) q3 FROM ${table} WHERE ${column}::text ~ '^[0-9\\\.]+$') SELECT 'q1' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM ${table} a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real < stats.q1 AND SUBSTRING(a.geo_id,10,5) = b.code_local UNION ALL SELECT 'q2' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM ${table} a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real >= stats.q1 AND a.${column}::real < stats.q2 AND SUBSTRING(a.geo_id,10,5) = b.code_local UNION ALL SELECT 'q3' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM ${table} a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real >= stats.q2 AND a.${column}::real < stats.q3 AND SUBSTRING(a.geo_id,10,5) = b.code_local UNION ALL SELECT 'q4' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM ${table} a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real >= stats.q3 AND SUBSTRING(a.geo_id,10,5) = b.code_local) inputs) features) TO STDOUT;" > county_quartile_${column}.geojson
   done
 done
+```
+
+Export county kmean clusters (percentage columns only).  
+```bash
+files=('dp02' 'dp03' 'dp04' 'dp05')
+for file in ${files[*]}; do
+  table=${file}_county2022
+  psql -qAtX -d us -c "\d ${table}"| sed -e 's/|.*//g' | grep 'pe' | grep -v 'zscore' | while read column; do
+    psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', cluster_id, 'geometry', ST_AsGeoJSON(ST_Transform(geom,4326))::jsonb, 'properties', to_jsonb(inputs) - 'geom') AS feature FROM (WITH stats AS (SELECT ST_ClusterKMeans(ST_Force4D(ST_Transform(ST_Force3D(geom), 4978), mvalue:=a.${column}::real), 4) OVER () AS cluster_id, a.geo_id, a.${column}, b.geom FROM ${table} a, ne_10m_admin_2_counties_lakes b WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real <= 100 AND SUBSTRING(a.geo_id,10,5) = b.code_local) SELECT cluster_id, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(geom, 0)) AS geom FROM stats GROUP BY cluster_id) inputs) features) TO STDOUT;" > county_cluster_${column}.geojson
+  done
+done
+
+
+
+
 ```
 
 Export top 10 (not working with new format DP02...).  

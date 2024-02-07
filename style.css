@@ -4,7 +4,7 @@ a:hover {color:#808080; text-decoration:none;}
 a:active {color:#003366; text-decoration:none;}
 body{margin:0; padding:0; height:100%; width:100%;}
 html{color:#222; font-size:100%; margin:0; padding:0; height:100%; width:100%;}
-hr{border:0; background:#333; height:1px; width:50%; padding:0; margin:7px auto;}
+hr{border:0; background:#333; height:1px; width:50%; padding:0; margin:5px auto;}
 h1{font-family:Montserrat; font-size:24px; font-weight:900; line-height:0.9; margin:0; padding:0; letter-spacing:-1px;}
 h2{font-family:Montserrat; font-size:14px; font-weight:600; line-height:1; margin:0; padding:0;}
 h3{font-family:Montserrat; font-size:9px; font-weight:600; line-height:1; margin:0; padding:0;}
