@@ -64,7 +64,7 @@ function map(){
 
   // featuregroups
   var feature_cover = new L.featureGroup();
-  var feature_cluster = new L.featureGroup();
+  var feature_quartile = new L.featureGroup();
 
   // Choose a random index
   const randomIndex = Math.floor(Math.random() * labelsData.length);
@@ -84,17 +84,17 @@ console.log(randomKey+' '+randomValue)
   // colors
   function getColor(d) {
     switch (d) {
-      case "0": return "rgba(255,255,178,255)";
-      case "1": return "rgba(254,191,86,255)";
-      case "2": return "rgba(248,108,49,255)";
-      case "3": return "rgba(189,0,38,255)";
+      case "1": return "rgba(255,255,178,255)";
+      case "2": return "rgba(254,191,86,255)";
+      case "3": return "rgba(248,108,49,255)";
+      case "4": return "rgba(189,0,38,255)";
     }
   }
 
   // style
-  function clusterStyle(feature) {
+  function quartileStyle(feature) {
     return {
-      fillColor: getColor(feature.properties.cluster),
+      fillColor: getColor(feature.properties.quartile),
       weight: 0,
       opacity: 1,
       color: 'white',
@@ -102,15 +102,15 @@ console.log(randomKey+' '+randomValue)
     };
   }
 
-  // geojson cluster
-  var feature_cluster = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/geojson/county/county_cluster_'+randomKey.toLowerCase()+'.geojson', {
+  // geojson quartile
+  var feature_quartile = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/geojson/county/county_quartile_'+randomKey.toLowerCase()+'.geojson', {
     interactive:false,
-    style:clusterStyle,
+    style:quartileStyle,
     onEachFeature: function (feature, layer) {
       var minPropertyValue = feature.properties.min;
       var maxPropertyValue = feature.properties.max;
-      var clusterPropertyValue = feature.properties.cluster_id;
-console.log(clusterPropertyValue);
+      var quartilePropertyValue = feature.properties.quartile;
+console.log(quartilePropertyValue);
   // Get the existing div with id "subtitle"
   var subtitleDiv = document.getElementById('subtitle');
 
@@ -120,7 +120,7 @@ console.log(clusterPropertyValue);
 
   // Set the inner HTML content with the property values
 legendContents.innerHTML = `
-      <span style="background:${getColor(clusterPropertyValue)}; opacity:0.3;">▬▬</span> ${minPropertyValue}-${maxPropertyValue}
+      <span style="background:${getColor(quartilePropertyValue)}; opacity:0.3;">▬▬</span> ${minPropertyValue}-${maxPropertyValue}
     `;
 
   // Append the infoPopup to the existing div
@@ -137,7 +137,7 @@ legendContents.innerHTML = `
   // layer switcher
   map.addLayer(feature_cover)
   var baseMaps = {"Streets":streets};
-  var overlayMaps = {"Overlay":feature_cluster};
+  var overlayMaps = {"Overlay":feature_quartile};
 //  L.control.layers(baseMaps,overlayMaps).addTo(map);
 
   // navbar
