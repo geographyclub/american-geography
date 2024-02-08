@@ -214,7 +214,7 @@ files=('dp02' 'dp03' 'dp04' 'dp05')
 for file in ${files[*]}; do
   table=${file}_county2022
   psql -qAtX -d us -c "\d ${table}"| sed -e 's/|.*//g' | grep 'pe' | grep -v 'zscore' | while read column; do
-    psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', quartile, 'geometry', ST_AsGeoJSON(ST_Transform(geom,4326))::jsonb, 'properties', to_jsonb(inputs) - 'geom') AS feature FROM (WITH stats AS (SELECT DISTINCT PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY ${column}::real) q1, PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY ${column}::real) q2, PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY ${column}::real) q3 FROM ${table} WHERE ${column}::text ~ '^[0-9\\\.]+$') SELECT 'q1' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM ${table} a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real < stats.q1 AND SUBSTRING(a.geo_id,10,5) = b.code_local UNION ALL SELECT 'q2' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM ${table} a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real >= stats.q1 AND a.${column}::real < stats.q2 AND SUBSTRING(a.geo_id,10,5) = b.code_local UNION ALL SELECT 'q3' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM ${table} a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real >= stats.q2 AND a.${column}::real < stats.q3 AND SUBSTRING(a.geo_id,10,5) = b.code_local UNION ALL SELECT 'q4' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM ${table} a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real >= stats.q3 AND SUBSTRING(a.geo_id,10,5) = b.code_local) inputs) features) TO STDOUT;" > county_quartile_${column}.geojson
+    psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', quartile, 'geometry', ST_AsGeoJSON(ST_Transform(geom,4326))::jsonb, 'properties', to_jsonb(inputs) - 'geom') AS feature FROM (WITH stats AS (SELECT DISTINCT PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY ${column}::real) q1, PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY ${column}::real) q2, PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY ${column}::real) q3 FROM ${table} WHERE ${column}::text ~ '^[0-9\\\.]+$') SELECT 'q1' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM ${table} a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real < stats.q1 AND SUBSTRING(a.geo_id,10,5) = b.code_local UNION ALL SELECT 'q2' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM ${table} a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real >= stats.q1 AND a.${column}::real < stats.q2 AND SUBSTRING(a.geo_id,10,5) = b.code_local UNION ALL SELECT 'q3' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM ${table} a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real >= stats.q2 AND a.${column}::real < stats.q3 AND SUBSTRING(a.geo_id,10,5) = b.code_local UNION ALL SELECT 'q4' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM ${table} a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real >= stats.q3 AND SUBSTRING(a.geo_id,10,5) = b.code_local) inputs) features) TO STDOUT;" > county_cluster_${column}.geojson
   done
 done
 ```
@@ -224,14 +224,32 @@ Export county kmean clusters (percentage columns only).
 files=('dp02' 'dp03' 'dp04' 'dp05')
 for file in ${files[*]}; do
   table=${file}_county2022
-  psql -qAtX -d us -c "\d ${table}"| sed -e 's/|.*//g' | grep 'pe' | grep -v 'zscore' | while read column; do
-    psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', cluster_id, 'geometry', ST_AsGeoJSON(ST_Transform(geom,4326))::jsonb, 'properties', to_jsonb(inputs) - 'geom') AS feature FROM (WITH stats AS (SELECT ST_ClusterKMeans(ST_Force4D(ST_Transform(ST_Force3D(geom), 4978), mvalue:=a.${column}::real), 4) OVER () AS cluster_id, a.geo_id, a.${column}, b.geom FROM ${table} a, ne_10m_admin_2_counties_lakes b WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real <= 100 AND SUBSTRING(a.geo_id,10,5) = b.code_local) SELECT cluster_id, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(geom, 0)) AS geom FROM stats GROUP BY cluster_id) inputs) features) TO STDOUT;" > county_cluster_${column}.geojson
+  psql -qAtX -d us -c "\d ${table}" | sed -e 's/|.*//g' | grep 'pe' | grep -v 'zscore' | while read column; do
+    psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', cluster_id, 'geometry', ST_AsGeoJSON(ST_Transform(geom,4326))::jsonb, 'properties', to_jsonb(inputs) - 'geom') AS feature FROM (WITH stats AS (SELECT ST_ClusterKMeans(ST_Force4D(ST_Transform(ST_Force3D(geom), 4978), mvalue:=a.${column}::real), 4) OVER () AS cluster_id, a.geo_id, a.${column}, ST_Union(ST_Buffer(b.geom,0)) geom FROM ${table} a, ne_10m_admin_2_counties_lakes b WHERE SUBSTRING(a.geo_id,10,5) = b.code_local AND a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real <= 100) SELECT a.cluster_id, (SELECT MIN(${column}) FROM stats) AS min, (SELECT MAX(${column}) FROM stats) AS max, geom FROM stats) inputs) features) TO STDOUT;" > county_cluster_${column}.geojson
+  done
+done
+```
+
+Export county equal intervals (percentage columns only).  
+```bash
+# update cluster_id
+files=('dp02' 'dp03' 'dp04' 'dp05')
+for file in ${files[*]}; do
+  table=${file}_county2022
+  psql -qAtX -d us -c "\d ${table}" | sed -e 's/|.*//g' | grep 'pe' | grep -v 'zscore' | while read column; do
+    psql -d us -c "ALTER TABLE ${table} DROP COLUMN IF EXISTS cluster_id; ALTER TABLE ${table} ADD COLUMN cluster_id real;"
+    psql -d us -c "WITH b AS (SELECT MIN(${column}::real) AS min, MAX(${column}::real) AS max FROM ${table} WHERE ${column}::text ~ '^[0-9\\\.]+$' AND ${column}::real <= 100) UPDATE ${table} a SET cluster_id = width_bucket(a.${column}::real, b.min, b.max, 4) FROM b WHERE ${column}::text ~ '^[0-9\\\.]+$' AND ${column}::real <= 100;"
   done
 done
 
-
-
-
+# export
+files=('dp02' 'dp03' 'dp04' 'dp05')
+for file in ${files[*]}; do
+  table=${file}_county2022
+  psql -qAtX -d us -c "\d ${table}" | sed -e 's/|.*//g' | grep 'pe' | grep -v 'zscore' | while read column; do
+    psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', cluster_id, 'geometry', ST_AsGeoJSON(ST_Transform(geom,4326))::jsonb, 'properties', to_jsonb(inputs) - 'geom') AS feature FROM (WITH stats AS (SELECT a.cluster_id, MIN(a.${column}::real) AS MIN, MAX(a.${column}::real) AS MAX, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM ${table} a, ne_10m_admin_2_counties_lakes b WHERE SUBSTRING(a.geo_id,10,5) = b.code_local AND a.${column}::text ~ '^[0-9\\\.]+$' AND a.${column}::real <= 100 GROUP BY a.cluster_id) SELECT cluster_id, min, max, geom FROM stats) inputs) features) TO STDOUT;" > county_cluster_${column}.geojson
+  done
+done
 ```
 
 Export top 10 (not working with new format DP02...).  
