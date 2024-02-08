@@ -252,7 +252,7 @@ for file in ${files[*]}; do
 done
 ```
 
-Export top 10 (not working with new format DP02...).  
+Export top 10 
 ```bash
 # state top10
 psql -qAtX -d us -c '\d state2022;' | grep -v "shape" | grep -v "geoid" | grep -v "name" | grep -v "zscore_" | sed -e 's/|.*//g' | while read column; do
