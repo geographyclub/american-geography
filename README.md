@@ -82,6 +82,16 @@ ogr2ogr -overwrite -skipfailures --config PG_USE_COPY YES -f PGDump -t_srs "EPSG
 ogr2ogr -overwrite -skipfailures --config PG_USE_COPY YES -f PGDump -t_srs "EPSG:3857" -nlt promote_to_multi /vsistdout/ natural_earth_vector_3857.gpkg ne_10m_admin_2_counties_lakes | psql -d us -f -
 ```
 
+OpenStreetMap 
+```bash
+# copy tables from osm database
+ogr2ogr -overwrite --config PG_USE_COPY YES -f PGDump /vsistdout/ PG:dbname=us us2022 | psql -d osm -f -
+ogr2ogr -overwrite --config PG_USE_COPY YES -f PGDump /vsistdout/ PG:dbname=us state2022 | psql -d osm -f -
+ogr2ogr -overwrite --config PG_USE_COPY YES -f PGDump /vsistdout/ PG:dbname=us county2022 | psql -d osm -f -
+ogr2ogr -overwrite --config PG_USE_COPY YES -f PGDump /vsistdout/ PG:dbname=us place2022 | psql -d osm -f -
+ogr2ogr -overwrite --config PG_USE_COPY YES -f PGDump /vsistdout/ PG:dbname=us puma2022 | psql -d osm -f -
+```
+
 ## Z-scores
 
 Add zscores for percentage columns.  
@@ -210,11 +220,20 @@ done
 
 Export county quartiles (percentage columns only).  
 ```bash
+# which columns are valid?
+files=('dp02' 'dp03' 'dp04' 'dp05')
+for file in ${files[*]}; do
+  psql -qAtX -d us -c "\d ${table}"| sed -e 's/|.*//g' | grep 'pe' | grep -v 'zscore' | while read column; do
+    table=${file}_county2022
+    psql -qAtX -d us -c "SELECT COUNT(${column}) FROM ${table} WHERE ${column} IS NOT NULL"
+  done
+done
+
 files=('dp02' 'dp03' 'dp04' 'dp05')
 for file in ${files[*]}; do
   table=${file}_county2022
   psql -qAtX -d us -c "\d ${table}"| sed -e 's/|.*//g' | grep 'pe' | grep -v 'zscore' | while read column; do
-    psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', quartile, 'geometry', ST_AsGeoJSON(ST_Transform(geom,4326))::jsonb, 'properties', to_jsonb(inputs) - 'geom') AS feature FROM (WITH stats AS (SELECT DISTINCT PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY ${column}::real) q1, PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY ${column}::real) q2, PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY ${column}::real) q3 FROM ${table} WHERE ${column}::text ~ '^[0-9\\\.]+$' AND ${column}::real <= 100) SELECT 'q1' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM ${table} a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND ${column}::real <= 100 AND a.${column}::real < stats.q1 AND SUBSTRING(a.geo_id,10,5) = b.code_local UNION ALL SELECT 'q2' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM ${table} a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND ${column}::real <= 100 AND a.${column}::real >= stats.q1 AND a.${column}::real < stats.q2 AND SUBSTRING(a.geo_id,10,5) = b.code_local UNION ALL SELECT 'q3' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM ${table} a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND ${column}::real <= 100 AND a.${column}::real >= stats.q2 AND a.${column}::real < stats.q3 AND SUBSTRING(a.geo_id,10,5) = b.code_local UNION ALL SELECT 'q4' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM ${table} a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND ${column}::real <= 100 AND a.${column}::real >= stats.q3 AND SUBSTRING(a.geo_id,10,5) = b.code_local) inputs) features) TO STDOUT;" > county_quartile_${column}.geojson
+    psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', quartile, 'geometry', ST_AsGeoJSON(ST_Transform(geom,4326))::jsonb, 'properties', to_jsonb(inputs) - 'geom') AS feature FROM (WITH stats AS (SELECT DISTINCT PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY ${column}::real) q1, PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY ${column}::real) q2, PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY ${column}::real) q3 FROM ${table} WHERE ${column}::text ~ '^[0-9\\\.]+$' AND ${column}::real <= 100) SELECT 'q1' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM ${table} a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::real < stats.q1 AND SUBSTRING(a.geo_id,10,5) = b.code_local UNION ALL SELECT 'q2' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM ${table} a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::real >= stats.q1 AND a.${column}::real < stats.q2 AND SUBSTRING(a.geo_id,10,5) = b.code_local UNION ALL SELECT 'q3' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM ${table} a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::real >= stats.q2 AND a.${column}::real < stats.q3 AND SUBSTRING(a.geo_id,10,5) = b.code_local UNION ALL SELECT 'q4' AS quartile, MIN(${column}::real) AS min, MAX(${column}::real) AS max, ST_Union(ST_Buffer(b.geom,0)) AS geom FROM ${table} a, ne_10m_admin_2_counties_lakes b, stats WHERE a.${column}::real >= stats.q3 AND SUBSTRING(a.geo_id,10,5) = b.code_local) inputs) features) TO STDOUT;" > county_quartile_${column}.geojson
   done
 done
 ```
@@ -301,6 +320,10 @@ for geography in ${geographies[*]}; do
   psql -d us -c "ALTER TABLE ${geography}2022 ADD PRIMARY KEY (geoid); CREATE INDEX ${geography}2022_gid ON ${geography}2022 USING GIST (shape);"
 done
 ```
+
+### OpenStreetMap
+
+See https://github.com/geographyclub/postgis-cookbook for more.
 
 ## References
 
