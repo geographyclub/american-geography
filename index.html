@@ -58,11 +58,14 @@ fetch(labelsUrl)
 		});
 
 		matchingResults.sort((a, b) => b.matchingValue - a.matchingValue);
-		const topThreeResults = matchingResults.slice(0, 3);
+        const minResult = matchingResults[matchingResults.length - 1];
+        const medianResult = matchingResults[Math.floor(matchingResults.length / 2)];
+        const maxResult = matchingResults[0];
+		const topThreeResults = [maxResult, medianResult, minResult];
 
 		const matchingResultsDiv = document.getElementById('matchingResultsDiv');
 		const randomValueDiv = document.createElement('div');
-		randomValueDiv.innerHTML = `<div style="padding-bottom:5px"><h2 style="padding-bottom:5px;">${splitRandomValue[1]}</h2><h1>${splitRandomValue.slice(2).join(' <hr> ').replace(/:/g, '')}</h1></div>`;
+		randomValueDiv.innerHTML = `<div style="padding-bottom:10px"><h2 style="padding-bottom:5px;">${splitRandomValue[1]}</h2><h1>${splitRandomValue.slice(2).join(' <hr> ').replace(/:/g, '')}</h1></div>`;
 		matchingResultsDiv.appendChild(randomValueDiv);
 
 		topThreeResults.forEach(result => {
@@ -83,7 +86,7 @@ fetch(labelsUrl)
 		const resultsContainer = document.createElement('div');
 		resultsContainer.classList.add('results-container');
 
-		matchingResults.slice(3).forEach(result => {
+		matchingResults.forEach(result => {
 		  const resultElement = document.createElement('span');
 		  resultElement.style.lineHeight = '0.5';
 		  const formattedValue = (randomKey.endsWith('PE') && Number(result.matchingValue) < 100)

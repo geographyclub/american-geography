@@ -1,6 +1,6 @@
 a {color:white; text-decoration:none;}
 h1 {font-family:'Libre Baskerville'; font-size:24px; font-weight:700; line-height:1; margin:0; padding:0;}
-h2 {font-family:'Libre Baskerville'; font-size:14px; font-weight:700; line-height:1; margin:0; padding:0;}
+h2 {font-family:'Libre Baskerville'; font-size:12px; font-weight:700; line-height:1; margin:0; padding:0;}
 h3 {font-family:'Open Sans'; font-size:16px; font-weight:600; line-height:1.2; margin:0; padding:0;}
 h4 {font-family:'Open Sans'; font-size:12px; font-weight:600; line-height:1.2; margin:0; padding:0; padding:0 0 5px 0;}
 p {font-family:'Open Sans'; font-size:10px; font-weight:600; line-height:1.2; margin:0; padding:0;}
@@ -31,7 +31,7 @@ hr {border:none; height:1px; background-color:#aaa; margin:5px auto; padding:0; 
 .text-background-orange {display:inline-block; background-color:#fdb45c; margin:5px 0; padding:2px 5px;}
 
 #matchingResultsDiv {text-align:center; margin:0 auto; width:90%;}
-#banner {background-color:#ffdd05; padding:55px 0 5px 0; width:100%; margin:0 0 10px 0; color:#333; text-align:center;}
+#banner {background-color:#ffdd05; padding:55px 0 5px 0; width:100%; margin:0 0 20px 0; color:#333; text-align:center;}
 #banner h1 {font-size:20px; font-weight:400; letter-spacing:-2px;}
 #banner h3 {font-size:12px; font-weight:800;}
 #banner a {color:#333; text-decoration:underline;}
@@ -39,14 +39,14 @@ hr {border:none; height:1px; background-color:#aaa; margin:5px auto; padding:0; 
 .result-1 {font-size:40px;}
 .result-2 {font-size:30px;}
 .result-3 {font-size:20px;}
-.result-4 {font-size:10px;}
+.result-4 {font-size:8px; font-weight:300;}
 
 .name-1 {font-size:20px;}
 .name-2 {font-size:16px;}
 .name-3 {font-size:12px;}
-.name-4 {font-size:10px; font-weight:600;}
+.name-4 {font-size:8px; font-weight:600;}
 
-.results-container {line-height:0.8;}
+.results-container {line-height:0.6;}
 
 .box {flex:0 0 50%; margin:0; padding:0; box-sizing:border-box;}
 .border-container {position:relative; display:flex; height:5px; width:100%; top:50px; left:0;}

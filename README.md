@@ -148,11 +148,11 @@ for file in ${files[*]}; do
   psql -Aqt -d us -c 'SELECT jsonb_agg(row_to_json(fields)) FROM (SELECT name, '"${columns}"' FROM '"${file}"'_us2022) fields;' > ~/american-geography/json/us/${file}_us.json
 done 
 
-# states (single file)
+# states without puerto rico (single file)
 files=('dp02' 'dp03' 'dp04' 'dp05')
 for file in ${files[*]}; do
   columns=$(psql -Aqt -d us -c "SELECT * FROM ${file}_state_metadata" | grep -v ".*M|" | sed -e 's/|.*//g' | paste -sd,);
-  psql -Aqt -d us -c 'SELECT jsonb_agg(row_to_json(fields)) FROM (SELECT name, '"${columns}"' FROM '"${file}"'_state2022) fields;' > ~/american-geography/json/state/${file}_state.json
+  psql -Aqt -d us -c "SELECT jsonb_agg(row_to_json(fields)) FROM (SELECT name, ${columns} FROM ${file}_state2022 WHERE name NOT IN ('Puerto Rico')) fields;" > ~/american-geography/json/state/${file}_state.json
 done
 
 # counties (individual files)
@@ -167,7 +167,9 @@ done
 # counties (top 3)
 files=('dp02' 'dp03' 'dp04' 'dp05')
 for file in ${files[*]}; do
-psql -Aqt -d us -c "SELECT column_name FROM information_schema.columns WHERE table_name = '${file}_county2022';" | grep -v "name" | grep -v "geo_id" | grep -v ".*m$" | while read column; do psql -Aqt -d us -c "SELECT jsonb_agg(row_to_json(fields)) FROM (SELECT name, ${column} FROM ${file}_county2022 WHERE ${column} NOT IN ('null','(X)') ORDER BY ${column}::REAL DESC LIMIT 3) fields"; done
+  psql -Aqt -d us -c "SELECT column_name FROM information_schema.columns WHERE table_name = '${file}_county2022';" | grep -v "name" | grep -v "geo_id" | grep -v ".*m$" | while read column; do
+    psql -Aqt -d us -c "SELECT jsonb_agg(row_to_json(fields)) FROM (SELECT name, ${column} FROM ${file}_county2022 WHERE ${column} NOT IN ('null','(X)') ORDER BY ${column}::REAL DESC LIMIT 3) fields;"
+  done
 done
 ```
 
