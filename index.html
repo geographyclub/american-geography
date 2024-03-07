@@ -1,156 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<title>American Geography</title>
-
-<!-- load scripts -->
-<script
-  src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
-  integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI="
-  crossorigin=""></script>
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-  integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-  crossorigin=""></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-ajax/2.1.0/leaflet.ajax.min.js"></script>
-<!--<script src="js/Leaflet.NavBar-master/src/Leaflet.NavBar.js"></script>-->
-
-<!-- load styles -->
-<link href="https://fonts.googleapis.com/css?family=Montserrat:300,600,900" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,700" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-  integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-  crossorigin=""/>
-<link rel="stylesheet" href="js/Leaflet.NavBar-master/src/Leaflet.NavBar.css"></link>
-<link rel="stylesheet" href="style.css">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,600,800" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <title>American Geography</title>
 </head>
 <body>
 
-<div id="map"></div>
-<div id="title"><h1>AMERICAN GEOGRAPHY</h1></div>
-<div id="subtitle"><h2></h2></div>
+<header>
+  <div><a href="#"><h2 style="font-size:14px"><span>american</span><span style="color:#46bfbd">geography</span></h2></a></div>
+  <div class="menu-icon">&#9776;</div>
+  <nav>
+    <a href="#" onclick="closeMenu()">Home</a>
+    <a href="https://github.com/geographyclub/american-geography" target="_blank">Github Repo</a>
+    <!--<a href="#" onclick="scrollToSection('Brunei');">Brunei</a>-->
+  </nav>
+</header>
 
-<!-- start scripts -->
+<div class="container">
+  <!--<div class="border-container"><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div></div>-->
+  <div id="banner"><h3>Refresh for more random stats from <a href="https://data.census.gov/" target="_blank">US Census</a></h3></div>
+  <div id="matchingResultsDiv"></div>
+</div>
+
 <script>
-const labelsData = [{"DP02_0001PE": "Percent!!HOUSEHOLDS BY TYPE!!Total households"},{"DP02_0002PE": "Percent!!HOUSEHOLDS BY TYPE!!Total households!!Married-couple household"},{"DP02_0003PE": "Percent!!HOUSEHOLDS BY TYPE!!Total households!!Married-couple household!!With children of the householder under 18 years"},{"DP02_0004PE": "Percent!!HOUSEHOLDS BY TYPE!!Total households!!Cohabiting couple household"},{"DP02_0005PE": "Percent!!HOUSEHOLDS BY TYPE!!Total households!!Cohabiting couple household!!With children of the householder under 18 years"},{"DP02_0006PE": "Percent!!HOUSEHOLDS BY TYPE!!Total households!!Male householder, no spouse/partner present"},{"DP02_0007PE": "Percent!!HOUSEHOLDS BY TYPE!!Total households!!Male householder, no spouse/partner present!!With children of the householder under 18 years"},{"DP02_0008PE": "Percent!!HOUSEHOLDS BY TYPE!!Total households!!Male householder, no spouse/partner present!!Householder living alone"},{"DP02_0009PE": "Percent!!HOUSEHOLDS BY TYPE!!Total households!!Male householder, no spouse/partner present!!Householder living alone!!65 years and over"},{"DP02_0010PE": "Percent!!HOUSEHOLDS BY TYPE!!Total households!!Female householder, no spouse/partner present"},{"DP02_0011PE": "Percent!!HOUSEHOLDS BY TYPE!!Total households!!Female householder, no spouse/partner present!!With children of the householder under 18 years"},{"DP02_0012PE": "Percent!!HOUSEHOLDS BY TYPE!!Total households!!Female householder, no spouse/partner present!!Householder living alone"},{"DP02_0013PE": "Percent!!HOUSEHOLDS BY TYPE!!Total households!!Female householder, no spouse/partner present!!Householder living alone!!65 years and over"},{"DP02_0014PE": "Percent!!HOUSEHOLDS BY TYPE!!Total households!!Households with one or more people under 18 years"},{"DP02_0015PE": "Percent!!HOUSEHOLDS BY TYPE!!Total households!!Households with one or more people 65 years and over"},{"DP02_0016PE": "Percent!!HOUSEHOLDS BY TYPE!!Total households!!Average household size"},{"DP02_0017PE": "Percent!!HOUSEHOLDS BY TYPE!!Total households!!Average family size"},{"DP02_0018PE": "Percent!!RELATIONSHIP!!Population in households"},{"DP02_0019PE": "Percent!!RELATIONSHIP!!Population in households!!Householder"},{"DP02_0020PE": "Percent!!RELATIONSHIP!!Population in households!!Spouse"},{"DP02_0021PE": "Percent!!RELATIONSHIP!!Population in households!!Unmarried partner"},{"DP02_0022PE": "Percent!!RELATIONSHIP!!Population in households!!Child"},{"DP02_0023PE": "Percent!!RELATIONSHIP!!Population in households!!Other relatives"},{"DP02_0024PE": "Percent!!RELATIONSHIP!!Population in households!!Other nonrelatives"},{"DP02_0025PE": "Percent!!MARITAL STATUS!!Males 15 years and over"},{"DP02_0026PE": "Percent!!MARITAL STATUS!!Males 15 years and over!!Never married"},{"DP02_0027PE": "Percent!!MARITAL STATUS!!Males 15 years and over!!Now married, except separated"},{"DP02_0028PE": "Percent!!MARITAL STATUS!!Males 15 years and over!!Separated"},{"DP02_0029PE": "Percent!!MARITAL STATUS!!Males 15 years and over!!Widowed"},{"DP02_0030PE": "Percent!!MARITAL STATUS!!Males 15 years and over!!Divorced"},{"DP02_0031PE": "Percent!!MARITAL STATUS!!Females 15 years and over"},{"DP02_0032PE": "Percent!!MARITAL STATUS!!Females 15 years and over!!Never married"},{"DP02_0033PE": "Percent!!MARITAL STATUS!!Females 15 years and over!!Now married, except separated"},{"DP02_0034PE": "Percent!!MARITAL STATUS!!Females 15 years and over!!Separated"},{"DP02_0035PE": "Percent!!MARITAL STATUS!!Females 15 years and over!!Widowed"},{"DP02_0036PE": "Percent!!MARITAL STATUS!!Females 15 years and over!!Divorced"},{"DP02_0037PE": "Percent!!FERTILITY!!Number of women 15 to 50 years old who had a birth in the past 12 months"},{"DP02_0038PE": "Percent!!FERTILITY!!Number of women 15 to 50 years old who had a birth in the past 12 months!!Unmarried women (widowed, divorced, and never married)"},{"DP02_0039PE": "Percent!!FERTILITY!!Number of women 15 to 50 years old who had a birth in the past 12 months!!Unmarried women (widowed, divorced, and never married)!!Per 1,000 unmarried women"},{"DP02_0040PE": "Percent!!FERTILITY!!Number of women 15 to 50 years old who had a birth in the past 12 months!!Per 1,000 women 15 to 50 years old"},{"DP02_0041PE": "Percent!!FERTILITY!!Number of women 15 to 50 years old who had a birth in the past 12 months!!Per 1,000 women 15 to 19 years old"},{"DP02_0042PE": "Percent!!FERTILITY!!Number of women 15 to 50 years old who had a birth in the past 12 months!!Per 1,000 women 20 to 34 years old"},{"DP02_0043PE": "Percent!!FERTILITY!!Number of women 15 to 50 years old who had a birth in the past 12 months!!Per 1,000 women 35 to 50 years old"},{"DP02_0044PE": "Percent!!GRANDPARENTS!!Number of grandparents living with own grandchildren under 18 years"},{"DP02_0045PE": "Percent!!GRANDPARENTS!!Number of grandparents living with own grandchildren under 18 years!!Grandparents responsible for grandchildren"},{"DP02_0046PE": "Percent!!GRANDPARENTS!!Number of grandparents living with own grandchildren under 18 years!!Years responsible for grandchildren!!Less than 1 year"},{"DP02_0047PE": "Percent!!GRANDPARENTS!!Number of grandparents living with own grandchildren under 18 years!!Years responsible for grandchildren!!1 or 2 years"},{"DP02_0048PE": "Percent!!GRANDPARENTS!!Number of grandparents living with own grandchildren under 18 years!!Years responsible for grandchildren!!3 or 4 years"},{"DP02_0049PE": "Percent!!GRANDPARENTS!!Number of grandparents living with own grandchildren under 18 years!!Years responsible for grandchildren!!5 or more years"},{"DP02_0050PE": "Percent!!GRANDPARENTS!!Number of grandparents responsible for own grandchildren under 18 years"},{"DP02_0051PE": "Percent!!GRANDPARENTS!!Number of grandparents responsible for own grandchildren under 18 years!!Who are female"},{"DP02_0052PE": "Percent!!GRANDPARENTS!!Number of grandparents responsible for own grandchildren under 18 years!!Who are married"},{"DP02_0053PE": "Percent!!SCHOOL ENROLLMENT!!Population 3 years and over enrolled in school"},{"DP02_0054PE": "Percent!!SCHOOL ENROLLMENT!!Population 3 years and over enrolled in school!!Nursery school, preschool"},{"DP02_0055PE": "Percent!!SCHOOL ENROLLMENT!!Population 3 years and over enrolled in school!!Kindergarten"},{"DP02_0056PE": "Percent!!SCHOOL ENROLLMENT!!Population 3 years and over enrolled in school!!Elementary school (grades 1-8)"},{"DP02_0057PE": "Percent!!SCHOOL ENROLLMENT!!Population 3 years and over enrolled in school!!High school (grades 9-12)"},{"DP02_0058PE": "Percent!!SCHOOL ENROLLMENT!!Population 3 years and over enrolled in school!!College or graduate school"},{"DP02_0059PE": "Percent!!EDUCATIONAL ATTAINMENT!!Population 25 years and over"},{"DP02_0060PE": "Percent!!EDUCATIONAL ATTAINMENT!!Population 25 years and over!!Less than 9th grade"},{"DP02_0061PE": "Percent!!EDUCATIONAL ATTAINMENT!!Population 25 years and over!!9th to 12th grade, no diploma"},{"DP02_0062PE": "Percent!!EDUCATIONAL ATTAINMENT!!Population 25 years and over!!High school graduate (includes equivalency)"},{"DP02_0063PE": "Percent!!EDUCATIONAL ATTAINMENT!!Population 25 years and over!!Some college, no degree"},{"DP02_0064PE": "Percent!!EDUCATIONAL ATTAINMENT!!Population 25 years and over!!Associate's degree"},{"DP02_0065PE": "Percent!!EDUCATIONAL ATTAINMENT!!Population 25 years and over!!Bachelor's degree"},{"DP02_0066PE": "Percent!!EDUCATIONAL ATTAINMENT!!Population 25 years and over!!Graduate or professional degree"},{"DP02_0067PE": "Percent!!EDUCATIONAL ATTAINMENT!!Population 25 years and over!!High school graduate or higher"},{"DP02_0068PE": "Percent!!EDUCATIONAL ATTAINMENT!!Population 25 years and over!!Bachelor's degree or higher"},{"DP02_0069PE": "Percent!!VETERAN STATUS!!Civilian population 18 years and over"},{"DP02_0070PE": "Percent!!VETERAN STATUS!!Civilian population 18 years and over!!Civilian veterans"},{"DP02_0071PE": "Percent!!DISABILITY STATUS OF THE CIVILIAN NONINSTITUTIONALIZED POPULATION!!Total Civilian Noninstitutionalized Population"},{"DP02_0072PE": "Percent!!DISABILITY STATUS OF THE CIVILIAN NONINSTITUTIONALIZED POPULATION!!Total Civilian Noninstitutionalized Population!!With a disability"},{"DP02_0073PE": "Percent!!DISABILITY STATUS OF THE CIVILIAN NONINSTITUTIONALIZED POPULATION!!Under 18 years"},{"DP02_0074PE": "Percent!!DISABILITY STATUS OF THE CIVILIAN NONINSTITUTIONALIZED POPULATION!!Under 18 years!!With a disability"},{"DP02_0075PE": "Percent!!DISABILITY STATUS OF THE CIVILIAN NONINSTITUTIONALIZED POPULATION!!18 to 64 years"},{"DP02_0076PE": "Percent!!DISABILITY STATUS OF THE CIVILIAN NONINSTITUTIONALIZED POPULATION!!18 to 64 years!!With a disability"},{"DP02_0077PE": "Percent!!DISABILITY STATUS OF THE CIVILIAN NONINSTITUTIONALIZED POPULATION!!65 years and over"},{"DP02_0078PE": "Percent!!DISABILITY STATUS OF THE CIVILIAN NONINSTITUTIONALIZED POPULATION!!65 years and over!!With a disability"},{"DP02_0079PE": "Percent!!RESIDENCE 1 YEAR AGO!!Population 1 year and over"},{"DP02_0080PE": "Percent!!RESIDENCE 1 YEAR AGO!!Population 1 year and over!!Same house"},{"DP02_0081PE": "Percent!!RESIDENCE 1 YEAR AGO!!Population 1 year and over!!Different house (in the U.S. or abroad)"},{"DP02_0082PE": "Percent!!RESIDENCE 1 YEAR AGO!!Population 1 year and over!!Different house (in the U.S. or abroad)!!Different house in the U.S."},{"DP02_0083PE": "Percent!!RESIDENCE 1 YEAR AGO!!Population 1 year and over!!Different house (in the U.S. or abroad)!!Different house in the U.S.!!Same county"},{"DP02_0084PE": "Percent!!RESIDENCE 1 YEAR AGO!!Population 1 year and over!!Different house (in the U.S. or abroad)!!Different house in the U.S.!!Different county"},{"DP02_0085PE": "Percent!!RESIDENCE 1 YEAR AGO!!Population 1 year and over!!Different house (in the U.S. or abroad)!!Different house in the U.S.!!Different county!!Same state"},{"DP02_0086PE": "Percent!!RESIDENCE 1 YEAR AGO!!Population 1 year and over!!Different house (in the U.S. or abroad)!!Different house in the U.S.!!Different county!!Different state"},{"DP02_0087PE": "Percent!!RESIDENCE 1 YEAR AGO!!Population 1 year and over!!Different house (in the U.S. or abroad)!!Abroad"},{"DP02_0088PE": "Percent!!PLACE OF BIRTH!!Total population"},{"DP02_0089PE": "Percent!!PLACE OF BIRTH!!Total population!!Native"},{"DP02_0090PE": "Percent!!PLACE OF BIRTH!!Total population!!Native!!Born in United States"},{"DP02_0091PE": "Percent!!PLACE OF BIRTH!!Total population!!Native!!Born in United States!!State of residence"},{"DP02_0092PE": "Percent!!PLACE OF BIRTH!!Total population!!Native!!Born in United States!!Different state"},{"DP02_0093PE": "Percent!!PLACE OF BIRTH!!Total population!!Native!!Born in Puerto Rico, U.S. Island areas, or born abroad to American parent(s)"},{"DP02_0094PE": "Percent!!PLACE OF BIRTH!!Total population!!Foreign born"},{"DP02_0095PE": "Percent!!U.S. CITIZENSHIP STATUS!!Foreign-born population"},{"DP02_0096PE": "Percent!!U.S. CITIZENSHIP STATUS!!Foreign-born population!!Naturalized U.S. citizen"},{"DP02_0097PE": "Percent!!U.S. CITIZENSHIP STATUS!!Foreign-born population!!Not a U.S. citizen"},{"DP02_0098PE": "Percent!!YEAR OF ENTRY!!Population born outside the United States"},{"DP02_0099PE": "Percent!!YEAR OF ENTRY!!Population born outside the United States!!Native"},{"DP02_0100PE": "Percent!!YEAR OF ENTRY!!Population born outside the United States!!Native!!Entered 2010 or later"},{"DP02_0101PE": "Percent!!YEAR OF ENTRY!!Population born outside the United States!!Native!!Entered before 2010"},{"DP02_0102PE": "Percent!!YEAR OF ENTRY!!Population born outside the United States!!Foreign born"},{"DP02_0103PE": "Percent!!YEAR OF ENTRY!!Population born outside the United States!!Foreign born!!Entered 2010 or later"},{"DP02_0104PE": "Percent!!YEAR OF ENTRY!!Population born outside the United States!!Foreign born!!Entered before 2010"},{"DP02_0105PE": "Percent!!WORLD REGION OF BIRTH OF FOREIGN BORN!!Foreign-born population, excluding population born at sea"},{"DP02_0106PE": "Percent!!WORLD REGION OF BIRTH OF FOREIGN BORN!!Foreign-born population, excluding population born at sea!!Europe"},{"DP02_0107PE": "Percent!!WORLD REGION OF BIRTH OF FOREIGN BORN!!Foreign-born population, excluding population born at sea!!Asia"},{"DP02_0108PE": "Percent!!WORLD REGION OF BIRTH OF FOREIGN BORN!!Foreign-born population, excluding population born at sea!!Africa"},{"DP02_0109PE": "Percent!!WORLD REGION OF BIRTH OF FOREIGN BORN!!Foreign-born population, excluding population born at sea!!Oceania"},{"DP02_0110PE": "Percent!!WORLD REGION OF BIRTH OF FOREIGN BORN!!Foreign-born population, excluding population born at sea!!Latin America"},{"DP02_0111PE": "Percent!!WORLD REGION OF BIRTH OF FOREIGN BORN!!Foreign-born population, excluding population born at sea!!Northern America"},{"DP02_0112PE": "Percent!!LANGUAGE SPOKEN AT HOME!!Population 5 years and over"},{"DP02_0113PE": "Percent!!LANGUAGE SPOKEN AT HOME!!Population 5 years and over!!English only"},{"DP02_0114PE": "Percent!!LANGUAGE SPOKEN AT HOME!!Population 5 years and over!!Language other than English"},{"DP02_0115PE": "Percent!!LANGUAGE SPOKEN AT HOME!!Population 5 years and over!!Language other than English!!Speak English less than very well"},{"DP02_0116PE": "Percent!!LANGUAGE SPOKEN AT HOME!!Population 5 years and over!!Spanish"},{"DP02_0117PE": "Percent!!LANGUAGE SPOKEN AT HOME!!Population 5 years and over!!Spanish!!Speak English less than very well"},{"DP02_0118PE": "Percent!!LANGUAGE SPOKEN AT HOME!!Population 5 years and over!!Other Indo-European languages"},{"DP02_0119PE": "Percent!!LANGUAGE SPOKEN AT HOME!!Population 5 years and over!!Other Indo-European languages!!Speak English less than very well"},{"DP02_0120PE": "Percent!!LANGUAGE SPOKEN AT HOME!!Population 5 years and over!!Asian and Pacific Islander languages"},{"DP02_0121PE": "Percent!!LANGUAGE SPOKEN AT HOME!!Population 5 years and over!!Asian and Pacific Islander languages!!Speak English less than very well"},{"DP02_0122PE": "Percent!!LANGUAGE SPOKEN AT HOME!!Population 5 years and over!!Other languages"},{"DP02_0123PE": "Percent!!LANGUAGE SPOKEN AT HOME!!Population 5 years and over!!Other languages!!Speak English less than very well"},{"DP02_0124PE": "Percent!!ANCESTRY!!Total population"},{"DP02_0125PE": "Percent!!ANCESTRY!!Total population!!American"},{"DP02_0126PE": "Percent!!ANCESTRY!!Total population!!Arab"},{"DP02_0127PE": "Percent!!ANCESTRY!!Total population!!Czech"},{"DP02_0128PE": "Percent!!ANCESTRY!!Total population!!Danish"},{"DP02_0129PE": "Percent!!ANCESTRY!!Total population!!Dutch"},{"DP02_0130PE": "Percent!!ANCESTRY!!Total population!!English"},{"DP02_0131PE": "Percent!!ANCESTRY!!Total population!!French (except Basque)"},{"DP02_0132PE": "Percent!!ANCESTRY!!Total population!!French Canadian"},{"DP02_0133PE": "Percent!!ANCESTRY!!Total population!!German"},{"DP02_0134PE": "Percent!!ANCESTRY!!Total population!!Greek"},{"DP02_0135PE": "Percent!!ANCESTRY!!Total population!!Hungarian"},{"DP02_0136PE": "Percent!!ANCESTRY!!Total population!!Irish"},{"DP02_0137PE": "Percent!!ANCESTRY!!Total population!!Italian"},{"DP02_0138PE": "Percent!!ANCESTRY!!Total population!!Lithuanian"},{"DP02_0139PE": "Percent!!ANCESTRY!!Total population!!Norwegian"},{"DP02_0140PE": "Percent!!ANCESTRY!!Total population!!Polish"},{"DP02_0141PE": "Percent!!ANCESTRY!!Total population!!Portuguese"},{"DP02_0142PE": "Percent!!ANCESTRY!!Total population!!Russian"},{"DP02_0143PE": "Percent!!ANCESTRY!!Total population!!Scotch-Irish"},{"DP02_0144PE": "Percent!!ANCESTRY!!Total population!!Scottish"},{"DP02_0145PE": "Percent!!ANCESTRY!!Total population!!Slovak"},{"DP02_0146PE": "Percent!!ANCESTRY!!Total population!!Subsaharan African"},{"DP02_0147PE": "Percent!!ANCESTRY!!Total population!!Swedish"},{"DP02_0148PE": "Percent!!ANCESTRY!!Total population!!Swiss"},{"DP02_0149PE": "Percent!!ANCESTRY!!Total population!!Ukrainian"},{"DP02_0150PE": "Percent!!ANCESTRY!!Total population!!Welsh"},{"DP02_0151PE": "Percent!!ANCESTRY!!Total population!!West Indian (excluding Hispanic origin groups)"},{"DP02_0152PE": "Percent!!COMPUTERS AND INTERNET USE!!Total households"},{"DP02_0153PE": "Percent!!COMPUTERS AND INTERNET USE!!Total households!!With a computer"},{"DP02_0154PE": "Percent!!COMPUTERS AND INTERNET USE!!Total households!!With a broadband Internet subscription"}];
+function fetchData() {
+const prefixes = ["dp02", "dp03", "dp04", "dp05"];
+const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+const labelsUrl = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/${randomPrefix}_labels.json`;
+let counter = 1;
 
-// create map
-var map;
+fetch(labelsUrl)
+  .then(response => response.json())
+  .then(labelsData => {
+	const randomLabelObject = labelsData[Math.floor(Math.random() * labelsData.length)];
+	const [randomKey, randomValue] = Object.entries(randomLabelObject)[0];
+	const splitRandomValue = randomValue.split('!!');
+	const fileUrl = `https://raw.githubusercontent.com/geographyclub/american-geography/main/json/state/${randomPrefix}_state.json`;
 
-function map(){
-  // Generate random coordinates within the given bounds
-  function getRandomCoordinates(bounds) {
-    var minLat = bounds[0][0];
-    var maxLat = bounds[1][0];
-    var minLng = bounds[0][1];
-    var maxLng = bounds[1][1];
+	return fetch(fileUrl)
+	  .then(response => response.json())
+	  .then(secondFileData => {
+		const lowercaseRandomKey = randomKey.toLowerCase();
+		const matchingResults = [];
 
-    var randomLat = Math.random() * (maxLat - minLat) + minLat;
-    var randomLng = Math.random() * (maxLng - minLng) + minLng;
+		secondFileData.forEach(obj => {
+		  if (lowercaseRandomKey in obj) {
+			matchingResults.push({
+			  matchingKey: randomKey,
+			  matchingValue: obj[lowercaseRandomKey],
+			  name: obj.name
+			});
+		  }
+		});
 
-    return [randomLat, randomLng];
-  }
+		matchingResults.sort((a, b) => b.matchingValue - a.matchingValue);
+		const topThreeResults = matchingResults.slice(0, 3);
 
-  map = L.map('map', {maxZoom:18});
-  map.setMaxBounds([[-90, -180], [90, 180]]);
-  map.setMinZoom(map.getBoundsZoom([[25, -128], [55, -68]], false));
+		const matchingResultsDiv = document.getElementById('matchingResultsDiv');
+		const randomValueDiv = document.createElement('div');
+		randomValueDiv.innerHTML = `<div style="padding-bottom:5px"><h2 style="padding-bottom:5px;">${splitRandomValue[1]}</h2><h1>${splitRandomValue.slice(2).join(' <hr> ').replace(/:/g, '')}</h1></div>`;
+		matchingResultsDiv.appendChild(randomValueDiv);
 
-  var randomCoordinates = getRandomCoordinates([[25, -128], [55, -68]]);
-//  map.setView(randomCoordinates, 5);
-  map.setView([29, -98], 3);
+		topThreeResults.forEach(result => {
+		  const resultElement = document.createElement('div');
+		  resultElement.classList.add('flex-column-wide');
+		  const formattedValue = (randomKey.endsWith('PE') && Number(result.matchingValue) < 100)
+			? `${Number(result.matchingValue).toLocaleString()}%`
+			: Number(result.matchingValue).toLocaleString();
+		  resultElement.innerHTML = `
+			<div>
+			  <h1 class="result-${counter++}">${formattedValue}</h1>
+			  <h4>${result.name.toUpperCase()}</h4>
+			</div>
+		  `;
+		  matchingResultsDiv.appendChild(resultElement);
+		});
 
-  // featuregroups
-  var feature_cover = new L.featureGroup();
-  var feature_quartile = new L.featureGroup();
+		const resultsContainer = document.createElement('div');
+		resultsContainer.classList.add('results-container');
 
-  // Choose a random index
-  const randomIndex = Math.floor(Math.random() * labelsData.length);
+		matchingResults.slice(3).forEach(result => {
+		  const resultElement = document.createElement('span');
+		  resultElement.style.lineHeight = '0.5';
+		  const formattedValue = (randomKey.endsWith('PE') && Number(result.matchingValue) < 100)
+			? `${Number(result.matchingValue).toLocaleString()}%`
+			: Number(result.matchingValue).toLocaleString();
 
-  // Get the random key-value pair
-  const randomEntry = labelsData[randomIndex];
+		  resultElement.innerHTML = `
+			<span class="name-4">${result.name.toUpperCase()}</span><span class="result-4">${formattedValue}</span>
+		  `;
+		  resultsContainer.appendChild(resultElement);
+		});
 
-  // Extract the key and value
-  const randomKey = Object.keys(randomEntry)[0];
-  const randomValue = randomEntry[randomKey];
-console.log(randomKey+' '+randomValue)
-  var labelValue = randomValue.split('!!');
+		matchingResultsDiv.appendChild(resultsContainer);
 
-  const labelDiv = document.getElementById('subtitle');
-  labelDiv.innerHTML = `<div style="padding-bottom:10px"><h3 style="padding-bottom:10px;">${labelValue[1]} (%)</h3><h2>${labelValue.slice(2).join(' <hr> ').replace(/:/g, '')}</h2></div>`;
+		const multilineTextToAdd = `
+		  <hr class="long">
+		`;
+		matchingResultsDiv.innerHTML += multilineTextToAdd;
+	  });
+  })
+  .then(undefined, error => console.error("Error:", error));
+}
 
-  // colors
-  function getColor(d) {
-    switch (d) {
-      case "q1": return "rgba(255,255,178,255)";
-      case "q2": return "rgba(254,191,86,255)";
-      case "q3": return "rgba(248,108,49,255)";
-      case "q4": return "rgba(189,0,38,255)";
-    }
-  }
-
-  // style
-  function quartileStyle(feature) {
-    return {
-      fillColor: getColor(feature.properties.quartile),
-      weight: 0,
-      opacity: 1,
-      color: 'white',
-      fillOpacity: 0.3
-    };
-  }
-
-  // geojson quartile
-  var feature_quartile = L.geoJSON.ajax('https://raw.githubusercontent.com/geographyclub/american-geography/main/geojson/county/county_quartile_'+randomKey.toLowerCase()+'.geojson', {
-    interactive:false,
-    style:quartileStyle,
-    onEachFeature: function (feature, layer) {
-      var minPropertyValue = feature.properties.min;
-      var maxPropertyValue = feature.properties.max;
-      var quartilePropertyValue = feature.properties.quartile;
-
-  // Get the existing div with id "subtitle"
-  var subtitleDiv = document.getElementById('subtitle');
-
-  // Create a new div element
-  var legendContents = document.createElement('span');
-  legendContents.classList.add('legend');
-
-  // Set the inner HTML content with the property values
-legendContents.innerHTML = `
-      <span style="background:${getColor(quartilePropertyValue)}; opacity:0.3;">▬▬</span> ${minPropertyValue}-${maxPropertyValue}
-    `;
-
-  // Append the infoPopup to the existing div
-  subtitleDiv.appendChild(legendContents);
-    }
-  }).addTo(map)
-
-  // base layers
-  //var german = L.TileLayer('https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png', {noWrap:false});
-  //var french = L.TileLayer('http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {noWrap:false});
-  var streets = new L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {noWrap:false, attribution:'<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>', lang:'en'}).addTo(map);
-  var satellite = new L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {id: 'mapbox/satellite-v9', tileSize: 512, zoomOffset: -1, attribution:'<a href="https://www.mapbox.com/">Mapbox</a>'});
-
-  // layer switcher
-  map.addLayer(feature_cover)
-  var baseMaps = {"Streets":streets};
-  var overlayMaps = {"Overlay":feature_quartile};
-//  L.control.layers(baseMaps,overlayMaps).addTo(map);
-
-  // navbar
-//  L.control.navbar().addTo(map);
-};
-window.onload = map();
-
-// footer
-jQuery('.leaflet-bottom.leaflet-left').html('<a href="mailto:emailstevekim@gmail.com">emailstevekim@gmail.com</a>');
-//jQuery('.leaflet-bottom.leaflet-right').html('');
-
-
+const numberOfFetches = 5;
+for (let i = 0; i < numberOfFetches; i++) {
+  fetchData();
+}
 </script>
+
+<!-- close menu -->
+<script>
+document.querySelector('.menu-icon').addEventListener('click', function () {
+  document.querySelector('nav').classList.toggle('show');
+});
+
+function closeMenu() {
+  document.querySelector('nav').classList.remove('show');
+}
+</script>
+
+<!-- scroll to section with offset -->
+<script>
+function scrollToSection(sectionId) {
+  const targetSection = document.getElementById(sectionId);
+  const offset = 50;
+
+  if (targetSection) {
+    window.scrollTo({
+	  top: targetSection.offsetTop - offset,
+	  behavior: 'smooth'
+    });
+  }
+  event.preventDefault();
+  closeMenu();
+}
+</script>
+
 </body>
 </html>
-

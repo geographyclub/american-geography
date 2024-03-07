@@ -127,10 +127,10 @@ done
 
 ## Exporting
 
-Export labels to json (only percentages).  
+Export labels to json.  
 ```bash
 # labels (single file)
-psql -Aqt -d us -c "SELECT jsonb_agg(jsonb_build_object(code, label)) FROM dp02_us_metadata WHERE label NOT LIKE '%Margin of Error%' AND label NOT LIKE '%dollars%' AND label LIKE '%Percent%' UNION ALL SELECT jsonb_agg(jsonb_build_object(code, label)) FROM dp03_us_metadata WHERE label NOT LIKE '%Margin of Error%' AND label NOT LIKE '%dollars%' AND label LIKE '%Percent%' UNION ALL SELECT jsonb_agg(jsonb_build_object(code, label)) FROM dp04_us_metadata WHERE label NOT LIKE '%Margin of Error%' AND label NOT LIKE '%dollars%' AND label LIKE '%Percent%' UNION ALL SELECT jsonb_agg(jsonb_build_object(code, label)) FROM dp05_us_metadata WHERE label NOT LIKE '%Margin of Error%' AND label NOT LIKE '%dollars%' AND label LIKE '%Percent%';" | tr -d '\n' | sed -e 's/\]\[/, /g' > ~/american-geography/geojson/us_labels.json
+psql -Aqt -d us -c "SELECT jsonb_agg(jsonb_build_object(code, label)) FROM dp02_us_metadata WHERE label NOT LIKE '%Margin of Error%' UNION ALL SELECT jsonb_agg(jsonb_build_object(code, label)) FROM dp03_us_metadata WHERE label NOT LIKE '%Margin of Error%' UNION ALL SELECT jsonb_agg(jsonb_build_object(code, label)) FROM dp04_us_metadata WHERE label NOT LIKE '%Margin of Error%' UNION ALL SELECT jsonb_agg(jsonb_build_object(code, label)) FROM dp05_us_metadata WHERE label NOT LIKE '%Margin of Error%';" | tr -d '\n' | sed -e 's/\]\[/, /g' > ~/american-geography/geojson/us_labels.json
 
 # labels (separate files)
 files=('dp02' 'dp03' 'dp04' 'dp05')
@@ -323,7 +323,7 @@ done
 
 ### OpenStreetMap
 
-See https://github.com/geographyclub/postgis-cookbook for more.
+See [postgis-cookbook](https://github.com/geographyclub/postgis-cookbook) for more.
 
 ## References
 
