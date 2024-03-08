@@ -12,7 +12,7 @@ header {display:flex; justify-content:space-between; align-items:center; backgro
 .flex-container {box-sizing:border-box; display:flex; flex-wrap:wrap; align-items:flex-start; text-align:center;}
 .flex-column {box-sizing:border-box; flex:0 0 50%; min-width:160px; text-align:center;}
 .flex-column-wide {box-sizing:border-box; flex:0 0 100%; text-align:center;}
-.flex-column-wide p{font-size:9px; font-weight:600; line-height:0.5px; margin:10px 0 5px 0;}
+.flex-column-wide p{font-size:9px; font-weight:600; line-height:0.5px; margin:10px 0 7px 0;}
 
 .image-container {display:flex; overflow:hidden; position:relative; height:auto; width:100%; max-width:768px; margin:0 auto; align-items:center; justify-content:center;}
 .image {display:block; width:100%; height:10%; max-height:100%; max-width:100%; margin:auto;}
