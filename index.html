@@ -78,9 +78,9 @@ fetch(labelsUrl)
 			: Number(result.matchingValue).toLocaleString();
 		  resultElement.innerHTML = `
 			<div>
+			  <p>${getContentBasedOnCounter(counter)}</p>
 			  <h1 class="result-${counter}">${formattedValue}</h1>
 			  <h4>${result.name.toUpperCase()}</h4>
-              <p>${getContentBasedOnCounter(counter)}</p>
 			</div>
 		  `;
 		  matchingResultsDiv.appendChild(resultElement);
@@ -123,11 +123,11 @@ function getContentBasedOnCounter(counter) {
 // Customize the content based on the value of counter
 switch (counter) {
   case 1:
-	return 'MAXIMUM';
+	return '— MAXIMUM —';
   case 2:
-	return 'MEDIAN';
+	return '— MEDIAN —';
   case 3:
-	return 'MINIMUM';
+	return '— MINIMUM —';
   default:
 	return ''; // Default content if counter is not 1, 2, or 3
 }
