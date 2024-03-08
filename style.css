@@ -2,7 +2,7 @@ a {color:white; text-decoration:none;}
 h1 {font-family:'Libre Baskerville'; font-size:24px; font-weight:700; line-height:1; margin:0; padding:0;}
 h2 {font-family:'Libre Baskerville'; font-size:12px; font-weight:700; line-height:1; margin:0; padding:0;}
 h3 {font-family:'Open Sans'; font-size:16px; font-weight:600; line-height:1.2; margin:0; padding:0;}
-h4 {font-family:'Open Sans'; font-size:12px; font-weight:600; line-height:1.2; margin:0; padding:0; padding:0 0 5px 0;}
+h4 {font-family:'Open Sans'; font-size:12px; font-weight:600; line-height:1; margin:0; padding:0; padding:0 0 5px 0;}
 p {font-family:'Open Sans'; font-size:10px; font-weight:600; line-height:1.2; margin:0; padding:0;}
 
 body {color:#333; margin:0; padding:0; box-sizing:border-box; font-family:Sans; background-color:#eee;}
@@ -12,13 +12,15 @@ header {display:flex; justify-content:space-between; align-items:center; backgro
 .flex-container {box-sizing:border-box; display:flex; flex-wrap:wrap; align-items:flex-start; text-align:center;}
 .flex-column {box-sizing:border-box; flex:0 0 50%; min-width:160px; text-align:center;}
 .flex-column-wide {box-sizing:border-box; flex:0 0 100%; text-align:center;}
+.flex-column-wide p{color:#333; font-size:9px; font-weight:300; line-height:0.5px; padding-bottom:10px;}
+
 .image-container {display:flex; overflow:hidden; position:relative; height:auto; width:100%; max-width:768px; margin:0 auto; align-items:center; justify-content:center;}
 .image {display:block; width:100%; height:10%; max-height:100%; max-width:100%; margin:auto;}
 
 nav {display:none; flex-direction:column; align-items:flex-start; width:100%; background-color:#333; position:absolute; right:0; top:50px;}
 nav.show {display:flex;}
-nav a {color:white; text-decoration:none; margin:10px;}
-.menu-icon {display:block; cursor:pointer; font-size:24px; position:fixed; right:10px;}
+nav a {color:white; text-decoration:none; font-size:14px; line-height:0.8; padding-bottom:10px; margin:10px;}
+.menu-icon {display:block; cursor:pointer; font-size:20px; position:fixed; right:10px;}
 
 @media only screen and (max-width: 768px) {
   nav {display:none; flex-direction:column; align-items:flex-start; width:100%; background-color:#333; position:absolute; right:0; top:50px;}
@@ -39,15 +41,14 @@ hr {border:none; height:1px; background-color:#aaa; margin:5px auto; padding:0; 
 .result-1 {font-size:40px;}
 .result-2 {font-size:30px;}
 .result-3 {font-size:20px;}
-.result-4 {font-size:8px; font-weight:300;}
+.result-4 {font-size:9px; font-weight:300;}
 
 .name-1 {font-size:20px;}
 .name-2 {font-size:16px;}
 .name-3 {font-size:12px;}
-.name-4 {font-size:8px; font-weight:600;}
+.name-4 {font-size:9px; font-weight:600;}
 
-.results-container {line-height:0.6;}
-
+.results-container {line-height:0.7; padding-top:10px;}
 .box {flex:0 0 50%; margin:0; padding:0; box-sizing:border-box;}
 .border-container {position:relative; display:flex; height:5px; width:100%; top:50px; left:0;}
 .color-block {flex-grow:1; height:100%;}
@@ -55,3 +56,11 @@ hr {border:none; height:1px; background-color:#aaa; margin:5px auto; padding:0; 
 .color-block:nth-child(2) {background-color:#f33e6f;}
 .color-block:nth-child(3) {background-color:#fdb45c;}
 .text-background {display:inline-block; background-color:#ffdd05; color:#333; padding:5px 10px;}
+
+.footer {text-align:left; padding:0 10px 20px 10px;}
+.footer hr{background:#fff; margin-bottom:10px; width:100%;}
+.footer a {color:#333; font-size:18px; text-decoration:underline; text-decoration-color: #aaa;}
+.footer h1 {font-size:28px; margin-bottom:5px;}
+.footer h2 {font-size:18px; font-weight:300; line-height:1.2;}
+.footer h3 {font-size:16px; font-weight:300; line-height:1.2;}
+.footer p {font-size:10px; margin:15px 0 -5px 0;}

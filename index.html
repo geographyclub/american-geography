@@ -22,7 +22,9 @@
 
 <div class="container">
   <!--<div class="border-container"><div class="color-block"></div><div class="color-block"></div><div class="color-block"></div></div>-->
-  <div id="banner"><h3>Refresh for more random stats from <a href="https://data.census.gov/" target="_blank">US Census</a></h3></div>
+  <div id="banner">
+    <h3>Refresh for more random stats from <a href="https://data.census.gov/" target="_blank">US Census</a></h3>
+  </div>
   <div id="matchingResultsDiv"></div>
 </div>
 
@@ -76,11 +78,13 @@ fetch(labelsUrl)
 			: Number(result.matchingValue).toLocaleString();
 		  resultElement.innerHTML = `
 			<div>
-			  <h1 class="result-${counter++}">${formattedValue}</h1>
+			  <h1 class="result-${counter}">${formattedValue}</h1>
 			  <h4>${result.name.toUpperCase()}</h4>
+              <p>${getContentBasedOnCounter(counter)}</p>
 			</div>
 		  `;
 		  matchingResultsDiv.appendChild(resultElement);
+          counter++;
 		});
 
 		const resultsContainer = document.createElement('div');
@@ -114,7 +118,38 @@ const numberOfFetches = 5;
 for (let i = 0; i < numberOfFetches; i++) {
   fetchData();
 }
+
+function getContentBasedOnCounter(counter) {
+// Customize the content based on the value of counter
+switch (counter) {
+  case 1:
+	return 'MAXIMUM';
+  case 2:
+	return 'MEDIAN';
+  case 3:
+	return 'MINIMUM';
+  default:
+	return ''; // Default content if counter is not 1, 2, or 3
+}
+}
 </script>
+
+<div class="container">
+<div class="flex-column-wide footer">
+<h1>About</h1>
+<h2>Web developer and map maker with a background in Geography and English.</h2>
+<p id="contact">EMAIL</p>
+<a href="mailto:emailstevekim@gmail.com"><h2>emailstevekim@gmail.com</h2></a>
+<p>TWITTER</p>
+<a href="https://twitter.com/newgeographer2" target="_blank"><h2>@newgeographer2</h2></a>
+<p>GITHUB</p>
+<a href="https://github.com/geographyclub" target="_blank"><h2>geographyclub</h2></a>
+<p>WEBSITES</p>
+<a href="https://geographyclub.github.io/factbook/" onclick="closeMenu()" target="_blank"><h3>World Factbook Scraper</h3></a>
+<a href="https://geographyclub.github.io/american-geography/" onclick="closeMenu()" target="_blank"><h3>American Geography</h3></a>
+<a href="https://geographyclub.github.io/asean/" onclick="closeMenu()" target="_blank"><h3>Asean Primer</h3></a>
+</div>
+</div>
 
 <!-- close menu -->
 <script>
