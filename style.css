@@ -48,7 +48,7 @@ hr {border:none; height:1px; background-color:#aaa; margin:5px auto; padding:0; 
 .name-3 {font-size:12px;}
 .name-4 {font-size:9px; font-weight:600;}
 
-.results-container {line-height:0.7; padding-top:15px;}
+.results-container {line-height:0.7; padding-top:17px;}
 .box {flex:0 0 50%; margin:0; padding:0; box-sizing:border-box;}
 .border-container {position:relative; display:flex; height:5px; width:100%; top:50px; left:0;}
 .color-block {flex-grow:1; height:100%;}
