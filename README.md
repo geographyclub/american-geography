@@ -31,12 +31,15 @@ ogr2ogr -overwrite -skipfailures -nlt promote_to_multi --config PG_USE_COPY YES 
 
 Census population tables  
 ```bash
-#https://www2.census.gov/programs-surveys/popest/datasets/2020-2022/
+#https://www2.census.gov/programs-surveys/popest/datasets/
 
-# nst
-iconv -f latin1 -t ascii//TRANSLIT NST-EST2022-ALLDATA.csv > NST-EST2022-alldata_iconv.csv
-psql -d us -c "CREATE TABLE nst_est2022($(head -1 NST-EST2022-alldata_iconv.csv | sed -e 's/,/ VARCHAR,/g' -e 's/$/ VARCHAR/g'));"
-psql -d us -c "\COPY nst_est2022 FROM 'NST-EST2022-alldata_iconv.csv' WITH CSV HEADER;"
+# clean up and import
+geographies=('cbsa' 'co' 'csa' 'nst')
+for geography in ${geographies[*]}; do
+  iconv -f latin1 -t ascii//TRANSLIT ${geography}'-est2023-alldata.csv' > ${geography}'-est2023-alldata-iconv.csv'
+  psql -d us -c "DROP TABLE IF EXISTS ${geography}_est2023; CREATE TABLE ${geography}_est2023($(head -1 ${geography}-est2023-alldata-iconv.csv | sed -e 's/,/ VARCHAR,/g' -e 's/$/ VARCHAR/g'));"
+  psql -d us -c "\COPY ${geography}_est2023 FROM ${geography}-est2023-alldata-iconv.csv WITH CSV HEADER;"
+done
 ```
 
 Census data profiles  
@@ -71,11 +74,6 @@ for geography in ${geographies[*]}; do
     psql -d us -c "COPY ${file}_${geography}_metadata FROM ~/maps/us/dataprofiles/${geography}/ACSDP5Y2022.${file}-Column-Metadata.tsv WITH DELIMITER E'\t';"
   done
 done
-```
-
-Population change, components of change, etc  
-```bash
-#https://www2.census.gov/programs-surveys/popest/datasets/2020-2023/
 ```
 
 Natural Earth  
