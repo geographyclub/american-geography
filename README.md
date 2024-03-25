@@ -51,11 +51,15 @@ Blocks
 files=('P1' 'H1')
 geography='newyork'
 for file in ${files[*]}; do
-  table=${file}_${geography}2023
+  table=${file}_${geography}2020
   cat ${geography}/DECENNIALDHC2020.${file}-Data.csv | awk 'NR!=2' | iconv -f latin1 -t ascii//TRANSLIT | sed -e 's/,$//g' > ${geography}/DECENNIALDHC2020.${file}-Data_iconv.csv
   psql -d us -c "DROP TABLE IF EXISTS ${table}; CREATE TABLE ${table}($(head -1 ${geography}/DECENNIALDHC2020.${file}-Data_iconv.csv | sed -e 's/"//g' -e 's/,/ VARCHAR,/g' -e 's/$/ VARCHAR/g'));"
   psql -d us -c "\COPY ${table} FROM ${geography}/DECENNIALDHC2020.${file}-Data_iconv.csv WITH CSV HEADER;"
 done
+
+# add housing totals, race totals
+ALTER TABLE block20 ADD COLUMN h1 VARCHAR; UPDATE block20 a SET h1 = b.h1_001n FROM h1_newyork2020 b WHERE a.geoid20 = split_part(b.geo_id, 'US', 2);
+ALTER TABLE block20 ADD COLUMN p1 VARCHAR; UPDATE block20 a SET p1 = b.p1_001n FROM p1_newyork2020 b WHERE a.geoid20 = split_part(b.geo_id, 'US', 2);
 ```
 
 Data profiles  
