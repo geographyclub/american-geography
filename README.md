@@ -42,24 +42,29 @@ for geography in ${geographies[*]}; do
   psql -d us -c "DROP TABLE IF EXISTS ${geography}_est2023; CREATE TABLE ${geography}_est2023($(head -1 ${geography}-est2023-alldata-iconv.csv | sed -e 's/,/ VARCHAR,/g' -e 's/$/ VARCHAR/g'));"
   psql -d us -c "\COPY ${geography}_est2023 FROM ${geography}-est2023-alldata-iconv.csv WITH CSV HEADER;"
 done
+
+# add missing geoid column
+ALTER TABLE co_est2023 ADD COLUMN geoid int;
+UPDATE co_est2023 SET geoid = CONCAT(state::int, county::int)::int;
 ```
 
 Blocks  
 ```shell
-# download from https://data.census.gov/table?g=040XX00US36$1000000
+# download by state from: https://data.census.gov/table?g=040XX00US01$1000000
 
 files=('P1' 'H1')
-geography='newyork'
+geography='block'
 for file in ${files[*]}; do
   table=${file}_${geography}2020
-  cat ${geography}/DECENNIALDHC2020.${file}-Data.csv | awk 'NR!=2' | iconv -f latin1 -t ascii//TRANSLIT | sed -e 's/,$//g' > ${geography}/DECENNIALDHC2020.${file}-Data_iconv.csv
+  cat ${geography}/DECENNIALDHC2020.${file}-Data.csv | awk 'NR!=2' | iconv -f latin1 -t ascii//TRANSLIT | sed -e 's/,$//g' -e 's/i>>?//g' > ${geography}/DECENNIALDHC2020.${file}-Data_iconv.csv
   psql -d us -c "DROP TABLE IF EXISTS ${table}; CREATE TABLE ${table}($(head -1 ${geography}/DECENNIALDHC2020.${file}-Data_iconv.csv | sed -e 's/"//g' -e 's/,/ VARCHAR,/g' -e 's/$/ VARCHAR/g'));"
   psql -d us -c "\COPY ${table} FROM ${geography}/DECENNIALDHC2020.${file}-Data_iconv.csv WITH CSV HEADER;"
 done
 
-# add housing totals, race totals
-ALTER TABLE block20 ADD COLUMN h1 VARCHAR; UPDATE block20 a SET h1 = b.h1_001n FROM h1_newyork2020 b WHERE a.geoid20 = split_part(b.geo_id, 'US', 2);
-ALTER TABLE block20 ADD COLUMN p1 VARCHAR; UPDATE block20 a SET p1 = b.p1_001n FROM p1_newyork2020 b WHERE a.geoid20 = split_part(b.geo_id, 'US', 2);
+# add housing, population totals
+ALTER TABLE block20 ADD COLUMN h1 VARCHAR; ALTER TABLE block20 ADD COLUMN p1 VARCHAR;
+UPDATE block20 a SET h1 = b.h1_001n FROM h1_block2020 b WHERE a.geoid20 = split_part(b.geo_id, 'US', 2);
+UPDATE block20 a SET p1 = b.p1_001n FROM p1_block2020 b WHERE a.geoid20 = split_part(b.geo_id, 'US', 2);
 ```
 
 Data profiles  
