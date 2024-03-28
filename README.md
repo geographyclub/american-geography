@@ -44,8 +44,8 @@ for geography in ${geographies[*]}; do
 done
 
 # add missing geoid column
-ALTER TABLE co_est2023 ADD COLUMN geoid int;
-UPDATE co_est2023 SET geoid = CONCAT(state::int, county::int)::int;
+ALTER TABLE co_est2023 ADD COLUMN geoid varchar;
+UPDATE co_est2023 SET geoid = CONCAT(state, county)::VARCHAR;
 ```
 
 Blocks  
@@ -151,6 +151,29 @@ for geography in ${geographies[*]}; do
     done
   done
 done
+```
+
+## Tables
+
+Population change in counties (co_est2023)
+```sql
+# order by rpopchg
+WITH stats AS (SELECT geoid, ARRAY_AGG(name ORDER BY pop::numeric DESC) AS places FROM (SELECT b.geoid, a.name, a.pop, ROW_NUMBER() OVER (PARTITION BY b.geoid ORDER BY a.pop::numeric DESC) AS row_num FROM place2022 a JOIN county b ON ST_Intersects(ST_Centroid(a.shape), b.shape)) subquery WHERE row_num <= 3 GROUP BY geoid) SELECT a.stname, a.ctyname, stats.places, a.popestimate2023, a.npopchg2023, ROUND(((a.popestimate2023::numeric - a.popestimate2022::numeric) / a.popestimate2022::numeric) * 100,2) AS rpopchg2023, RANK() OVER (PARTITION BY a.state ORDER BY ((a.popestimate2023::numeric - a.popestimate2022::numeric) / a.popestimate2022::numeric) * 100 DESC) AS cty_rank, ROUND(((b.popestimate2023::numeric - b.popestimate2022::numeric) / b.popestimate2022::numeric) * 100,2) AS st_rpopchg2023, DENSE_RANK() OVER (ORDER BY ((b.popestimate2023::numeric - b.popestimate2022::numeric) / b.popestimate2022::numeric) * 100 DESC) AS st_rank FROM co_est2023 a JOIN nst_est2023 b ON a.state = b.state JOIN stats ON a.geoid = stats.geoid WHERE a.sumlev = '050' AND b.sumlev = '040' ORDER BY ((a.popestimate2023::numeric - a.popestimate2022::numeric) / a.popestimate2022::numeric) * 100 DESC;
+
+# order by popestimate2023
+WITH stats AS (SELECT geoid, ARRAY_AGG(name ORDER BY pop::numeric DESC) AS places FROM (SELECT b.geoid, a.name, a.pop, ROW_NUMBER() OVER (PARTITION BY b.geoid ORDER BY a.pop::numeric DESC) AS row_num FROM place2022 a JOIN county b ON ST_Intersects(ST_Centroid(a.shape), b.shape)) subquery WHERE row_num <= 3 GROUP BY geoid) SELECT a.stname, a.ctyname, stats.places, a.popestimate2023, a.npopchg2023, ROUND(((a.popestimate2023::numeric - a.popestimate2022::numeric) / a.popestimate2022::numeric) * 100,2) AS rpopchg2023, RANK() OVER (PARTITION BY a.state ORDER BY ((a.popestimate2023::numeric - a.popestimate2022::numeric) / a.popestimate2022::numeric) * 100 DESC) AS cty_rank, ROUND(((b.popestimate2023::numeric - b.popestimate2022::numeric) / b.popestimate2022::numeric) * 100,2) AS st_rpopchg2023, DENSE_RANK() OVER (ORDER BY ((b.popestimate2023::numeric - b.popestimate2022::numeric) / b.popestimate2022::numeric) * 100 DESC) AS st_rank FROM co_est2023 a JOIN nst_est2023 b ON a.state = b.state JOIN stats ON a.geoid = stats.geoid WHERE a.sumlev = '050' AND b.sumlev = '040' ORDER BY ctyname;
+```
+
+Export tables  
+```shell
+# csv
+psql -d us -c "COPY (SELECT * FROM (SELECT DENSE_RANK() OVER (ORDER BY a.pop::int DESC) rank, a.name, b.name AS state, a.pop, a.zscore_1_65 FROM place2022 a, state2022 b WHERE SUBSTRING(a.geoid,1,2) = b.geoid) stats WHERE rank <= 100) TO STDOUT DELIMITER E'\t' CSV HEADER;" > tables/place2022_zscore.csv
+
+# html
+psql --html -d us -c "SELECT * FROM (SELECT DENSE_RANK() OVER (ORDER BY a.pop::int DESC) rank, a.name, b.name AS state, a.pop, a.zscore_1_65 FROM place2022 a, state2022 b WHERE SUBSTRING(a.geoid,1,2) = b.geoid) stats WHERE rank <= 100;" > tables/place2022_zscore.html
+
+# markdown
+psql -d us -c "SELECT * FROM (SELECT DENSE_RANK() OVER (ORDER BY a.pop::int DESC) rank, a.name, b.name AS state, a.pop, a.zscore_1_65 FROM place2022 a, state2022 b WHERE SUBSTRING(a.geoid,1,2) = b.geoid) stats WHERE rank <= 100;" | sed -e 's/-+-/-\|-/g' -e 's/^/\|/g' -e 's/$/\|/g' -e "s/||//g" | grep -v 'rows)|' > tables/place2022_zscore.md
 ```
 
 ## Exporting
@@ -312,18 +335,6 @@ done
 psql -qAtX -d us -c '\d county2022;' | grep -v "shape" | grep -v "geoid" | grep -v "name" | grep -v "zscore_" | sed -e 's/|.*//g' | while read column; do
   psql -d us -c "COPY (SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(feature)) FROM (SELECT jsonb_build_object('type', 'Feature', 'id', geoid, 'geometry', ST_AsGeoJSON(ST_Transform(geom,4326))::jsonb, 'properties', to_jsonb(inputs) - 'geom' - 'geoid') AS feature FROM (SELECT b.geom, a.geoid, a.name, b.region AS state, RANK() OVER (ORDER BY a.${column}::real DESC) rank, a.${column} AS column, '${column}' AS column_name FROM county2022 a, ne_10m_admin_2_counties_lakes b WHERE a.${column}::text ~ '^[0-9\\\.]+$' AND a.geoid = b.code_local ORDER BY a.${column}::real DESC LIMIT 10) inputs) features) TO STDOUT;" > geojson/county/county_top10_${column}.geojson
 done
-```
-
-Export tables.  
-```shell
-# csv
-psql -d us -c "COPY (SELECT * FROM (SELECT DENSE_RANK() OVER (ORDER BY a.pop::int DESC) rank, a.name, b.name AS state, a.pop, a.zscore_1_65 FROM place2022 a, state2022 b WHERE SUBSTRING(a.geoid,1,2) = b.geoid) stats WHERE rank <= 100) TO STDOUT DELIMITER E'\t' CSV HEADER;" > tables/place2022_zscore.csv
-
-# html
-psql --html -d us -c "SELECT * FROM (SELECT DENSE_RANK() OVER (ORDER BY a.pop::int DESC) rank, a.name, b.name AS state, a.pop, a.zscore_1_65 FROM place2022 a, state2022 b WHERE SUBSTRING(a.geoid,1,2) = b.geoid) stats WHERE rank <= 100;" > tables/place2022_zscore.html
-
-# markdown
-psql -d us -c "SELECT * FROM (SELECT DENSE_RANK() OVER (ORDER BY a.pop::int DESC) rank, a.name, b.name AS state, a.pop, a.zscore_1_65 FROM place2022 a, state2022 b WHERE SUBSTRING(a.geoid,1,2) = b.geoid) stats WHERE rank <= 100;" | sed -e 's/-+-/-\|-/g' -e 's/^/\|/g' -e 's/$/\|/g' -e "s/||//g" | grep -v 'rows)|' > tables/place2022_zscore.md
 ```
 
 ## Misc
