@@ -65,7 +65,7 @@ for file in ${files[*]}; do
 done
 
 # add housing, population totals
-ALTER TABLE block20 ADD COLUMN h1 VARCHAR; ALTER TABLE block20 ADD COLUMN p1 VARCHAR;
+# ALTER TABLE block20 ADD COLUMN h1 VARCHAR; ALTER TABLE block20 ADD COLUMN p1 VARCHAR;
 UPDATE block20 a SET h1 = b.h1_001n FROM h1_block2020 b WHERE a.geoid20 = split_part(b.geo_id, 'US', 2);
 UPDATE block20 a SET p1 = b.p1_001n FROM p1_block2020 b WHERE a.geoid20 = split_part(b.geo_id, 'US', 2);
 ```
