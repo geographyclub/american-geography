@@ -59,8 +59,7 @@ hr {border:none; height:1px; background-color:#aaa; margin:5px auto; padding:0; 
 .footer p {color:#999; font-size:10px; margin-top:15px;}
 
 #matchingResultsDiv {text-align:center; margin:0 auto; width:90%;}
-.banner { background: linear-gradient(to bottom, rgba(255,255,255,0), #f0f0e8), url('img/chicago_streets.png'); background-size: cover; height:100px; padding:20px 5% 20px 5%; width:100%; margin:50px auto 20px auto; color:#333; text-align:left;}
-#banner { background: linear-gradient(to left, rgba(255,255,255,0), rgba(255,255,255,200)), url('img/chicago_streets.png'); background-size: cover; height:100px; padding:20px 5% 20px 5%; width:100%; margin:50px auto 20px auto; color:#333; text-align:left;}
+#banner { background: linear-gradient(to left, rgba(255,255,255,0), rgba(255,255,255,100)), url('img/states.png'); background-size: cover; height:100px; padding:20px 5% 20px 5%; width:100%; margin:50px auto 20px auto; color:#333; text-align:left; border-bottom:1px solid #ddd;}
 #banner p {color:#333; font-size:12px; font-weight:300; margin-top:2px;}
 #banner a {color:#333; text-decoration:underline;}
 .title {color:#333; font-family: 'Montserrat'; font-size: 22px; font-weight: 900; letter-spacing: -1px; line-height: 0.8;}
