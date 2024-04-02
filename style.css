@@ -60,8 +60,8 @@ hr {border:none; height:1px; background-color:#aaa; margin:5px auto; padding:0; 
 
 #matchingResultsDiv {text-align:center; margin:0 auto; width:90%;}
 .banner { background: linear-gradient(to bottom, rgba(255,255,255,0), #f0f0e8), url('img/chicago_streets.png'); background-size: cover; height:100px; padding:20px 5% 20px 5%; width:100%; margin:50px auto 20px auto; color:#333; text-align:left;}
-#banner { background: linear-gradient(to left, rgba(255,255,255,0), rgba(100,100,100,10)), url('img/chicago_streets.png'); background-size: cover; height:100px; padding:20px 5% 20px 5%; width:100%; margin:50px auto 20px auto; color:#333; text-align:left;}
-#banner p {color:#fff; font-size:12px; font-weight:300; margin-top:2px;}
-#banner a {color:#fff; text-decoration:underline;}
-.title{color:#fff; font-family:'Montserrat'; font-size:20px; font-weight:900; letter-spacing:-1px; line-height:0.8; opacity:1;}
+#banner { background: linear-gradient(to left, rgba(255,255,255,0), rgba(255,255,255,200)), url('img/chicago_streets.png'); background-size: cover; height:100px; padding:20px 5% 20px 5%; width:100%; margin:50px auto 20px auto; color:#333; text-align:left;}
+#banner p {color:#333; font-size:12px; font-weight:300; margin-top:2px;}
+#banner a {color:#333; text-decoration:underline;}
+.title{color:#333; font-family:'Montserrat'; font-size:20px; font-weight:900; letter-spacing:-1px; line-height:0.8; opacity:1;}
 
