@@ -63,7 +63,7 @@ hr {border:none; height:1px; background-color:#aaa; margin:5px auto; padding:0; 
 #banner { background: linear-gradient(to left, rgba(255,255,255,0), rgba(255,255,255,200)), url('img/chicago_streets.png'); background-size: cover; height:100px; padding:20px 5% 20px 5%; width:100%; margin:50px auto 20px auto; color:#333; text-align:left;}
 #banner p {color:#333; font-size:12px; font-weight:300; margin-top:2px;}
 #banner a {color:#333; text-decoration:underline;}
-.title { font-family: 'Montserrat'; font-size: 35px; font-weight: 900; letter-spacing: -5px; line-height: 0.8; opacity: 1; background: linear-gradient(to bottom, black 70%, white 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.title {color:#333; font-family: 'Montserrat'; font-size: 24px; font-weight: 900; letter-spacing: -1px; line-height: 0.8;}
 
 
 
