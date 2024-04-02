@@ -6,7 +6,7 @@ h4 {font-family:'Open Sans'; font-size:12px; font-weight:600; line-height:1; mar
 p {font-family:'Open Sans'; font-size:10px; font-weight:600; line-height:1.2; margin:0; padding:0;}
 
 body {color:#333; margin:0; padding:0; box-sizing:border-box; font-family:Sans; background-color:#f0f0e8;}
-header {display:flex; justify-content:space-between; align-items:center; background-color:#3ca7a5; color:white; padding:0 10px; position:fixed; height:50px; width:100%; top:0; z-index:1000;}
+header {display:flex; justify-content:space-between; align-items:center; background-color:#d8d8d0; color:white; padding:0 10px; position:fixed; height:50px; width:100%; top:0; z-index:1000;}
 .container {box-sizing:border-box; display:flex; flex-wrap:wrap; justify-content:space-between; text-align:center; overflow:hidden;}
 .item {flex:0 0 50%; box-sizing:border-box; text-align:left;}
 .flex-container {box-sizing:border-box; display:flex; flex-wrap:wrap; align-items:flex-start; text-align:center;}
