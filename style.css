@@ -1,6 +1,6 @@
 a {color:white; text-decoration:none;}
 h1 {font-family:'Libre Baskerville'; font-size:24px; font-weight:700; line-height:1; margin:0; padding:0;}
-h2 {font-family:'Libre Baskerville'; font-size:10px; font-weight:700; line-height:1; margin:0; padding:0;}
+h2 {font-family:'Libre Baskerville'; font-size:10px; font-weight:700; line-height:1.1; margin:0; padding:0;}
 h3 {font-family:'Open Sans'; font-size:16px; font-weight:600; line-height:1.2; margin:0; padding:0;}
 h4 {font-family:'Open Sans'; font-size:12px; font-weight:600; line-height:1; margin:0; padding:0; padding:0 0 5px 0;}
 p {font-family:'Open Sans'; font-size:10px; font-weight:600; line-height:1.2; margin:0; padding:0;}
@@ -51,10 +51,11 @@ hr {border:none; height:1px; background-color:#aaa; margin:5px auto; padding:0; 
 .text-background {display:inline-block; background-color:#ffdd05; color:#333; padding:5px 10px;}
 
 #matchingResultsDiv {text-align:center; margin:0 auto; width:90%;}
-#banner { background: linear-gradient(to left, rgba(255,255,255,0) 30%, rgba(255,255,255,100) 80%), url('img/states.png');
- background-size: cover; background-position:center; height:50px; padding:10px; width:100%; margin:50px auto 20px auto; color:#333; text-align:left; background-color:#ccc; overflow:hidden;}
-#banner h1 {color:#333; font-family: 'Open Sans'; font-size: 17px; font-weight:800; letter-spacing:-1px; line-height: 0.8;}
-#banner p {color:#333; font-size:10px; font-weight:600; margin-top:2px;}
+/*#banner { background: linear-gradient(to left, rgba(255,255,255,0) 30%, rgba(255,255,255,100) 80%), url('img/states.png');
+ background-size: cover; background-position:center; padding:10px; width:100%; margin:50px auto 20px auto; color:#333; text-align:left; background-color:#ccc; overflow:hidden;}*/
+#banner {padding:10px; width:100%; margin:50px auto 20px auto; color:#333; text-align:center; background-color:#FFD700; overflow:hidden;}
+#banner h1 {color:#333; font-family:'Montserrat'; font-size:14px; font-weight:900; letter-spacing:0; line-height: 0.8;}
+#banner p {color:#333; font-size:11px; font-weight:600; margin-top:2px;}
 #banner a {color:#333; text-decoration:underline;}
 
 .footer {text-align:left; padding:0 5% 50px 5%;}
