@@ -51,9 +51,31 @@ ALTER TABLE co_est2023 ADD COLUMN geoid varchar;
 UPDATE co_est2023 SET geoid = CONCAT(state, county)::VARCHAR;
 ```
 
-Blocks  
+PUMA tables  
 ```shell
-# download by state from: https://data.census.gov/table?g=040XX00US01$1000000
+# join tracts to puma if needed
+psql -d us -c 'ALTER TABLE tract2020 ADD COLUMN puma VARCHAR;'
+psql -d us -c 'UPDATE tract2020 a SET puma = b.geoid10 FROM puma b WHERE ST_Intersects(b.geom, ST_Centroid(a."SHAPE"));'
+
+# IMPORTANT! AVERAGE percentages, SUM counts
+psql -d us -c "CREATE TABLE puma2020 AS SELECT geom AS \"SHAPE\", geoid10 AS geoid, namelsad10 AS name FROM puma;"
+psql -Aqt -d us -c '\d tract2020' | grep -v "SHAPE" | grep -v "geoid" | grep -v "name" | sed -e 's/|.*//g' | while read column; do
+  psql -d us -c "ALTER TABLE puma2020 ADD COLUMN ${column} REAL;"
+  case ${column} in
+    pop|housing_total|housing_units)
+      psql -d us -c "WITH b AS (SELECT a.puma, SUM(CAST(b.${column} AS REAL))::numeric(10,0) total FROM census_tract a, tract2020 b WHERE CAST(b.${column} AS TEXT) ~ '^[0-9\\\.]+$' AND a.geoid = b.geoid GROUP BY a.puma) UPDATE puma2020 a SET ${column} = b.total FROM b WHERE a.geoid = b.puma;"
+    ;;
+    *)
+      psql -d us -c "WITH b AS (SELECT a.puma, AVG(CAST(b.${column} AS REAL))::numeric(10,0) total FROM census_tract a, tract2020 b WHERE CAST(b.${column} AS TEXT) ~ '^[0-9\\\.]+$' AND a.geoid = b.geoid GROUP BY a.puma) UPDATE puma2020 a SET ${column} = b.total FROM b WHERE a.geoid = b.puma;"
+    ;;
+  esac
+done
+```
+
+Block tables  
+```shell
+# https://data.census.gov/table?g=040XX00US01$1000000
+# https://data.census.gov/table/DECENNIALDHC2020.P1?g=040XX00US36$1000000&q=P1,H1
 
 files=('P1' 'H1')
 geography='block'
@@ -102,6 +124,9 @@ for geography in ${geographies[*]}; do
     psql -d us -c "COPY ${file}_${geography}_metadata FROM ~/maps/us/dataprofiles/${geography}/ACSDP5Y2022.${file}-Column-Metadata.tsv WITH DELIMITER E'\t';"
   done
 done
+
+# extra: print labels
+psql -qAtX -d us -c "SELECT code, label FROM dp02_county_metadata WHERE code IN ($(ls -1 | sed -e "s/county_quartile_/'/g" -e "s/.geojson/'/g" | paste -sd, | tr '[:lower:]' '[:upper:]'));" | sed -e 's/^/{"/g' -e 's/$/"}/g' -e 's/|/": "/g' | paste -sd, | sed -e 's/^/[/g' -e 's/$/]/g'
 ```
 
 Natural Earth  
