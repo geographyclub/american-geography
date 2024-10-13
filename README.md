@@ -390,10 +390,6 @@ for geography in ${geographies[*]}; do
 done
 ```
 
-### OpenStreetMap
-
-See [postgis-cookbook](https://github.com/geographyclub/postgis-cookbook) for more.
-
 ## References
 
 Release schedule: https://www.census.gov/programs-surveys/acs/news/data-releases/2022/release-schedule.html
